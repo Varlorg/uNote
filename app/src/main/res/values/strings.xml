@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+    <string name="app_name">uNote</string>
+
+	<!-- Main -->
+	<string name="addNoteB">Add note</string>
+	<string name="searchText">Search</string>
+	<string name="search">Search</string>
+	<string name="quit">Quit</string>
+
+	<!-- Edit -->
+	<string name="returnB">Return</string>
+	<string name="save">Save</string>
+	<string name="TexteEdition">Note</string>
+	<string name="TitreEdition">Title</string>
+	<string name="editTitle_hint">Note\'s Title</string>
+	<string name="editText_hint">Your Note</string>
+
+	<!-- Preferences text -->
+	<string name="preferences">Preferences</string>
+	<string name="pref_search">Search in content</string>
+	<string name="pref_search_sum">Search also in the notes\' content</string>
+	<string name="pref_date">Creation date</string>
+	<string name="pref_date_sum">Display creation date</string>
+	<string name="pref_date_mod">Modification Date</string>
+	<string name="pref_date_mod_sum">Display modification date</string>
+	<string name="pref_theme">Light theme</string>
+	<string name="pref_theme_sum">Light or dark theme</string>
+	<string name="pref_delete_confirmation">Delete confirmation</string>
+	<string name="pref_cancel_confirmation">Cancel confirmation</string>
+	<string name="pref_sort">Sorting reversed</string>
+	<string name="pref_sort_by">Sort by</string>
+	<string name="pref_text_size">Texte Size</string>
+	<string name="pref_db">Database</string>
+	<string name="pref_export_db">Export database</string>
+	<string name="pref_import_db">Import database</string>
+
+
+
+
+	<!-- Not used ? -
+	<color name="note_color">#FEFEE2</color>
+	<string name="text_view"> </string>-->
+
+</resources>

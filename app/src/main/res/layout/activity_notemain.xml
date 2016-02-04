@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+	android:id="@+id/notemain_layout"
+    android:orientation="vertical" > 
+		
+	<LinearLayout
+	    android:id="@+id/buttons"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/addNoteButton"
+            android:layout_width="145dp"
+            android:layout_height="wrap_content"
+            android:onClick="addNote"
+	        android:layout_weight="0.5"
+			android:height="32px"
+            android:text="@string/addNoteB" />
+		<Button
+			android:id="@+id/returnSearch"
+			android:layout_width="145dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="0.5"
+			android:onClick="search"
+			android:text="@string/search" />
+		<Button
+            android:id="@+id/returnButton"
+            android:layout_width="145dp"
+            android:layout_height="wrap_content"
+	        android:layout_weight="0.5"
+            android:onClick="quit"
+            android:text="@string/quit" />
+
+
+	</LinearLayout> 
+	<LinearLayout
+	    android:id="@+id/notemain"
+	    android:scrollbars="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
+		<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+		    <EditText
+	        android:id="@+id/search"
+	        android:hint="@string/searchText"
+			android:drawableLeft="@android:drawable/ic_menu_search"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content" >
+         	<requestFocus />
+    		</EditText>
+		<Button
+			android:id="@+id/btn_clear"
+			android:layout_width="25dp"
+			android:layout_height="25dp"
+			android:layout_gravity="end|center_vertical"
+			android:layout_marginEnd="10dp"
+			android:layout_marginRight="10dp"
+			android:background="@android:drawable/ic_delete"
+			android:visibility="gone" />
+	</FrameLayout>
+	</LinearLayout>
+    <ListView android:id="@+id/listView"
+              android:layout_height="fill_parent"
+              android:layout_above="@+id/buttons"
+              android:layout_below="@+id/notemain"
+              android:textSize="12sp"
+              android:layout_width="fill_parent"/>
+
+</RelativeLayout>
+
+<!--
+            style="?android:attr/buttonStyleSmall"
+            android:layout_gravity="center_horizontal|center"   
+-->

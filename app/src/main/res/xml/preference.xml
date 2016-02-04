@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" 
+android:title="@string/preferences">
+	 <CheckBoxPreference android:title="@string/pref_search" android:key="contentSearch"
+	android:summary="@string/pref_search_sum"
+	android:defaultValue="false"
+	 />
+	 <CheckBoxPreference android:title="@string/pref_date" android:key="pref_date"
+	android:summary="@string/pref_date_sum"
+	android:defaultValue="false"
+	 />
+    <CheckBoxPreference android:title="@string/pref_date_mod" android:key="pref_date_mod"
+        android:summary="@string/pref_date_mod_sum"
+        android:defaultValue="false"
+        />
+    <CheckBoxPreference android:title="@string/pref_theme" android:key="pref_theme"
+        android:summary="@string/pref_theme_sum"
+        android:defaultValue="false"
+    />
+    <CheckBoxPreference android:title="@string/pref_delete_confirmation" android:key="pref_del"
+        android:defaultValue="True"
+        />
+    <CheckBoxPreference android:title="@string/pref_cancel_confirmation" android:key="pref_cancel"
+        android:defaultValue="False"
+        />
+    <ListPreference
+        android:key="pref_tri"
+        android:title="@string/pref_sort_by"
+        android:defaultValue="1"
+        android:entries="@array/tri"
+        android:entryValues="@array/triValeur" />
+	 <CheckBoxPreference android:title="@string/pref_sort" android:key="pref_ordretri"
+	    android:defaultValue="false"
+	 />
+    <ListPreference
+        android:key="pref_sizeNote"
+        android:title="@string/pref_text_size"
+        android:defaultValue="18"
+        android:entries="@array/textSize"
+        android:entryValues="@array/textSizeValues" />
+
+    <PreferenceCategory
+        android:title="@string/pref_db">
+        <Preference android:title="@string/pref_export_db"
+                android:key="buttonExport" />
+        <Preference android:title="@string/pref_import_db"
+            android:key="buttonImport" />
+    </PreferenceCategory>
+</PreferenceScreen>	
