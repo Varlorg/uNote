@@ -3,16 +3,13 @@ package app.varlorg.unote;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-//import java.util.prefs.PreferenceChangeEvent;
-//import java.util.prefs.PreferenceChangeListener;
-
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+//import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -40,6 +37,7 @@ public class NoteMain extends Activity
     NotesBDD noteBdd;
     ListView lv;
     SharedPreferences pref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -79,7 +77,7 @@ public class NoteMain extends Activity
         			 else
                          note_summary = new String("<b>"+n.getTitre() + "</b> " + " <br/>"+n.getNoteHead()+"<br/>" + n.getDateCreationFormated());
                     if( pref.getBoolean("pref_date_mod", false) == true)
-                        note_summary += "<br/>mod: " + n.getDateModificationFormated();
+                        note_summary += "<br/>modif: " + n.getDateModificationFormated();
                     ((TextView)view).setText(Html.fromHtml(note_summary));
         			 return view;
         		}
@@ -225,13 +223,13 @@ public class NoteMain extends Activity
     @Override
     public boolean onContextItemSelected(MenuItem item)
     {
-
         NotesBDD noteBdd = new NotesBDD(this);
         noteBdd.open();
         AdapterContextMenuInfo aInfo = (AdapterContextMenuInfo) item.getMenuInfo();
         int noteid = (int) item.getItemId();
         final Note note = (Note) simpleAdpt.getItem(aInfo.position);
         noteBdd.close();
+
         if(item.getTitle().equals("Edit"))
         {
             Intent intentTextEdition = new Intent(NoteMain.this ,
@@ -241,7 +239,6 @@ public class NoteMain extends Activity
             intentTextEdition.putExtra(EXTRA_EDITION, true);
             intentTextEdition.putExtra(EXTRA_ID, note.getId());
             NoteMain.this.startActivity(intentTextEdition);
-
         }
         else if(item.getTitle().equals("Delete"))
         {
@@ -329,6 +326,7 @@ public class NoteMain extends Activity
 
         return true;
     }
+
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
@@ -353,8 +351,7 @@ public class NoteMain extends Activity
     }
 	public void addNote(View v )
     {
-        Intent intentTextEdition = new Intent(NoteMain.this ,
-                NoteEdition.class);
+        Intent intentTextEdition = new Intent(NoteMain.this, NoteEdition.class);
         intentTextEdition.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         NoteMain.this.startActivity(intentTextEdition);
     }
@@ -362,6 +359,7 @@ public class NoteMain extends Activity
     {
         this.finish();
     }
+
     public void search(View v){
         new Thread(new Runnable() {
             @Override

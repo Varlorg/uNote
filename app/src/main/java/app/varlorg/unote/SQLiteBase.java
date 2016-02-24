@@ -43,5 +43,4 @@ public class SQLiteBase extends SQLiteOpenHelper
         db.execSQL("DROP TABLE " + TABLE_NOTES + ";");
         onCreate(db);
     }
-
 }

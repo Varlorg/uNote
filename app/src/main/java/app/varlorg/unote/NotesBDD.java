@@ -102,7 +102,7 @@ public class NotesBDD
         Cursor c = bdd.query(TABLE_NOTES, new String[] {COL_ID, COL_NOTE, COL_TITRE, COL_DATECREATION, COL_DATEMODIFICATION}, COL_ID + " LIKE " + id +"", null, null, null, null);
         return cursorToNote(c);
     }
-    //Cette méthode permet de convertir un cursor en un livre
+    //Cette méthode permet de convertir un cursor en une note
     private Note cursorToNote(Cursor c)
     {
         //si aucun élément n'a été retourné dans la requête, on renvoie null
@@ -122,7 +122,7 @@ public class NotesBDD
         //On ferme le cursor
         c.close();
 
-        //On retourne le livre
+        //On retourne la note
         return note;
     }
 
@@ -150,7 +150,6 @@ public class NotesBDD
         
         SQLiteDatabase db = this.maBaseSQLite.getWritableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
-        ;
         // looping through all rows and adding to list
         if (c.moveToFirst())
         {
@@ -187,8 +186,7 @@ public class NotesBDD
         {
         	selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE " +COL_TITRE + " LIKE  \"%" + str+ "%\"" +" OR "  +COL_NOTE + " LIKE  \"%" + str+ "%\" ORDER BY ID DESC";
         }
-        	//Log.i("Requete", selectQuery);
-       //Cursor c = this.bdd.query(TABLE_NOTES, new String[] {COL_ID, COL_NOTE, COL_TITRE, COL_DATECREATION}, COL_TITRE + " LIKE \"%" + str+ "%\" ", null, null, null, null);
+        //Log.i("Requete", selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
         
         // looping through all rows and adding to list
@@ -215,7 +213,7 @@ public class NotesBDD
         return noteList;
     }
     
-    // Getting contacts Count
+    // Getting notes Count
     public int getNotesCount()
     {
         String countQuery = "SELECT  * FROM " + TABLE_NOTES;
@@ -233,9 +231,7 @@ public class NotesBDD
         FileChannel source=null;
         FileChannel destination=null;
         String currentDBPath = "/data/"+ "app.varlorg.unote" +"/databases/"+ NOM_BDD;
-//        String currentDBPath = "app.varlorg.unote" +"/databases/"+ NOM_BDD;
         String backupDBPath = "app.varlorg.unote/" + NOM_BDD;
-        //String backupDBPath =  NOM_BDD;
         File currentDB = new File(data, currentDBPath);
         File backupDirDB = new File(sd, "app.varlorg.unote" );
         backupDirDB.mkdirs();
@@ -259,14 +255,13 @@ public class NotesBDD
         }
     }
 
-    public void importDB(){
-
+    public void importDB()
+    {
         File sd = Environment.getExternalStorageDirectory();
         File data = Environment.getDataDirectory();
         FileChannel source=null;
         FileChannel destination=null;
         String currentDBPath = "/data/"+ "app.varlorg.unote" +"/databases/"+ NOM_BDD;
-        //String currentDBPath = "app.varlorg.unote" +"/databases/"+ NOM_BDD;
         String newDBPath = "app.varlorg.unote/" + NOM_BDD;
         File currentDB = new File(data, currentDBPath);
         File newDirDB = new File(sd, "app.varlorg.unote" );
@@ -284,8 +279,6 @@ public class NotesBDD
             destination.transferFrom(source, 0, source.size());
             source.close();
             destination.close();
-
-
         } catch(IOException e) {
             e.printStackTrace();
         }

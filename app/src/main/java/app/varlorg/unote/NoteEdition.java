@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 public class NoteEdition extends Activity
 {
-
     final String EXTRA_TITLE = "TitreNoteEdition";
     final String EXTRA_NOTE = "NoteEdition";
     final String EXTRA_EDITION = "edition";
@@ -26,7 +25,6 @@ public class NoteEdition extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         if (pref.getBoolean("pref_theme",false) == false) {
             setTheme(android.R.style.Theme_DeviceDefault);
@@ -46,33 +44,11 @@ public class NoteEdition extends Activity
             note.setText(intent.getStringExtra(EXTRA_NOTE));
             edit = intent.getBooleanExtra(EXTRA_EDITION,false);
             id = intent.getIntExtra(EXTRA_ID,0);
-
          }
 
         titre.setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
         note.setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
 
-    }
-    public void popup(boolean r)
-    {
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Sauvergarde");
-        if(r)
-        {
-            alertDialog.setMessage("Sauvegarde réussi");
-        }
-        else
-        {
-            alertDialog.setMessage("Échec de la sauvegarde ");
-        }
-        alertDialog.setButton("OK", new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int which)
-            {
-                // TODO Add your code for the button here.
-            }
-        });
-        alertDialog.show();
     }
 
     public void save(View v)
@@ -86,7 +62,6 @@ public class NoteEdition extends Activity
         NotesBDD noteBdd = new NotesBDD(this);
 
         Note n = new Note(titre, contenu);
-        //Toast.makeText(this, id + n.getTitre() + n.getNote)Head(), Toast.LENGTH_LONG).show();
         noteBdd.open();
         if( edit == false){
         	noteBdd.insertNote(n);
@@ -98,17 +73,15 @@ public class NoteEdition extends Activity
         
         Note noteFromBdd = noteBdd.getNoteWithTitre(n.getTitre());
         if(noteFromBdd != null) {
-            //On affiche les infos du livre dans un Toast
-            //Toast.makeText(this, noteFromBdd.toString(), Toast.LENGTH_LONG).show();
             if( edit == false){
-            	Toast.makeText(this, "Sauvegarde réussi", Toast.LENGTH_LONG).show();
+            	Toast.makeText(this, "Saved", Toast.LENGTH_LONG).show();
             }
             else {
             	Toast.makeText(this, "Note updated", Toast.LENGTH_LONG).show();
             }
         }
         else {
-        	Toast.makeText(this, "Échec de la Sauvegarde", Toast.LENGTH_LONG).show();
+        	Toast.makeText(this, "Failed to save", Toast.LENGTH_LONG).show();
         }
 
         noteBdd.close();

@@ -18,17 +18,19 @@ public class Note
 
     public Note()
     {
-        //this.dateCreation = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());;
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
+        String date = df.format(Calendar.getInstance().getTime());
+        this.dateCreation = date;
+        this.dateModification = date;
     }
 
     public Note(String t, String c)
     {
         this.titre = t;
         this.note = c;
-        //SimpleDateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm");
         SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
         String date = df.format(Calendar.getInstance().getTime());
-        Log.v("date creation note",date);
+        //Log.v("date creation note",date);
         this.dateCreation = date; //java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());;
         this.dateModification = date;
     }
@@ -75,7 +77,7 @@ public class Note
 
     public String getDateCreationFormated()
     {
-    	Log.v("dateCreation",this.dateCreation.toString());
+    	//Log.v("dateCreation",this.dateCreation.toString());
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH:mm");
     	Date d = null;
     	
@@ -86,7 +88,7 @@ public class Note
 			e.printStackTrace();
 		}
     	sdf.applyPattern("EEE, dd MMM yyyy, HH:mm");
-		Log.v("DAte ",sdf.format(d));
+		//Log.v("Date ",sdf.format(d));
 		String date_formated = sdf.format(d);
 		//sdf.applyPattern("yyyy/MM/dd/HH:mm");
         return date_formated;
@@ -106,11 +108,9 @@ public class Note
     {
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH:mm");
     	Date d = null;
-    	
 		try {
 			d = sdf.parse(new String(this.dateModification.toString()));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	sdf.applyPattern("EEE, dd MMM yyyy, HH:mm");

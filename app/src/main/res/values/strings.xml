@@ -28,15 +28,12 @@
 	<string name="pref_theme_sum">Light or dark theme</string>
 	<string name="pref_delete_confirmation">Delete confirmation</string>
 	<string name="pref_cancel_confirmation">Cancel confirmation</string>
-	<string name="pref_sort">Sorting reversed</string>
+	<string name="pref_sort">Descending sort</string>
 	<string name="pref_sort_by">Sort by</string>
 	<string name="pref_text_size">Texte Size</string>
 	<string name="pref_db">Database</string>
 	<string name="pref_export_db">Export database</string>
 	<string name="pref_import_db">Import database</string>
-
-
-
 
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>

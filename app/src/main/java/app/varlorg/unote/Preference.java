@@ -6,6 +6,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.content.Intent;
+import android.widget.Toast;
 
 public class Preference extends PreferenceActivity {
  
@@ -37,6 +38,7 @@ public class Preference extends PreferenceActivity {
                 android.preference.Preference arg0) {
                 NotesBDD noteBdd = new NotesBDD(null);
                 noteBdd.exportDB();
+                Toast.makeText(Preference.this, "Database exported ! ", Toast.LENGTH_LONG).show();
                 return false;
             }
         });
@@ -47,6 +49,7 @@ public class Preference extends PreferenceActivity {
                 android.preference.Preference arg0) {
                 NotesBDD noteBdd = new NotesBDD(null);
                 noteBdd.importDB();
+                Toast.makeText(Preference.this, "Database imported ! ", Toast.LENGTH_LONG).show();
                 return false;
             }
         });
@@ -54,7 +57,6 @@ public class Preference extends PreferenceActivity {
     }
     @Override
     public void onBackPressed() {
-
         Intent intent = new Intent(this, NoteMain.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -62,5 +64,4 @@ public class Preference extends PreferenceActivity {
         startActivity(intent);
         finish();
     }
-
 }
