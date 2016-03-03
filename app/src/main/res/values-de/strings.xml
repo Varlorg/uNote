@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+    <string name="app_name">uNote</string>
+
+	<!-- Main -->
+	<string name="addNoteB">Notiz hinzufügen</string>
+	<string name="searchText">Suchen</string>
+	<string name="search">Suchen</string>
+	<string name="quit">Abbrechen</string>
+
+	<!-- Edit -->
+	<string name="returnB">Zurück</string>
+	<string name="save">Speichern</string>
+	<string name="TexteEdition">Notiz</string>
+	<string name="TitreEdition">Titel</string>
+	<string name="editTitle_hint">Notiztitel</string>
+	<string name="editText_hint">Deine Notiz</string>
+
+	<!-- Preferences text -->
+	<string name="preferences">Präferenzen</string>
+	<string name="pref_search">Suche im Inhalt</string>
+	<string name="pref_search_sum">Suche auch im Notizen\'inhalt</string>
+	<string name="pref_date">Erstelldatum</string>
+	<string name="pref_date_sum">Zeige Erstelldatum</string>
+	<string name="pref_date_mod">Änderungsdatum</string>
+	<string name="pref_date_mod_sum">Zeige Änderungsdatum</string>
+	<string name="pref_theme">Helles Thema</string>
+	<string name="pref_theme_sum">Helles oder dunkles Thema</string>
+	<string name="pref_delete_confirmation">Lösche Betätigung</string>
+	<string name="pref_cancel_confirmation">Bestätigung abbrechen</string>
+	<string name="pref_sort">Absteigend sortieren</string>
+	<string name="pref_sort_by">Sortien nach</string>
+	<string name="pref_text_size">Textgröße</string>
+	<string name="pref_db">Datenbank</string>
+	<string name="pref_export_db">Datenbank exportieren</string>
+	<string name="pref_import_db">Datenbank importieren</string>
+
+	<!-- Not used ? -
+	<color name="note_color">#FEFEE2</color>
+	<string name="text_view"> </string>-->
+
+</resources>
