@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+    <string name="app_name">uNote</string>
+
+	<!-- Main -->
+	<string name="addNoteB">Créer note</string>
+	<string name="searchText">Recherche</string>
+	<string name="search">Rechercher</string>
+	<string name="quit">Quitter</string>
+
+	<!-- Edit -->
+	<string name="returnB">Retour</string>
+	<string name="save">Sauvegarder</string>
+	<string name="TexteEdition">Note</string>
+	<string name="TitreEdition">Titre</string>
+	<string name="editTitle_hint">Titre de la note</string>
+	<string name="editText_hint">La Note</string>
+
+	<!-- Preferences text -->
+	<string name="preferences">Préferences</string>
+	<string name="pref_search">Rechercher dans le contenu</string>
+	<string name="pref_search_sum">Rechercher aussi dans le contenu des notes</string>
+	<string name="pref_date">Date de création</string>
+	<string name="pref_date_sum">Afficher date de création</string>
+	<string name="pref_date_mod">Date de modification</string>
+	<string name="pref_date_mod_sum">Afficher la date de modification</string>
+	<string name="pref_theme">Thème clair</string>
+	<string name="pref_theme_sum">Thème clair ou foncé</string>
+	<string name="pref_delete_confirmation">Confirmation de suppression</string>
+	<string name="pref_cancel_confirmation">Confirmation d\'annulation</string>
+	<string name="pref_sort">Tri décroissant</string>
+	<string name="pref_sort_by">Trier par</string>
+	<string name="pref_text_size">Taille du texte</string>
+	<string name="pref_db">Base de donnée</string>
+	<string name="pref_export_db">Exporter la base de donnée</string>
+	<string name="pref_import_db">Importer une base de donnée</string>
+
+	<!-- Not used ? -
+	<color name="note_color">#FEFEE2</color>
+	<string name="text_view"> </string>-->
+
+</resources>

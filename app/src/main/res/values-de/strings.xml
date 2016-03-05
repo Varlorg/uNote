@@ -3,10 +3,10 @@
     <string name="app_name">uNote</string>
 
 	<!-- Main -->
-	<string name="addNoteB">Notiz hinzufügen</string>
+	<string name="addNoteB">Notiz kreieren</string>
 	<string name="searchText">Suchen</string>
 	<string name="search">Suchen</string>
-	<string name="quit">Abbrechen</string>
+	<string name="quit">Exit</string>
 
 	<!-- Edit -->
 	<string name="returnB">Zurück</string>
