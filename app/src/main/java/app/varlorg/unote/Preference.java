@@ -48,8 +48,8 @@ public class Preference extends PreferenceActivity {
             public boolean onPreferenceClick(
                 android.preference.Preference arg0) {
                 NotesBDD noteBdd = new NotesBDD(null);
-                noteBdd.importDB();
-                Toast.makeText(Preference.this, "Database imported ! ", Toast.LENGTH_LONG).show();
+                String path = noteBdd.importDB();
+                Toast.makeText(Preference.this, "Database imported from "+ path + " ! ", Toast.LENGTH_LONG).show();
                 return false;
             }
         });

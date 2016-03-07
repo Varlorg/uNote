@@ -246,7 +246,7 @@ public class NotesBDD
         return cursor.getCount();
     }*/
     
-    public void exportDB(){
+    public String exportDB(){
     	File sd = Environment.getExternalStorageDirectory();
         File data = Environment.getDataDirectory();
         FileChannel source=null;
@@ -274,9 +274,10 @@ public class NotesBDD
         } catch(IOException e) {
             e.printStackTrace();
         }
+        return backupDB.toString();
     }
 
-    public void importDB()
+    public String importDB()
     {
         File sd = Environment.getExternalStorageDirectory();
         File data = Environment.getDataDirectory();
@@ -303,5 +304,6 @@ public class NotesBDD
         } catch(IOException e) {
             e.printStackTrace();
         }
+        return newDB.toString();
     }
 }
