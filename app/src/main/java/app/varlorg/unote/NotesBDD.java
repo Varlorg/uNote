@@ -16,7 +16,7 @@ import android.util.Log;
 
 public class NotesBDD
 {
-    private static final int VERSION_BDD = 1;
+    private static final int VERSION_BDD = 2;
     private static final String NOM_BDD = "notes.db";
 
     private static final String TABLE_NOTES = "table_notes";
@@ -30,6 +30,8 @@ public class NotesBDD
     private static final int NUM_COL_DATECREATION = 3;
     private static final String COL_DATEMODIFICATION = "Date_modification";
     private static final int NUM_COL_DATEMODIFICATION = 4;
+    private static final String COL_PASSWORD = "password";
+    private static final int NUM_COL_PASSWORD = 5;
 
     private SQLiteDatabase bdd;
 
@@ -39,6 +41,12 @@ public class NotesBDD
     {
         //On créer la BDD et sa table
         maBaseSQLite = new SQLiteBase(context, NOM_BDD, null, VERSION_BDD);
+    }
+
+    public void clean()
+    {
+        this.open();
+        maBaseSQLite.onUpgrade(this.bdd,VERSION_BDD,VERSION_BDD);
     }
 
     public void open()
@@ -68,6 +76,7 @@ public class NotesBDD
         values.put(COL_TITRE, note.getTitre());
         values.put(COL_DATECREATION, note.getDateCreation());
         values.put(COL_DATEMODIFICATION, note.getDateModification());
+        //values.put(COL_PASSWORD, note.getPassword());
         //on insère l'objet dans la BDD via le ContentValues
         return bdd.insert(TABLE_NOTES, null, values);
     }
@@ -80,6 +89,13 @@ public class NotesBDD
         values.put(COL_NOTE, note.getNote());
         values.put(COL_TITRE, note.getTitre());
         values.put(COL_DATEMODIFICATION, note.getDateModification());
+        return bdd.update(TABLE_NOTES, values, COL_ID + " = " + id, null);
+    }
+
+    public int updatePassword(int id, String pw)
+    {
+        ContentValues values = new ContentValues();
+        values.put(COL_PASSWORD, pw);
         return bdd.update(TABLE_NOTES, values, COL_ID + " = " + id, null);
     }
 
@@ -162,6 +178,8 @@ public class NotesBDD
                 note.setDateCreation(c.getString(NUM_COL_DATECREATION));
                 //Log.v("bdd",c.getString(NUM_COL_DATECREATION));
                 note.setDateModification(c.getString(NUM_COL_DATEMODIFICATION));
+                if (c.getString(NUM_COL_PASSWORD) != null )
+                    note.setPassword(c.getString(NUM_COL_PASSWORD));
                 // Adding contact to list
                 noteList.add(note);
             }
@@ -184,7 +202,7 @@ public class NotesBDD
         }
         else
         {
-        	selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE " +COL_TITRE + " LIKE  \"%" + str+ "%\"" +" OR "  +COL_NOTE + " LIKE  \"%" + str+ "%\" ORDER BY ID DESC";
+        	selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE " +COL_TITRE + " LIKE  \"%" + str+ "%\"" +" OR ("  +COL_NOTE + " LIKE  \"%" + str+ "%\" AND "+ COL_PASSWORD +" IS NULL) ORDER BY ID DESC";
         }
         //Log.i("Requete", selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
@@ -201,6 +219,9 @@ public class NotesBDD
                 note.setTitre(c.getString(NUM_COL_TITRE));
                 note.setDateCreation(c.getString(NUM_COL_DATECREATION));
                 note.setDateModification(c.getString(NUM_COL_DATEMODIFICATION));
+                if (c.getString(NUM_COL_PASSWORD) != null )
+                    note.setPassword(c.getString(NUM_COL_PASSWORD));
+                //if(contentSearch == true)
                 //Log.i("DB titre",c.getString(NUM_COL_TITRE));
                 // Adding contact to list
                 noteList.add(note);
@@ -214,7 +235,7 @@ public class NotesBDD
     }
     
     // Getting notes Count
-    public int getNotesCount()
+    /*public int getNotesCount()
     {
         String countQuery = "SELECT  * FROM " + TABLE_NOTES;
         SQLiteDatabase db = this.maBaseSQLite.getReadableDatabase();
@@ -223,7 +244,7 @@ public class NotesBDD
 
         // return count
         return cursor.getCount();
-    }
+    }*/
     
     public void exportDB(){
     	File sd = Environment.getExternalStorageDirectory();

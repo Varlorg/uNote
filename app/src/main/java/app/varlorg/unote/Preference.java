@@ -35,10 +35,10 @@ public class Preference extends PreferenceActivity {
         button.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(
-                android.preference.Preference arg0) {
+                    android.preference.Preference arg0) {
                 NotesBDD noteBdd = new NotesBDD(null);
-                noteBdd.exportDB();
-                Toast.makeText(Preference.this, "Database exported ! ", Toast.LENGTH_LONG).show();
+                String path = noteBdd.exportDB();
+                Toast.makeText(Preference.this, "Database exported in "+ path + " ! ", Toast.LENGTH_LONG).show();
                 return false;
             }
         });
@@ -53,7 +53,17 @@ public class Preference extends PreferenceActivity {
                 return false;
             }
         });
-
+        android.preference.Preference buttonDelete = findPreference("buttonDelete");
+        buttonDelete.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(
+                    android.preference.Preference arg0) {
+                NotesBDD noteBdd = new NotesBDD(Preference.this);
+                noteBdd.clean();
+                Toast.makeText(Preference.this, "Database cleaned ! ", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
     }
     @Override
     public void onBackPressed() {
