@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+//import java.security.NoSuchAlgorithmException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -37,7 +37,7 @@ public class NoteMain extends Activity
     private EditText editsearch;
     private Button btnClear;
     List<Note> listeNotes;
-    NotesBDD noteBdd;
+    //NotesBDD noteBdd;
     ListView lv;
     SharedPreferences pref;
 
@@ -63,7 +63,7 @@ public class NoteMain extends Activity
 
         setContentView(R.layout.activity_notemain);
 
-        noteBdd = new NotesBDD(this);
+        final NotesBDD noteBdd = new NotesBDD(this);
         noteBdd.open();
         listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
         /****************************************************************************************/
@@ -116,7 +116,6 @@ public class NoteMain extends Activity
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     String password = input.getText().toString();
-                                    NotesBDD noteBdd = new NotesBDD(NoteMain.this);
                                     if ( n.getPassword().equals(SHA1(password)) ) {
                                         Intent intentTextEdition = new Intent(NoteMain.this ,
                                                 NoteEdition.class);
@@ -190,7 +189,6 @@ public class NoteMain extends Activity
                         }
                         else {
                             note_summary = new String("<b>" + n.getTitre() + "</b> <br/>" + n.getNoteHead());
-                            note_summary += "<br/>" + n.getPassword();
                             if (pref.getBoolean("pref_date", false) == true)
                                 note_summary += "<br/>" + n.getDateCreationFormated();
                             if (pref.getBoolean("pref_date_mod", false) == true)
@@ -280,7 +278,6 @@ public class NoteMain extends Activity
 
     private final static String HEX = "0123456789ABCDEF";
     public static String SHA1(String text) {
-
         try {
 
             MessageDigest md;
@@ -313,9 +310,7 @@ public class NoteMain extends Activity
         for (int i = 0; i < buf.length; i++) {
             appendHex(result, buf[i]);
         }
-
         return result.toString();
-
     }
 
     public boolean launchMenu(MenuItem item,final Note note)
@@ -359,7 +354,6 @@ public class NoteMain extends Activity
                         public void onClick(DialogInterface dialog, int id) {
                             String password = input.getText().toString();
                             String passwordHashed = SHA1(password);
-                            /******************************************************************/
 
                             NotesBDD noteBdd = new NotesBDD(NoteMain.this);
                             noteBdd.open();
@@ -367,9 +361,7 @@ public class NoteMain extends Activity
                             noteBdd.close();
                             note.setPassword(passwordHashed);
                             simpleAdpt.notifyDataSetChanged();
-                            /*simpleAdpt.remove(note);
-                            simpleAdpt.add(note);
-                            listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+                            /*listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
                             simpleAdpt = new ArrayAdapter<Note>(NoteMain.this, R.layout.notelist, listeNotes );
                             lv.setAdapter(simpleAdpt);*/
 
@@ -418,7 +410,7 @@ public class NoteMain extends Activity
             else
             {
                 simpleAdpt.remove(note);
-                noteBdd = new NotesBDD(NoteMain.this);
+                NotesBDD noteBdd = new NotesBDD(NoteMain.this);
                 noteBdd.open();
                 noteBdd.removeNoteWithID(note.getId());
                 Toast.makeText(NoteMain.this, "Note deleted ! ", Toast.LENGTH_LONG).show();
