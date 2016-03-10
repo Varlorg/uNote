@@ -14,7 +14,7 @@ public class Note
     private String note;
     private String dateCreation;
     private String dateModification;
-    private String tag;
+    private String password;
 
     public Note()
     {
@@ -127,6 +127,19 @@ public class Note
     public void setDateModification(String dc)
     {
         this.dateModification = new String(dc);
+    }
+
+    public String getPassword()
+    {
+        return this.password;
+    }
+
+    public void setPassword(String pw)
+    {
+        if ( pw != null)
+            this.password = new String(pw);
+        else
+            this.password = null;
     }
     
     public String toString()

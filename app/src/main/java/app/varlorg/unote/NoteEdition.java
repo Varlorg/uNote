@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -36,6 +37,8 @@ public class NoteEdition extends Activity
 
         EditText titre = (EditText) findViewById(R.id.TitreNoteEdition);
         EditText note = (EditText) findViewById(R.id.NoteEdition);
+        TextView noteT = (TextView) findViewById(R.id.NoteEditionTitre);
+        TextView titreT = (TextView) findViewById(R.id.TitreNote);
 
         Intent intent = getIntent();
         if (intent != null)
@@ -48,12 +51,13 @@ public class NoteEdition extends Activity
 
         titre.setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
         note.setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
+        titreT.setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
+        noteT.setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
 
     }
 
     public void save(View v)
     {
-
         EditText titreElt = (EditText)findViewById(R.id.TitreNoteEdition);
         String 	titre = titreElt.getText().toString();
         EditText note = (EditText)findViewById(R.id.NoteEdition);
@@ -86,7 +90,12 @@ public class NoteEdition extends Activity
 
         noteBdd.close();
         this.finish();
-        Intent intent = new Intent(this, NoteMain.class);
+        returnMain();
+    }
+
+    public void returnMain()
+    {
+        Intent intent = new Intent(NoteEdition.this, NoteMain.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -106,11 +115,7 @@ public class NoteEdition extends Activity
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             NoteEdition.this.finish();
-                            Intent intent = new Intent(NoteEdition.this, NoteMain.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            startActivity(intent);
+                            returnMain();
                         }
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -122,11 +127,7 @@ public class NoteEdition extends Activity
                     .show();
         }else {
             this.finish();
-            Intent intent = new Intent(this, NoteMain.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(intent);
+            returnMain();
         }
     }
 }

@@ -45,5 +45,7 @@ android:title="@string/preferences">
                 android:key="buttonExport" />
         <Preference android:title="@string/pref_import_db"
             android:key="buttonImport" />
+        <Preference android:title="@string/pref_clean_db"
+            android:key="buttonDelete" />
     </PreferenceCategory>
 </PreferenceScreen>	

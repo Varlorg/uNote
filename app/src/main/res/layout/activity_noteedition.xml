@@ -5,14 +5,16 @@
 	android:layout_height="fill_parent" >
 
     <TextView
-      android:id="@+id/TitreNote"
-      android:text="@string/TitreEdition"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"  />
+		android:id="@+id/TitreNote"
+		android:text="@string/TitreEdition"
+        android:textStyle="bold"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"  />
     
     <TextView
-      android:layout_width="fill_parent"
-      android:layout_height="1dp"  /> 
+		android:layout_width="fill_parent"
+        android:background="#999999"
+        android:layout_height="2dp"  />
       
  	<EditText
  	    android:id="@+id/TitreNoteEdition"
@@ -20,18 +22,22 @@
  	    android:layout_height="wrap_content"
  	    android:hint="@string/editTitle_hint"
  	    android:inputType="text"
+
 		android:layout_margin="6px"
+        android:padding="4dp"
  	    android:lines="1" />
 
     <TextView
       android:id="@+id/NoteEditionTitre"
       android:text="@string/TexteEdition"
+        android:textStyle="bold"
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"  /> 
-      
+      android:layout_height="wrap_content"  />
+
     <TextView
-      android:layout_width="fill_parent"
-      android:layout_height="1dp"  /> 
+        android:layout_width="fill_parent"
+        android:background="#999999"
+        android:layout_height="2dp"  />
       
 	<EditText
 	    android:id="@+id/NoteEdition"
@@ -41,19 +47,22 @@
 	    android:layout_weight="0.75"
 	    android:hint="@string/editText_hint"
 		android:layout_margin="6px"
-		android:padding="11px"
-	    android:inputType="textMultiLine"
-	    android:textAppearance="?android:attr/textAppearanceMedium" />
-	
-    <TextView
-      android:id="@+id/text_view"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"  />
-    <!--  android:text="@string/text_view" -->
+        android:paddingBottom="0px"
+        android:layout_marginBottom="0px"
+        android:padding="11px"
+        android:inputType="textMultiLine"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+ <!--<TextView
+   android:id="@+id/text_view"
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"  />
+   android:text="@string/text_view" -->
 
 	<LinearLayout
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
+        android:layout_marginTop="0px"
 	    android:orientation="horizontal" >
 
 	    <Button

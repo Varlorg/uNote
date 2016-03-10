@@ -18,10 +18,12 @@ public class SQLiteBase extends SQLiteOpenHelper
     private static final int NUM_COL_DATECREATION = 3;
     private static final String COL_DATEMODIFICATION = "Date_modification";
     private static final int NUM_COL_DATEMODIFICATION = 4;
+    private static final String COL_PASSWORD = "password";
+    private static final int NUM_COL_PASSWORD = 5;
     
     private static final String CREATE_BDD = "CREATE TABLE " + TABLE_NOTES + " ("
             + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NOTE + " TEXT NOT NULL, "
-            + COL_TITRE + " TEXT NOT NULL, " + COL_DATECREATION + " TEXT NOT NULL, " + COL_DATEMODIFICATION +  " TEXT NOT NULL);";
+            + COL_TITRE + " TEXT NOT NULL, " + COL_DATECREATION + " TEXT NOT NULL, " + COL_DATEMODIFICATION +  " TEXT NOT NULL, "  + COL_PASSWORD  + " VARCHAR(41) );";
 
     public SQLiteBase(Context context, String name, CursorFactory factory, int version)
     {
