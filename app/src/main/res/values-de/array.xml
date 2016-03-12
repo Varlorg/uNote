@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="textSize">
+        <item>Tiny</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Normal</item>
+		<item>Large</item>
+		<item>Giant</item>
+        <item>Huge</item>
+    </string-array>
+    <string-array name="textSizeValues">
+        <item>8</item>
+        <item>11</item>
+        <item>14</item>
+        <item>18</item>
+        <item>24</item>
+        <item>32</item>
+        <item>42</item>
+    </string-array>      
+        <string-array name="tri">
+        <item>Creation Date</item>
+        <item>Modification Date</item>
+        <item>Title</item>
+    </string-array>
+    <string-array name="triValeur">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+</resources>

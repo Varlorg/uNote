@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.util.Log;
 
 public class SQLiteBase extends SQLiteOpenHelper
 {
@@ -40,9 +41,13 @@ public class SQLiteBase extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
+        Log.i("Upgrade db", "ddd");
+        if (oldVersion < 2 )
+            db.execSQL("ALTER TABLE " +  TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD +" VARCHAR(41);");
+
         //supprimer la table et de la recréer
         //comme ça lorsque je change la version les id repartent de 0
-        db.execSQL("DROP TABLE " + TABLE_NOTES + ";");
-        onCreate(db);
+        //db.execSQL("DROP TABLE " + TABLE_NOTES + ";");
+        //onCreate(db);
     }
 }
