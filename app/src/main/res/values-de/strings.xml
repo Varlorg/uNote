@@ -34,7 +34,7 @@
 	<string name="pref_db">Datenbank</string>
 	<string name="pref_export_db">Datenbank exportieren</string>
 	<string name="pref_import_db">Datenbank importieren</string>
-	<string name="pref_clean_db">Clean database (Delete all notes)</string>
+	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
 
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>

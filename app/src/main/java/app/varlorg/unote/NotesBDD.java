@@ -43,11 +43,11 @@ public class NotesBDD
         maBaseSQLite = new SQLiteBase(context, NOM_BDD, null, VERSION_BDD);
     }
 
-    public void clean()
+    /*public void clean()
     {
         this.open();
         maBaseSQLite.onUpgrade(this.bdd,VERSION_BDD,VERSION_BDD);
-    }
+    }*/
 
     public void open()
     {
@@ -303,6 +303,11 @@ public class NotesBDD
             destination.close();
         } catch(IOException e) {
             e.printStackTrace();
+        }
+        try{
+            bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
+        }catch(Exception e){
+            //System.out.println(e);
         }
         return newDB.toString();
     }

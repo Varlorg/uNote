@@ -53,7 +53,7 @@ public class Preference extends PreferenceActivity {
                 return false;
             }
         });
-        android.preference.Preference buttonDelete = findPreference("buttonDelete");
+        /*android.preference.Preference buttonDelete = findPreference("buttonDelete");
         buttonDelete.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(
@@ -63,7 +63,7 @@ public class Preference extends PreferenceActivity {
                 Toast.makeText(Preference.this, "Database cleaned ! ", Toast.LENGTH_LONG).show();
                 return false;
             }
-        });
+        });*/
     }
     @Override
     public void onBackPressed() {
