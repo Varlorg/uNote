@@ -36,6 +36,10 @@
 	<string name="pref_import_db">Import database</string>
 	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
 
+	<!-- Preference toasts' text"-->
+	<string name="toast_export_db">Database exported in </string>
+	<string name="toast_import_db">Database imported from </string>
+
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>
 	<string name="text_view"> </string>-->

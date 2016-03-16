@@ -41,7 +41,7 @@ public class SQLiteBase extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        Log.i("Upgrade db", "ddd");
+        //Log.i("Upgrade db", "ddd");
         if (oldVersion < 2 )
             db.execSQL("ALTER TABLE " +  TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD +" VARCHAR(41);");
 

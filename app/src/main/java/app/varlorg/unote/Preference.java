@@ -38,7 +38,8 @@ public class Preference extends PreferenceActivity {
                     android.preference.Preference arg0) {
                 NotesBDD noteBdd = new NotesBDD(null);
                 String path = noteBdd.exportDB();
-                Toast.makeText(Preference.this, "Database exported in "+ path + " ! ", Toast.LENGTH_LONG).show();
+                //Toast.makeText(Preference.this, "Database exported in "+ path + " ! ", Toast.LENGTH_LONG).show();
+                Toast.makeText(Preference.this, Preference.this.getString(R.string.toast_export_db) + path + " ! ", Toast.LENGTH_LONG).show();
                 return false;
             }
         });
@@ -49,7 +50,8 @@ public class Preference extends PreferenceActivity {
                 android.preference.Preference arg0) {
                 NotesBDD noteBdd = new NotesBDD(null);
                 String path = noteBdd.importDB();
-                Toast.makeText(Preference.this, "Database imported from "+ path + " ! ", Toast.LENGTH_LONG).show();
+                //Toast.makeText(Preference.this, "Database imported from "+ path + " ! ", Toast.LENGTH_LONG).show();
+                Toast.makeText(Preference.this, Preference.this.getString(R.string.toast_import_db)+ path + " ! ", Toast.LENGTH_LONG).show();
                 return false;
             }
         });
