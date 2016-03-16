@@ -40,6 +40,15 @@
 	<string name="toast_export_db">Database exported in </string>
 	<string name="toast_import_db">Database imported from </string>
 
+	<!-- Note Edition toasts' text"-->
+	<string name="toast_save">Saved</string>
+	<string name="toast_update">Note updated</string>
+	<string name="toast_fail">Failed</string>
+	<string name="toast_titleCancel">Failed</string>
+	<string name="toast_msgCancel">Are you sure?</string>
+	<string name="toast_positiveButton">Yes</string>
+	<string name="toast_negativeButton">No</string>
+
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>
 	<string name="text_view"> </string>-->

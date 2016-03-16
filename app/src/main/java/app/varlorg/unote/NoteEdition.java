@@ -78,14 +78,17 @@ public class NoteEdition extends Activity
         Note noteFromBdd = noteBdd.getNoteWithTitre(n.getTitre());
         if(noteFromBdd != null) {
             if( edit == false){
-            	Toast.makeText(this, "Saved", Toast.LENGTH_LONG).show();
+            	//Toast.makeText(this, "Saved", Toast.LENGTH_LONG).show();
+            	Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG).show();
             }
             else {
-            	Toast.makeText(this, "Note updated", Toast.LENGTH_LONG).show();
+            	//Toast.makeText(this, "Note updated", Toast.LENGTH_LONG).show();
+            	Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG).show();
             }
         }
         else {
-        	Toast.makeText(this, "Failed to save", Toast.LENGTH_LONG).show();
+        	//Toast.makeText(this, "Failed to save", Toast.LENGTH_LONG).show();
+        	Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG).show();
         }
 
         noteBdd.close();
@@ -109,16 +112,20 @@ public class NoteEdition extends Activity
         if (pref.getBoolean("pref_cancel",false) == true) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
-                    .setTitle("Cancel modification")
-                    .setMessage("Are you sure?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    //.setTitle("Cancel modification")
+                    .setTitle(NoteEdition.this.getString(R.string.toast_titleCancel))
+                    //.setMessage("Are you sure?")
+                    .setMessage(NoteEdition.this.getString(R.string.toast_msgCancel))
+                    //.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(NoteEdition.this.getString(R.string.toast_positiveButton), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             NoteEdition.this.finish();
                             returnMain();
                         }
                     })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    //.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(NoteEdition.this.getString(R.string.toast_negativeButton), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
