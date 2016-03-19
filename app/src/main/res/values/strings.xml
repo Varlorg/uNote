@@ -45,7 +45,7 @@
 	<string name="toast_save">Saved</string>
 	<string name="toast_update">Note updated</string>
 	<string name="toast_fail">Failed</string>
-	<string name="toast_titleCancel">Failed</string>
+	<string name="toast_titleCancel">Cancel modification</string>
 	<string name="toast_msgCancel">Are you sure?</string>
 	<string name="toast_positiveButton">Yes</string>
 	<string name="toast_negativeButton">No</string>
