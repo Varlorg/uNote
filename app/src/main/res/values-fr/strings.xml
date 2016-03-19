@@ -41,8 +41,8 @@
 	<string name="text_view"> </string>-->
 
 	<!-- Preference toasts' text"-->
-	<string name="toast_export_db">Database exported in </string>
-	<string name="toast_import_db">Database imported from </string>
+	<string name="toast_export_db">Base de données exportée dans </string>
+	<string name="toast_import_db">Base de données importée depuis </string>
 
 	<!-- Note Edition toasts' text"-->
 	<string name="toast_save">Sauvegardée</string>
@@ -71,17 +71,17 @@
 
 
 	<string name="dialog_pwd_title">Mot de passe</string>
-	<string name="dialog_pwd_msg">Entrer le mot de passe</string>
+	<string name="dialog_pwd_msg">Veuillez entrer le mot de passe</string>
 	<string name="dialog_pwd_submit">Ok</string>
 	<string name="dialog_pwd_cancel">Annuler</string>
 
-	<string name="dialog_delete_title">Supprimer Note</string>
+	<string name="dialog_delete_title">Suppression de la note</string>
 	<string name="dialog_delete_msg">Êtes vous sûr?</string>
 	<string name="dialog_delete_yes">Oui</string>
 	<string name="dialog_delete_no">Non</string>
 
 	<string name="dialog_add_pwd_title">Ajouter un mot de passe</string>
-	<string name="dialog_add_pwd_msg">Entrer le mot de passe</string>
+	<string name="dialog_add_pwd_msg">Veuillez entrer le mot de passe</string>
 	<string name="dialog_add_pwd_remove">Supprimer</string>
 	<string name="dialog_add_pwd_add">Ajouter</string>
 	<string name="dialog_add_pwd_cancel">Annuler</string>
