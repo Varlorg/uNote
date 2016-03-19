@@ -39,4 +39,52 @@
 	<color name="note_color">#FEFEE2</color>
 	<string name="text_view"> </string>-->
 
+	<!-- Preference toasts' text"-->
+	<string name="toast_export_db">Database exported in </string>
+	<string name="toast_import_db">Database imported from </string>
+
+	<!-- Note Edition toasts' text"-->
+	<string name="toast_save">Sauvegardée</string>
+	<string name="toast_update">Note mise à jour</string>
+	<string name="toast_fail">Échec</string>
+	<string name="toast_titleCancel">Annuler les modifications</string>
+	<string name="toast_msgCancel">Êtes vous sûr?</string>
+	<string name="toast_positiveButton">Oui</string>
+	<string name="toast_negativeButton">Non</string>
+
+	<!-- Note Main toasts' text"-->
+	<string name="pwd_protected">Protégé par mot de pass</string>
+	<string name="note_deleted">Note supprimée !</string>
+
+	<string name="menu_title">Note Menu</string>
+	<string name="menu_edit">Éditer</string>
+	<string name="menu_passwd">Mot de passe</string>
+	<string name="menu_delete">Supprimer</string>
+	<string name="menu_detail">Détails</string>
+
+	<string name="detail_title">Titre</string>
+	<string name="detail_nb_char">Nombre de caractères</string>
+	<string name="detail_created">Créée le </string>
+	<string name="detail_modified">Modifiée le </string>
+	<string name="detail_not_modified">Non Modifiée </string>
+
+
+	<string name="dialog_pwd_title">Mot de passe</string>
+	<string name="dialog_pwd_msg">Entrer le mot de passe</string>
+	<string name="dialog_pwd_submit">Ok</string>
+	<string name="dialog_pwd_cancel">Annuler</string>
+
+	<string name="dialog_delete_title">Supprimer Note</string>
+	<string name="dialog_delete_msg">Êtes vous sûr?</string>
+	<string name="dialog_delete_yes">Oui</string>
+	<string name="dialog_delete_no">Non</string>
+
+	<string name="dialog_add_pwd_title">Ajouter un mot de passe</string>
+	<string name="dialog_add_pwd_msg">Entrer le mot de passe</string>
+	<string name="dialog_add_pwd_remove">Supprimer</string>
+	<string name="dialog_add_pwd_add">Ajouter</string>
+	<string name="dialog_add_pwd_cancel">Annuler</string>
+	<string name="toast_pwd_added">Mot de passe ajouté/changé !</string>
+
+
 </resources>
