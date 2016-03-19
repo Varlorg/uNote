@@ -77,7 +77,8 @@ public class NoteMain extends Activity
                     String note_summary;
                     if (n.getPassword()!= null )
                     {
-                        note_summary = new String("<b>" + n.getTitre() + "</b> <br/>Password protected");
+                        //note_summary = new String("<b>" + n.getTitre() + "</b> <br/>Password protected");
+                        note_summary = new String("<b>" + n.getTitre() + "</b> <br/>"+NoteMain.this.getString(R.string.pwd_protected));
                     }
                     else {
                         note_summary = new String("<b>" + n.getTitre() + "</b> <br/>" + n.getNoteHead());
@@ -109,10 +110,13 @@ public class NoteMain extends Activity
                     input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
                     builder
-                            .setTitle("Asking password")
-                            .setMessage("Enter Password")
+                            //.setTitle("Asking password")
+                            //.setMessage("Enter Password")
+                            .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
+                            .setMessage(NoteMain.this.getString(R.string.dialog_pwd_msg))
                             .setView(input)
-                            .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                            //.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(NoteMain.this.getString(R.string.dialog_pwd_submit), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     String password = input.getText().toString();
@@ -127,7 +131,8 @@ public class NoteMain extends Activity
                                     }
                                 }
                             })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            //.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            .setNegativeButton(NoteMain.this.getString(R.string.dialog_pwd_cancel), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
@@ -184,7 +189,8 @@ public class NoteMain extends Activity
                         String note_summary;
                         if (n.getPassword()!= null )
                         {
-                            note_summary = new String("<b>" + n.getTitre() + "</b> <br/>Password protected");
+                            //note_summary = new String("<b>" + n.getTitre() + "</b> <br/>Password protected");
+                            note_summary = new String("<b>" + n.getTitre() + "</b> <br/>"+NoteMain.this.getString(R.string.pwd_protected));
 
                         }
                         else {
@@ -269,11 +275,17 @@ public class NoteMain extends Activity
     public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo)
     {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Note Menu");
+        /*menu.setHeaderTitle("Note Menu");
         menu.add(0, v.getId(), 0, "Edit");
         menu.add(0, v.getId(), 0, "Password");
         menu.add(0, v.getId(), 0, "Delete");
-        menu.add(0, v.getId(), 0, "Details");
+        menu.add(0, v.getId(), 0, "Details");*/
+        menu.setHeaderTitle(this.getString(R.string.menu_title));
+        menu.add(0, v.getId(), 0, this.getString(R.string.menu_edit));
+        menu.add(0, v.getId(), 0, this.getString(R.string.menu_passwd));
+        menu.add(0, v.getId(), 0, this.getString(R.string.menu_delete));
+        menu.add(0, v.getId(), 0, this.getString(R.string.menu_detail));
+
     }
 
     private final static String HEX = "0123456789ABCDEF";
@@ -315,7 +327,7 @@ public class NoteMain extends Activity
 
     public boolean launchMenu(MenuItem item,final Note note)
     {
-        if(item.getTitle().equals("Edit"))
+        if(item.getTitle().equals(this.getString(R.string.menu_edit)))
         {
             Intent intentTextEdition = new Intent(NoteMain.this ,
                     NoteEdition.class);
@@ -326,7 +338,7 @@ public class NoteMain extends Activity
             NoteMain.this.startActivity(intentTextEdition);
         }
         else
-        if(item.getTitle().equals("Password")) {
+        if(item.getTitle().equals(this.getString(R.string.menu_passwd))) {
             final EditText input = new EditText(NoteMain.this);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
@@ -335,10 +347,10 @@ public class NoteMain extends Activity
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
-                    .setTitle("Adding password")
-                    .setMessage("Enter Password")
+                    .setTitle(NoteMain.this.getString(R.string.dialog_add_pwd_title))
+                    .setMessage(NoteMain.this.getString(R.string.dialog_add_pwd_msg))
                     .setView(input)
-                    .setNegativeButton("Remove", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(NoteMain.this.getString(R.string.dialog_add_pwd_remove), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             NotesBDD noteBdd = new NotesBDD(NoteMain.this);
@@ -349,7 +361,7 @@ public class NoteMain extends Activity
                             simpleAdpt.notifyDataSetChanged();
                         }
                     })
-                    .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(NoteMain.this.getString(R.string.dialog_add_pwd_add), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             String password = input.getText().toString();
@@ -365,11 +377,11 @@ public class NoteMain extends Activity
                             simpleAdpt = new ArrayAdapter<Note>(NoteMain.this, R.layout.notelist, listeNotes );
                             lv.setAdapter(simpleAdpt);*/
 
-                            Toast.makeText(NoteMain.this, "Password added ! ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_added), Toast.LENGTH_LONG).show();
 
                         }
                     })
-                    .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNeutralButton(NoteMain.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
@@ -378,28 +390,28 @@ public class NoteMain extends Activity
                     .show();
 
         }
-        else if(item.getTitle().equals("Delete"))
+        else if(item.getTitle().equals(this.getString(R.string.menu_delete)))
         {
             pref = PreferenceManager.getDefaultSharedPreferences(this);
 
             if (pref.getBoolean("pref_del",false) == true) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder
-                        .setTitle("Deleting Note")
-                        .setMessage("Are you sure?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setTitle(NoteMain.this.getString(R.string.dialog_delete_title))
+                        .setMessage(NoteMain.this.getString(R.string.dialog_delete_msg))
+                        .setPositiveButton(NoteMain.this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 simpleAdpt.remove(note);
                                 NotesBDD noteBdd = new NotesBDD(NoteMain.this);
                                 noteBdd.open();
                                 noteBdd.removeNoteWithID(note.getId());
-                                Toast.makeText(NoteMain.this, "Note deleted ! ", Toast.LENGTH_LONG).show();
+                                Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
                                 simpleAdpt.notifyDataSetChanged();
                                 noteBdd.close();
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(NoteMain.this.getString(R.string.dialog_delete_no), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
@@ -413,7 +425,8 @@ public class NoteMain extends Activity
                 NotesBDD noteBdd = new NotesBDD(NoteMain.this);
                 noteBdd.open();
                 noteBdd.removeNoteWithID(note.getId());
-                Toast.makeText(NoteMain.this, "Note deleted ! ", Toast.LENGTH_LONG).show();
+                //Toast.makeText(NoteMain.this, "Note deleted ! ", Toast.LENGTH_LONG).show();
+                Toast.makeText(NoteMain.this, this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
                 simpleAdpt.notifyDataSetChanged();
                 noteBdd.close();
             }
@@ -423,29 +436,27 @@ public class NoteMain extends Activity
             this.finish(); //*/
             //onCreate(null);
         }
-        if(item.getTitle().equals("Details"))
+        if(item.getTitle().equals(this.getString(R.string.menu_detail)))
         {
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Details");
+            alertDialog.setTitle(this.getString(R.string.menu_detail));
             String dateC = note.getDateCreation();
             String dateM = note.getDateModification();
+            String noteDetails = new String ("<b>"+this.getString(R.string.detail_title) +": "+note.getTitre() +
+                    "</b> <br/>"+note.getNoteHead() +
+                    "<br/>"+ this.getString(R.string.detail_nb_char)+" : " +note.getNote().length() +
+                    "<br/><i>"+this.getString(R.string.detail_created) + note.getDateCreationFormated()+"</i>");
             if (dateC.equals(dateM))
             {
-                alertDialog.setMessage(Html.fromHtml("<b>Title : "+note.getTitre() +
-                        "</b> <br/>"+note.getNoteHead() +
-                        "<br/>Nombre de caractères : " +note.getNote().length() +
-                        "<br/><i>Created the "+ note.getDateCreationFormated()+"</i>"+
-                        "<br/><i>Not modified </i>"));
+                //noteDetails += "<br/><i>Not modified </i>";
+                noteDetails += "<br/><i>"+this.getString(R.string.detail_not_modified)+" </i>";
             }
             else
             {
-                alertDialog.setMessage(Html.fromHtml("<b>Title : "+note.getTitre() +
-                        "</b> <br/>"+note.getNoteHead() +
-                        "<br/>Nombre de caractères : " +note.getNote().length() +
-                        "<br/><i>Created the "+ note.getDateCreationFormated()+"</i>" +
-                        "<br/><i>Modified the "+ note.getDateModificationFormated() +"</i>"));
+                //noteDetails += "<br/><i>Modified the "+ note.getDateModificationFormated() +"</i>";
+                noteDetails += "<br/><i>"+ this.getString(R.string.detail_modified)+ note.getDateModificationFormated() +"</i>";
             }
-
+            alertDialog.setMessage(Html.fromHtml(noteDetails));
             alertDialog.setButton("OK", new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which)
@@ -483,10 +494,10 @@ public class NoteMain extends Activity
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
             builder
-                    .setTitle("Asking password")
-                    .setMessage("Enter Password")
+                    .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
+                    .setMessage(NoteMain.this.getString(R.string.dialog_pwd_msg))
                     .setView(input)
-                    .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(NoteMain.this.getString(R.string.dialog_pwd_submit), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             String password = input.getText().toString();
@@ -496,7 +507,7 @@ public class NoteMain extends Activity
                             }
                         }
                     })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(NoteMain.this.getString(R.string.dialog_pwd_cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();

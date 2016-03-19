@@ -49,6 +49,42 @@
 	<string name="toast_positiveButton">Yes</string>
 	<string name="toast_negativeButton">No</string>
 
+	<!-- Note Main toasts' text"-->
+	<string name="pwd_protected">Password Protected</string>
+	<string name="note_deleted">Note deleted !</string>
+
+	<string name="menu_title">Note Menu</string>
+	<string name="menu_edit">Edit</string>
+	<string name="menu_passwd">Password</string>
+	<string name="menu_delete">Delete</string>
+	<string name="menu_detail">Details</string>
+
+	<string name="detail_title">Title</string>
+	<string name="detail_nb_char">Number of characters</string>
+	<string name="detail_created">Created the </string>
+	<string name="detail_modified">Modified the </string>
+	<string name="detail_not_modified">Not Modified </string>
+
+
+	<string name="dialog_pwd_title">Asking password</string>
+	<string name="dialog_pwd_msg">Enter Password</string>
+	<string name="dialog_pwd_submit">Submit</string>
+	<string name="dialog_pwd_cancel">Cancel</string>
+
+	<string name="dialog_delete_title">Deleting Note</string>
+	<string name="dialog_delete_msg">Are you sure?</string>
+	<string name="dialog_delete_yes">Yes</string>
+	<string name="dialog_delete_no">No</string>
+
+	<string name="dialog_add_pwd_title">Adding password</string>
+	<string name="dialog_add_pwd_msg">Enter Password</string>
+	<string name="dialog_add_pwd_remove">Remove</string>
+	<string name="dialog_add_pwd_add">Add</string>
+	<string name="dialog_add_pwd_cancel">Cancel</string>
+	<string name="toast_pwd_added">Password added !</string>
+
+
+
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>
 	<string name="text_view"> </string>-->
