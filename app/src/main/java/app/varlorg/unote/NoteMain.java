@@ -397,7 +397,7 @@ public class NoteMain extends Activity
             if (pref.getBoolean("pref_del",false) == true) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder
-                        .setTitle(NoteMain.this.getString(R.string.dialog_delete_title))
+                        .setTitle(NoteMain.this.getString(R.string.dialog_delete_title) + " " +note.getTitre())
                         .setMessage(NoteMain.this.getString(R.string.dialog_delete_msg))
                         .setPositiveButton(NoteMain.this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener() {
                             @Override
