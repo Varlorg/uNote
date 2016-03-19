@@ -445,7 +445,7 @@ public class NoteMain extends Activity
             String noteDetails = new String ("<b>"+this.getString(R.string.detail_title) +": "+note.getTitre() +
                     "</b> <br/>"+note.getNoteHead() +
                     "<br/>"+ this.getString(R.string.detail_nb_char)+" : " +note.getNote().length() +
-                    "<br/><i>"+this.getString(R.string.detail_created) + note.getDateCreationFormated()+"</i>");
+                    "<br/><i>"+this.getString(R.string.detail_created) + " " + note.getDateCreationFormated()+"</i>");
             if (dateC.equals(dateM))
             {
                 //noteDetails += "<br/><i>Not modified </i>";

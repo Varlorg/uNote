@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="app_name">uNote</string>
+	<string name="settings">Paramètres</string>
 
 	<!-- Main -->
 	<string name="addNoteB">Créer note</string>
@@ -19,7 +20,7 @@
 	<!-- Preferences text -->
 	<string name="preferences">Préferences</string>
 	<string name="pref_search">Rechercher dans le contenu</string>
-	<string name="pref_search_sum">Rechercher aussi dans le contenu des notes</string>
+	<string name="pref_search_sum">Rechercher aussi dans le contenu des notes sauf celles protégé par mot de passe</string>
 	<string name="pref_date">Date de création</string>
 	<string name="pref_date_sum">Afficher date de création</string>
 	<string name="pref_date_mod">Date de modification</string>
@@ -53,7 +54,7 @@
 	<string name="toast_negativeButton">Non</string>
 
 	<!-- Note Main toasts' text"-->
-	<string name="pwd_protected">Protégé par mot de pass</string>
+	<string name="pwd_protected">Protégée par mot de passe</string>
 	<string name="note_deleted">Note supprimée !</string>
 
 	<string name="menu_title">Note Menu</string>

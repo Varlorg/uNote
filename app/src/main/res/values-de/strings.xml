@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
     <string name="app_name">uNote</string>
+    <string name="settings">Settings</string>
 
 	<!-- Main -->
 	<string name="addNoteB">Notiz kreieren</string>

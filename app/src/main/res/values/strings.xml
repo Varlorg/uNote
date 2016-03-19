@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en"
 	tools:ignore="MissingTranslation">
     <string name="app_name">uNote</string>
+    <string name="settings">Settings</string>
 
 	<!-- Main -->
 	<string name="addNoteB">Add note</string>
