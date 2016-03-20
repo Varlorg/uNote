@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en"
+	tools:ignore="MissingTranslation">
+    <string name="app_name">uNote</string>
+    <string name="settings">Ajustes</string>
+
+	<!-- Main -->
+	<string name="addNoteB">Añadir nota</string>
+	<string name="searchText">Buscar</string>
+	<string name="search">Buscar</string>
+	<string name="quit">Salir</string>
+
+	<!-- Edit -->
+	<string name="returnB">Volver</string>
+	<string name="save">Guardar</string>
+	<string name="TexteEdition">Nota</string>
+	<string name="TitreEdition">Título</string>
+	<string name="editTitle_hint">Título de la nota</string>
+	<string name="editText_hint">Tu nota</string>
+
+	<!-- Preferences text -->
+	<string name="preferences">Preferencias</string>
+	<string name="pref_search">Buscar en el contenido</string>
+	<string name="pref_search_sum">Buscar en el contenido de las notas a menos que estén protegidas por contraseña</string>
+	<string name="pref_date">Fecha de creación</string>
+	<string name="pref_date_sum">Mostrar fecha de creación</string>
+	<string name="pref_date_mod">Fecha de modificación</string>
+	<string name="pref_date_mod_sum">Mostrar fecha de modificación</string>
+	<string name="pref_theme">Tema claro</string>
+	<string name="pref_theme_sum">Tema claro u oscuro</string>
+	<string name="pref_delete_confirmation">Confirmación al borrar</string>
+	<string name="pref_cancel_confirmation">Confirmación al cancelar</string>
+	<string name="pref_sort">Ordenar de forma descendiente</string>
+	<string name="pref_sort_by">Ordenar por</string>
+	<string name="pref_text_size">Tamaño del texto</string>
+	<string name="pref_db">Base de datos</string>
+	<string name="pref_export_db">Exportar base de datos</string>
+	<string name="pref_import_db">Importar base de datos</string>
+	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
+
+	<!-- Preference toasts' text"-->
+	<string name="toast_export_db">Base de datos exportada en </string>
+	<string name="toast_import_db">Base de datos importada de </string>
+
+	<!-- Note Edition toasts' text"-->
+	<string name="toast_save">Guardada</string>
+	<string name="toast_update">Nota actualizada</string>
+	<string name="toast_fail">Fallido</string>
+	<string name="toast_titleCancel">Cancelar modificación</string>
+	<string name="toast_msgCancel">¿Estás seguro?</string>
+	<string name="toast_positiveButton">Si</string>
+	<string name="toast_negativeButton">No</string>
+
+	<!-- Note Main toasts' text"-->
+	<string name="pwd_protected">Protegida por contraseña</string>
+	<string name="note_deleted">¡Nota eliminada!</string>
+
+	<string name="menu_title">Menu de nota</string>
+	<string name="menu_edit">Editar</string>
+	<string name="menu_passwd">Contraseña</string>
+	<string name="menu_delete">Eliminar</string>
+	<string name="menu_detail">Detalles</string>
+
+	<string name="detail_title">Título</string>
+	<string name="detail_nb_char">Número de caracteres</string>
+	<string name="detail_created">Creada el </string>
+	<string name="detail_modified">Modificada el </string>
+	<string name="detail_not_modified">No modificada </string>
+
+
+	<string name="dialog_pwd_title">Solicitando contraseña</string>
+	<string name="dialog_pwd_msg">Escribe la contraseña</string>
+	<string name="dialog_pwd_submit">Aceptar</string>
+	<string name="dialog_pwd_cancel">Cancelar</string>
+
+	<string name="dialog_delete_title">Eliminando nota</string>
+	<string name="dialog_delete_msg">¿Estás seguro?</string>
+	<string name="dialog_delete_yes">Si</string>
+	<string name="dialog_delete_no">No</string>
+
+	<string name="dialog_add_pwd_title">Añadiendo contraseña</string>
+	<string name="dialog_add_pwd_msg">Escribe una contraseña</string>
+	<string name="dialog_add_pwd_remove">Remover</string>
+	<string name="dialog_add_pwd_add">Añadir</string>
+	<string name="dialog_add_pwd_cancel">Cancelar</string>
+	<string name="toast_pwd_added">¡Contraseña añadida!</string>
+
+
+
+	<!-- Not used ? -
+	<color name="note_color">#FEFEE2</color>
+	<string name="text_view"> </string>-->
+
+</resources>

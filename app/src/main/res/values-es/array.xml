@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="en"
+	tools:ignore="MissingTranslation">
+    <string-array name="textSize">
+        <item>Muy pequeño</item>
+        <item>Pequeño</item>
+        <item>Medio</item>
+        <item>Normal</item>
+	<item>Grande</item>
+	<item>Muy grande</item>
+        <item>Enorme</item>
+    </string-array>
+    <string-array name="textSizeValues">
+        <item>8</item>
+        <item>11</item>
+        <item>14</item>
+        <item>18</item>
+        <item>24</item>
+        <item>32</item>
+        <item>42</item>
+    </string-array>      
+        <string-array name="tri">
+        <item>Fecha de creación</item>
+        <item>Fecha de modificación</item>
+        <item>Título</item>
+    </string-array>
+    <string-array name="triValeur">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+</resources>
