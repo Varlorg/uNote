@@ -74,21 +74,7 @@ public class NoteMain extends Activity
         		{
         			view = super.getView(position, view, viewGroup);
                     Note n = (Note) this.getItem(position);
-                    String note_summary;
-                    if (n.getPassword()!= null )
-                    {
-                        //note_summary = new String("<b>" + n.getTitre() + "</b> <br/>Password protected");
-                        note_summary = new String("<b>" + n.getTitre() + "</b> <br/>"+NoteMain.this.getString(R.string.pwd_protected));
-                    }
-                    else {
-                        note_summary = new String("<b>" + n.getTitre() + "</b> <br/>" + n.getNoteHead());
-                        if (pref.getBoolean("pref_date", false) == true)
-                            note_summary += "<br/>" + n.getDateCreationFormated();
-                        if (pref.getBoolean("pref_date_mod", false) == true)
-                            note_summary += "<br/>modif: " + n.getDateModificationFormated();
-                    }
-                    ((TextView) view).setText(Html.fromHtml(note_summary));
-                    return view;
+                    return getViewCustom(position, view, viewGroup, n);
         		}
         };
         lv.setAdapter(simpleAdpt);
@@ -186,22 +172,7 @@ public class NoteMain extends Activity
                     {
                         view = super.getView(position, view, viewGroup);
                         Note n = (Note) this.getItem(position);
-                        String note_summary;
-                        if (n.getPassword()!= null )
-                        {
-                            //note_summary = new String("<b>" + n.getTitre() + "</b> <br/>Password protected");
-                            note_summary = new String("<b>" + n.getTitre() + "</b> <br/>"+NoteMain.this.getString(R.string.pwd_protected));
-
-                        }
-                        else {
-                            note_summary = new String("<b>" + n.getTitre() + "</b> <br/>" + n.getNoteHead());
-                            if (pref.getBoolean("pref_date", false) == true)
-                                note_summary += "<br/>" + n.getDateCreationFormated();
-                            if (pref.getBoolean("pref_date_mod", false) == true)
-                                note_summary += "<br/>modif: " + n.getDateModificationFormated();
-                        }
-                        ((TextView) view).setText(Html.fromHtml(note_summary));
-                        return view;
+                        return getViewCustom(position, view, viewGroup, n);
                     }
             };
             lv.setAdapter(simpleAdpt);
@@ -214,6 +185,26 @@ public class NoteMain extends Activity
         //set event for clear button
         btnClear.setOnClickListener(onClickListener());
         noteBdd.close();
+    }
+
+    public View getViewCustom(int position, View view, ViewGroup viewGroup, Note n)
+    {
+        String note_summary;
+        if (n.getPassword()!= null )
+        {
+            //note_summary = new String("<b>" + n.getTitre() + "</b> <br/>Password protected");
+            note_summary = new String("<b>" + n.getTitre() + "</b> <br/>"+NoteMain.this.getString(R.string.pwd_protected));
+
+        }
+        else {
+            note_summary = new String("<b>" + n.getTitre() + "</b> <br/>" + n.getNoteHead());
+            if (pref.getBoolean("pref_date", false) == true)
+                note_summary += "<br/>" + n.getDateCreationFormated();
+            if (pref.getBoolean("pref_date_mod", false) == true)
+                note_summary += "<br/>modif: " + n.getDateModificationFormated();
+        }
+        ((TextView) view).setText(Html.fromHtml(note_summary));
+        return view;
     }
 
     private View.OnClickListener onClickListener() {
@@ -325,6 +316,17 @@ public class NoteMain extends Activity
         return result.toString();
     }
 
+    public void deleteNote(final Note note) {
+        simpleAdpt.remove(note);
+        NotesBDD noteBdd = new NotesBDD(NoteMain.this);
+        noteBdd.open();
+        noteBdd.removeNoteWithID(note.getId());
+        Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
+        simpleAdpt.notifyDataSetChanged();
+        noteBdd.close();
+
+    }
+
     public boolean launchMenu(MenuItem item,final Note note)
     {
         if(item.getTitle().equals(this.getString(R.string.menu_edit)))
@@ -365,13 +367,13 @@ public class NoteMain extends Activity
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             String password = input.getText().toString();
-                            String passwordHashed = SHA1(password);
+                            //String passwordHashed = SHA1(password);
 
                             NotesBDD noteBdd = new NotesBDD(NoteMain.this);
                             noteBdd.open();
-                            noteBdd.updatePassword(note.getId(), passwordHashed);
+                            noteBdd.updatePassword(note.getId(), SHA1(password));
                             noteBdd.close();
-                            note.setPassword(passwordHashed);
+                            note.setPassword(SHA1(password));
                             simpleAdpt.notifyDataSetChanged();
                             /*listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
                             simpleAdpt = new ArrayAdapter<Note>(NoteMain.this, R.layout.notelist, listeNotes );
@@ -402,13 +404,14 @@ public class NoteMain extends Activity
                         .setPositiveButton(NoteMain.this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-                                simpleAdpt.remove(note);
+                                /*simpleAdpt.remove(note);
                                 NotesBDD noteBdd = new NotesBDD(NoteMain.this);
                                 noteBdd.open();
                                 noteBdd.removeNoteWithID(note.getId());
                                 Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
                                 simpleAdpt.notifyDataSetChanged();
-                                noteBdd.close();
+                                noteBdd.close();*/
+                                deleteNote(note);
                             }
                         })
                         .setNegativeButton(NoteMain.this.getString(R.string.dialog_delete_no), new DialogInterface.OnClickListener() {
@@ -421,14 +424,15 @@ public class NoteMain extends Activity
             }
             else
             {
-                simpleAdpt.remove(note);
+                /*simpleAdpt.remove(note);
                 NotesBDD noteBdd = new NotesBDD(NoteMain.this);
                 noteBdd.open();
                 noteBdd.removeNoteWithID(note.getId());
                 //Toast.makeText(NoteMain.this, "Note deleted ! ", Toast.LENGTH_LONG).show();
                 Toast.makeText(NoteMain.this, this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
                 simpleAdpt.notifyDataSetChanged();
-                noteBdd.close();
+                noteBdd.close();*/
+                deleteNote(note);
             }
             // Refresh main activity upon close of dialog box
            /*Intent refresh = new Intent(this, NoteMain.class);
