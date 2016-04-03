@@ -15,29 +15,27 @@
 
         <Button
             android:id="@+id/addNoteButton"
-            android:layout_width="145dp"
-            android:layout_height="wrap_content"
+			android:layout_width="155dp"
+            android:layout_height="48dp"
             android:onClick="addNote"
 	        android:layout_weight="0.5"
 			android:height="32px"
-            android:text="@string/addNoteB" />
+			android:text="@string/addNoteB"/>
 		<Button
 			android:id="@+id/returnSearch"
-			android:layout_width="145dp"
-			android:layout_height="wrap_content"
+			android:layout_width="140dp"
+			android:layout_height="48dp"
 			android:layout_weight="0.5"
 			android:onClick="search"
 			android:text="@string/search" />
 		<Button
             android:id="@+id/returnButton"
-            android:layout_width="145dp"
-            android:layout_height="wrap_content"
+            android:layout_width="140dp"
+			android:layout_height="48dp"
 	        android:layout_weight="0.5"
             android:onClick="quit"
             android:text="@string/quit" />
-
-
-	</LinearLayout> 
+	</LinearLayout>
 	<LinearLayout
 	    android:id="@+id/notemain"
 	    android:scrollbars="vertical"
