@@ -6,7 +6,7 @@
 	<!-- Main -->
 	<string name="addNoteB">Créer note</string>
 	<string name="searchText">Recherche</string>
-	<string name="search">Rechercher</string>
+	<string name="search">Chercher</string>
 	<string name="quit">Quitter</string>
 
 	<!-- Edit -->
