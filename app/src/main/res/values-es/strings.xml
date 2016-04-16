@@ -5,7 +5,7 @@
     <string name="settings">Ajustes</string>
 
 	<!-- Main -->
-	<string name="addNoteB">Añadir nota</string>
+	<string name="addNoteB">Añadir</string>
 	<string name="searchText">Buscar</string>
 	<string name="search">Buscar</string>
 	<string name="quit">Salir</string>
