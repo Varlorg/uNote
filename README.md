@@ -2,6 +2,7 @@ uNote
 =====
 
 uNote is an android application, it's a lightweight and minimalist notepad. uNote is for "micro Note"
+It is available on f-droid repo: [uNote link] (https://f-droid.org/repository/browse/?fdid=app.varlorg.unote)
 It focus on simplicity and give only basic features:
 
 * add/delete note,
