@@ -10,10 +10,12 @@
         android:supportsRtl="true">
         <!--android:theme="@style/AppTheme"-->
         <activity
-            android:name=".NoteEdition">
+            android:name=".NoteEdition"
+            android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
         <activity
-            android:name=".NoteMain">
+            android:name=".NoteMain"
+            android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

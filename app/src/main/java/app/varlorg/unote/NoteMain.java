@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 //import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -186,6 +187,21 @@ public class NoteMain extends Activity
         btnClear.setOnClickListener(onClickListener());
         noteBdd.close();
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+    }
+    @Override
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //setContentView(R.layout.activity_notemain);
+
+        // you are other code here
+
+    }
+
 
     public View getViewCustom(int position, View view, ViewGroup viewGroup, Note n)
     {
