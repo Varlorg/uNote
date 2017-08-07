@@ -41,6 +41,7 @@
 	<!-- Preference toasts' text"-->
 	<string name="toast_export_db">Database exported in </string>
 	<string name="toast_import_db">Database imported from </string>
+	<string name="toast_import_no_db">No database found, please export first.</string>
 
 	<!-- Note Edition toasts' text"-->
 	<string name="toast_save">Saved</string>

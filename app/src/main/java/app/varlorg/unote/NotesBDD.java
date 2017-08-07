@@ -289,26 +289,25 @@ public class NotesBDD
         File newDirDB = new File(sd, "app.varlorg.unote" );
         newDirDB.mkdirs();
         File newDB = new File(sd, newDBPath );
-        try {
-            newDB.createNewFile();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
 
-        try {
-            destination = new FileOutputStream(currentDB).getChannel();
-            source = new FileInputStream(newDB).getChannel();
-            destination.transferFrom(source, 0, source.size());
-            source.close();
-            destination.close();
-        } catch(IOException e) {
-            e.printStackTrace();
+        if (newDB.exists()) {
+            try {
+                destination = new FileOutputStream(currentDB).getChannel();
+                source = new FileInputStream(newDB).getChannel();
+                destination.transferFrom(source, 0, source.size());
+                source.close();
+                destination.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
+            } catch (Exception e) {
+                //System.out.println(e);
+            }
+            return newDB.toString();
+        }else {
+            return null;
         }
-        try{
-            bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
-        }catch(Exception e){
-            //System.out.println(e);
-        }
-        return newDB.toString();
     }
 }
