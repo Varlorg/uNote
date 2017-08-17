@@ -43,7 +43,7 @@
 	<!-- Preference toasts' text"-->
 	<string name="toast_export_db">Base de données exportée dans </string>
 	<string name="toast_import_db">Base de données importée depuis </string>
-	<string name="toast_import_no_db">Aucune base de données trouvées, exportez d'abord.</string>
+	<string name="toast_import_no_db">Aucune base de données trouvées, exportez d\'abord.</string>
 
 	<!-- Note Edition toasts' text"-->
 	<string name="toast_save">Sauvegardée</string>

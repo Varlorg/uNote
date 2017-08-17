@@ -24,6 +24,9 @@
         <activity
             android:name=".Preference">
         </activity>
+        <activity
+            android:name=".RestoreDbActivity">
+        </activity>
     </application>
 
 </manifest>

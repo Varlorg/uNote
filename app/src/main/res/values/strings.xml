@@ -86,6 +86,16 @@
 	<string name="dialog_add_pwd_cancel">Cancel</string>
 	<string name="toast_pwd_added">Password added !</string>
 
+	<string name="restoreWarnTitle">Restore database</string>
+	<string name="restoreWarnMessage">This will overwrite all the existing lists and items. Continue?</string>
+	<string name="restoreWarnPositive">Yes</string>
+	<string name="restoreWarnNegative">No</string>
+	<string name="restoreToastInvalidDB">That database was invalid or corrupted! Not restored.</string>
+	<string name="restoreToastMountProblem">Media not mount or read-only</string>
+	<string name="restoreToastUnableToMove">Unable to move old database out of the way.</string>
+	<string name="restoreToastCopyFailed">Failed to copy restore database into place. Nothing restored.</string>
+	<string name="restoreToastRestoreFinished">Database restored.</string>
+
 
 
 	<!-- Not used ? -

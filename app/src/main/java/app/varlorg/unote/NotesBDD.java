@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -252,7 +254,7 @@ public class NotesBDD
         FileChannel source=null;
         FileChannel destination=null;
         String currentDBPath = "/data/"+ "app.varlorg.unote" +"/databases/"+ NOM_BDD;
-        String backupDBPath = "app.varlorg.unote/" + NOM_BDD;
+        String backupDBPath = "app.varlorg.unote/" + "unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) + ".db";
         File currentDB = new File(data, currentDBPath);
         File backupDirDB = new File(sd, "app.varlorg.unote" );
         backupDirDB.mkdirs();
@@ -306,6 +308,36 @@ public class NotesBDD
                 //System.out.println(e);
             }
             return newDB.toString();
+        }else {
+            return null;
+        }
+    }
+
+    public String importDB(File dbToImport)
+    {
+        File sd = Environment.getExternalStorageDirectory();
+        File data = Environment.getDataDirectory();
+        FileChannel source=null;
+        FileChannel destination=null;
+        String currentDBPath = "/data/"+ "app.varlorg.unote" +"/databases/"+ NOM_BDD;
+        File currentDB = new File(data, currentDBPath);
+
+        if (dbToImport.exists()) {
+            try {
+                destination = new FileOutputStream(currentDB).getChannel();
+                source = new FileInputStream(dbToImport).getChannel();
+                destination.transferFrom(source, 0, source.size());
+                source.close();
+                destination.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
+            } catch (Exception e) {
+                //System.out.println(e);
+            }
+            return dbToImport.toString();
         }else {
             return null;
         }
