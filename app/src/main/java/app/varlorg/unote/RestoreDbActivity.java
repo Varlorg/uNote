@@ -210,8 +210,8 @@ public class RestoreDbActivity extends ListActivity{
 
         Toast.makeText(
                 this,
-                R.string.restoreToastRestoreFinished +
-                (new NameOnlyFile(restoreFile.file)).toString(),
+                (new NameOnlyFile(restoreFile.file)).toString() + " " +
+                getResources().getString(R.string.restoreToastRestoreFinished) ,
                 Toast.LENGTH_LONG
         ).show();
 
