@@ -15,7 +15,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -63,6 +65,7 @@ public class RestoreDbActivity extends ListActivity{
         refresh();
 
         setListAdapter(adapter);
+        registerForContextMenu(getListView());
 
         restoreWarningBuilder = new AlertDialog.Builder(this);
         restoreWarningBuilder.setMessage(R.string.restoreWarnMessage)
@@ -100,6 +103,27 @@ public class RestoreDbActivity extends ListActivity{
     }
 
     @Override
+    public void onCreateContextMenu(android.view.ContextMenu menu, View v,android.view.ContextMenu.ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Backup Option");
+        menu.add(0, v.getId(), 0, "Delete this backup");
+    }
+    @Override
+    public boolean onContextItemSelected(MenuItem item)
+    {
+        AdapterView.AdapterContextMenuInfo aInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        boolean res= false;
+        //(Toast.makeText(this, "Item id " + getResources().getString(noteid), Toast.LENGTH_LONG)).show();
+        if(item.getTitle().equals("Delete this backup")) {
+            restoreFile = adapter.getItem(aInfo.position);
+            res = restoreFile.file.delete();
+            (Toast.makeText(this, "Backup deleted" , Toast.LENGTH_LONG)).show();
+        }
+        refresh();
+        return res;
+    }
+    @Override
     protected void onListItemClick(ListView l, View v, int position, long id)
     {
         super.onListItemClick(l, v, position, id);
@@ -126,8 +150,6 @@ public class RestoreDbActivity extends ListActivity{
         }
 
     }
-
-
     private void refresh()
     {
         File backupDirectory = new File(
