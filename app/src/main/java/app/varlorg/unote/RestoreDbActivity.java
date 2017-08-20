@@ -82,7 +82,6 @@ public class RestoreDbActivity extends ListActivity{
 
     }
 
-
     @Override
     protected Dialog onCreateDialog(int id)
     {
@@ -122,8 +121,8 @@ public class RestoreDbActivity extends ListActivity{
         catch(Exception e)
         {
             //Log.e(L.TAG, "Error testing user selected restore DB", e);
-            //Toast t = Toast.makeText(this, R.string.restoreToastInvalidDB, Toast.LENGTH_LONG);
-            //t.show();
+            Toast t = Toast.makeText(this, R.string.restoreToastInvalidDB, Toast.LENGTH_LONG);
+            t.show();
         }
 
     }
@@ -211,7 +210,8 @@ public class RestoreDbActivity extends ListActivity{
 
         Toast.makeText(
                 this,
-                R.string.restoreToastRestoreFinished,
+                R.string.restoreToastRestoreFinished +
+                (new NameOnlyFile(restoreFile.file)).toString(),
                 Toast.LENGTH_LONG
         ).show();
 
