@@ -36,6 +36,8 @@
 	<string name="pref_db">Base de datos</string>
 	<string name="pref_export_db">Exportar base de datos</string>
 	<string name="pref_import_db">Importar base de datos</string>
+	<string name="pref_preview_limit">Límite de vista previa</string>
+	<string name="pref_preview_limit_summary">Número de caracteres en la vista previa</string>
 	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
 
 	<!-- Preference toasts' text"-->
