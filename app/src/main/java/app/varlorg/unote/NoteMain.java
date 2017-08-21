@@ -213,7 +213,7 @@ public class NoteMain extends Activity
 
         }
         else {
-            note_summary = new String("<b>" + n.getTitre() + "</b> <br/>" + n.getNoteHead());
+            note_summary = new String("<b>" + n.getTitre() + "</b> <br/>" + n.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit","30"))));
             if (pref.getBoolean("pref_date", false) == true)
                 note_summary += "<br/>" + n.getDateCreationFormated();
             if (pref.getBoolean("pref_date_mod", false) == true)
