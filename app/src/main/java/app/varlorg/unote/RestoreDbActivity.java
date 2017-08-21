@@ -1,8 +1,9 @@
 package app.varlorg.unote;
 
 /**
- * Created by adrian on 8/16/17.
+ * Inspired the one from SimplyDo
  */
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Comparator;
@@ -21,7 +22,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
 
 public class RestoreDbActivity extends ListActivity{
     private static final int DIALOG_RESTORE_WARN = 300;
@@ -58,8 +58,6 @@ public class RestoreDbActivity extends ListActivity{
     {
         super.onCreate(savedInstanceState);
 
-        //Log.v(L.TAG, "RestoreActivity.onCreate() called");
-
         adapter = new ArrayAdapter<NameOnlyFile>(this, R.layout.restore_entry, R.id.RestoreName);
 
         refresh();
@@ -82,14 +80,11 @@ public class RestoreDbActivity extends ListActivity{
                         dialog.cancel();
                     }
                 });
-
     }
 
     @Override
     protected Dialog onCreateDialog(int id)
     {
-        //Log.v(L.TAG, "RestoreActivity.onCreateDialog() called");
-
         switch(id)
         {
             case DIALOG_RESTORE_WARN:
@@ -98,7 +93,6 @@ public class RestoreDbActivity extends ListActivity{
                 return dialog;
             }
         }
-
         return super.onCreateDialog(id);
     }
 
@@ -114,21 +108,35 @@ public class RestoreDbActivity extends ListActivity{
     {
         AdapterView.AdapterContextMenuInfo aInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         boolean res= false;
-        //(Toast.makeText(this, "Item id " + getResources().getString(noteid), Toast.LENGTH_LONG)).show();
-        if(item.getTitle().equals("Delete this backup")) {
+        if(item.getTitle().equals("Delete this backup")){//+ adapter.getItem(aInfo.position).toString())) {
             restoreFile = adapter.getItem(aInfo.position);
-            res = restoreFile.file.delete();
-            (Toast.makeText(this, "Backup deleted" , Toast.LENGTH_LONG)).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder
+                    .setTitle(this.getString(R.string.dialog_delete_backup) + " " + adapter.getItem(aInfo.position).toString())
+                    .setMessage(this.getString(R.string.dialog_delete_msg))
+                    .setPositiveButton(this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            restoreFile.file.delete();
+                            refresh();
+                            (Toast.makeText(RestoreDbActivity.this, "Backup deleted" , Toast.LENGTH_LONG)).show();
+
+                        }
+                    })
+                    .setNegativeButton(this.getString(R.string.dialog_delete_no), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    })
+                    .show();
         }
-        refresh();
         return res;
     }
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id)
     {
         super.onListItemClick(l, v, position, id);
-
-        //Log.i(L.TAG, "RestoreActivity.onListItemClick()");
 
         restoreFile = adapter.getItem(position);
 
@@ -144,7 +152,6 @@ public class RestoreDbActivity extends ListActivity{
         }
         catch(Exception e)
         {
-            //Log.e(L.TAG, "Error testing user selected restore DB", e);
             Toast t = Toast.makeText(this, R.string.restoreToastInvalidDB, Toast.LENGTH_LONG);
             t.show();
         }
@@ -171,10 +178,6 @@ public class RestoreDbActivity extends ListActivity{
 
     private void doRestore()
     {
-        //Log.i(L.TAG, "RestoreActivity.doRestore() called");
-
-        // Flush the database update queue
-        //SimplyDoActivity.getInstance().getDataVeiwer().flush();
 
         String state = Environment.getExternalStorageState();
         if (!Environment.MEDIA_MOUNTED.equals(state))
@@ -204,7 +207,6 @@ public class RestoreDbActivity extends ListActivity{
         try
         {
             // copy new file into place
-            //SettingsActivity.fileCopy(restoreFile.file, dbFile);
             NotesBDD noteBdd = new NotesBDD(null);
             noteBdd.importDB(restoreFile.file);
 
@@ -217,8 +219,6 @@ public class RestoreDbActivity extends ListActivity{
             dbFile.delete();
             dbBakFile.renameTo(dbFile);
 
-            //Log.e(L.TAG,  "Failed to copy restore database into place", e);
-
             Toast.makeText(
                     this,
                     R.string.restoreToastCopyFailed,
@@ -226,9 +226,6 @@ public class RestoreDbActivity extends ListActivity{
             ).show();
             return;
         }
-
-        //SimplyDoActivity.getInstance().getDataVeiwer().invalidateCache();
-        //SimplyDoActivity.getInstance().cacheInvalidated();
 
         Toast.makeText(
                 this,
@@ -257,5 +254,4 @@ public class RestoreDbActivity extends ListActivity{
             return name.substring(0, name.length() - EXTENSION.length());
         }
     }
-
 }
