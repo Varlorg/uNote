@@ -60,9 +60,9 @@ public class Note
         return this.note;
     }
 
-    public String getNoteHead()
+    public String getNoteHead(int nb_char)
     {
-        final int MAX = 30;
+        int MAX = nb_char;
         int min = Math.min(MAX,this.note.length());
         if (MAX < this.note.length())
             return this.note.substring(0, min)+ "...";
@@ -145,7 +145,7 @@ public class Note
     public String toString()
     {
     	//return (String) Html.fromHtml("<b>"+this.getTitre() + "</b> <br/>"+this.getNoteHead());
-    	return "Titre : "+titre+"\nNote : "+ this.getNoteHead() ;
+    	return "Titre : "+titre+"\nNote : "+ this.getNoteHead(30) ;
     	//return "Titre : "+titre+"\nNote : "+ note+"\nDate de création : " + dateCreation ;
         //return "ID : "+id+"\nTitre : "+titre+"\nNote : "+ note+"\nDate de création : " + dateCreation ;
     }

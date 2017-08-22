@@ -17,7 +17,15 @@ android:title="@string/preferences">
         android:summary="@string/pref_theme_sum"
         android:defaultValue="false"
     />
-    <CheckBoxPreference android:title="@string/pref_delete_confirmation" android:key="pref_del"
+	<EditTextPreference
+		android:key="pref_preview_char_limit"
+		android:inputType="number"
+		android:defaultValue="30"
+		android:maxLength="4"
+		android:summary="@string/pref_preview_limit_summary"
+		android:title="@string/pref_preview_limit"
+		/>
+	<CheckBoxPreference android:title="@string/pref_delete_confirmation" android:key="pref_del"
         android:defaultValue="True"
         />
     <CheckBoxPreference android:title="@string/pref_cancel_confirmation" android:key="pref_cancel"

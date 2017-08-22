@@ -35,6 +35,8 @@
 	<string name="pref_db">Base de donnée</string>
 	<string name="pref_export_db">Exporter la base de donnée</string>
 	<string name="pref_import_db">Importer une base de donnée</string>
+	<string name="pref_preview_limit">Limite de l\'aperçu</string>
+	<string name="pref_preview_limit_summary">Nombre de caractères lors de l\'aperçu</string>
 	<!--<string name="pref_clean_db">Vider la base de donnée (Supprime toutes les notes)</string>-->
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>
