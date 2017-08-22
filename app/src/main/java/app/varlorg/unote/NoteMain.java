@@ -463,7 +463,7 @@ public class NoteMain extends Activity
             String dateC = note.getDateCreation();
             String dateM = note.getDateModification();
             String noteDetails = new String ("<b>"+this.getString(R.string.detail_title) +": "+note.getTitre() +
-                    "</b> <br/>"+note.getNoteHead() +
+                    "</b> <br/>"+note.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit","30"))) +
                     "<br/>"+ this.getString(R.string.detail_nb_char)+" : " +note.getNote().length() +
                     "<br/><i>"+this.getString(R.string.detail_created) + " " + note.getDateCreationFormated()+"</i>");
             if (dateC.equals(dateM))
