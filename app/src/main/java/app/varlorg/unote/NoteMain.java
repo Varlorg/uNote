@@ -26,6 +26,7 @@ import android.view.*;//ViewGroup;
 import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.app.Instrumentation;
+import android.os.Parcelable;
 
 public class NoteMain extends Activity
 {
@@ -37,10 +38,39 @@ public class NoteMain extends Activity
     ArrayAdapter<Note> simpleAdpt;
     private EditText editsearch;
     private Button btnClear;
-    List<Note> listeNotes;
+    ArrayList<Note> listeNotes;
     //NotesBDD noteBdd;
     ListView lv;
     SharedPreferences pref;
+    Parcelable state;
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Save ListView state @ onPause
+        state = lv.onSaveInstanceState();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final NotesBDD noteBdd = new NotesBDD(this);
+        noteBdd.open();
+        listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+        noteBdd.close();
+        //listeNotes.addAll(listeNotes);
+        simpleAdpt.clear();
+        simpleAdpt.addAll(listeNotes);
+        simpleAdpt.notifyDataSetChanged();
+        if (pref.getBoolean("pref_scroll", false) == true && state != null )
+        {
+            lv.onRestoreInstanceState(state);
+        }else{
+            lv.setAdapter(simpleAdpt);
+        }
+
+     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

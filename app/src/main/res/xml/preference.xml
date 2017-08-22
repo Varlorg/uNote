@@ -31,6 +31,9 @@ android:title="@string/preferences">
     <CheckBoxPreference android:title="@string/pref_cancel_confirmation" android:key="pref_cancel"
         android:defaultValue="False"
         />
+	<CheckBoxPreference android:title="@string/pref_keep_position_scroll" android:key="pref_scroll"
+		android:defaultValue="False"
+		/>
     <ListPreference
         android:key="pref_tri"
         android:title="@string/pref_sort_by"

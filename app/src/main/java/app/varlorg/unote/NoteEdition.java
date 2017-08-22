@@ -98,11 +98,12 @@ public class NoteEdition extends Activity
 
     public void returnMain()
     {
-        Intent intent = new Intent(NoteEdition.this, NoteMain.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        startActivity(intent);
+        this.finish();
+        //Intent intent = new Intent(NoteEdition.this, NoteMain.class);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        //startActivity(intent);
     }
 
     public void quit(View v)

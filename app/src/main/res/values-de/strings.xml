@@ -38,6 +38,7 @@
     <string name="pref_import_db">Datenbank importieren</string>
     <string name="pref_preview_limit">Vorschau limit</string>
     <string name="pref_preview_limit_summary">Anzahl der Zeichen pro Note Vorschau</string>
+    <string name="pref_keep_position_scroll">Halten Sie die Scrollposition</string>
     <!--<string name="pref_clean_db">Datenbank leeren (Lösche alle Notizen)</string>-->
 
     <!-- Preference toasts' text"-->

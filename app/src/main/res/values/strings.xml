@@ -38,6 +38,7 @@
 	<string name="pref_import_db">Import database</string>
 	<string name="pref_preview_limit">Preview limit</string>
 	<string name="pref_preview_limit_summary">Number of characters per note previewed</string>
+	<string name="pref_keep_position_scroll">Keep scrolling position</string>
 	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
 
 	<!-- Preference toasts' text"-->
