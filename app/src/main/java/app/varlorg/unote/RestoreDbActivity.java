@@ -100,15 +100,15 @@ public class RestoreDbActivity extends ListActivity{
     public void onCreateContextMenu(android.view.ContextMenu menu, View v,android.view.ContextMenu.ContextMenuInfo menuInfo)
     {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Backup Option");
-        menu.add(0, v.getId(), 0, "Delete this backup");
+        menu.setHeaderTitle((this.getString(R.string.dialog_backup_menu)));
+        menu.add(0, v.getId(), 0, (this.getString(R.string.dialog_backup_menu_deletion)));
     }
     @Override
     public boolean onContextItemSelected(MenuItem item)
     {
         AdapterView.AdapterContextMenuInfo aInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         boolean res= false;
-        if(item.getTitle().equals("Delete this backup")){//+ adapter.getItem(aInfo.position).toString())) {
+        if(item.getTitle().equals((this.getString(R.string.dialog_backup_menu_deletion)))){
             restoreFile = adapter.getItem(aInfo.position);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
@@ -119,7 +119,7 @@ public class RestoreDbActivity extends ListActivity{
                         public void onClick(DialogInterface dialog, int id) {
                             restoreFile.file.delete();
                             refresh();
-                            (Toast.makeText(RestoreDbActivity.this, "Backup deleted" , Toast.LENGTH_LONG)).show();
+                            (Toast.makeText(RestoreDbActivity.this, RestoreDbActivity.this.getString(R.string.toast_backup_deleted) , Toast.LENGTH_LONG)).show();
 
                         }
                     })

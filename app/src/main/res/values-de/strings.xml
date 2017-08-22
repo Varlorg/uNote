@@ -86,7 +86,20 @@
     <string name="dialog_add_pwd_cancel">Abbrechen</string>
     <string name="toast_pwd_added">Passwort hinzugefügt !</string>
 
+    <string name="restoreWarnTitle">Datenbank wiederherstellen</string>
+    <string name="restoreWarnMessage">Dadurch werden alle vorhandenen Notizen überschrieben. Fortsetzen ?</string>
+    <string name="restoreWarnPositive">Ja</string>
+    <string name="restoreWarnNegative">Nein</string>
+    <string name="restoreToastInvalidDB">Diese Datenbank war ungültig oder beschädigt! Nicht wiederhergestellt.</string>
+    <string name="restoreToastMountProblem">Medien nicht montiert oder schreibgeschützt</string>
+    <string name="restoreToastUnableToMove">Kann die alte Datenbank nicht aus dem Weg ziehen.</string>
+    <string name="restoreToastCopyFailed">Konnte die Datenbank nicht wiederherstellen. Nichts restauriert.</string>
+    <string name="restoreToastRestoreFinished">Datenbank wiederhergestellt.</string>
 
+    <string name="dialog_backup_menu">Datensicherung menu</string>
+    <string name="dialog_backup_menu_deletion">Datensicherung wird gelöscht</string>
+    <string name="dialog_delete_backup">Datensicherung wird gelöscht</string>
+    <string name="toast_backup_deleted">Datensicherung deleted</string>
 
     <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>

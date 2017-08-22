@@ -88,5 +88,18 @@
 	<string name="dialog_add_pwd_cancel">Annuler</string>
 	<string name="toast_pwd_added">Mot de passe ajouté/changé !</string>
 
+	<string name="restoreWarnTitle">Restaure la base de données</string>
+	<string name="restoreWarnMessage">Cette opération écrasera toutes les notes existantes. Continuer ?</string>
+	<string name="restoreWarnPositive">Oui</string>
+	<string name="restoreWarnNegative">Non</string>
+	<string name="restoreToastInvalidDB">Base de données invalide ou corrompue! Non restaurée.</string>
+	<string name="restoreToastMountProblem">Media non monté ou en lecture seule</string>
+	<string name="restoreToastUnableToMove">Impossible de retirer l\'ancienne base de données.</string>
+	<string name="restoreToastCopyFailed">Échec de restauration de la base de données</string>
+	<string name="restoreToastRestoreFinished">Base de données restaurée.</string>
 
+	<string name="dialog_backup_menu">Sauvegarde option</string>
+	<string name="dialog_backup_menu_deletion">Supprimer cette sauvegarde</string>
+	<string name="dialog_delete_backup">Suppression de la sauvegarde</string>
+	<string name="toast_backup_deleted">Sauvegarde supprimée</string>
 </resources>

@@ -86,8 +86,20 @@
 	<string name="dialog_add_pwd_cancel">Cancelar</string>
 	<string name="toast_pwd_added">¡Contraseña añadida!</string>
 
+	<string name="restoreWarnTitle">Restaurar dase de datos</string>
+	<string name="restoreWarnMessage">Esta acción va sobrescribir todas las notas. Continuar?</string>
+	<string name="restoreWarnPositive">Si</string>
+	<string name="restoreWarnNegative">No</string>
+	<string name="restoreToastInvalidDB">Base de datos invalida o corruptada! No restaurada.</string>
+	<string name="restoreToastMountProblem">Media nomontados o de sólo lectura</string>
+	<string name="restoreToastUnableToMove">No se puede eliminar la antigua base de datos.</string>
+	<string name="restoreToastCopyFailed">Fracaso de la restauraciónto. Nada restaurado.</string>
+	<string name="restoreToastRestoreFinished">Base de datos restaurada.</string>
 
-
+	<string name="dialog_backup_menu">Opción de respaldo</string>
+	<string name="dialog_backup_menu_deletion">Eliminar este respaldo</string>
+	<string name="dialog_delete_backup">Eliminando respaldo</string>
+	<string name="toast_backup_deleted">Respaldo eliminado</string>
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>
 	<string name="text_view"> </string>-->
