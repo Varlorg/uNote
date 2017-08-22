@@ -21,6 +21,7 @@ android:title="@string/preferences">
 		android:key="pref_preview_char_limit"
 		android:inputType="number"
 		android:defaultValue="30"
+		android:maxLength="4"
 		android:summary="@string/pref_preview_limit_summary"
 		android:title="@string/pref_preview_limit"
 		/>
