@@ -89,7 +89,20 @@
 	<string name="dialog_add_pwd_cancel">Cancel</string>
 	<string name="toast_pwd_added">Password added !</string>
 
+	<string name="restoreWarnTitle">Restore database</string>
+	<string name="restoreWarnMessage">This will overwrite all the existing notes. Continue?</string>
+	<string name="restoreWarnPositive">Yes</string>
+	<string name="restoreWarnNegative">No</string>
+	<string name="restoreToastInvalidDB">That database was invalid or corrupted! Not restored.</string>
+	<string name="restoreToastMountProblem">Media not mounted or read-only</string>
+	<string name="restoreToastUnableToMove">Unable to move old database out of the way.</string>
+	<string name="restoreToastCopyFailed">Failed to restore database into place. Nothing restored.</string>
+	<string name="restoreToastRestoreFinished">Database restored.</string>
 
+	<string name="dialog_backup_menu">Backup Option</string>
+	<string name="dialog_backup_menu_deletion">Delete this backup</string>
+	<string name="dialog_delete_backup">Delete Backup</string>
+	<string name="toast_backup_deleted">Backup deleted</string>
 
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>

@@ -48,6 +48,9 @@ public class Preference extends PreferenceActivity {
             @Override
             public boolean onPreferenceClick(
                 android.preference.Preference arg0) {
+                Intent restoreActivity = new Intent(getBaseContext(), RestoreDbActivity.class);
+                startActivity(restoreActivity);
+                /*
                 NotesBDD noteBdd = new NotesBDD(null);
                 String path = noteBdd.importDB();
                 //Toast.makeText(Preference.this, "Database imported from "+ path + " ! ", Toast.LENGTH_LONG).show();
@@ -58,10 +61,15 @@ public class Preference extends PreferenceActivity {
                 else {
                     result_importdb = Preference.this.getString(R.string.toast_import_no_db);
                 }
-                Toast.makeText(Preference.this, result_importdb, Toast.LENGTH_LONG).show();
+                Toast.makeText(Preference.this, result_importdb, Toast.LENGTH_LONG).show();*/
                 return false;
             }
+
+
         });
+
+
+
         /*android.preference.Preference buttonDelete = findPreference("buttonDelete");
         buttonDelete.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener() {
             @Override
