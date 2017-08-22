@@ -36,6 +36,7 @@
 	<string name="pref_db">Base de datos</string>
 	<string name="pref_export_db">Exportar base de datos</string>
 	<string name="pref_import_db">Importar base de datos</string>
+	<string name="pref_keep_position_scroll">Guadar la posición de desplazándose</string>
 	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
 
 	<!-- Preference toasts' text"-->

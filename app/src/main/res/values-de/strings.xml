@@ -36,6 +36,7 @@
     <string name="pref_db">Datenbank</string>
     <string name="pref_export_db">Datenbank exportieren</string>
     <string name="pref_import_db">Datenbank importieren</string>
+    <string name="pref_keep_position_scroll">Halten Sie die Scrollposition</string>
     <!--<string name="pref_clean_db">Datenbank leeren (Lösche alle Notizen)</string>-->
 
     <!-- Preference toasts' text"-->
