@@ -30,6 +30,8 @@
 	<string name="pref_theme_sum">Tema claro u oscuro</string>
 	<string name="pref_delete_confirmation">Confirmación al borrar</string>
 	<string name="pref_cancel_confirmation">Confirmación al cancelar</string>
+	<string name="pref_cancel_confirmation_backButton">Cancelar con el botón de retorno</string>
+	<string name="pref_cancel_confirmation_backButton_summary">Forzar la confirmación al cancelar con el botón de retorno</string>
 	<string name="pref_sort">Ordenar de forma descendiente</string>
 	<string name="pref_sort_by">Ordenar por</string>
 	<string name="pref_text_size">Tamaño del texto</string>

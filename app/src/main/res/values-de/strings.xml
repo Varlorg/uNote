@@ -30,6 +30,8 @@
     <string name="pref_theme_sum">Helles oder dunkles Thema</string>
     <string name="pref_delete_confirmation">Bestätigung löschen</string>
     <string name="pref_cancel_confirmation">Bestätigung abbrechen</string>
+    <string name="pref_cancel_confirmation_backButton">Abbrechen met terugloopknop</string>
+    <string name="pref_cancel_confirmation_backButton_summary">Erzwingen der Stornierungsbestätigung mit der Zurück-Taste</string>
     <string name="pref_sort">Absteigende Sortierung</string>
     <string name="pref_sort_by">Sortieren nach</string>
     <string name="pref_text_size">Textgröße</string>

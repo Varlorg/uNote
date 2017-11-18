@@ -29,6 +29,8 @@
 	<string name="pref_theme_sum">Thème clair ou foncé</string>
 	<string name="pref_delete_confirmation">Confirmation de suppression</string>
 	<string name="pref_cancel_confirmation">Confirmation d\'annulation</string>
+	<string name="pref_cancel_confirmation_backButton">Annulation avec le touche retour</string>
+	<string name="pref_cancel_confirmation_backButton_summary">Forcer la confirmation d\'annulation avec le bouton retour</string>
 	<string name="pref_sort">Tri décroissant</string>
 	<string name="pref_sort_by">Trier par</string>
 	<string name="pref_text_size">Taille du texte</string>

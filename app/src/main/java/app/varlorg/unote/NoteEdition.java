@@ -138,4 +138,30 @@ public class NoteEdition extends Activity
             returnMain();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        if (pref.getBoolean("pref_cancel_back",false) == true) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder
+                    .setTitle(NoteEdition.this.getString(R.string.toast_titleCancel))
+                    .setMessage(NoteEdition.this.getString(R.string.toast_msgCancel))
+                    .setPositiveButton(NoteEdition.this.getString(R.string.toast_positiveButton), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            NoteEdition.this.finish();
+                            returnMain();
+                        }
+                    })
+                    .setNegativeButton(NoteEdition.this.getString(R.string.toast_negativeButton), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    })
+                    .show();
+        }else {
+            this.quit(this.findViewById(id));
+        }
+    }
 }
