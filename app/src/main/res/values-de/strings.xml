@@ -22,6 +22,7 @@
     <string name="preferences">Präferenzen</string>
     <string name="pref_search">Suche im Inhalt</string>
     <string name="pref_search_sum">Suche auch in dem Notizen\' Inhalt aber nicht in passwortgeschützten Notizen</string>
+    <string name="pref_sensitive_search">Fallsensitive Forschung</string>
     <string name="pref_date">Erstellungsdatum</string>
     <string name="pref_date_sum">Zeige Erstellungsdatum</string>
     <string name="pref_date_mod">Änderungsdatum</string>

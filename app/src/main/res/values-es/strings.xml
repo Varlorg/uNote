@@ -22,6 +22,7 @@
 	<string name="preferences">Preferencias</string>
 	<string name="pref_search">Buscar en el contenido</string>
 	<string name="pref_search_sum">Buscar en el contenido de las notas a menos que estén protegidas por contraseña</string>
+	<string name="pref_sensitive_search">Búsqueda sensible al caso </string>
 	<string name="pref_date">Fecha de creación</string>
 	<string name="pref_date_sum">Mostrar fecha de creación</string>
 	<string name="pref_date_mod">Fecha de modificación</string>

@@ -193,22 +193,31 @@ public class NotesBDD
         return noteList;
     }
 
-    public ArrayList<Note> getSearchedNotes(String str, Boolean contentSearch)
+    public ArrayList<Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch)
     {
         ArrayList<Note> noteList = new ArrayList<Note>();
         // Select All Query
         SQLiteDatabase db = this.maBaseSQLite.getWritableDatabase();
         String selectQuery = null;
-        if(contentSearch == false){
-        	selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE " +COL_TITRE + " LIKE  \"%" + str+ "%\" ORDER BY ID DESC";
+        if (sensitiveSearch == true) {
+            db.rawQuery("PRAGMA case_sensitive_like=ON;", null);
+        }
+        else {
+            db.rawQuery("PRAGMA case_sensitive_like=OFF;", null);
+        }
+
+        selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE ";
+        if(contentSearch == false) {
+                selectQuery += COL_TITRE + " LIKE  \"%" + str + "%\" ";
         }
         else
         {
-        	selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE " +COL_TITRE + " LIKE  \"%" + str+ "%\"" +" OR ("  +COL_NOTE + " LIKE  \"%" + str+ "%\" AND "+ COL_PASSWORD +" IS NULL) ORDER BY ID DESC";
+                selectQuery += COL_TITRE + " LIKE  \"%" + str + "%\"" +" OR ( "  + COL_NOTE + " LIKE  \"%" + str + "%\" AND "+ COL_PASSWORD +" IS NULL) ";
         }
+        selectQuery += " ORDER BY ID DESC";
         //Log.i("Requete", selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
-        
+
         // looping through all rows and adding to list
         if (c.moveToFirst())
         {

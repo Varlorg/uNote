@@ -5,6 +5,9 @@ android:title="@string/preferences">
 	android:summary="@string/pref_search_sum"
 	android:defaultValue="false"
 	 />
+	<CheckBoxPreference android:title="@string/pref_sensitive_search" android:key="sensitiveSearch"
+		android:defaultValue="true"
+		/>
 	 <CheckBoxPreference android:title="@string/pref_date" android:key="pref_date"
 	android:summary="@string/pref_date_sum"
 	android:defaultValue="false"

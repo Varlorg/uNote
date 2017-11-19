@@ -196,8 +196,8 @@ public class NoteMain extends Activity
 
             @Override
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                String text = editsearch.getText().toString().toLowerCase(Locale.getDefault());
-                ArrayList<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, pref.getBoolean("contentSearch", false));
+                String text = editsearch.getText().toString();
+                ArrayList<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, pref.getBoolean("contentSearch", false),pref.getBoolean("sensitiveSearch", false));
                 simpleAdpt = new ArrayAdapter<Note>	(getApplicationContext(), R.layout.notelist, listeNotesRecherche ){
                     public View getView(int position, View view, ViewGroup viewGroup)
                     {
