@@ -29,10 +29,10 @@ android:title="@string/preferences">
         android:defaultValue="True"
         />
     <CheckBoxPreference android:title="@string/pref_cancel_confirmation" android:key="pref_cancel"
-        android:defaultValue="False"
+        android:defaultValue="True"
         />
 	<CheckBoxPreference android:title="@string/pref_cancel_confirmation_backButton" android:key="pref_cancel_back"
-		android:defaultValue="False"
+		android:defaultValue="True"
 		android:summary="@string/pref_cancel_confirmation_backButton_summary"
 		/>
 	<CheckBoxPreference android:title="@string/pref_keep_position_scroll" android:key="pref_scroll"
