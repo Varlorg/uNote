@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,7 +24,11 @@ public class NoteEdition extends Activity
     boolean edit = false;
     int id = 0;
     SharedPreferences pref;
-    
+    private EditText titre;
+    private EditText note;
+    private TextView noteT;
+    private TextView titreT;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -35,20 +41,50 @@ public class NoteEdition extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noteedition);
 
-        EditText titre = (EditText) findViewById(R.id.TitreNoteEdition);
-        EditText note = (EditText) findViewById(R.id.NoteEdition);
-        TextView noteT = (TextView) findViewById(R.id.NoteEditionTitre);
-        TextView titreT = (TextView) findViewById(R.id.TitreNote);
+        titre = (EditText) findViewById(R.id.TitreNoteEdition);
+        note = (EditText) findViewById(R.id.NoteEdition);
+        noteT = (TextView) findViewById(R.id.NoteEditionTitre);
+        titreT = (TextView) findViewById(R.id.TitreNote);
 
         Intent intent = getIntent();
-        if (intent != null)
-        {
+        if (intent != null) {
             titre.setText(intent.getStringExtra(EXTRA_TITLE));
             note.setText(intent.getStringExtra(EXTRA_NOTE));
-            edit = intent.getBooleanExtra(EXTRA_EDITION,false);
-            id = intent.getIntExtra(EXTRA_ID,0);
-         }
+            edit = intent.getBooleanExtra(EXTRA_EDITION, false);
+            id = intent.getIntExtra(EXTRA_ID, 0);
+            titre.setTag(null);
+            note.setTag(null);
+            titre.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void afterTextChanged(Editable arg0) {
+                }
 
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1,
+                                              int arg2, int arg3) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                    titre.setTag("modified");
+                }
+            });
+            note.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void afterTextChanged(Editable arg0) {
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1,
+                                              int arg2, int arg3) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                    note.setTag("modified");
+                }
+            });
+        }
         titre.setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
         note.setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
         titreT.setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
@@ -110,7 +146,7 @@ public class NoteEdition extends Activity
     {
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (pref.getBoolean("pref_cancel",false) == true) {
+        if ( ( note.getTag() != null || titre.getTag() != null ) && pref.getBoolean("pref_cancel",false) == true) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
                     //.setTitle("Cancel modification")
@@ -141,7 +177,7 @@ public class NoteEdition extends Activity
 
     @Override
     public void onBackPressed() {
-        if (pref.getBoolean("pref_cancel_back",false) == true) {
+        if ( ( note.getTag() != null || titre.getTag() != null ) && pref.getBoolean("pref_cancel_back",false) == true) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
                     .setTitle(NoteEdition.this.getString(R.string.toast_titleCancel))
