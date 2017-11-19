@@ -22,12 +22,20 @@ before_script:
 
 stages:
   - build
-  - test
+  - release
 
 build:
   stage: build
   script:
     - ./gradlew assembleDebug
+  artifacts:
+    paths:
+    - app/build/outputs/
+
+release:
+  stage: release
+  script:
+    - ./gradlew assembleRelease
   artifacts:
     paths:
     - app/build/outputs/
