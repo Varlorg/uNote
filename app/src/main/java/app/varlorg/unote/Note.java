@@ -22,6 +22,8 @@ public class Note
         String date = df.format(Calendar.getInstance().getTime());
         this.dateCreation = date;
         this.dateModification = date;
+        this.note = "";
+        this.titre = "";
     }
 
     public Note(String t, String c)
