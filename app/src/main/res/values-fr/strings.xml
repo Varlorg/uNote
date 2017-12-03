@@ -20,7 +20,7 @@
 	<!-- Preferences text -->
 	<string name="preferences">Préferences</string>
 	<string name="pref_search">Rechercher dans le contenu</string>
-	<string name="pref_search_sum">Rechercher aussi dans le contenu des notes sauf celles protégé par mot de passe</string>
+	<string name="pref_search_sum">Rechercher aussi dans le contenu des notes sauf celles protégées par mot de passe</string>
 	<string name="pref_sensitive_search">Recherche sensible à la casse</string>
 	<string name="pref_date">Date de création</string>
 	<string name="pref_date_sum">Afficher date de création</string>
