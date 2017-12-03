@@ -156,9 +156,11 @@ public class NotesBDD
         else if (tri == 2){
         	selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY " + COL_DATEMODIFICATION +" ");
         }
-        else 
-        {
-        	selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY " + COL_TITRE +" ");
+        else if (tri == 3){
+            selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY " + COL_TITRE + " ");
+        }
+        else {
+            selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY " + COL_TITRE +" COLLATE NOCASE ");
         }
         
         if(ordre == false)
@@ -193,7 +195,7 @@ public class NotesBDD
         return noteList;
     }
 
-    public ArrayList<Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch)
+    public ArrayList<Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch, int tri,boolean ordre)
     {
         ArrayList<Note> noteList = new ArrayList<Note>();
         // Select All Query
@@ -214,7 +216,26 @@ public class NotesBDD
         {
                 selectQuery += COL_TITRE + " LIKE  \"%" + str + "%\"" +" OR ( "  + COL_NOTE + " LIKE  \"%" + str + "%\" AND "+ COL_PASSWORD +" IS NULL) ";
         }
-        selectQuery += " ORDER BY ID DESC";
+
+        if (tri == 1){
+            //selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY ID ");
+            selectQuery += " ORDER BY " + COL_DATECREATION +" ";
+        }
+        else if (tri == 2){
+            selectQuery += " ORDER BY " + COL_DATEMODIFICATION +" ";
+        }
+        else if (tri == 3){
+            selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY " + COL_TITRE + " ");
+        }
+        else {
+            selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY " + COL_TITRE +" COLLATE NOCASE ");
+        }
+
+        if(ordre == false)
+        {
+            selectQuery += " DESC";
+        }
+
         //Log.i("Requete", selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
 
