@@ -174,7 +174,12 @@ public class NoteMain extends Activity
         
      // we register for the contextmneu       
         registerForContextMenu(lv);
-               
+
+        final CheckBox cbSearchContent = (CheckBox) findViewById(R.id.search_content_cb);
+        final CheckBox cbSearchCase = (CheckBox) findViewById(R.id.search_case_cb);
+        cbSearchContent.setChecked(pref.getBoolean("contentSearch", false));
+        cbSearchCase.setChecked(pref.getBoolean("contentSearch", false));
+
         // Locate the EditText in listview_main.xml
         editsearch = (EditText) findViewById(R.id.search);
         editsearch.setVisibility(View.GONE);
@@ -197,7 +202,7 @@ public class NoteMain extends Activity
             @Override
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
                 String text = editsearch.getText().toString();
-                ArrayList<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, pref.getBoolean("contentSearch", false),pref.getBoolean("sensitiveSearch", false), Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+                ArrayList<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text,cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
                 simpleAdpt = new ArrayAdapter<Note>	(getApplicationContext(), R.layout.notelist, listeNotesRecherche ){
                     public View getView(int position, View view, ViewGroup viewGroup)
                     {
@@ -210,7 +215,41 @@ public class NoteMain extends Activity
                 //simpleAdpt.notifyDataSetChanged();
             }
         });
-        btnClear = (Button)findViewById(R.id.btn_clear);
+
+        cbSearchContent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                String text = editsearch.getText().toString();
+                ArrayList<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, isChecked, !cbSearchCase.isChecked(), Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+                simpleAdpt = new ArrayAdapter<Note>(getApplicationContext(), R.layout.notelist, listeNotesRecherche) {
+                    public View getView(int position, View view, ViewGroup viewGroup) {
+                        view = super.getView(position, view, viewGroup);
+                        Note n = (Note) this.getItem(position);
+                        return getViewCustom(position, view, viewGroup, n);
+                    }
+                };
+                lv.setAdapter(simpleAdpt);
+            }
+        });
+
+
+        cbSearchCase.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                String text = editsearch.getText().toString();
+                ArrayList<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !isChecked,  Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+                simpleAdpt = new ArrayAdapter<Note>(getApplicationContext(), R.layout.notelist, listeNotesRecherche) {
+                    public View getView(int position, View view, ViewGroup viewGroup) {
+                        view = super.getView(position, view, viewGroup);
+                        Note n = (Note) this.getItem(position);
+                        return getViewCustom(position, view, viewGroup, n);
+                    }
+                };
+                lv.setAdapter(simpleAdpt);
+            }
+        });
+
+        btnClear = (Button) findViewById(R.id.btn_clear);
         //set on text change listener for edittext
         editsearch.addTextChangedListener(textWatcher());
         //set event for clear button
@@ -581,10 +620,18 @@ public class NoteMain extends Activity
                 if(editsearch.getVisibility() == View.VISIBLE)
                 {
                     editsearch.setVisibility(View.GONE);
-                }
-                else
-                {
+                    CheckBox cbSearchCase = (CheckBox) findViewById(R.id.search_case_cb);
+                    CheckBox cbSearchContent = (CheckBox) findViewById(R.id.search_content_cb);
+                    cbSearchCase.setVisibility(View.GONE);
+                    cbSearchContent.setVisibility(View.GONE);
+                } else {
                     editsearch.setVisibility(View.VISIBLE);
+                    CheckBox cbSearchCase = (CheckBox) findViewById(R.id.search_case_cb);
+                    CheckBox cbSearchContent = (CheckBox) findViewById(R.id.search_content_cb);
+                    cbSearchCase.setVisibility(View.VISIBLE);
+                    cbSearchContent.setVisibility(View.VISIBLE);
+                    cbSearchCase.setChecked(!pref.getBoolean("sensitiveSearch", false));
+                    cbSearchContent.setChecked(pref.getBoolean("contentSearch", false));
                 }
                 return true;
             case KeyEvent.KEYCODE_MENU:
