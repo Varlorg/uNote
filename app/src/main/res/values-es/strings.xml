@@ -20,9 +20,13 @@
 
 	<!-- Preferences text -->
 	<string name="preferences">Preferencias</string>
+	<string name="pref_cat_search">Búsqueda</string>
+	<string name="pref_cat_display">Visualización</string>
+	<string name="pref_cat_confirmation">Borrar y cancelar comportamiento</string>
 	<string name="pref_search">Buscar en el contenido</string>
 	<string name="pref_search_sum">Buscar en el contenido de las notas a menos que estén protegidas por contraseña</string>
 	<string name="pref_sensitive_search">Búsqueda sensible al caso </string>
+	<string name="cb_sensitive_search">Insensible al caso</string>
 	<string name="pref_date">Fecha de creación</string>
 	<string name="pref_date_sum">Mostrar fecha de creación</string>
 	<string name="pref_date_mod">Fecha de modificación</string>
