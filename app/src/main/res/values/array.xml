@@ -22,7 +22,7 @@
         <string-array name="tri">
         <item>Creation Date</item>
         <item>Modification Date</item>
-        <item>Title (case sensitive</item>
+        <item>Title (case sensitive)</item>
         <item>Title (case insensitive)</item>
     </string-array>
     <string-array name="triValeur">
