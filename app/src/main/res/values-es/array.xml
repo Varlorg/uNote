@@ -22,11 +22,13 @@
         <string-array name="tri">
         <item>Fecha de creación</item>
         <item>Fecha de modificación</item>
-        <item>Título</item>
+        <item>Título (sensible a mayúsculas)</item>
+        <item>Título (insensible a mayúsculas)</item>
     </string-array>
     <string-array name="triValeur">
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
     </string-array>
 </resources>
