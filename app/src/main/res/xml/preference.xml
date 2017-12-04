@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" 
 android:title="@string/preferences">
+	<PreferenceCategory
+		android:title="Search">
 	 <CheckBoxPreference android:title="@string/pref_search" android:key="contentSearch"
 	android:summary="@string/pref_search_sum"
 	android:defaultValue="false"
@@ -8,6 +10,9 @@ android:title="@string/preferences">
 	<CheckBoxPreference android:title="@string/pref_sensitive_search" android:key="sensitiveSearch"
 		android:defaultValue="true"
 		/>
+	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="Dispay">
 	 <CheckBoxPreference android:title="@string/pref_date" android:key="pref_date"
 	android:summary="@string/pref_date_sum"
 	android:defaultValue="false"
@@ -28,35 +33,39 @@ android:title="@string/preferences">
 		android:summary="@string/pref_preview_limit_summary"
 		android:title="@string/pref_preview_limit"
 		/>
+		<CheckBoxPreference android:title="@string/pref_keep_position_scroll" android:key="pref_scroll"
+			android:defaultValue="False"
+			/>
+		<ListPreference
+			android:key="pref_tri"
+			android:title="@string/pref_sort_by"
+			android:defaultValue="1"
+			android:entries="@array/tri"
+			android:entryValues="@array/triValeur" />
+		<CheckBoxPreference android:title="@string/pref_sort" android:key="pref_ordretri"
+			android:defaultValue="false"
+			/>
+		<ListPreference
+			android:key="pref_sizeNote"
+			android:title="@string/pref_text_size"
+			android:defaultValue="18"
+			android:entries="@array/textSize"
+			android:entryValues="@array/textSizeValues" />
+	</PreferenceCategory>
+
+	<PreferenceCategory
+		android:title="Confirmation popup">
 	<CheckBoxPreference android:title="@string/pref_delete_confirmation" android:key="pref_del"
-        android:defaultValue="True"
-        />
-    <CheckBoxPreference android:title="@string/pref_cancel_confirmation" android:key="pref_cancel"
-        android:defaultValue="True"
-        />
+		android:defaultValue="True"
+		/>
+	<CheckBoxPreference android:title="@string/pref_cancel_confirmation" android:key="pref_cancel"
+		android:defaultValue="True"
+		/>
 	<CheckBoxPreference android:title="@string/pref_cancel_confirmation_backButton" android:key="pref_cancel_back"
 		android:defaultValue="True"
 		android:summary="@string/pref_cancel_confirmation_backButton_summary"
 		/>
-	<CheckBoxPreference android:title="@string/pref_keep_position_scroll" android:key="pref_scroll"
-		android:defaultValue="False"
-		/>
-    <ListPreference
-        android:key="pref_tri"
-        android:title="@string/pref_sort_by"
-        android:defaultValue="1"
-        android:entries="@array/tri"
-        android:entryValues="@array/triValeur" />
-	 <CheckBoxPreference android:title="@string/pref_sort" android:key="pref_ordretri"
-	    android:defaultValue="false"
-	 />
-    <ListPreference
-        android:key="pref_sizeNote"
-        android:title="@string/pref_text_size"
-        android:defaultValue="18"
-        android:entries="@array/textSize"
-        android:entryValues="@array/textSizeValues" />
-
+	</PreferenceCategory>
     <PreferenceCategory
         android:title="@string/pref_db">
         <Preference android:title="@string/pref_export_db"
