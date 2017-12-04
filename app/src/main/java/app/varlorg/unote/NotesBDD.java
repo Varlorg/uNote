@@ -147,20 +147,20 @@ public class NotesBDD
     public ArrayList<Note> getAllNotes(int tri, boolean ordre)
     {
         ArrayList<Note> noteList = new ArrayList<Note>();
-        String selectQuery= null;
+        String selectQuery= new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY ");
         // Select All Query
         if (tri == 1){
         	//selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY ID ");
-        	selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY " + COL_DATECREATION +" ");
+        	selectQuery += COL_DATECREATION + " ";
         }
         else if (tri == 2){
-        	selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY " + COL_DATEMODIFICATION +" ");
+        	selectQuery += COL_DATEMODIFICATION + " ";
         }
         else if (tri == 3){
-            selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY " + COL_TITRE + " ");
+            selectQuery += COL_TITRE + " ";
         }
         else {
-            selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY " + COL_TITRE +" COLLATE NOCASE ");
+            selectQuery += COL_TITRE + " COLLATE NOCASE ";
         }
         
         if(ordre == false)
@@ -225,10 +225,10 @@ public class NotesBDD
             selectQuery += " ORDER BY " + COL_DATEMODIFICATION +" ";
         }
         else if (tri == 3){
-            selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY " + COL_TITRE + " ");
+            selectQuery +=  " ORDER BY " + COL_TITRE + " ";
         }
         else {
-            selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY " + COL_TITRE +" COLLATE NOCASE ");
+            selectQuery +=  " ORDER BY " + COL_TITRE +" COLLATE NOCASE ";
         }
 
         if(ordre == false)
