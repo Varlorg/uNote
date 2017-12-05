@@ -619,6 +619,9 @@ public class NoteMain extends Activity
             case KeyEvent.KEYCODE_SEARCH:
                 if(editsearch.getVisibility() == View.VISIBLE)
                 {
+                    //Clear research text
+                    editsearch.setText("");
+                    
                     editsearch.setVisibility(View.GONE);
                     CheckBox cbSearchCase = (CheckBox) findViewById(R.id.search_case_cb);
                     CheckBox cbSearchContent = (CheckBox) findViewById(R.id.search_content_cb);
