@@ -624,6 +624,8 @@ public class NoteMain extends Activity
                     CheckBox cbSearchContent = (CheckBox) findViewById(R.id.search_content_cb);
                     cbSearchCase.setVisibility(View.GONE);
                     cbSearchContent.setVisibility(View.GONE);
+                    Button btn_clear = (Button) findViewById(R.id.btn_clear);
+                    btn_clear.setVisibility(View.GONE);
                 } else {
                     editsearch.setVisibility(View.VISIBLE);
                     CheckBox cbSearchCase = (CheckBox) findViewById(R.id.search_case_cb);
@@ -632,6 +634,8 @@ public class NoteMain extends Activity
                     cbSearchContent.setVisibility(View.VISIBLE);
                     cbSearchCase.setChecked(!pref.getBoolean("sensitiveSearch", false));
                     cbSearchContent.setChecked(pref.getBoolean("contentSearch", false));
+                    Button btn_clear = (Button) findViewById(R.id.btn_clear);
+                    btn_clear.setVisibility(View.VISIBLE);
                 }
                 return true;
             case KeyEvent.KEYCODE_MENU:
