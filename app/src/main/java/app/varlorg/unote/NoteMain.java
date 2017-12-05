@@ -57,7 +57,15 @@ public class NoteMain extends Activity
 
         final NotesBDD noteBdd = new NotesBDD(this);
         noteBdd.open();
-        listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+        String text = editsearch.getText().toString();
+
+        if (text.equals("") )
+        {
+            listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+        }
+        else {
+            listeNotes = noteBdd.getSearchedNotes(text,true, true, Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+        }
         noteBdd.close();
         //listeNotes.addAll(listeNotes);
         simpleAdpt.clear();
