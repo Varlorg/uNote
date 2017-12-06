@@ -283,7 +283,7 @@ public class NotesBDD
         File data = Environment.getDataDirectory();
         FileChannel source=null;
         FileChannel destination=null;
-        String currentDBPath = "/data/"+ "app.varlorg.unote" +"/databases/"+ NOM_BDD;
+        String currentDBPath = "/data/"+ BuildConfig.APPLICATION_ID +"/databases/"+ NOM_BDD;
         String backupDBPath = "app.varlorg.unote/" + "unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) + ".db";
         File currentDB = new File(data, currentDBPath);
         File backupDirDB = new File(sd, "app.varlorg.unote" );
@@ -315,7 +315,7 @@ public class NotesBDD
         File data = Environment.getDataDirectory();
         FileChannel source=null;
         FileChannel destination=null;
-        String currentDBPath = "/data/"+ "app.varlorg.unote" +"/databases/"+ NOM_BDD;
+        String currentDBPath = "/data/"+ BuildConfig.APPLICATION_ID  +"/databases/"+ NOM_BDD;
         String newDBPath = "app.varlorg.unote/" + NOM_BDD;
         File currentDB = new File(data, currentDBPath);
         File newDirDB = new File(sd, "app.varlorg.unote" );
@@ -349,7 +349,7 @@ public class NotesBDD
         File data = Environment.getDataDirectory();
         FileChannel source=null;
         FileChannel destination=null;
-        String currentDBPath = "/data/"+ "app.varlorg.unote" +"/databases/"+ NOM_BDD;
+        String currentDBPath = "/data/"+ BuildConfig.APPLICATION_ID  +"/databases/"+ NOM_BDD;
         File currentDB = new File(data, currentDBPath);
 
         if (dbToImport.exists()) {
