@@ -645,8 +645,7 @@ public class NoteMain extends Activity
                     cbSearchContent.setVisibility(View.VISIBLE);
                     cbSearchCase.setChecked(!pref.getBoolean("sensitiveSearch", false));
                     cbSearchContent.setChecked(pref.getBoolean("contentSearch", false));
-                    Button btn_clear = (Button) findViewById(R.id.btn_clear);
-                    btn_clear.setVisibility(View.VISIBLE);
+                    // Button btn_clear is display only when text is typed
                 }
                 return true;
             case KeyEvent.KEYCODE_MENU:
