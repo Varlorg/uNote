@@ -17,13 +17,13 @@ public class Preference extends PreferenceActivity {
         SharedPreferences         pref = PreferenceManager.getDefaultSharedPreferences(this);
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= Build.VERSION_CODES.ICE_CREAM_SANDWICH){
-            if (pref.getBoolean("pref_theme",false) == false) {
+            if (!pref.getBoolean("pref_theme",false)) {
                 setTheme(android.R.style.Theme_DeviceDefault);
             } else {
                 setTheme(android.R.style.Theme_DeviceDefault_Light);
             }
         } else{
-            if (pref.getBoolean("pref_theme",false) == false) {
+            if (!pref.getBoolean("pref_theme",false)) {
                 setTheme(android.R.style.Theme_Black);
             } else {
                 setTheme(android.R.style.Theme_Light);
