@@ -38,7 +38,6 @@ public class Preference extends PreferenceActivity {
                     android.preference.Preference arg0) {
                 NotesBDD noteBdd = new NotesBDD(null);
                 String path = noteBdd.exportDB();
-                //Toast.makeText(Preference.this, "Database exported in "+ path + " ! ", Toast.LENGTH_LONG).show();
                 Toast.makeText(Preference.this, Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ", Toast.LENGTH_LONG).show();
                 return false;
             }
@@ -50,37 +49,11 @@ public class Preference extends PreferenceActivity {
                 android.preference.Preference arg0) {
                 Intent restoreActivity = new Intent(getBaseContext(), RestoreDbActivity.class);
                 startActivity(restoreActivity);
-                /*
-                NotesBDD noteBdd = new NotesBDD(null);
-                String path = noteBdd.importDB();
-                //Toast.makeText(Preference.this, "Database imported from "+ path + " ! ", Toast.LENGTH_LONG).show();
-                String result_importdb = null;
-                if (path != null) {
-                    result_importdb = Preference.this.getString(R.string.toast_import_db) + " " + path + " ! ";
-                }
-                else {
-                    result_importdb = Preference.this.getString(R.string.toast_import_no_db);
-                }
-                Toast.makeText(Preference.this, result_importdb, Toast.LENGTH_LONG).show();*/
                 return false;
             }
 
 
         });
-
-
-
-        /*android.preference.Preference buttonDelete = findPreference("buttonDelete");
-        buttonDelete.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(
-                    android.preference.Preference arg0) {
-                NotesBDD noteBdd = new NotesBDD(Preference.this);
-                noteBdd.clean();
-                Toast.makeText(Preference.this, "Database cleaned ! ", Toast.LENGTH_LONG).show();
-                return false;
-            }
-        });*/
     }
     @Override
     public void onBackPressed() {
