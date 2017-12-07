@@ -45,12 +45,6 @@ public class NotesBDD
         maBaseSQLite = new SQLiteBase(context, NOM_BDD, null, VERSION_BDD);
     }
 
-    /*public void clean()
-    {
-        this.open();
-        maBaseSQLite.onUpgrade(this.bdd,VERSION_BDD,VERSION_BDD);
-    }*/
-
     public void open()
     {
         //on ouvre la BDD en écriture
@@ -78,7 +72,6 @@ public class NotesBDD
         values.put(COL_TITRE, note.getTitre());
         values.put(COL_DATECREATION, note.getDateCreation());
         values.put(COL_DATEMODIFICATION, note.getDateModification());
-        //values.put(COL_PASSWORD, note.getPassword());
         //on insère l'objet dans la BDD via le ContentValues
         return bdd.insert(TABLE_NOTES, null, values);
     }
@@ -146,11 +139,10 @@ public class NotesBDD
 
     public ArrayList<Note> getAllNotes(int tri, boolean ordre)
     {
-        ArrayList<Note> noteList = new ArrayList<Note>();
-        String selectQuery= new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY ");
+        ArrayList<Note> noteList = new ArrayList<>();
+        String selectQuery= "SELECT  * FROM " + TABLE_NOTES + " ORDER BY ";
         // Select All Query
         if (tri == 1){
-        	//selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY ID ");
         	selectQuery += COL_DATECREATION + " ";
         }
         else if (tri == 2){
@@ -163,7 +155,7 @@ public class NotesBDD
             selectQuery += COL_TITRE + " COLLATE NOCASE ";
         }
         
-        if(ordre == false)
+        if(!ordre)
         {
         	selectQuery = selectQuery + " DESC";
         }
@@ -180,7 +172,6 @@ public class NotesBDD
                 note.setNote(c.getString(NUM_COL_ISBN));
                 note.setTitre(c.getString(NUM_COL_TITRE));
                 note.setDateCreation(c.getString(NUM_COL_DATECREATION));
-                //Log.v("bdd",c.getString(NUM_COL_DATECREATION));
                 note.setDateModification(c.getString(NUM_COL_DATEMODIFICATION));
                 if (c.getString(NUM_COL_PASSWORD) != null )
                     note.setPassword(c.getString(NUM_COL_PASSWORD));
@@ -209,7 +200,7 @@ public class NotesBDD
         }
 
         selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE ";
-        if(contentSearch == false) {
+        if(!contentSearch) {
                 selectQuery += COL_TITRE + " LIKE  \"%" + str + "%\" ";
         }
         else
@@ -218,7 +209,6 @@ public class NotesBDD
         }
 
         if (tri == 1){
-            //selectQuery = new String("SELECT  * FROM " + TABLE_NOTES + " ORDER BY ID ");
             selectQuery += " ORDER BY " + COL_DATECREATION +" ";
         }
         else if (tri == 2){
@@ -231,18 +221,16 @@ public class NotesBDD
             selectQuery +=  " ORDER BY " + COL_TITRE +" COLLATE NOCASE ";
         }
 
-        if(ordre == false)
+        if(!ordre)
         {
             selectQuery += " DESC";
         }
 
-        //Log.i("Requete", selectQuery);
         Cursor c = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
         if (c.moveToFirst())
         {
-        	// Log.i("DB","liste de la req");
             do
             {
                 Note note = new Note();
@@ -253,8 +241,6 @@ public class NotesBDD
                 note.setDateModification(c.getString(NUM_COL_DATEMODIFICATION));
                 if (c.getString(NUM_COL_PASSWORD) != null )
                     note.setPassword(c.getString(NUM_COL_PASSWORD));
-                //if(contentSearch == true)
-                //Log.i("DB titre",c.getString(NUM_COL_TITRE));
                 // Adding contact to list
                 noteList.add(note);
             }
@@ -292,7 +278,6 @@ public class NotesBDD
         try {
 			backupDB.createNewFile();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
            
@@ -335,7 +320,6 @@ public class NotesBDD
             try {
                 bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
             } catch (Exception e) {
-                //System.out.println(e);
             }
             return newDB.toString();
         }else {
@@ -365,7 +349,6 @@ public class NotesBDD
             try {
                 bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
             } catch (Exception e) {
-                //System.out.println(e);
             }
             return dbToImport.toString();
         }else {
