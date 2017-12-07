@@ -35,6 +35,7 @@ public class SQLiteBase extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
+        //Create password column when upgrading old version ( < 1.1 )
         if (oldVersion < 2 )
             db.execSQL("ALTER TABLE " +  TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD +" VARCHAR(41);");
     }
