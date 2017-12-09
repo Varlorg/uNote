@@ -17,23 +17,22 @@ import android.widget.Toast;
 
 public class NoteEdition extends Activity
 {
-    final String EXTRA_TITLE = "TitreNoteEdition";
-    final String EXTRA_NOTE = "NoteEdition";
-    final String EXTRA_EDITION = "edition";
-    final String EXTRA_ID = "id";
+    static final String EXTRA_TITLE = "TitreNoteEdition";
+    static final String EXTRA_NOTE = "NoteEdition";
+    static final String EXTRA_EDITION = "edition";
+    static final String EXTRA_ID = "id";
+    static final String EXTRA_SIZE = "pref_sizeNote";
     boolean edit = false;
     int id = 0;
     SharedPreferences pref;
     private EditText titre;
     private EditText note;
-    private TextView noteT;
-    private TextView titreT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-        if (pref.getBoolean("pref_theme",false) == false) {
+        if (!pref.getBoolean("pref_theme",false)) {
             setTheme(android.R.style.Theme_DeviceDefault);
         } else {
             setTheme(android.R.style.Theme_DeviceDefault_Light);
@@ -43,8 +42,8 @@ public class NoteEdition extends Activity
 
         titre = (EditText) findViewById(R.id.TitreNoteEdition);
         note = (EditText) findViewById(R.id.NoteEdition);
-        noteT = (TextView) findViewById(R.id.NoteEditionTitre);
-        titreT = (TextView) findViewById(R.id.TitreNote);
+        TextView noteT = (TextView) findViewById(R.id.NoteEditionTitre);
+        TextView titreT = (TextView) findViewById(R.id.TitreNote);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -57,11 +56,13 @@ public class NoteEdition extends Activity
             titre.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void afterTextChanged(Editable arg0) {
+                    // Add tag only ontextChanged
                 }
 
                 @Override
                 public void beforeTextChanged(CharSequence arg0, int arg1,
                                               int arg2, int arg3) {
+                    // Add tag only ontextChanged
                 }
 
                 @Override
@@ -72,11 +73,13 @@ public class NoteEdition extends Activity
             note.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void afterTextChanged(Editable arg0) {
+                    // Add tag only ontextChanged
                 }
 
                 @Override
                 public void beforeTextChanged(CharSequence arg0, int arg1,
                                               int arg2, int arg3) {
+                    // Add tag only ontextChanged
                 }
 
                 @Override
@@ -85,25 +88,25 @@ public class NoteEdition extends Activity
                 }
             });
         }
-        titre.setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
-        note.setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
-        titreT.setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
-        noteT.setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
+        titre.setTextSize(Integer.parseInt(pref.getString(EXTRA_SIZE, "16")));
+        note.setTextSize(Integer.parseInt(pref.getString(EXTRA_SIZE, "16")));
+        titreT.setTextSize(Integer.parseInt(pref.getString(EXTRA_SIZE, "16")));
+        noteT.setTextSize(Integer.parseInt(pref.getString(EXTRA_SIZE, "16")));
 
     }
 
     public void save(View v)
     {
         EditText titreElt = (EditText)findViewById(R.id.TitreNoteEdition);
-        String 	titre = titreElt.getText().toString();
-        EditText note = (EditText)findViewById(R.id.NoteEdition);
-        String contenu = note.getText().toString();
+        String 	titreEdited = titreElt.getText().toString();
+        EditText noteEdited = (EditText)findViewById(R.id.NoteEdition);
+        String content = noteEdited.getText().toString();
 
         NotesBDD noteBdd = new NotesBDD(this);
 
-        Note n = new Note(titre, contenu);
+        Note n = new Note(titreEdited, content);
         noteBdd.open();
-        if( edit == false){
+        if(!edit){
         	noteBdd.insertNote(n);
         }
         else
@@ -113,17 +116,14 @@ public class NoteEdition extends Activity
         
         Note noteFromBdd = noteBdd.getNoteWithTitre(n.getTitre());
         if(noteFromBdd != null) {
-            if( edit == false){
-            	//Toast.makeText(this, "Saved", Toast.LENGTH_LONG).show();
+            if(!edit){
             	Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG).show();
             }
             else {
-            	//Toast.makeText(this, "Note updated", Toast.LENGTH_LONG).show();
             	Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG).show();
             }
         }
         else {
-        	//Toast.makeText(this, "Failed to save", Toast.LENGTH_LONG).show();
         	Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG).show();
         }
 
@@ -135,25 +135,17 @@ public class NoteEdition extends Activity
     public void returnMain()
     {
         this.finish();
-        //Intent intent = new Intent(NoteEdition.this, NoteMain.class);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        //startActivity(intent);
     }
 
     public void quit(View v)
     {
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if ( ( note.getTag() != null || titre.getTag() != null ) && pref.getBoolean("pref_cancel",false) == true) {
+        if ( ( note.getTag() != null || titre.getTag() != null ) && pref.getBoolean("pref_cancel",false)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
-                    //.setTitle("Cancel modification")
                     .setTitle(NoteEdition.this.getString(R.string.toast_titleCancel))
-                    //.setMessage("Are you sure?")
                     .setMessage(NoteEdition.this.getString(R.string.toast_msgCancel))
-                    //.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     .setPositiveButton(NoteEdition.this.getString(R.string.toast_positiveButton), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
@@ -161,7 +153,6 @@ public class NoteEdition extends Activity
                             returnMain();
                         }
                     })
-                    //.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     .setNegativeButton(NoteEdition.this.getString(R.string.toast_negativeButton), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
@@ -177,7 +168,7 @@ public class NoteEdition extends Activity
 
     @Override
     public void onBackPressed() {
-        if ( ( note.getTag() != null || titre.getTag() != null ) && pref.getBoolean("pref_cancel_back",false) == true) {
+        if ( ( note.getTag() != null || titre.getTag() != null ) && pref.getBoolean("pref_cancel_back",false)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
                     .setTitle(NoteEdition.this.getString(R.string.toast_titleCancel))
