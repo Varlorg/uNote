@@ -1,18 +1,14 @@
 package app.varlorg.unote;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.security.MessageDigest;
-//import java.security.NoSuchAlgorithmException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-//import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.res.Configuration;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,7 +18,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.*;//ViewGroup;
+import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.app.Instrumentation;
@@ -30,17 +26,22 @@ import android.os.Parcelable;
 
 public class NoteMain extends Activity
 {
-    final String EXTRA_TITLE   = "TitreNoteEdition";
-    final String EXTRA_NOTE    = "NoteEdition";
-    final String EXTRA_EDITION = "edition";
-    final String EXTRA_ID      = "id";
+    static final String EXTRA_TITLE   = "TitreNoteEdition";
+    static final String EXTRA_NOTE    = "NoteEdition";
+    static final String EXTRA_EDITION = "edition";
+    static final String EXTRA_ID      = "id";
+    static final String SEARCH_CONTENT     = "contentSearch";
+    static final String SEARCH_SENSITIVE     = "sensitiveSearch";
+    static final String PREF_SORT     = "pref_tri";
+    static final String PREF_SORT_ORDER      = "pref_ordretri";
+
+    private static final String HEX = "0123456789ABCDEF";
     ArrayAdapter <Note> simpleAdpt;
     private EditText editsearch;
     private Button btnClear;
     List<Note> listeNotes;
     private CheckBox cbSearchContent;
     private CheckBox cbSearchCase;
-    //NotesBDD noteBdd;
     ListView lv;
     SharedPreferences pref;
     Parcelable state;
@@ -64,18 +65,17 @@ public class NoteMain extends Activity
 
         if (text.equals(""))
         {
-            listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+            listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
         }
         else
         {
-            listeNotes = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+            listeNotes = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
         }
         noteBdd.close();
-        //listeNotes.addAll(listeNotes);
         simpleAdpt.clear();
         simpleAdpt.addAll(listeNotes);
         simpleAdpt.notifyDataSetChanged();
-        if (pref.getBoolean("pref_scroll", false) == true && state != null)
+        if (pref.getBoolean("pref_scroll", false) && state != null)
         {
             lv.onRestoreInstanceState(state);
         }
@@ -93,7 +93,7 @@ public class NoteMain extends Activity
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
         {
-            if (pref.getBoolean("pref_theme", false) == false)
+            if (!pref.getBoolean("pref_theme", false))
             {
                 setTheme(android.R.style.Theme_DeviceDefault);
             }
@@ -104,7 +104,7 @@ public class NoteMain extends Activity
         }
         else
         {
-            if (pref.getBoolean("pref_theme", false) == false)
+            if (!pref.getBoolean("pref_theme", false))
             {
                 setTheme(android.R.style.Theme_Black);
             }
@@ -118,7 +118,7 @@ public class NoteMain extends Activity
 
         final NotesBDD noteBdd = new NotesBDD(this);
         noteBdd.open();
-        listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+        listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
         /****************************************************************************************/
         // The data to show
         lv         = (ListView)findViewById(R.id.listView);
@@ -139,7 +139,7 @@ public class NoteMain extends Activity
                                     long id)
             {
                 final Note n     = (Note)parentAdapter.getItemAtPosition(position);
-                boolean can_edit = false;
+                boolean canEdit = false;
                 if (n.getPassword() != null)
                 {
                     final EditText input         = new EditText(NoteMain.this);
@@ -150,12 +150,9 @@ public class NoteMain extends Activity
                     input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
                     builder
-                    //.setTitle("Asking password")
-                    //.setMessage("Enter Password")
                     .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
                     .setMessage(NoteMain.this.getString(R.string.dialog_pwd_msg))
                     .setView(input)
-                    //.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     .setPositiveButton(NoteMain.this.getString(R.string.dialog_pwd_submit), new DialogInterface.OnClickListener()
                     {
                         @Override
@@ -174,7 +171,6 @@ public class NoteMain extends Activity
                             }
                         }
                     })
-                    //.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     .setNegativeButton(NoteMain.this.getString(R.string.dialog_pwd_cancel), new DialogInterface.OnClickListener()
                     {
                         @Override
@@ -187,9 +183,9 @@ public class NoteMain extends Activity
                 }
                 else
                 {
-                    can_edit = true;
+                    canEdit = true;
                 }
-                if (can_edit)
+                if (canEdit)
                 {
                     Intent intentTextEdition = new Intent(NoteMain.this,
                                                           NoteEdition.class);
@@ -207,8 +203,8 @@ public class NoteMain extends Activity
 
         cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
         cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
-        cbSearchContent.setChecked(pref.getBoolean("contentSearch", false));
-        cbSearchCase.setChecked(pref.getBoolean("contentSearch", false));
+        cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
+        cbSearchCase.setChecked(pref.getBoolean(SEARCH_SENSITIVE, false));
 
         // Locate the EditText in listview_main.xml
         editsearch = (EditText)findViewById(R.id.search);
@@ -219,23 +215,21 @@ public class NoteMain extends Activity
             @Override
             public void afterTextChanged(Editable arg0)
             {
-                // TODO Auto-generated method stub
-
-                // adapter.filter(text);
+                // DO nothing
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1,
                                           int arg2, int arg3)
             {
-                // TODO Auto-generated method stub
+                // Do nothing
             }
 
             @Override
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
             {
                 String text = editsearch.getText().toString();
-                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
                 simpleAdpt = new ArrayAdapter <Note>     (getApplicationContext(), R.layout.notelist, listeNotesRecherche)
                 {
                     public View getView(int position, View view, ViewGroup viewGroup)
@@ -255,7 +249,7 @@ public class NoteMain extends Activity
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
                 String text = editsearch.getText().toString();
-                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, isChecked, !cbSearchCase.isChecked(), Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, isChecked, !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
                 simpleAdpt = new ArrayAdapter <Note>(getApplicationContext(), R.layout.notelist, listeNotesRecherche)
                 {
                     public View getView(int position, View view, ViewGroup viewGroup)
@@ -276,7 +270,7 @@ public class NoteMain extends Activity
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
                 String text = editsearch.getText().toString();
-                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !isChecked, Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !isChecked, Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
                 simpleAdpt = new ArrayAdapter <Note>(getApplicationContext(), R.layout.notelist, listeNotesRecherche)
                 {
                     public View getView(int position, View view, ViewGroup viewGroup)
@@ -298,42 +292,27 @@ public class NoteMain extends Activity
         noteBdd.close();
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle savedInstanceState)
-    {
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    @Override
-
-    public void onConfigurationChanged(Configuration newConfig)
-    {
-        super.onConfigurationChanged(newConfig);
-
-        // you are other code here
-    }
-
     public View getViewCustom(int position, View view, ViewGroup viewGroup, Note n)
     {
-        String note_summary;
+        String noteSummary;
 
         if (n.getPassword() != null)
         {
-            note_summary = new String("<b>" + n.getTitre() + "</b> <br/>" + NoteMain.this.getString(R.string.pwd_protected));
+            noteSummary = "<b>" + n.getTitre() + "</b> <br/>" + NoteMain.this.getString(R.string.pwd_protected);
         }
         else
         {
-            note_summary = new String("<b>" + n.getTitre() + "</b> <br/>" + n.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30"))));
-            if (pref.getBoolean("pref_date", false) == true)
+            noteSummary = "<b>" + n.getTitre() + "</b> <br/>" + n.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30")));
+            if (pref.getBoolean("pref_date", false))
             {
-                note_summary += "<br/>" + n.getDateCreationFormated();
+                noteSummary += "<br/>" + n.getDateCreationFormated();
             }
-            if (pref.getBoolean("pref_date_mod", false) == true)
+            if (pref.getBoolean("pref_date_mod", false))
             {
-                note_summary += "<br/>modif: " + n.getDateModificationFormated();
+                noteSummary += "<br/>modif: " + n.getDateModificationFormated();
             }
         }
-        ((TextView)view).setText(Html.fromHtml(note_summary));
+        ((TextView)view).setText(Html.fromHtml(noteSummary));
         return(view);
     }
 
@@ -369,11 +348,13 @@ public class NoteMain extends Activity
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after)
             {
+                // Do nothing
             }
 
             @Override
             public void afterTextChanged(Editable s)
             {
+                // Do nothing
             }
         });
     }
@@ -418,7 +399,6 @@ public class NoteMain extends Activity
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_detail));
     }
 
-    private final static String HEX = "0123456789ABCDEF";
     public static String SHA1(String text)
     {
         try {
@@ -431,12 +411,12 @@ public class NoteMain extends Activity
 
             return(toHex(sha1hash));
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(BuildConfig.APPLICATION_ID ,"Exception SHA1", e);
         }
         return(null);
     }
 
-    private static void appendHex(StringBuffer sb, byte b)
+    private static void appendHex(StringBuilder sb, byte b)
     {
         sb.append(HEX.charAt((b >> 4) & 0x0f))
         .append(HEX.charAt(b & 0x0f));
@@ -450,7 +430,7 @@ public class NoteMain extends Activity
         }
 
         int          l      = buf.length;
-        StringBuffer result = new StringBuffer(2 * l);
+        StringBuilder result = new StringBuilder(2 * l);
 
         for (int i = 0; i < buf.length; i++)
         {
@@ -515,7 +495,6 @@ public class NoteMain extends Activity
                 public void onClick(DialogInterface dialog, int id)
                 {
                     String password = input.getText().toString();
-                    //String passwordHashed = SHA1(password);
 
                     NotesBDD noteBdd = new NotesBDD(NoteMain.this);
                     noteBdd.open();
@@ -523,11 +502,6 @@ public class NoteMain extends Activity
                     noteBdd.close();
                     note.setPassword(SHA1(password));
                     simpleAdpt.notifyDataSetChanged();
-
-                    /*listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
-                     * simpleAdpt = new ArrayAdapter<Note>(NoteMain.this, R.layout.notelist, listeNotes );
-                     * lv.setAdapter(simpleAdpt);*/
-
                     Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_added), Toast.LENGTH_LONG).show();
                 }
             })
@@ -545,7 +519,7 @@ public class NoteMain extends Activity
         {
             pref = PreferenceManager.getDefaultSharedPreferences(this);
 
-            if (pref.getBoolean("pref_del", false) == true)
+            if (pref.getBoolean("pref_del", false))
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder
@@ -580,18 +554,16 @@ public class NoteMain extends Activity
             alertDialog.setTitle(this.getString(R.string.menu_detail));
             String dateC       = note.getDateCreation();
             String dateM       = note.getDateModification();
-            String noteDetails = new String("<b>" + this.getString(R.string.detail_title) + ": " + note.getTitre() +
+            String noteDetails = "<b>" + this.getString(R.string.detail_title) + ": " + note.getTitre() +
                                             "</b> <br/>" + note.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30"))) +
                                             "<br/>" + this.getString(R.string.detail_nb_char) + " : " + note.getNote().length() +
-                                            "<br/><i>" + this.getString(R.string.detail_created) + " " + note.getDateCreationFormated() + "</i>");
+                                            "<br/><i>" + this.getString(R.string.detail_created) + " " + note.getDateCreationFormated() + "</i>";
             if (dateC.equals(dateM))
             {
-                //noteDetails += "<br/><i>Not modified </i>";
                 noteDetails += "<br/><i>" + this.getString(R.string.detail_not_modified) + " </i>";
             }
             else
             {
-                //noteDetails += "<br/><i>Modified the "+ note.getDateModificationFormated() +"</i>";
                 noteDetails += "<br/><i>" + this.getString(R.string.detail_modified) + " " + note.getDateModificationFormated() + "</i>";
             }
             alertDialog.setMessage(Html.fromHtml(noteDetails));
@@ -599,7 +571,7 @@ public class NoteMain extends Activity
             {
                 public void onClick(DialogInterface dialog, int which)
                 {
-                    // TODO Add your code for the button here.
+                    // Do nothing
                 }
             });
             // Set the Icon for the Dialog
@@ -621,7 +593,6 @@ public class NoteMain extends Activity
         noteBdd.open();
         final MenuItem         itemf = item;
         AdapterContextMenuInfo aInfo = (AdapterContextMenuInfo)item.getMenuInfo();
-        int        noteid            = (int)item.getItemId();
         final Note note = (Note)simpleAdpt.getItem(aInfo.position);
         noteBdd.close();
         if (note.getPassword() != null)
@@ -643,7 +614,6 @@ public class NoteMain extends Activity
                 public void onClick(DialogInterface dialog, int id)
                 {
                     String password  = input.getText().toString();
-                    NotesBDD noteBdd = new NotesBDD(NoteMain.this);
                     if (note.getPassword().equals(SHA1(password)))
                     {
                         launchMenu(itemf, note);
@@ -684,8 +654,7 @@ public class NoteMain extends Activity
                 cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
                 cbSearchCase.setVisibility(View.GONE);
                 cbSearchContent.setVisibility(View.GONE);
-                Button btn_clear = (Button)findViewById(R.id.btn_clear);
-                btn_clear.setVisibility(View.GONE);
+                btnClear.setVisibility(View.GONE);
             }
             else
             {
@@ -694,8 +663,8 @@ public class NoteMain extends Activity
                 cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
                 cbSearchCase.setVisibility(View.VISIBLE);
                 cbSearchContent.setVisibility(View.VISIBLE);
-                cbSearchCase.setChecked(!pref.getBoolean("sensitiveSearch", false));
-                cbSearchContent.setChecked(pref.getBoolean("contentSearch", false));
+                cbSearchCase.setChecked(!pref.getBoolean(SEARCH_SENSITIVE, false));
+                cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
                 // Button btn_clear is display only when text is typed
             }
             return(true);
