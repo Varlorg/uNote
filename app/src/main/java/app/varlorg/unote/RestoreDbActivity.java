@@ -22,32 +22,34 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class RestoreDbActivity extends ListActivity{
+public class RestoreDbActivity extends ListActivity {
     private static final int DIALOG_RESTORE_WARN = 300;
-    private static final String EXTENSION = ".db";
-    private static final String NOM_BDD = "notes.db";
+    private static final String EXTENSION        = ".db";
+    private static final String NOM_BDD          = "notes.db";
 
-    private ArrayAdapter<NameOnlyFile> adapter;
+    private ArrayAdapter <NameOnlyFile> adapter;
     private AlertDialog.Builder restoreWarningBuilder;
     private NameOnlyFile restoreFile;
     private FilenameFilter restoreFilenameFilter;
-    private Comparator<NameOnlyFile> comparator;
+    private Comparator <NameOnlyFile> comparator;
 
     public RestoreDbActivity()
     {
-        restoreFilenameFilter = new FilenameFilter() {
+        restoreFilenameFilter = new FilenameFilter()
+        {
             @Override
             public boolean accept(File dir, String filename)
             {
-                return filename.endsWith(EXTENSION);
+                return(filename.endsWith(EXTENSION));
             }
         };
 
-        comparator = new Comparator<NameOnlyFile>() {
+        comparator = new Comparator <NameOnlyFile>()
+        {
             @Override
             public int compare(NameOnlyFile object1, NameOnlyFile object2)
             {
-                return object2.toString().compareTo(object1.toString());
+                return(object2.toString().compareTo(object1.toString()));
             }
         };
     }
@@ -66,19 +68,23 @@ public class RestoreDbActivity extends ListActivity{
 
         restoreWarningBuilder = new AlertDialog.Builder(this);
         restoreWarningBuilder.setMessage(R.string.restoreWarnMessage)
-                .setCancelable(true)
-                .setTitle(R.string.restoreWarnTitle)
-                .setPositiveButton(R.string.restoreWarnPositive, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        doRestore();
-                        dialog.cancel();
-                    }
-                })
-                .setNegativeButton(R.string.restoreWarnNegative, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+        .setCancelable(true)
+        .setTitle(R.string.restoreWarnTitle)
+        .setPositiveButton(R.string.restoreWarnPositive, new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
+            {
+                doRestore();
+                dialog.cancel();
+            }
+        })
+        .setNegativeButton(R.string.restoreWarnNegative, new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int id)
+            {
+                dialog.cancel();
+            }
+        });
     }
 
     @Override
@@ -88,46 +94,53 @@ public class RestoreDbActivity extends ListActivity{
         {
             return(restoreWarningBuilder.create());
         }
-        return super.onCreateDialog(id);
+
+        return(super.onCreateDialog(id));
     }
 
     @Override
-    public void onCreateContextMenu(android.view.ContextMenu menu, View v,android.view.ContextMenu.ContextMenuInfo menuInfo)
+    public void onCreateContextMenu(android.view.ContextMenu menu, View v, android.view.ContextMenu.ContextMenuInfo menuInfo)
     {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.setHeaderTitle((this.getString(R.string.dialog_backup_menu)));
         menu.add(0, v.getId(), 0, (this.getString(R.string.dialog_backup_menu_deletion)));
     }
+
     @Override
     public boolean onContextItemSelected(MenuItem item)
     {
-        AdapterView.AdapterContextMenuInfo aInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        boolean res= false;
-        if(item.getTitle().equals((this.getString(R.string.dialog_backup_menu_deletion)))){
+        AdapterView.AdapterContextMenuInfo aInfo = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        boolean res = false;
+        if (item.getTitle().equals((this.getString(R.string.dialog_backup_menu_deletion))))
+        {
             restoreFile = adapter.getItem(aInfo.position);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
-                    .setTitle(this.getString(R.string.dialog_delete_backup) + " " + adapter.getItem(aInfo.position).toString())
-                    .setMessage(this.getString(R.string.dialog_delete_msg))
-                    .setPositiveButton(this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            restoreFile.file.delete();
-                            refresh();
-                            (Toast.makeText(RestoreDbActivity.this, RestoreDbActivity.this.getString(R.string.toast_backup_deleted) , Toast.LENGTH_LONG)).show();
-
-                        }
-                    })
-                    .setNegativeButton(this.getString(R.string.dialog_delete_no), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    })
-                    .show();
+            .setTitle(this.getString(R.string.dialog_delete_backup) + " " + adapter.getItem(aInfo.position).toString())
+            .setMessage(this.getString(R.string.dialog_delete_msg))
+            .setPositiveButton(this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    restoreFile.file.delete();
+                    refresh();
+                    (Toast.makeText(RestoreDbActivity.this, RestoreDbActivity.this.getString(R.string.toast_backup_deleted), Toast.LENGTH_LONG)).show();
+                }
+            })
+            .setNegativeButton(this.getString(R.string.dialog_delete_no), new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    dialog.cancel();
+                }
+            })
+            .show();
         }
-        return res;
+        return(res);
     }
+
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id)
     {
@@ -139,29 +152,30 @@ public class RestoreDbActivity extends ListActivity{
         {
             // test restore file
             SQLiteDatabase db = SQLiteDatabase.openDatabase(
-                    restoreFile.file.getPath(), null, SQLiteDatabase.OPEN_READONLY);
+                restoreFile.file.getPath(), null, SQLiteDatabase.OPEN_READONLY);
             db.close();
 
             // Dialog: This will overwrite the existing items, continue?
             showDialog(DIALOG_RESTORE_WARN);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Toast t = Toast.makeText(this, R.string.restoreToastInvalidDB, Toast.LENGTH_LONG);
             t.show();
         }
-
     }
+
     private void refresh()
     {
         File backupDirectory = new File(
-                Environment.getExternalStorageDirectory(),
-                "app.varlorg.unote");
+            Environment.getExternalStorageDirectory(),
+            "app.varlorg.unote");
+
         adapter.clear();
-        if(backupDirectory.isDirectory())
+        if (backupDirectory.isDirectory())
         {
             File[] files = backupDirectory.listFiles(restoreFilenameFilter);
-            for(File f : files)
+            for (File f : files)
             {
                 adapter.add(new NameOnlyFile(f));
             }
@@ -170,32 +184,31 @@ public class RestoreDbActivity extends ListActivity{
         adapter.notifyDataSetChanged();
     }
 
-
     private void doRestore()
     {
-
         String state = Environment.getExternalStorageState();
+
         if (!Environment.MEDIA_MOUNTED.equals(state))
         {
             Toast.makeText(
-                    this,
-                    R.string.restoreToastMountProblem,
-                    Toast.LENGTH_LONG
-            ).show();
+                this,
+                R.string.restoreToastMountProblem,
+                Toast.LENGTH_LONG
+                ).show();
             return;
         }
 
         // backup old file
-        File dbFile = getDatabasePath(NOM_BDD);
-        File dbBakFile = getDatabasePath( NOM_BDD + ".bak");
-        boolean moved = dbFile.renameTo(dbBakFile);
-        if(!moved)
+        File    dbFile    = getDatabasePath(NOM_BDD);
+        File    dbBakFile = getDatabasePath(NOM_BDD + ".bak");
+        boolean moved     = dbFile.renameTo(dbBakFile);
+        if (!moved)
         {
             Toast.makeText(
-                    this,
-                    R.string.restoreToastUnableToMove,
-                    Toast.LENGTH_LONG
-            ).show();
+                this,
+                R.string.restoreToastUnableToMove,
+                Toast.LENGTH_LONG
+                ).show();
             return;
         }
 
@@ -215,23 +228,22 @@ public class RestoreDbActivity extends ListActivity{
             dbBakFile.renameTo(dbFile);
 
             Toast.makeText(
-                    this,
-                    R.string.restoreToastCopyFailed,
-                    Toast.LENGTH_LONG
-            ).show();
+                this,
+                R.string.restoreToastCopyFailed,
+                Toast.LENGTH_LONG
+                ).show();
             return;
         }
 
         Toast.makeText(
-                this,
-                (new NameOnlyFile(restoreFile.file)).toString() + " " +
-                getResources().getString(R.string.restoreToastRestoreFinished) ,
-                Toast.LENGTH_LONG
-        ).show();
+            this,
+            (new NameOnlyFile(restoreFile.file)).toString() + " " +
+            getResources().getString(R.string.restoreToastRestoreFinished),
+            Toast.LENGTH_LONG
+            ).show();
 
         finish();
     }
-
 
     private static class NameOnlyFile
     {
@@ -246,7 +258,8 @@ public class RestoreDbActivity extends ListActivity{
         public String toString()
         {
             String name = file.getName();
-            return name.substring(0, name.length() - EXTENSION.length());
+
+            return(name.substring(0, name.length() - EXTENSION.length()));
         }
     }
 }
