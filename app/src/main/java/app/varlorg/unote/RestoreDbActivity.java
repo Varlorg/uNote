@@ -1,7 +1,7 @@
 package app.varlorg.unote;
 
 /**
- * Inspired the one from SimplyDo
+ * Inspired by the one from SimplyDo
  */
 
 import java.io.File;
@@ -15,7 +15,6 @@ import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -58,7 +57,7 @@ public class RestoreDbActivity extends ListActivity{
     {
         super.onCreate(savedInstanceState);
 
-        adapter = new ArrayAdapter<NameOnlyFile>(this, R.layout.restore_entry, R.id.RestoreName);
+        adapter = new ArrayAdapter <>(this, R.layout.restore_entry, R.id.RestoreName);
 
         refresh();
 
@@ -85,13 +84,9 @@ public class RestoreDbActivity extends ListActivity{
     @Override
     protected Dialog onCreateDialog(int id)
     {
-        switch(id)
+        if (id == DIALOG_RESTORE_WARN)
         {
-            case DIALOG_RESTORE_WARN:
-            {
-                AlertDialog dialog = restoreWarningBuilder.create();
-                return dialog;
-            }
+            return(restoreWarningBuilder.create());
         }
         return super.onCreateDialog(id);
     }
