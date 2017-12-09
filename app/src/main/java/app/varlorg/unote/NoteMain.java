@@ -38,7 +38,7 @@ public class NoteMain extends Activity
     ArrayAdapter<Note> simpleAdpt;
     private EditText editsearch;
     private Button btnClear;
-    ArrayList<Note> listeNotes;
+    List<Note> listeNotes;
     private CheckBox cbSearchContent;
     private CheckBox cbSearchCase;
     //NotesBDD noteBdd;
@@ -125,8 +125,6 @@ public class NoteMain extends Activity
              public void onItemClick(AdapterView<?> parentAdapter, View view, int position,
                                      long id) {
             	final Note n = (Note) parentAdapter.getItemAtPosition(position);
-                 // We know the View is a TextView so we can cast it
-                //TextView clickedView = (TextView) view
                 boolean can_edit = false;
                 if (n.getPassword()!= null ) {
                     final EditText input = new EditText(NoteMain.this);
@@ -212,7 +210,7 @@ public class NoteMain extends Activity
             @Override
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
                 String text = editsearch.getText().toString();
-                ArrayList<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text,cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+                List<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text,cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
                 simpleAdpt = new ArrayAdapter<Note>	(getApplicationContext(), R.layout.notelist, listeNotesRecherche ){
                     public View getView(int position, View view, ViewGroup viewGroup)
                     {
@@ -222,7 +220,6 @@ public class NoteMain extends Activity
                     }
             };
             lv.setAdapter(simpleAdpt);
-                //simpleAdpt.notifyDataSetChanged();
             }
         });
 
@@ -230,7 +227,7 @@ public class NoteMain extends Activity
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String text = editsearch.getText().toString();
-                ArrayList<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, isChecked, !cbSearchCase.isChecked(), Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+                List<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, isChecked, !cbSearchCase.isChecked(), Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
                 simpleAdpt = new ArrayAdapter<Note>(getApplicationContext(), R.layout.notelist, listeNotesRecherche) {
                     public View getView(int position, View view, ViewGroup viewGroup) {
                         view = super.getView(position, view, viewGroup);
@@ -247,7 +244,7 @@ public class NoteMain extends Activity
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String text = editsearch.getText().toString();
-                ArrayList<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !isChecked,  Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+                List<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !isChecked,  Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
                 simpleAdpt = new ArrayAdapter<Note>(getApplicationContext(), R.layout.notelist, listeNotesRecherche) {
                     public View getView(int position, View view, ViewGroup viewGroup) {
                         view = super.getView(position, view, viewGroup);
@@ -275,7 +272,6 @@ public class NoteMain extends Activity
 
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        //setContentView(R.layout.activity_notemain);
 
         // you are other code here
 
@@ -287,7 +283,6 @@ public class NoteMain extends Activity
         String note_summary;
         if (n.getPassword()!= null )
         {
-            //note_summary = new String("<b>" + n.getTitre() + "</b> <br/>Password protected");
             note_summary = new String("<b>" + n.getTitre() + "</b> <br/>"+NoteMain.this.getString(R.string.pwd_protected));
 
         }
@@ -361,11 +356,6 @@ public class NoteMain extends Activity
     public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo)
     {
         super.onCreateContextMenu(menu, v, menuInfo);
-        /*menu.setHeaderTitle("Note Menu");
-        menu.add(0, v.getId(), 0, "Edit");
-        menu.add(0, v.getId(), 0, "Password");
-        menu.add(0, v.getId(), 0, "Delete");
-        menu.add(0, v.getId(), 0, "Details");*/
         menu.setHeaderTitle(this.getString(R.string.menu_title));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_edit));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_passwd));
@@ -499,13 +489,6 @@ public class NoteMain extends Activity
                         .setPositiveButton(NoteMain.this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
-                                /*simpleAdpt.remove(note);
-                                NotesBDD noteBdd = new NotesBDD(NoteMain.this);
-                                noteBdd.open();
-                                noteBdd.removeNoteWithID(note.getId());
-                                Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
-                                simpleAdpt.notifyDataSetChanged();
-                                noteBdd.close();*/
                                 deleteNote(note);
                             }
                         })
@@ -519,21 +502,8 @@ public class NoteMain extends Activity
             }
             else
             {
-                /*simpleAdpt.remove(note);
-                NotesBDD noteBdd = new NotesBDD(NoteMain.this);
-                noteBdd.open();
-                noteBdd.removeNoteWithID(note.getId());
-                //Toast.makeText(NoteMain.this, "Note deleted ! ", Toast.LENGTH_LONG).show();
-                Toast.makeText(NoteMain.this, this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
-                simpleAdpt.notifyDataSetChanged();
-                noteBdd.close();*/
                 deleteNote(note);
             }
-            // Refresh main activity upon close of dialog box
-           /*Intent refresh = new Intent(this, NoteMain.class);
-            startActivity(refresh);
-            this.finish(); //*/
-            //onCreate(null);
         }
         if(item.getTitle().equals(this.getString(R.string.menu_detail)))
         {
