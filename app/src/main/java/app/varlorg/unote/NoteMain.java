@@ -680,8 +680,8 @@ public class NoteMain extends Activity
                 editsearch.setText("");
 
                 editsearch.setVisibility(View.GONE);
-                CheckBox cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
-                CheckBox cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
+                cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
+                cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
                 cbSearchCase.setVisibility(View.GONE);
                 cbSearchContent.setVisibility(View.GONE);
                 Button btn_clear = (Button)findViewById(R.id.btn_clear);
@@ -690,8 +690,8 @@ public class NoteMain extends Activity
             else
             {
                 editsearch.setVisibility(View.VISIBLE);
-                CheckBox cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
-                CheckBox cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
+                cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
+                cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
                 cbSearchCase.setVisibility(View.VISIBLE);
                 cbSearchContent.setVisibility(View.VISIBLE);
                 cbSearchCase.setChecked(!pref.getBoolean("sensitiveSearch", false));
