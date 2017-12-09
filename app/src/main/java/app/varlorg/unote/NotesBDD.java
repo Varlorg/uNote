@@ -225,8 +225,9 @@ public class NotesBDD
         }
         else
         {
-            selectQuery += COL_TITRE + " LIKE  \"%" + str + "%\"" + " OR ( " + COL_NOTE + " LIKE  \"%" + str + "%\" AND " + COL_PASSWORD + " IS NULL) " + SQL_ORDER;
+            selectQuery += COL_TITRE + " LIKE  \"%" + str + "%\"" + " OR ( " + COL_NOTE + " LIKE  \"%" + str + "%\" AND " + COL_PASSWORD + " IS NULL) ";
         }
+        selectQuery += SQL_ORDER;
 
         if (tri == 1)
         {
