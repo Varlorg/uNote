@@ -38,7 +38,8 @@ public class NoteMain extends Activity
     ArrayAdapter<Note> simpleAdpt;
     private EditText editsearch;
     private Button btnClear;
-    ArrayList<Note> listeNotes;
+    private CheckBox cbSearchContent;
+    private CheckBox cbSearchCase;
     //NotesBDD noteBdd;
     ListView lv;
     SharedPreferences pref;
@@ -64,7 +65,7 @@ public class NoteMain extends Activity
             listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
         }
         else {
-            listeNotes = noteBdd.getSearchedNotes(text,true, true, Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+            listeNotes = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
         }
         noteBdd.close();
         //listeNotes.addAll(listeNotes);
@@ -183,8 +184,8 @@ public class NoteMain extends Activity
      // we register for the contextmneu       
         registerForContextMenu(lv);
 
-        final CheckBox cbSearchContent = (CheckBox) findViewById(R.id.search_content_cb);
-        final CheckBox cbSearchCase = (CheckBox) findViewById(R.id.search_case_cb);
+        cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
+        cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
         cbSearchContent.setChecked(pref.getBoolean("contentSearch", false));
         cbSearchCase.setChecked(pref.getBoolean("contentSearch", false));
 
@@ -639,8 +640,8 @@ public class NoteMain extends Activity
                     btn_clear.setVisibility(View.GONE);
                 } else {
                     editsearch.setVisibility(View.VISIBLE);
-                    CheckBox cbSearchCase = (CheckBox) findViewById(R.id.search_case_cb);
-                    CheckBox cbSearchContent = (CheckBox) findViewById(R.id.search_content_cb);
+                    cbSearchCase = (CheckBox) findViewById(R.id.search_case_cb);
+                    cbSearchContent = (CheckBox) findViewById(R.id.search_content_cb);
                     cbSearchCase.setVisibility(View.VISIBLE);
                     cbSearchContent.setVisibility(View.VISIBLE);
                     cbSearchCase.setChecked(!pref.getBoolean("sensitiveSearch", false));
