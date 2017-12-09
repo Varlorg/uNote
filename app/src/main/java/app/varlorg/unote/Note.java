@@ -1,17 +1,17 @@
 package app.varlorg.unote;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import android.util.Log;
-
 public class Note
 {
     private int id;
     private String titre;
-    private String note;
+    private String noteContent;
     private String dateCreation;
     private String dateModification;
     private String password;
@@ -22,18 +22,17 @@ public class Note
         String date = df.format(Calendar.getInstance().getTime());
         this.dateCreation = date;
         this.dateModification = date;
-        this.note = "";
+        this.noteContent = "";
         this.titre = "";
     }
 
     public Note(String t, String c)
     {
         this.titre = t;
-        this.note = c;
+        this.noteContent = c;
         SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
         String date = df.format(Calendar.getInstance().getTime());
-        //Log.v("date creation note",date);
-        this.dateCreation = date; //java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());;
+        this.dateCreation = date;
         this.dateModification = date;
     }
 
@@ -54,46 +53,41 @@ public class Note
 
     public void setTitre(String titre)
     {
-        this.titre = new String(titre);
+        this.titre = titre;
     }
 
     public String getNote()
     {
-        return this.note;
+        return this.noteContent;
     }
 
-    public String getNoteHead(int nb_char)
+    public String getNoteHead(int nbChar)
     {
-        int MAX = nb_char;
-        int min = Math.min(MAX,this.note.length());
-        if (MAX < this.note.length())
-            return this.note.substring(0, min)+ "...";
+        int max = nbChar;
+        int min = Math.min(max,this.noteContent.length());
+        if (max < this.noteContent.length())
+            return this.noteContent.substring(0, min)+ "...";
         else
-            return this.note.substring(0, min);
+            return this.noteContent.substring(0, min);
     }
 
     public void setNote(String c)
     {
-        this.note = new String(c);
+        this.noteContent = c;
     }
 
     public String getDateCreationFormated()
     {
-    	//Log.v("dateCreation",this.dateCreation.toString());
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH:mm");
     	Date d = null;
     	
 		try {
-			d = sdf.parse(new String(this.dateCreation.toString()));
+			d = sdf.parse(this.dateCreation);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+            Log.e(BuildConfig.APPLICATION_ID ,"exception getDateCreationFormated", e);
 		}
     	sdf.applyPattern("EEE, dd MMM yyyy, HH:mm");
-		//Log.v("Date ",sdf.format(d));
-		String date_formated = sdf.format(d);
-		//sdf.applyPattern("yyyy/MM/dd/HH:mm");
-        return date_formated;
+		return sdf.format(d);
     }
     
     public String getDateCreation()
@@ -103,7 +97,7 @@ public class Note
     
     public void setDateCreation(String dc)
     {
-        this.dateCreation = new String(dc);
+        this.dateCreation = dc;
     }
     
     public String getDateModificationFormated()
@@ -111,14 +105,12 @@ public class Note
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH:mm");
     	Date d = null;
 		try {
-			d = sdf.parse(new String(this.dateModification.toString()));
+			d = sdf.parse(this.dateModification);
 		} catch (ParseException e) {
-			e.printStackTrace();
+            Log.e(BuildConfig.APPLICATION_ID ,"exception getDateModificationFormated", e);
 		}
     	sdf.applyPattern("EEE, dd MMM yyyy, HH:mm");
-		String date_formated = sdf.format(d);
-		//sdf.applyPattern("yyyy/MM/dd/HH:mm");
-        return date_formated;
+		return sdf.format(d);
     }
 
     public String getDateModification()
@@ -128,7 +120,7 @@ public class Note
     
     public void setDateModification(String dc)
     {
-        this.dateModification = new String(dc);
+        this.dateModification = dc;
     }
 
     public String getPassword()
@@ -139,16 +131,13 @@ public class Note
     public void setPassword(String pw)
     {
         if ( pw != null)
-            this.password = new String(pw);
+            this.password = pw;
         else
             this.password = null;
     }
     
     public String toString()
     {
-    	//return (String) Html.fromHtml("<b>"+this.getTitre() + "</b> <br/>"+this.getNoteHead());
     	return "Titre : "+titre+"\nNote : "+ this.getNoteHead(30) ;
-    	//return "Titre : "+titre+"\nNote : "+ note+"\nDate de création : " + dateCreation ;
-        //return "ID : "+id+"\nTitre : "+titre+"\nNote : "+ note+"\nDate de création : " + dateCreation ;
     }
 }
