@@ -551,7 +551,7 @@ public class NoteMain extends Activity
             else
             {
                 //noteDetails += "<br/><i>Modified the "+ note.getDateModificationFormated() +"</i>";
-                noteDetails += "<br/><i>"+ this.getString(R.string.detail_modified)+ note.getDateModificationFormated() +"</i>";
+                noteDetails += "<br/><i>" + this.getString(R.string.detail_modified) + " " + note.getDateModificationFormated() + "</i>";
             }
             alertDialog.setMessage(Html.fromHtml(noteDetails));
             alertDialog.setButton("OK", new DialogInterface.OnClickListener()
