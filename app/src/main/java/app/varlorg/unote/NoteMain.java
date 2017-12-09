@@ -26,14 +26,14 @@ import android.os.Parcelable;
 
 public class NoteMain extends Activity
 {
-    static final String EXTRA_TITLE   = "TitreNoteEdition";
-    static final String EXTRA_NOTE    = "NoteEdition";
-    static final String EXTRA_EDITION = "edition";
-    static final String EXTRA_ID      = "id";
-    static final String SEARCH_CONTENT     = "contentSearch";
-    static final String SEARCH_SENSITIVE     = "sensitiveSearch";
-    static final String PREF_SORT     = "pref_tri";
-    static final String PREF_SORT_ORDER      = "pref_ordretri";
+    static final String EXTRA_TITLE      = "TitreNoteEdition";
+    static final String EXTRA_NOTE       = "NoteEdition";
+    static final String EXTRA_EDITION    = "edition";
+    static final String EXTRA_ID         = "id";
+    static final String SEARCH_CONTENT   = "contentSearch";
+    static final String SEARCH_SENSITIVE = "sensitiveSearch";
+    static final String PREF_SORT        = "pref_tri";
+    static final String PREF_SORT_ORDER  = "pref_ordretri";
 
     private static final String HEX = "0123456789ABCDEF";
     ArrayAdapter <Note> simpleAdpt;
@@ -138,7 +138,7 @@ public class NoteMain extends Activity
             public void onItemClick(AdapterView <?> parentAdapter, View view, int position,
                                     long id)
             {
-                final Note n     = (Note)parentAdapter.getItemAtPosition(position);
+                final Note n    = (Note)parentAdapter.getItemAtPosition(position);
                 boolean canEdit = false;
                 if (n.getPassword() != null)
                 {
@@ -411,7 +411,7 @@ public class NoteMain extends Activity
 
             return(toHex(sha1hash));
         } catch (Exception e) {
-            Log.e(BuildConfig.APPLICATION_ID ,"Exception SHA1", e);
+            Log.e(BuildConfig.APPLICATION_ID, "Exception SHA1", e);
         }
         return(null);
     }
@@ -429,7 +429,7 @@ public class NoteMain extends Activity
             return("");
         }
 
-        int          l      = buf.length;
+        int           l      = buf.length;
         StringBuilder result = new StringBuilder(2 * l);
 
         for (int i = 0; i < buf.length; i++)
@@ -555,9 +555,9 @@ public class NoteMain extends Activity
             String dateC       = note.getDateCreation();
             String dateM       = note.getDateModification();
             String noteDetails = "<b>" + this.getString(R.string.detail_title) + ": " + note.getTitre() +
-                                            "</b> <br/>" + note.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30"))) +
-                                            "<br/>" + this.getString(R.string.detail_nb_char) + " : " + note.getNote().length() +
-                                            "<br/><i>" + this.getString(R.string.detail_created) + " " + note.getDateCreationFormated() + "</i>";
+                                 "</b> <br/>" + note.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30"))) +
+                                 "<br/>" + this.getString(R.string.detail_nb_char) + " : " + note.getNote().length() +
+                                 "<br/><i>" + this.getString(R.string.detail_created) + " " + note.getDateCreationFormated() + "</i>";
             if (dateC.equals(dateM))
             {
                 noteDetails += "<br/><i>" + this.getString(R.string.detail_not_modified) + " </i>";
@@ -593,7 +593,7 @@ public class NoteMain extends Activity
         noteBdd.open();
         final MenuItem         itemf = item;
         AdapterContextMenuInfo aInfo = (AdapterContextMenuInfo)item.getMenuInfo();
-        final Note note = (Note)simpleAdpt.getItem(aInfo.position);
+        final Note             note  = (Note)simpleAdpt.getItem(aInfo.position);
         noteBdd.close();
         if (note.getPassword() != null)
         {
@@ -613,7 +613,7 @@ public class NoteMain extends Activity
                 @Override
                 public void onClick(DialogInterface dialog, int id)
                 {
-                    String password  = input.getText().toString();
+                    String password = input.getText().toString();
                     if (note.getPassword().equals(SHA1(password)))
                     {
                         launchMenu(itemf, note);
