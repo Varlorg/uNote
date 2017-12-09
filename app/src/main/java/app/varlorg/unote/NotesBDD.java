@@ -152,7 +152,7 @@ public class NotesBDD
     public List <Note> getAllNotes(int tri, boolean ordre)
     {
         List <Note> noteList    = new ArrayList <>();
-        String           selectQuery = "SELECT  * FROM " + TABLE_NOTES + SQL_ORDER;
+        String      selectQuery = "SELECT  * FROM " + TABLE_NOTES + SQL_ORDER;
         // Select All Query
         if (tri == 1)
         {
@@ -203,7 +203,7 @@ public class NotesBDD
         return(noteList);
     }
 
-    public List<Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch, int tri, boolean ordre)
+    public List <Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch, int tri, boolean ordre)
     {
         List <Note> noteList = new ArrayList <>();
         // Select All Query
@@ -306,7 +306,7 @@ public class NotesBDD
         try {
             backupDB.createNewFile();
         } catch (IOException e) {
-            Log.e(BuildConfig.APPLICATION_ID ,"IOException exportDB", e);
+            Log.e(BuildConfig.APPLICATION_ID, "IOException exportDB", e);
         }
 
         try {
@@ -316,7 +316,7 @@ public class NotesBDD
             source.close();
             destination.close();
         } catch (IOException e) {
-            Log.e(BuildConfig.APPLICATION_ID ,"IOException exportDB", e);
+            Log.e(BuildConfig.APPLICATION_ID, "IOException exportDB", e);
         }
         return(backupDB.toString());
     }
@@ -344,7 +344,7 @@ public class NotesBDD
                 source.close();
                 destination.close();
             } catch (IOException e) {
-                Log.e(BuildConfig.APPLICATION_ID ,"IOException importDB", e);
+                Log.e(BuildConfig.APPLICATION_ID, "IOException importDB", e);
             }
             try {
                 bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
@@ -376,8 +376,7 @@ public class NotesBDD
                 source.close();
                 destination.close();
             } catch (IOException e) {;
-                Log.e(BuildConfig.APPLICATION_ID ,"IOException importDB", e);
-            }
+                                     Log.e(BuildConfig.APPLICATION_ID, "IOException importDB", e); }
             try {
                 bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
             } catch (Exception e) {
