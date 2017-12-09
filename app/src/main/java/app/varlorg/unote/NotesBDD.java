@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -34,6 +35,7 @@ public class NotesBDD
     private static final int NUM_COL_DATEMODIFICATION = 4;
     private static final String COL_PASSWORD          = "password";
     private static final int NUM_COL_PASSWORD         = 5;
+    private static final String SQL_ORDER             = " ORDER BY ";
 
     private SQLiteDatabase bdd;
 
@@ -147,10 +149,10 @@ public class NotesBDD
         return(note);
     }
 
-    public ArrayList <Note> getAllNotes(int tri, boolean ordre)
+    public List <Note> getAllNotes(int tri, boolean ordre)
     {
-        ArrayList <Note> noteList    = new ArrayList <>();
-        String           selectQuery = "SELECT  * FROM " + TABLE_NOTES + " ORDER BY ";
+        List <Note> noteList    = new ArrayList <>();
+        String           selectQuery = "SELECT  * FROM " + TABLE_NOTES + SQL_ORDER;
         // Select All Query
         if (tri == 1)
         {
@@ -201,13 +203,13 @@ public class NotesBDD
         return(noteList);
     }
 
-    public ArrayList <Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch, int tri, boolean ordre)
+    public List<Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch, int tri, boolean ordre)
     {
-        ArrayList <Note> noteList = new ArrayList <Note>();
+        List <Note> noteList = new ArrayList <>();
         // Select All Query
         SQLiteDatabase db          = this.maBaseSQLite.getWritableDatabase();
         String         selectQuery = null;
-        if (sensitiveSearch == true)
+        if (sensitiveSearch)
         {
             db.rawQuery("PRAGMA case_sensitive_like=ON;", null);
         }
@@ -223,24 +225,24 @@ public class NotesBDD
         }
         else
         {
-            selectQuery += COL_TITRE + " LIKE  \"%" + str + "%\"" + " OR ( " + COL_NOTE + " LIKE  \"%" + str + "%\" AND " + COL_PASSWORD + " IS NULL) ";
+            selectQuery += COL_TITRE + " LIKE  \"%" + str + "%\"" + " OR ( " + COL_NOTE + " LIKE  \"%" + str + "%\" AND " + COL_PASSWORD + " IS NULL) " + SQL_ORDER;
         }
 
         if (tri == 1)
         {
-            selectQuery += " ORDER BY " + COL_DATECREATION + " ";
+            selectQuery += COL_DATECREATION + " ";
         }
         else if (tri == 2)
         {
-            selectQuery += " ORDER BY " + COL_DATEMODIFICATION + " ";
+            selectQuery += COL_DATEMODIFICATION + " ";
         }
         else if (tri == 3)
         {
-            selectQuery += " ORDER BY " + COL_TITRE + " ";
+            selectQuery += COL_TITRE + " ";
         }
         else
         {
-            selectQuery += " ORDER BY " + COL_TITRE + " COLLATE NOCASE ";
+            selectQuery += COL_TITRE + " COLLATE NOCASE ";
         }
 
         if (!ordre)
@@ -303,8 +305,8 @@ public class NotesBDD
         File backupDB = new File(sd, backupDBPath);
         try {
             backupDB.createNewFile();
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (IOException e) {
+            Log.e(BuildConfig.APPLICATION_ID ,"IOException exportDB", e);
         }
 
         try {
@@ -314,7 +316,7 @@ public class NotesBDD
             source.close();
             destination.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(BuildConfig.APPLICATION_ID ,"IOException exportDB", e);
         }
         return(backupDB.toString());
     }
@@ -342,7 +344,7 @@ public class NotesBDD
                 source.close();
                 destination.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(BuildConfig.APPLICATION_ID ,"IOException importDB", e);
             }
             try {
                 bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
@@ -373,8 +375,8 @@ public class NotesBDD
                 destination.transferFrom(source, 0, source.size());
                 source.close();
                 destination.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException e) {;
+                Log.e(BuildConfig.APPLICATION_ID ,"IOException importDB", e);
             }
             try {
                 bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
