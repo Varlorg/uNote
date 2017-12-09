@@ -18,27 +18,28 @@ public class Note
 
     public Note()
     {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
-        String date = df.format(Calendar.getInstance().getTime());
-        this.dateCreation = date;
+        SimpleDateFormat df   = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
+        String           date = df.format(Calendar.getInstance().getTime());
+
+        this.dateCreation     = date;
         this.dateModification = date;
-        this.noteContent = "";
-        this.titre = "";
+        this.noteContent      = "";
+        this.titre            = "";
     }
 
     public Note(String t, String c)
     {
-        this.titre = t;
+        this.titre       = t;
         this.noteContent = c;
-        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
-        String date = df.format(Calendar.getInstance().getTime());
-        this.dateCreation = date;
+        SimpleDateFormat df   = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
+        String           date = df.format(Calendar.getInstance().getTime());
+        this.dateCreation     = date;
         this.dateModification = date;
     }
 
     public int getId()
     {
-        return this.id;
+        return(this.id);
     }
 
     public void setId(int id)
@@ -48,7 +49,7 @@ public class Note
 
     public String getTitre()
     {
-        return this.titre;
+        return(this.titre);
     }
 
     public void setTitre(String titre)
@@ -58,17 +59,22 @@ public class Note
 
     public String getNote()
     {
-        return this.noteContent;
+        return(this.noteContent);
     }
 
     public String getNoteHead(int nbChar)
     {
         int max = nbChar;
-        int min = Math.min(max,this.noteContent.length());
+        int min = Math.min(max, this.noteContent.length());
+
         if (max < this.noteContent.length())
-            return this.noteContent.substring(0, min)+ "...";
+        {
+            return(this.noteContent.substring(0, min) + "...");
+        }
         else
-            return this.noteContent.substring(0, min);
+        {
+            return(this.noteContent.substring(0, min));
+        }
     }
 
     public void setNote(String c)
@@ -78,46 +84,47 @@ public class Note
 
     public String getDateCreationFormated()
     {
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH:mm");
-    	Date d = null;
-    	
-		try {
-			d = sdf.parse(this.dateCreation);
-		} catch (ParseException e) {
-            Log.e(BuildConfig.APPLICATION_ID ,"exception getDateCreationFormated", e);
-		}
-    	sdf.applyPattern("EEE, dd MMM yyyy, HH:mm");
-		return sdf.format(d);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH:mm");
+        Date             d   = null;
+
+        try {
+            d = sdf.parse(this.dateCreation);
+        } catch (ParseException e) {
+            Log.e(BuildConfig.APPLICATION_ID, "exception getDateCreationFormated", e);
+        }
+        sdf.applyPattern("EEE, dd MMM yyyy, HH:mm");
+        return(sdf.format(d));
     }
-    
+
     public String getDateCreation()
     {
-        return this.dateCreation;
+        return(this.dateCreation);
     }
-    
+
     public void setDateCreation(String dc)
     {
         this.dateCreation = dc;
     }
-    
+
     public String getDateModificationFormated()
     {
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH:mm");
-    	Date d = null;
-		try {
-			d = sdf.parse(this.dateModification);
-		} catch (ParseException e) {
-            Log.e(BuildConfig.APPLICATION_ID ,"exception getDateModificationFormated", e);
-		}
-    	sdf.applyPattern("EEE, dd MMM yyyy, HH:mm");
-		return sdf.format(d);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/HH:mm");
+        Date             d   = null;
+
+        try {
+            d = sdf.parse(this.dateModification);
+        } catch (ParseException e) {
+            Log.e(BuildConfig.APPLICATION_ID, "exception getDateModificationFormated", e);
+        }
+        sdf.applyPattern("EEE, dd MMM yyyy, HH:mm");
+        return(sdf.format(d));
     }
 
     public String getDateModification()
     {
-        return this.dateModification;
+        return(this.dateModification);
     }
-    
+
     public void setDateModification(String dc)
     {
         this.dateModification = dc;
@@ -125,19 +132,23 @@ public class Note
 
     public String getPassword()
     {
-        return this.password;
+        return(this.password);
     }
 
     public void setPassword(String pw)
     {
-        if ( pw != null)
+        if (pw != null)
+        {
             this.password = pw;
+        }
         else
+        {
             this.password = null;
+        }
     }
-    
+
     public String toString()
     {
-    	return "Titre : "+titre+"\nNote : "+ this.getNoteHead(30) ;
+        return("Titre : " + titre + "\nNote : " + this.getNoteHead(30));
     }
 }
