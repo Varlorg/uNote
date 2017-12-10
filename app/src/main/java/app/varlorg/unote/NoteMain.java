@@ -127,7 +127,7 @@ public class NoteMain extends Activity
             public View getView(int position, View view, ViewGroup viewGroup)
             {
                 view = super.getView(position, view, viewGroup);
-                Note n = (Note)this.getItem(position);
+                Note n = this.getItem(position);
                 return(getViewCustom(position, view, viewGroup, n));
             }
         };
@@ -235,7 +235,7 @@ public class NoteMain extends Activity
                     public View getView(int position, View view, ViewGroup viewGroup)
                     {
                         view = super.getView(position, view, viewGroup);
-                        Note n = (Note)this.getItem(position);
+                        Note n = this.getItem(position);
                         return(getViewCustom(position, view, viewGroup, n));
                     }
                 };
@@ -255,7 +255,7 @@ public class NoteMain extends Activity
                     public View getView(int position, View view, ViewGroup viewGroup)
                     {
                         view = super.getView(position, view, viewGroup);
-                        Note n = (Note)this.getItem(position);
+                        Note n = this.getItem(position);
                         return(getViewCustom(position, view, viewGroup, n));
                     }
                 };
@@ -276,7 +276,7 @@ public class NoteMain extends Activity
                     public View getView(int position, View view, ViewGroup viewGroup)
                     {
                         view = super.getView(position, view, viewGroup);
-                        Note n = (Note)this.getItem(position);
+                        Note n = this.getItem(position);
                         return(getViewCustom(position, view, viewGroup, n));
                     }
                 };
@@ -593,7 +593,7 @@ public class NoteMain extends Activity
         noteBdd.open();
         final MenuItem         itemf = item;
         AdapterContextMenuInfo aInfo = (AdapterContextMenuInfo)item.getMenuInfo();
-        final Note             note  = (Note)simpleAdpt.getItem(aInfo.position);
+        final Note             note  = simpleAdpt.getItem(aInfo.position);
         noteBdd.close();
         if (note.getPassword() != null)
         {
