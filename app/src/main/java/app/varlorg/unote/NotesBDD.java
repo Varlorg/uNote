@@ -36,6 +36,8 @@ public class NotesBDD
     private static final String COL_PASSWORD          = "password";
     private static final int NUM_COL_PASSWORD         = 5;
     private static final String SQL_ORDER             = " ORDER BY ";
+    private static final String DATA_PATH             = "/data/";
+    private static final String DATABASE_FOLDER       = "/databases/";
 
     private SQLiteDatabase bdd;
 
@@ -297,10 +299,10 @@ public class NotesBDD
         File        data          = Environment.getDataDirectory();
         FileChannel source        = null;
         FileChannel destination   = null;
-        String      currentDBPath = "/data/" + BuildConfig.APPLICATION_ID + "/databases/" + NOM_BDD;
-        String      backupDBPath  = "app.varlorg.unote/" + "unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) + ".db";
+        String      currentDBPath = DATA_PATH + BuildConfig.APPLICATION_ID + DATABASE_FOLDER + NOM_BDD;
+        String      backupDBPath  = BuildConfig.APPLICATION_ID + "/unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) + ".db";
         File        currentDB     = new File(data, currentDBPath);
-        File        backupDirDB   = new File(sd, "app.varlorg.unote");
+        File        backupDirDB   = new File(sd, BuildConfig.APPLICATION_ID);
 
         backupDirDB.mkdirs();
         File backupDB = new File(sd, backupDBPath);
@@ -310,14 +312,18 @@ public class NotesBDD
             Log.e(BuildConfig.APPLICATION_ID, "IOException exportDB", e);
         }
 
-        try {
-            source      = new FileInputStream(currentDB).getChannel();
-            destination = new FileOutputStream(backupDB).getChannel();
+        try (
+            FileInputStream s = new FileInputStream(currentDB);
+            FileOutputStream d = new FileOutputStream(backupDB);
+            ) {
+            source      = s.getChannel();
+            destination = d.getChannel();
             destination.transferFrom(source, 0, source.size());
             source.close();
             destination.close();
         } catch (IOException e) {
             Log.e(BuildConfig.APPLICATION_ID, "IOException exportDB", e);
+            return null;
         }
         return(backupDB.toString());
     }
@@ -328,19 +334,22 @@ public class NotesBDD
         File        data          = Environment.getDataDirectory();
         FileChannel source        = null;
         FileChannel destination   = null;
-        String      currentDBPath = "/data/" + BuildConfig.APPLICATION_ID + "/databases/" + NOM_BDD;
-        String      newDBPath     = "app.varlorg.unote/" + NOM_BDD;
+        String      currentDBPath = DATA_PATH + BuildConfig.APPLICATION_ID + DATABASE_FOLDER + NOM_BDD;
+        String      newDBPath     = BuildConfig.APPLICATION_ID + "/" + NOM_BDD;
         File        currentDB     = new File(data, currentDBPath);
-        File        newDirDB      = new File(sd, "app.varlorg.unote");
+        File        newDirDB      = new File(sd, BuildConfig.APPLICATION_ID);
 
         newDirDB.mkdirs();
         File newDB = new File(sd, newDBPath);
 
         if (newDB.exists())
         {
-            try {
-                destination = new FileOutputStream(currentDB).getChannel();
-                source      = new FileInputStream(newDB).getChannel();
+            try (
+                FileInputStream s = new FileInputStream(newDB);
+                FileOutputStream d = new FileOutputStream(currentDB);
+                ) {
+                source      = s.getChannel();
+                destination = d.getChannel();
                 destination.transferFrom(source, 0, source.size());
                 source.close();
                 destination.close();
@@ -350,6 +359,7 @@ public class NotesBDD
             try {
                 bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
             } catch (Exception e) {
+                Log.e(BuildConfig.APPLICATION_ID, "IOException importDB", e);
             }
             return(newDB.toString());
         }
@@ -365,22 +375,27 @@ public class NotesBDD
         File        data          = Environment.getDataDirectory();
         FileChannel source        = null;
         FileChannel destination   = null;
-        String      currentDBPath = "/data/" + BuildConfig.APPLICATION_ID + "/databases/" + NOM_BDD;
+        String      currentDBPath = DATA_PATH + BuildConfig.APPLICATION_ID + DATABASE_FOLDER + NOM_BDD;
         File        currentDB     = new File(data, currentDBPath);
 
         if (dbToImport.exists())
         {
-            try {
-                destination = new FileOutputStream(currentDB).getChannel();
-                source      = new FileInputStream(dbToImport).getChannel();
+            try (
+                FileInputStream s = new FileInputStream(dbToImport);
+                FileOutputStream d = new FileOutputStream(currentDB);
+                ) {
+                source      = s.getChannel();
+                destination = d.getChannel();
                 destination.transferFrom(source, 0, source.size());
                 source.close();
                 destination.close();
-            } catch (IOException e) {;
-                                     Log.e(BuildConfig.APPLICATION_ID, "IOException importDB", e); }
+            } catch (IOException e) {
+                Log.e(BuildConfig.APPLICATION_ID, "IOException importDB", e);
+            }
             try {
                 bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
             } catch (Exception e) {
+                Log.e(BuildConfig.APPLICATION_ID, "Exception importDB", e);
             }
             return(dbToImport.toString());
         }
