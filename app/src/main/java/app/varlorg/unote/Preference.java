@@ -1,6 +1,5 @@
 package app.varlorg.unote;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -14,29 +13,13 @@ public class Preference extends PreferenceActivity {
     public void onCreate(Bundle savedInstanceState)
     {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        int currentapiVersion  = android.os.Build.VERSION.SDK_INT;
-
-        if (currentapiVersion >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+        if (!pref.getBoolean("pref_theme", false))
         {
-            if (!pref.getBoolean("pref_theme", false))
-            {
-                setTheme(android.R.style.Theme_DeviceDefault);
-            }
-            else
-            {
-                setTheme(android.R.style.Theme_DeviceDefault_Light);
-            }
+            setTheme(android.R.style.Theme_DeviceDefault);
         }
         else
         {
-            if (!pref.getBoolean("pref_theme", false))
-            {
-                setTheme(android.R.style.Theme_Black);
-            }
-            else
-            {
-                setTheme(android.R.style.Theme_Light);
-            }
+            setTheme(android.R.style.Theme_DeviceDefault_Light);
         }
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preference);
