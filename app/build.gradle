@@ -1,4 +1,9 @@
+plugins {
+    id "org.sonarqube" version "2.5"
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'org.sonarqube'
 
 android {
     compileSdkVersion 23
@@ -30,3 +35,4 @@ dependencies {
     //compile 'com.android.support:appcompat-v7:23.1.1'
 }
 android { lintOptions { disable 'MissingTranslation' } }
+
