@@ -308,6 +308,8 @@ public class NotesBDD
         File backupDB = new File(sd, backupDBPath);
         try {
             backupDB.createNewFile();
+            // returns true, if the named file doesn't exist and was successfully created
+            // returns false if the file exists => overwritten, manual action db cannot changed
         } catch (IOException e) {
             Log.e(BuildConfig.APPLICATION_ID, "IOException exportDB", e);
         }
