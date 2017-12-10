@@ -123,9 +123,15 @@ public class RestoreDbActivity extends ListActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int id)
                 {
-                    restoreFile.file.delete();
-                    refresh();
-                    (Toast.makeText(RestoreDbActivity.this, RestoreDbActivity.this.getString(R.string.toast_backup_deleted), Toast.LENGTH_LONG)).show();
+                    if (!restoreFile.file.delete())
+                    {
+                        (Toast.makeText(RestoreDbActivity.this, RestoreDbActivity.this.getString(R.string.toast_backup_deleted_error), Toast.LENGTH_LONG)).show();
+                    }
+                    else
+                    {
+                        refresh();
+                        (Toast.makeText(RestoreDbActivity.this, RestoreDbActivity.this.getString(R.string.toast_backup_deleted), Toast.LENGTH_LONG)).show();
+                    }
                 }
             })
             .setNegativeButton(this.getString(R.string.dialog_delete_no), new DialogInterface.OnClickListener()
