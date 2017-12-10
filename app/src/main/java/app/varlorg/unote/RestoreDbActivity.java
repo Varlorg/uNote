@@ -169,7 +169,7 @@ public class RestoreDbActivity extends ListActivity {
     {
         File backupDirectory = new File(
             Environment.getExternalStorageDirectory(),
-            "app.varlorg.unote");
+            BuildConfig.APPLICATION_ID);
 
         adapter.clear();
         if (backupDirectory.isDirectory())
