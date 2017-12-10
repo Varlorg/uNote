@@ -25,7 +25,8 @@
             android:name=".Preference">
         </activity>
         <activity
-            android:name=".RestoreDbActivity">
+            android:name=".RestoreDbActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
     </application>
 
