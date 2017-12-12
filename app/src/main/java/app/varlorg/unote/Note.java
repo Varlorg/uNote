@@ -16,25 +16,20 @@ public class Note
     private String dateModification;
     private String password;
 
-    public Note()
-    {
-        SimpleDateFormat df   = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
-        String           date = df.format(Calendar.getInstance().getTime());
-
-        this.dateCreation     = date;
-        this.dateModification = date;
-        this.noteContent      = "";
-        this.titre            = "";
-    }
-
     public Note(String t, String c)
     {
-        this.titre       = t;
-        this.noteContent = c;
         SimpleDateFormat df   = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
         String           date = df.format(Calendar.getInstance().getTime());
         this.dateCreation     = date;
         this.dateModification = date;
+        this.titre            = t;
+        this.noteContent      = c;
+        this.password         = null;
+    }
+
+    public Note()
+    {
+        this("","");
     }
 
     public int getId()
@@ -137,18 +132,7 @@ public class Note
 
     public void setPassword(String pw)
     {
-        if (pw != null)
-        {
-            this.password = pw;
-        }
-        else
-        {
-            this.password = null;
-        }
-    }
-
-    public String toString()
-    {
-        return("Titre : " + titre + "\nNote : " + this.getNoteHead(30));
+        // pw is null for removing password
+        this.password = pw;
     }
 }
