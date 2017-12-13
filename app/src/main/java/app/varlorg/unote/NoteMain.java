@@ -38,6 +38,7 @@ public class NoteMain extends Activity
     ArrayAdapter<Note> simpleAdpt;
     private EditText editsearch;
     private Button btnClear;
+    ArrayList<Note> listeNotes;
     private CheckBox cbSearchContent;
     private CheckBox cbSearchCase;
     //NotesBDD noteBdd;
