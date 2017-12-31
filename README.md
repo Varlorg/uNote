@@ -42,16 +42,25 @@ Fork the project and modify files info the folder named "values-`<ISO_code>`" in
 
 The icon of the application has been taken for openclipart.org, made by enolynn [here the link] (https://openclipart.org/detail/190827/feuille-de-carnet-sheet-book)
 
-Here some screenshots:
+**Screenshots**
 
-![Alt text](img/main.png?raw=true "Main activity empty")
 The main screen 
 
-![Alt text](img/preferences.png?raw=true "Preferences")
-the preferences screen
+![Main screen](img/main.png?raw=true "Main activity empty")
 
-![Alt text](img/noteEdition.png?raw=true "Create note")
+The preferences screen
+
+![Preference screen](img/pref1.jpg?raw=true "Preferences")
+![Preference screen](img/pref2.jpg?raw=true "Preferences")
+
 Creating a note
 
-![Alt text](img/listNote.png?raw=true "Main activity with one note")
+![Note creation](img/noteEdition.png?raw=true "Create note")
+
 The main note with the note created
+
+![Alt text](img/listNote.png?raw=true "Main activity with one note")
+
+Search a note
+
+![Search feature](img/search.jpg?raw=true "Search a note")
