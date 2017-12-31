@@ -18,8 +18,25 @@ It focus on simplicity and gives only basic features:
 
 Warning: the database may be cleaned if you update from 1.0.X to 1.1.X
 
-Thanks for Chris Orj for the german translation and Andrés Hernández for the spanish one.
+**Translations**
 
+* English
+* French
+* German thanks for Chris Orj
+* Spanish thanks to Andrés Hernándeaz (alias auroszx)
+* Portuguese thanks to John (alias Maverick74)
+
+**Translation contribution**
+
+*If you want to add a new language*
+
+Fork the project and create a folder named "values-`<ISO_code>`" in app/src/main/res, then copy the strings.xml and array.xml files from app/src/main/res/values and translate them.
+
+*If you want to improve an existing language*
+
+Fork the project and modify files info the folder named "values-`<ISO_code>`" in app/src/main/res.
+
+[A guide about Android ISO code](http://www.wilsonmar.com/android_localization.htm)
 
 **Icon**
 
