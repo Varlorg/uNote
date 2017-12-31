@@ -22,7 +22,7 @@ Warning: the database may be cleaned if you update from 1.0.X to 1.1.X
 
 * English
 * French
-* German thanks for Chris Orj
+* German thanks to Chris Orj
 * Spanish thanks to Andrés Hernándeaz (alias auroszx)
 * Portuguese thanks to John (alias Maverick74)
 
