@@ -2,7 +2,12 @@ uNote
 =====
 
 uNote is an android application, it's a lightweight and minimalist notepad. uNote is for "micro Note".  
-It is available on f-droid repo: [uNote f-droid link] (https://f-droid.org/repository/browse/?fdid=app.varlorg.unote).  
+It is available on f-droid repo:
+
+[<img src="https://f-droid.org/badge/get-it-on.png"
+      alt="Get it on F-Droid"
+      height="80">](https://f-droid.org/app/app.varlorg.unote)
+
 It focus on simplicity and gives only basic features:
 
 * add/delete note,
@@ -11,11 +16,14 @@ It focus on simplicity and gives only basic features:
 * Search notes (only title or also in content except the ones password protected)
 * Export/Import database to sdcard
 
-Attention: the database may be cleaned if you update from 1.0.X to 1.1.X
+Warning: the database may be cleaned if you update from 1.0.X to 1.1.X
 
 Thanks for Chris Orj for the german translation and Andrés Hernández for the spanish one.
 
-The icon of the application has been taken for openclipart.org, [here the link] (https://openclipart.org/detail/190827/feuille-de-carnet-sheet-book)
+
+**Icon**
+
+The icon of the application has been taken for openclipart.org, made by enolynn [here the link] (https://openclipart.org/detail/190827/feuille-de-carnet-sheet-book)
 
 Here some screenshots:
 
