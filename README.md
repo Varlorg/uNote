@@ -2,8 +2,13 @@ uNote
 =====
 
 uNote is an android application, it's a lightweight and minimalist notepad. uNote is for "micro Note".  
-It is available on f-droid repo: [uNote f-droid link] (https://f-droid.org/repository/browse/?fdid=app.varlorg.unote).  
-It focus on simplicity and gives only basic features:
+It is available on f-droid repo:
+
+[<img src="https://f-droid.org/badge/get-it-on.png"
+      alt="Get it on F-Droid"
+      height="80">](https://f-droid.org/app/app.varlorg.unote)
+
+It focuses on simplicity and gives only basic features:
 
 * add/delete note,
 * secure a note with password (since version 1.1.0)
@@ -11,22 +16,51 @@ It focus on simplicity and gives only basic features:
 * Search notes (only title or also in content except the ones password protected)
 * Export/Import database to sdcard
 
-Attention: the database may be cleaned if you update from 1.0.X to 1.1.X
+Warning: the database may be cleaned if you update from 1.0.X to 1.1.X
 
-Thanks for Chris Orj for the german translation and Andrés Hernández for the spanish one.
+**Translations**
 
-The icon of the application has been taken for openclipart.org, [here the link] (https://openclipart.org/detail/190827/feuille-de-carnet-sheet-book)
+* English
+* French
+* German thanks for Chris Orj
+* Spanish thanks to Andrés Hernándeaz (alias auroszx)
+* Portuguese thanks to John (alias Maverick74)
 
-Here some screenshots:
+**Translation contribution**
 
-![Alt text](img/main.png?raw=true "Main activity empty")
+*If you want to add a new language*
+
+Fork the project and create a folder named "values-`<ISO_code>`" in app/src/main/res, then copy the strings.xml and array.xml files from app/src/main/res/values and translate them.
+
+*If you want to improve an existing language*
+
+Fork the project and modify files info the folder named "values-`<ISO_code>`" in app/src/main/res.
+
+[A guide about Android ISO code](http://www.wilsonmar.com/android_localization.htm)
+
+**Icon**
+
+The icon of the application has been taken for openclipart.org, made by enolynn [here the link] (https://openclipart.org/detail/190827/feuille-de-carnet-sheet-book)
+
+**Screenshots**
+
 The main screen 
 
-![Alt text](img/preferences.png?raw=true "Preferences")
-the preferences screen
+![Main screen](img/main.png?raw=true "Main activity empty")
 
-![Alt text](img/noteEdition.png?raw=true "Create note")
+The preferences screen
+
+![Preference screen](img/pref1.jpg?raw=true "Preferences")
+![Preference screen](img/pref2.jpg?raw=true "Preferences")
+
 Creating a note
 
-![Alt text](img/listNote.png?raw=true "Main activity with one note")
+![Note creation](img/noteEdition.png?raw=true "Create note")
+
 The main note with the note created
+
+![Alt text](img/listNote.png?raw=true "Main activity with one note")
+
+Search a note
+
+![Search feature](img/search.jpg?raw=true "Search a note")
