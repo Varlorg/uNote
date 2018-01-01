@@ -2,7 +2,7 @@ image: openjdk:8-jdk
 
 variables:
   ANDROID_COMPILE_SDK: "23"
-  ANDROID_BUILD_TOOLS: "23.0.0"
+  ANDROID_BUILD_TOOLS: "23.0.3"
   ANDROID_SDK_TOOLS: "23.0.2"
 
 before_script:
