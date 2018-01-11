@@ -156,6 +156,9 @@ public class NoteMain extends Activity
                                         intentTextEdition.putExtra(EXTRA_ID, n.getId());
                                         NoteMain.this.startActivity(intentTextEdition);
                                     }
+                                    else {
+                                        Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             })
                             //.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -603,6 +606,9 @@ public class NoteMain extends Activity
                             NotesBDD noteBdd = new NotesBDD(NoteMain.this);
                             if ( note.getPassword().equals(SHA1(password)) ) {
                                 launchMenu(itemf,note);
+                            }
+                            else {
+                                Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG).show();
                             }
                         }
                     })

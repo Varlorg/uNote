@@ -65,6 +65,7 @@
     <!-- Note Main toasts' text"-->
     <string name="pwd_protected">Passwortgeschützt</string>
     <string name="note_deleted">Notiz gelöscht !</string>
+    <string name="toast_pwd_error">Falsches Passwort</string>
 
     <string name="menu_title">Notiz Menu</string>
     <string name="menu_edit">Editieren</string>

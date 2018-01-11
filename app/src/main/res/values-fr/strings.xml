@@ -67,6 +67,7 @@
 	<!-- Note Main toasts' text"-->
 	<string name="pwd_protected">Protégée par mot de passe</string>
 	<string name="note_deleted">Note supprimée !</string>
+	<string name="toast_pwd_error">Mot de passe incorrect</string>
 
 	<string name="menu_title">Note Menu</string>
 	<string name="menu_edit">Éditer</string>
