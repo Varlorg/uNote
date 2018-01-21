@@ -260,8 +260,9 @@ public class RestoreDbActivity extends ListActivity {
             file = f;
         }
 
-        public File getFile() {
-            return file;
+        public File getFile()
+        {
+            return(file);
         }
 
         @Override
