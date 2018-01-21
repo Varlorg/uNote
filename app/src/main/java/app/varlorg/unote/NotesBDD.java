@@ -312,47 +312,6 @@ public class NotesBDD
         return(backupDB.toString());
     }
 
-    public String importDB()
-    {
-        File        sd            = Environment.getExternalStorageDirectory();
-        File        data          = Environment.getDataDirectory();
-        FileChannel source        = null;
-        FileChannel destination   = null;
-        String      currentDBPath = DATA_PATH + BuildConfig.APPLICATION_ID + DATABASE_FOLDER + NOM_BDD;
-        String      newDBPath     = BuildConfig.APPLICATION_ID + "/" + NOM_BDD;
-        File        currentDB     = new File(data, currentDBPath);
-        File        newDirDB      = new File(sd, BuildConfig.APPLICATION_ID);
-
-        newDirDB.mkdirs();
-        File newDB = new File(sd, newDBPath);
-
-        if (newDB.exists())
-        {
-            try (
-                FileInputStream s = new FileInputStream(newDB);
-                FileOutputStream d = new FileOutputStream(currentDB);
-                ) {
-                source      = s.getChannel();
-                destination = d.getChannel();
-                destination.transferFrom(source, 0, source.size());
-                source.close();
-                destination.close();
-            } catch (IOException e) {
-                Log.e(BuildConfig.APPLICATION_ID, "IOException importDB", e);
-            }
-            try {
-                bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
-            } catch (Exception e) {
-                Log.e(BuildConfig.APPLICATION_ID, "IOException importDB", e);
-            }
-            return(newDB.toString());
-        }
-        else
-        {
-            return(null);
-        }
-    }
-
     public String importDB(File dbToImport)
     {
         File        sd            = Environment.getExternalStorageDirectory();
