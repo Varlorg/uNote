@@ -123,7 +123,7 @@ public class RestoreDbActivity extends ListActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int id)
                 {
-                    if (!restoreFile.file.delete())
+                    if (!restoreFile.getFile().delete())
                     {
                         (Toast.makeText(RestoreDbActivity.this, RestoreDbActivity.this.getString(R.string.toast_backup_deleted_error), Toast.LENGTH_LONG)).show();
                     }
@@ -158,7 +158,7 @@ public class RestoreDbActivity extends ListActivity {
         {
             // test restore file
             SQLiteDatabase db = SQLiteDatabase.openDatabase(
-                restoreFile.file.getPath(), null, SQLiteDatabase.OPEN_READONLY);
+                restoreFile.getFile().getPath(), null, SQLiteDatabase.OPEN_READONLY);
             db.close();
 
             // Dialog: This will overwrite the existing items, continue?
@@ -222,7 +222,7 @@ public class RestoreDbActivity extends ListActivity {
         {
             // copy new file into place
             NotesBDD noteBdd = new NotesBDD(null);
-            noteBdd.importDB(restoreFile.file);
+            noteBdd.importDB(restoreFile.getFile());
 
             // delete backup
             dbBakFile.delete();
@@ -243,7 +243,7 @@ public class RestoreDbActivity extends ListActivity {
 
         Toast.makeText(
             this,
-            (new NameOnlyFile(restoreFile.file)).toString() + " " +
+            (new NameOnlyFile(restoreFile.getFile())).toString() + " " +
             getResources().getString(R.string.restoreToastRestoreFinished),
             Toast.LENGTH_LONG
             ).show();
@@ -253,11 +253,15 @@ public class RestoreDbActivity extends ListActivity {
 
     private static class NameOnlyFile
     {
-        public File file;
+        private File file;
 
         public NameOnlyFile(File f)
         {
             file = f;
+        }
+
+        public File getFile() {
+            return file;
         }
 
         @Override
