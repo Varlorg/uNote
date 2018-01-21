@@ -179,7 +179,7 @@ public class NotesBDD
         }
 
         SQLiteDatabase db = this.maBaseSQLite.getWritableDatabase();
-        return(fillListNote(db, selectQuery,noteList));
+        return(fillListNote(db, selectQuery, noteList));
     }
 
     public List <Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch, int tri, boolean ordre)
@@ -230,10 +230,10 @@ public class NotesBDD
             selectQuery += " DESC";
         }
 
-        return(fillListNote(db, selectQuery,noteList));
+        return(fillListNote(db, selectQuery, noteList));
     }
 
-    public List<Note> fillListNote(SQLiteDatabase db, String selectQuery, List<Note> noteList)
+    public List <Note> fillListNote(SQLiteDatabase db, String selectQuery, List <Note> noteList)
     {
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -307,7 +307,7 @@ public class NotesBDD
             destination.close();
         } catch (IOException e) {
             Log.e(BuildConfig.APPLICATION_ID, "IOException exportDB", e);
-            return null;
+            return(null);
         }
         return(backupDB.toString());
     }
