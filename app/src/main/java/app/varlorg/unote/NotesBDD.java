@@ -179,30 +179,7 @@ public class NotesBDD
         }
 
         SQLiteDatabase db = this.maBaseSQLite.getWritableDatabase();
-        Cursor         c  = db.rawQuery(selectQuery, null);
-        // looping through all rows and adding to list
-        if (c.moveToFirst())
-        {
-            do
-            {
-                Note note = new Note();
-                note.setId(c.getInt(NUM_COL_ID));
-                note.setNote(c.getString(NUM_COL_ISBN));
-                note.setTitre(c.getString(NUM_COL_TITRE));
-                note.setDateCreation(c.getString(NUM_COL_DATECREATION));
-                note.setDateModification(c.getString(NUM_COL_DATEMODIFICATION));
-                if (c.getString(NUM_COL_PASSWORD) != null)
-                {
-                    note.setPassword(c.getString(NUM_COL_PASSWORD));
-                }
-                // Adding contact to list
-                noteList.add(note);
-            } while (c.moveToNext());
-        }
-
-        // return contact list
-        c.close();
-        return(noteList);
+        return(fillListNote(db, selectQuery,noteList));
     }
 
     public List <Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch, int tri, boolean ordre)
@@ -253,6 +230,11 @@ public class NotesBDD
             selectQuery += " DESC";
         }
 
+        return(fillListNote(db, selectQuery,noteList));
+    }
+
+    public List<Note> fillListNote(SQLiteDatabase db, String selectQuery, List<Note> noteList)
+    {
         Cursor c = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
