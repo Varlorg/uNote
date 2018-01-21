@@ -13,6 +13,7 @@ public class Preference extends PreferenceActivity {
     public void onCreate(Bundle savedInstanceState)
     {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+
         if (!pref.getBoolean("pref_theme", false))
         {
             setTheme(android.R.style.Theme_DeviceDefault);
@@ -31,10 +32,12 @@ public class Preference extends PreferenceActivity {
             {
                 NotesBDD noteBdd = new NotesBDD(null);
                 String path      = noteBdd.exportDB();
-                if (path != null) {
+                if (path != null)
+                {
                     Toast.makeText(Preference.this, Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ", Toast.LENGTH_LONG).show();
                 }
-                else {
+                else
+                {
                     Toast.makeText(Preference.this, " Error " + path + " ! ", Toast.LENGTH_LONG).show();
                 }
                 return(false);
