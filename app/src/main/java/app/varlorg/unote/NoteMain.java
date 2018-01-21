@@ -108,6 +108,7 @@ public class NoteMain extends Activity
         lv         = (ListView)findViewById(R.id.listView);
         simpleAdpt = new ArrayAdapter <Note>(this, R.layout.notelist, listeNotes)
         {
+            @Override
             public View getView(int position, View view, ViewGroup viewGroup)
             {
                 view = super.getView(position, view, viewGroup);
@@ -216,6 +217,7 @@ public class NoteMain extends Activity
                 List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
                 simpleAdpt = new ArrayAdapter <Note>     (getApplicationContext(), R.layout.notelist, listeNotesRecherche)
                 {
+                    @Override
                     public View getView(int position, View view, ViewGroup viewGroup)
                     {
                         view = super.getView(position, view, viewGroup);
@@ -236,6 +238,7 @@ public class NoteMain extends Activity
                 List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, isChecked, !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
                 simpleAdpt = new ArrayAdapter <Note>(getApplicationContext(), R.layout.notelist, listeNotesRecherche)
                 {
+                    @Override
                     public View getView(int position, View view, ViewGroup viewGroup)
                     {
                         view = super.getView(position, view, viewGroup);
@@ -257,6 +260,7 @@ public class NoteMain extends Activity
                 List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !isChecked, Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
                 simpleAdpt = new ArrayAdapter <Note>(getApplicationContext(), R.layout.notelist, listeNotesRecherche)
                 {
+                    @Override
                     public View getView(int position, View view, ViewGroup viewGroup)
                     {
                         view = super.getView(position, view, viewGroup);
