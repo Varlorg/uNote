@@ -154,38 +154,40 @@ public class NoteEdition extends Activity
         this.finish();
     }
 
+    public void dialogConfirmationExit()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+        .setTitle(NoteEdition.this.getString(R.string.toast_titleCancel))
+        .setMessage(NoteEdition.this.getString(R.string.toast_msgCancel))
+        .setPositiveButton(NoteEdition.this.getString(R.string.toast_positiveButton), new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+                NoteEdition.this.finish();
+                returnMain();
+            }
+        })
+        .setNegativeButton(NoteEdition.this.getString(R.string.toast_negativeButton), new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+                dialog.cancel();
+            }
+        })
+        .show();
+    }
+
     public void quit(View v)
     {
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
-
         if ((note.getTag() != null || titre.getTag() != null) && pref.getBoolean("pref_cancel", false))
         {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder
-            .setTitle(NoteEdition.this.getString(R.string.toast_titleCancel))
-            .setMessage(NoteEdition.this.getString(R.string.toast_msgCancel))
-            .setPositiveButton(NoteEdition.this.getString(R.string.toast_positiveButton), new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialog, int id)
-                {
-                    NoteEdition.this.finish();
-                    returnMain();
-                }
-            })
-            .setNegativeButton(NoteEdition.this.getString(R.string.toast_negativeButton), new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialog, int id)
-                {
-                    dialog.cancel();
-                }
-            })
-            .show();
+            dialogConfirmationExit();
         }
         else
         {
-            this.finish();
             returnMain();
         }
     }
@@ -193,34 +195,13 @@ public class NoteEdition extends Activity
     @Override
     public void onBackPressed()
     {
-        if ((note.getTag() != null || titre.getTag() != null) && pref.getBoolean("pref_cancel_back", false))
+        if ((note.getTag() != null || titre.getTag() != null) && (pref.getBoolean("pref_cancel_back", false) || pref.getBoolean("pref_cancel", false)))
         {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder
-            .setTitle(NoteEdition.this.getString(R.string.toast_titleCancel))
-            .setMessage(NoteEdition.this.getString(R.string.toast_msgCancel))
-            .setPositiveButton(NoteEdition.this.getString(R.string.toast_positiveButton), new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialog, int id)
-                {
-                    NoteEdition.this.finish();
-                    returnMain();
-                }
-            })
-            .setNegativeButton(NoteEdition.this.getString(R.string.toast_negativeButton), new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialog, int id)
-                {
-                    dialog.cancel();
-                }
-            })
-            .show();
+            dialogConfirmationExit();
         }
         else
         {
-            this.quit(this.findViewById(id));
+            returnMain();
         }
     }
 }
