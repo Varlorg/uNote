@@ -314,7 +314,6 @@ public class NotesBDD
 
     public String importDB(File dbToImport)
     {
-        File        sd            = Environment.getExternalStorageDirectory();
         File        data          = Environment.getDataDirectory();
         FileChannel source        = null;
         FileChannel destination   = null;
