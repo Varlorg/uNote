@@ -25,25 +25,25 @@ import android.os.Parcelable;
 
 public class NoteMain extends Activity
 {
-    static final String EXTRA_TITLE      = "TitreNoteEdition";
-    static final String EXTRA_NOTE       = "NoteEdition";
-    static final String EXTRA_EDITION    = "edition";
-    static final String EXTRA_ID         = "id";
-    static final String SEARCH_CONTENT   = "contentSearch";
-    static final String SEARCH_SENSITIVE = "sensitiveSearch";
-    static final String PREF_SORT        = "pref_tri";
-    static final String PREF_SORT_ORDER  = "pref_ordretri";
+    private static final String EXTRA_TITLE      = "TitreNoteEdition";
+    private static final String EXTRA_NOTE       = "NoteEdition";
+    private static final String EXTRA_EDITION    = "edition";
+    private static final String EXTRA_ID         = "id";
+    private static final String SEARCH_CONTENT   = "contentSearch";
+    private static final String SEARCH_SENSITIVE = "sensitiveSearch";
+    private static final String PREF_SORT        = "pref_tri";
+    private static final String PREF_SORT_ORDER  = "pref_ordretri";
 
     private static final String HEX = "0123456789ABCDEF";
-    ArrayAdapter <Note> simpleAdpt;
+    private ArrayAdapter <Note> simpleAdpt;
     private EditText editsearch;
     private Button btnClear;
-    List<Note> listeNotes;
+    private List <Note> listeNotes;
     private CheckBox cbSearchContent;
     private CheckBox cbSearchCase;
-    ListView lv;
-    SharedPreferences pref;
-    Parcelable state;
+    private ListView lv;
+    private SharedPreferences pref;
+    private Parcelable state;
 
     @Override
     public void onPause()
@@ -62,7 +62,7 @@ public class NoteMain extends Activity
         noteBdd.open();
         String text = editsearch.getText().toString();
 
-        if (text.equals(""))
+        if ("".equals(text))
         {
             listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
         }

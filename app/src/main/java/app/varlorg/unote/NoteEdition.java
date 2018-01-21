@@ -17,14 +17,14 @@ import android.widget.Toast;
 
 public class NoteEdition extends Activity
 {
-    static final String EXTRA_TITLE   = "TitreNoteEdition";
-    static final String EXTRA_NOTE    = "NoteEdition";
-    static final String EXTRA_EDITION = "edition";
-    static final String EXTRA_ID      = "id";
-    static final String EXTRA_SIZE    = "pref_sizeNote";
-    boolean edit = false;
-    int id       = 0;
-    SharedPreferences pref;
+    private static final String EXTRA_TITLE   = "TitreNoteEdition";
+    private static final String EXTRA_NOTE    = "NoteEdition";
+    private static final String EXTRA_EDITION = "edition";
+    private static final String EXTRA_ID      = "id";
+    private static final String EXTRA_SIZE    = "pref_sizeNote";
+    private boolean edit = false;
+    private int id       = 0;
+    private SharedPreferences pref;
     private EditText titre;
     private EditText note;
 
