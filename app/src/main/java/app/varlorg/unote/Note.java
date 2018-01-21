@@ -20,6 +20,7 @@ public class Note
     {
         SimpleDateFormat df   = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
         String           date = df.format(Calendar.getInstance().getTime());
+
         this.dateCreation     = date;
         this.dateModification = date;
         this.titre            = t;
@@ -29,7 +30,7 @@ public class Note
 
     public Note()
     {
-        this("","");
+        this("", "");
     }
 
     public int getId()
