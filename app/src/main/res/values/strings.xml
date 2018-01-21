@@ -111,6 +111,7 @@
 	<string name="dialog_backup_menu_deletion">Delete this backup</string>
 	<string name="dialog_delete_backup">Delete Backup</string>
 	<string name="toast_backup_deleted">Backup deleted</string>
+	<string name="toast_backup_deleted_error">Deleting backup failed</string>
 
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>

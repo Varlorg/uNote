@@ -1,19 +1,14 @@
 package app.varlorg.unote;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.security.MessageDigest;
-//import java.security.NoSuchAlgorithmException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-//import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.res.Configuration;
-import android.os.Build;
+
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -22,7 +17,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.*;//ViewGroup;
+import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.app.Instrumentation;
@@ -30,215 +25,229 @@ import android.os.Parcelable;
 
 public class NoteMain extends Activity
 {
+    private static final String EXTRA_TITLE      = "TitreNoteEdition";
+    private static final String EXTRA_NOTE       = "NoteEdition";
+    private static final String EXTRA_EDITION    = "edition";
+    private static final String EXTRA_ID         = "id";
+    private static final String SEARCH_CONTENT   = "contentSearch";
+    private static final String SEARCH_SENSITIVE = "sensitiveSearch";
+    private static final String PREF_SORT        = "pref_tri";
+    private static final String PREF_SORT_ORDER  = "pref_ordretri";
 
-    final String EXTRA_TITLE = "TitreNoteEdition";
-    final String EXTRA_NOTE = "NoteEdition";
-    final String EXTRA_EDITION = "edition";
-    final String EXTRA_ID = "id";
-    ArrayAdapter<Note> simpleAdpt;
+    private static final String HEX = "0123456789ABCDEF";
+    private ArrayAdapter <Note> simpleAdpt;
     private EditText editsearch;
     private Button btnClear;
-    ArrayList<Note> listeNotes;
+    private List <Note> listeNotes;
     private CheckBox cbSearchContent;
     private CheckBox cbSearchCase;
-    //NotesBDD noteBdd;
-    ListView lv;
-    SharedPreferences pref;
-    Parcelable state;
+    private ListView lv;
+    private SharedPreferences pref;
+    private Parcelable state;
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         // Save ListView state @ onPause
         state = lv.onSaveInstanceState();
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
 
         final NotesBDD noteBdd = new NotesBDD(this);
         noteBdd.open();
         String text = editsearch.getText().toString();
 
-        if (text.equals("") )
+        if ("".equals(text))
         {
-            listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+            listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
         }
-        else {
-            listeNotes = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+        else
+        {
+            listeNotes = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
         }
         noteBdd.close();
-        //listeNotes.addAll(listeNotes);
         simpleAdpt.clear();
         simpleAdpt.addAll(listeNotes);
         simpleAdpt.notifyDataSetChanged();
-        if (pref.getBoolean("pref_scroll", false) == true && state != null )
+        if (pref.getBoolean("pref_scroll", false) && state != null)
         {
             lv.onRestoreInstanceState(state);
-        }else{
+        }
+        else
+        {
             lv.setAdapter(simpleAdpt);
         }
-
-     }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentapiVersion >= Build.VERSION_CODES.ICE_CREAM_SANDWICH){
-            if (pref.getBoolean("pref_theme",false) == false) {
-                setTheme(android.R.style.Theme_DeviceDefault);
-            } else {
-                setTheme(android.R.style.Theme_DeviceDefault_Light);
-            }
-        } else{
-            if (pref.getBoolean("pref_theme",false) == false) {
-                setTheme(android.R.style.Theme_Black);
-            } else {
-                setTheme(android.R.style.Theme_Light);
-            }
+        if (!pref.getBoolean("pref_theme", false))
+        {
+            setTheme(android.R.style.Theme_DeviceDefault);
+        }
+        else
+        {
+            setTheme(android.R.style.Theme_DeviceDefault_Light);
         }
 
         setContentView(R.layout.activity_notemain);
 
         final NotesBDD noteBdd = new NotesBDD(this);
         noteBdd.open();
-        listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
+        listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
         /****************************************************************************************/
-     // The data to show
-        lv = (ListView) findViewById(R.id.listView);
-        simpleAdpt = new ArrayAdapter<Note>(this, R.layout.notelist, listeNotes ){
-        		public View getView(int position, View view, ViewGroup viewGroup)
-        		{
-        			view = super.getView(position, view, viewGroup);
-                    Note n = (Note) this.getItem(position);
-                    return getViewCustom(position, view, viewGroup, n);
-        		}
+        // The data to show
+        lv         = (ListView)findViewById(R.id.listView);
+        simpleAdpt = new ArrayAdapter <Note>(this, R.layout.notelist, listeNotes)
+        {
+            @Override
+            public View getView(int position, View view, ViewGroup viewGroup)
+            {
+                view = super.getView(position, view, viewGroup);
+                Note n = this.getItem(position);
+                return(getViewCustom(position, view, viewGroup, n));
+            }
         };
         lv.setAdapter(simpleAdpt);
-     // React to user clicks on item
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-         
-             public void onItemClick(AdapterView<?> parentAdapter, View view, int position,
-                                     long id) {
-            	final Note n = (Note) parentAdapter.getItemAtPosition(position);
-                 // We know the View is a TextView so we can cast it
-                //TextView clickedView = (TextView) view
-                boolean can_edit = false;
-                if (n.getPassword()!= null ) {
-                    final EditText input = new EditText(NoteMain.this);
+        // React to user clicks on item
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            public void onItemClick(AdapterView <?> parentAdapter, View view, int position,
+                                    long id)
+            {
+                final Note n    = (Note)parentAdapter.getItemAtPosition(position);
+                boolean canEdit = false;
+                if (n.getPassword() != null)
+                {
+                    final EditText input         = new EditText(NoteMain.this);
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.MATCH_PARENT);
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
                     input.setLayoutParams(lp);
                     input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
                     builder
-                            //.setTitle("Asking password")
-                            //.setMessage("Enter Password")
-                            .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
-                            .setMessage(NoteMain.this.getString(R.string.dialog_pwd_msg))
-                            .setView(input)
-                            //.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-                            .setPositiveButton(NoteMain.this.getString(R.string.dialog_pwd_submit), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int id) {
-                                    String password = input.getText().toString();
-                                    if ( n.getPassword().equals(SHA1(password)) ) {
-                                        Intent intentTextEdition = new Intent(NoteMain.this ,
-                                                NoteEdition.class);
-                                        intentTextEdition.putExtra(EXTRA_TITLE, n.getTitre());
-                                        intentTextEdition.putExtra(EXTRA_NOTE, n.getNote());
-                                        intentTextEdition.putExtra(EXTRA_EDITION, true);
-                                        intentTextEdition.putExtra(EXTRA_ID, n.getId());
-                                        NoteMain.this.startActivity(intentTextEdition);
-                                    }
-                                    else {
-                                        Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            })
-                            //.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            .setNegativeButton(NoteMain.this.getString(R.string.dialog_pwd_cancel), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            })
-                            .show();
-
-                }else {
-                    can_edit = true;
+                    .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
+                    .setMessage(NoteMain.this.getString(R.string.dialog_pwd_msg))
+                    .setView(input)
+                    .setPositiveButton(NoteMain.this.getString(R.string.dialog_pwd_submit), new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            String password = input.getText().toString();
+                            if (n.getPassword().equals(SHA1(password)))
+                            {
+                                Intent intentTextEdition = new Intent(NoteMain.this,
+                                                                      NoteEdition.class);
+                                intentTextEdition.putExtra(EXTRA_TITLE, n.getTitre());
+                                intentTextEdition.putExtra(EXTRA_NOTE, n.getNote());
+                                intentTextEdition.putExtra(EXTRA_EDITION, true);
+                                intentTextEdition.putExtra(EXTRA_ID, n.getId());
+                                NoteMain.this.startActivity(intentTextEdition);
+                            }
+                            else 
+                            {
+                                Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    })
+                    .setNegativeButton(NoteMain.this.getString(R.string.dialog_pwd_cancel), new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            dialog.cancel();
+                        }
+                    })
+                    .show();
                 }
-                 if (can_edit) {
-                    Intent intentTextEdition = new Intent(NoteMain.this ,
-                             NoteEdition.class);
+                else
+                {
+                    canEdit = true;
+                }
+                if (canEdit)
+                {
+                    Intent intentTextEdition = new Intent(NoteMain.this,
+                                                          NoteEdition.class);
                     intentTextEdition.putExtra(EXTRA_TITLE, n.getTitre());
                     intentTextEdition.putExtra(EXTRA_NOTE, n.getNote());
                     intentTextEdition.putExtra(EXTRA_EDITION, true);
                     intentTextEdition.putExtra(EXTRA_ID, n.getId());
                     NoteMain.this.startActivity(intentTextEdition);
-                 }
-             }
+                }
+            }
         });
-        
-     // we register for the contextmneu       
+
+        // we register for the contextmneu
         registerForContextMenu(lv);
 
         cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
         cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
-        cbSearchContent.setChecked(pref.getBoolean("contentSearch", false));
-        cbSearchCase.setChecked(pref.getBoolean("contentSearch", false));
+        cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
+        cbSearchCase.setChecked(pref.getBoolean(SEARCH_SENSITIVE, false));
 
         // Locate the EditText in listview_main.xml
-        editsearch = (EditText) findViewById(R.id.search);
+        editsearch = (EditText)findViewById(R.id.search);
         editsearch.setVisibility(View.GONE);
         // Capture Text in EditText
-        editsearch.addTextChangedListener(new TextWatcher() {
-
+        editsearch.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void afterTextChanged(Editable arg0) {
-                // TODO Auto-generated method stub
-
-               // adapter.filter(text);
+            public void afterTextChanged(Editable arg0)
+            {
+                // DO nothing
             }
 
             @Override
             public void beforeTextChanged(CharSequence arg0, int arg1,
-                    int arg2, int arg3) {
-                // TODO Auto-generated method stub
+                                          int arg2, int arg3)
+            {
+                // Do nothing
             }
 
             @Override
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
+            {
                 String text = editsearch.getText().toString();
-                ArrayList<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text,cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
-                simpleAdpt = new ArrayAdapter<Note>	(getApplicationContext(), R.layout.notelist, listeNotesRecherche ){
+                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+                simpleAdpt = new ArrayAdapter <Note>     (getApplicationContext(), R.layout.notelist, listeNotesRecherche)
+                {
+                    @Override
                     public View getView(int position, View view, ViewGroup viewGroup)
                     {
                         view = super.getView(position, view, viewGroup);
-                        Note n = (Note) this.getItem(position);
-                        return getViewCustom(position, view, viewGroup, n);
+                        Note n = this.getItem(position);
+                        return(getViewCustom(position, view, viewGroup, n));
                     }
-            };
-            lv.setAdapter(simpleAdpt);
-                //simpleAdpt.notifyDataSetChanged();
+                };
+                lv.setAdapter(simpleAdpt);
             }
         });
 
-        cbSearchContent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cbSearchContent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
                 String text = editsearch.getText().toString();
-                ArrayList<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, isChecked, !cbSearchCase.isChecked(), Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
-                simpleAdpt = new ArrayAdapter<Note>(getApplicationContext(), R.layout.notelist, listeNotesRecherche) {
-                    public View getView(int position, View view, ViewGroup viewGroup) {
+                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, isChecked, !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+                simpleAdpt = new ArrayAdapter <Note>(getApplicationContext(), R.layout.notelist, listeNotesRecherche)
+                {
+                    @Override
+                    public View getView(int position, View view, ViewGroup viewGroup)
+                    {
                         view = super.getView(position, view, viewGroup);
-                        Note n = (Note) this.getItem(position);
-                        return getViewCustom(position, view, viewGroup, n);
+                        Note n = this.getItem(position);
+                        return(getViewCustom(position, view, viewGroup, n));
                     }
                 };
                 lv.setAdapter(simpleAdpt);
@@ -246,23 +255,28 @@ public class NoteMain extends Activity
         });
 
 
-        cbSearchCase.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cbSearchCase.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
                 String text = editsearch.getText().toString();
-                ArrayList<Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !isChecked,  Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
-                simpleAdpt = new ArrayAdapter<Note>(getApplicationContext(), R.layout.notelist, listeNotesRecherche) {
-                    public View getView(int position, View view, ViewGroup viewGroup) {
+                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !isChecked, Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+                simpleAdpt = new ArrayAdapter <Note>(getApplicationContext(), R.layout.notelist, listeNotesRecherche)
+                {
+                    @Override
+                    public View getView(int position, View view, ViewGroup viewGroup)
+                    {
                         view = super.getView(position, view, viewGroup);
-                        Note n = (Note) this.getItem(position);
-                        return getViewCustom(position, view, viewGroup, n);
+                        Note n = this.getItem(position);
+                        return(getViewCustom(position, view, viewGroup, n));
                     }
                 };
                 lv.setAdapter(simpleAdpt);
             }
         });
 
-        btnClear = (Button) findViewById(R.id.btn_clear);
+        btnClear = (Button)findViewById(R.id.btn_clear);
         //set on text change listener for edittext
         editsearch.addTextChangedListener(textWatcher());
         //set event for clear button
@@ -270,151 +284,155 @@ public class NoteMain extends Activity
         noteBdd.close();
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle savedInstanceState){
-        super.onSaveInstanceState(savedInstanceState);
-    }
-    @Override
-
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        //setContentView(R.layout.activity_notemain);
-
-        // you are other code here
-
-    }
-
-
     public View getViewCustom(int position, View view, ViewGroup viewGroup, Note n)
     {
-        String note_summary;
-        if (n.getPassword()!= null )
-        {
-            //note_summary = new String("<b>" + n.getTitre() + "</b> <br/>Password protected");
-            note_summary = new String("<b>" + n.getTitre() + "</b> <br/>"+NoteMain.this.getString(R.string.pwd_protected));
+        String noteSummary;
 
+        if (n.getPassword() != null)
+        {
+            noteSummary = "<b>" + n.getTitre() + "</b> <br/>" + NoteMain.this.getString(R.string.pwd_protected);
         }
-        else {
-            note_summary = new String("<b>" + n.getTitre() + "</b> <br/>" + n.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit","30"))));
-            if (pref.getBoolean("pref_date", false) == true)
-                note_summary += "<br/>" + n.getDateCreationFormated();
-            if (pref.getBoolean("pref_date_mod", false) == true)
-                note_summary += "<br/>modif: " + n.getDateModificationFormated();
+        else
+        {
+            noteSummary = "<b>" + n.getTitre() + "</b> <br/>" + n.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30")));
+            if (pref.getBoolean("pref_date", false))
+            {
+                noteSummary += "<br/>" + n.getDateCreationFormated();
+            }
+            if (pref.getBoolean("pref_date_mod", false))
+            {
+                noteSummary += "<br/>modif: " + n.getDateModificationFormated();
+            }
         }
-        ((TextView) view).setText(Html.fromHtml(note_summary));
-        return view;
+        ((TextView)view).setText(Html.fromHtml(noteSummary));
+        return(view);
     }
 
-    private View.OnClickListener onClickListener() {
-        return new View.OnClickListener() {
+    private View.OnClickListener onClickListener()
+    {
+        return(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 editsearch.setText(""); //clear edittext
             }
-        };
+        });
     }
 
-    private TextWatcher textWatcher() {
-        return new TextWatcher() {
+    private TextWatcher textWatcher()
+    {
+        return(new TextWatcher()
+        {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!editsearch.getText().toString().equals("")) { //if edittext include text
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if (!editsearch.getText().toString().equals(""))   //if edittext include text
+                {
                     btnClear.setVisibility(View.VISIBLE);
-                } else { //not include text
+                }
+                else     //not include text
+                {
                     btnClear.setVisibility(View.GONE);
                 }
             }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+                // Do nothing
             }
+
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable s)
+            {
+                // Do nothing
             }
-        };
+        });
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        return(true);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-
+        if (id == R.id.action_settings)
+        {
             Intent intentPreference = new Intent(NoteMain.this,
-                    Preference.class);
+                                                 Preference.class);
             intentPreference.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             NoteMain.this.startActivity(intentPreference);
             finish();
-            return true;
+            return(true);
         }
-        return super.onOptionsItemSelected(item);
+        return(super.onOptionsItemSelected(item));
     }
+
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo)
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo)
     {
         super.onCreateContextMenu(menu, v, menuInfo);
-        /*menu.setHeaderTitle("Note Menu");
-        menu.add(0, v.getId(), 0, "Edit");
-        menu.add(0, v.getId(), 0, "Password");
-        menu.add(0, v.getId(), 0, "Delete");
-        menu.add(0, v.getId(), 0, "Details");*/
         menu.setHeaderTitle(this.getString(R.string.menu_title));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_edit));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_passwd));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_delete));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_detail));
-
     }
 
-    private final static String HEX = "0123456789ABCDEF";
-    public static String SHA1(String text) {
+    public static String SHA1(String text)
+    {
         try {
-
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-1");
             md.reset();
             md.update(text.getBytes("UTF-8"),
-                    0, text.length());
+                      0, text.length());
             byte[] sha1hash = md.digest();
 
-            return toHex(sha1hash);
-
+            return(toHex(sha1hash));
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(BuildConfig.APPLICATION_ID, "Exception SHA1", e);
         }
-        return null;
+        return(null);
     }
-    private static void appendHex(StringBuffer sb, byte b) {
 
+    private static void appendHex(StringBuilder sb, byte b)
+    {
         sb.append(HEX.charAt((b >> 4) & 0x0f))
-                .append(HEX.charAt(b & 0x0f));
-
+        .append(HEX.charAt(b & 0x0f));
     }
-    public static String toHex(byte[] buf) {
 
-        if (buf == null) return "";
+    public static String toHex(byte[] buf)
+    {
+        if (buf == null)
+        {
+            return("");
+        }
 
-        int l = buf.length;
-        StringBuffer result = new StringBuffer(2 * l);
+        int           l      = buf.length;
+        StringBuilder result = new StringBuilder(2 * l);
 
-        for (int i = 0; i < buf.length; i++) {
+        for (int i = 0; i < buf.length; i++)
+        {
             appendHex(result, buf[i]);
         }
-        return result.toString();
+        return(result.toString());
     }
 
-    public void deleteNote(final Note note) {
+    public void deleteNote(final Note note)
+    {
         simpleAdpt.remove(note);
         NotesBDD noteBdd = new NotesBDD(NoteMain.this);
         noteBdd.open();
@@ -422,15 +440,14 @@ public class NoteMain extends Activity
         Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
         simpleAdpt.notifyDataSetChanged();
         noteBdd.close();
-
     }
 
-    public boolean launchMenu(MenuItem item,final Note note)
+    public boolean launchMenu(MenuItem item, final Note note)
     {
-        if(item.getTitle().equals(this.getString(R.string.menu_edit)))
+        if (item.getTitle().equals(this.getString(R.string.menu_edit)))
         {
-            Intent intentTextEdition = new Intent(NoteMain.this ,
-                    NoteEdition.class);
+            Intent intentTextEdition = new Intent(NoteMain.this,
+                                                  NoteEdition.class);
             intentTextEdition.putExtra(EXTRA_TITLE, note.getTitre());
             intentTextEdition.putExtra(EXTRA_NOTE, note.getNote());
             intentTextEdition.putExtra(EXTRA_EDITION, true);
@@ -438,124 +455,107 @@ public class NoteMain extends Activity
             NoteMain.this.startActivity(intentTextEdition);
         }
         else
-        if(item.getTitle().equals(this.getString(R.string.menu_passwd))) {
-            final EditText input = new EditText(NoteMain.this);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT);
+        if (item.getTitle().equals(this.getString(R.string.menu_passwd)))
+        {
+            final EditText            input = new EditText(NoteMain.this);
+            LinearLayout.LayoutParams lp    = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
             input.setLayoutParams(lp);
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
-                    .setTitle(NoteMain.this.getString(R.string.dialog_add_pwd_title))
-                    .setMessage(NoteMain.this.getString(R.string.dialog_add_pwd_msg))
-                    .setView(input)
-                    .setNegativeButton(NoteMain.this.getString(R.string.dialog_add_pwd_remove), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            NotesBDD noteBdd = new NotesBDD(NoteMain.this);
-                            noteBdd.open();
-                            note.setPassword(null);
-                            noteBdd.updatePassword(note.getId(), null);
-                            noteBdd.close();
-                            simpleAdpt.notifyDataSetChanged();
-                        }
-                    })
-                    .setPositiveButton(NoteMain.this.getString(R.string.dialog_add_pwd_add), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            String password = input.getText().toString();
-                            //String passwordHashed = SHA1(password);
+            .setTitle(NoteMain.this.getString(R.string.dialog_add_pwd_title))
+            .setMessage(NoteMain.this.getString(R.string.dialog_add_pwd_msg))
+            .setView(input)
+            .setNegativeButton(NoteMain.this.getString(R.string.dialog_add_pwd_remove), new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    NotesBDD noteBdd = new NotesBDD(NoteMain.this);
+                    noteBdd.open();
+                    note.setPassword(null);
+                    noteBdd.updatePassword(note.getId(), null);
+                    noteBdd.close();
+                    simpleAdpt.notifyDataSetChanged();
+                }
+            })
+            .setPositiveButton(NoteMain.this.getString(R.string.dialog_add_pwd_add), new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    String password = input.getText().toString();
 
-                            NotesBDD noteBdd = new NotesBDD(NoteMain.this);
-                            noteBdd.open();
-                            noteBdd.updatePassword(note.getId(), SHA1(password));
-                            noteBdd.close();
-                            note.setPassword(SHA1(password));
-                            simpleAdpt.notifyDataSetChanged();
-                            /*listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString("pref_tri", "1")), pref.getBoolean("pref_ordretri", false));
-                            simpleAdpt = new ArrayAdapter<Note>(NoteMain.this, R.layout.notelist, listeNotes );
-                            lv.setAdapter(simpleAdpt);*/
-
-                            Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_added), Toast.LENGTH_LONG).show();
-
-                        }
-                    })
-                    .setNeutralButton(NoteMain.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    })
-                    .show();
-
+                    NotesBDD noteBdd = new NotesBDD(NoteMain.this);
+                    noteBdd.open();
+                    noteBdd.updatePassword(note.getId(), SHA1(password));
+                    noteBdd.close();
+                    note.setPassword(SHA1(password));
+                    simpleAdpt.notifyDataSetChanged();
+                    Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_added), Toast.LENGTH_LONG).show();
+                }
+            })
+            .setNeutralButton(NoteMain.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    dialog.cancel();
+                }
+            })
+            .show();
         }
-        else if(item.getTitle().equals(this.getString(R.string.menu_delete)))
+        else if (item.getTitle().equals(this.getString(R.string.menu_delete)))
         {
             pref = PreferenceManager.getDefaultSharedPreferences(this);
 
-            if (pref.getBoolean("pref_del",false) == true) {
+            if (pref.getBoolean("pref_del", false))
+            {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder
-                        .setTitle(NoteMain.this.getString(R.string.dialog_delete_title) + " " +note.getTitre())
-                        .setMessage(NoteMain.this.getString(R.string.dialog_delete_msg))
-                        .setPositiveButton(NoteMain.this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                /*simpleAdpt.remove(note);
-                                NotesBDD noteBdd = new NotesBDD(NoteMain.this);
-                                noteBdd.open();
-                                noteBdd.removeNoteWithID(note.getId());
-                                Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
-                                simpleAdpt.notifyDataSetChanged();
-                                noteBdd.close();*/
-                                deleteNote(note);
-                            }
-                        })
-                        .setNegativeButton(NoteMain.this.getString(R.string.dialog_delete_no), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
-                        .show();
+                .setTitle(NoteMain.this.getString(R.string.dialog_delete_title) + " " + note.getTitre())
+                .setMessage(NoteMain.this.getString(R.string.dialog_delete_msg))
+                .setPositiveButton(NoteMain.this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        deleteNote(note);
+                    }
+                })
+                .setNegativeButton(NoteMain.this.getString(R.string.dialog_delete_no), new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        dialog.cancel();
+                    }
+                })
+                .show();
             }
             else
             {
-                /*simpleAdpt.remove(note);
-                NotesBDD noteBdd = new NotesBDD(NoteMain.this);
-                noteBdd.open();
-                noteBdd.removeNoteWithID(note.getId());
-                //Toast.makeText(NoteMain.this, "Note deleted ! ", Toast.LENGTH_LONG).show();
-                Toast.makeText(NoteMain.this, this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
-                simpleAdpt.notifyDataSetChanged();
-                noteBdd.close();*/
                 deleteNote(note);
             }
-            // Refresh main activity upon close of dialog box
-           /*Intent refresh = new Intent(this, NoteMain.class);
-            startActivity(refresh);
-            this.finish(); //*/
-            //onCreate(null);
         }
-        if(item.getTitle().equals(this.getString(R.string.menu_detail)))
+        if (item.getTitle().equals(this.getString(R.string.menu_detail)))
         {
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle(this.getString(R.string.menu_detail));
-            String dateC = note.getDateCreation();
-            String dateM = note.getDateModification();
-            String noteDetails = new String ("<b>"+this.getString(R.string.detail_title) +": "+note.getTitre() +
-                    "</b> <br/>"+note.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit","30"))) +
-                    "<br/>"+ this.getString(R.string.detail_nb_char)+" : " +note.getNote().length() +
-                    "<br/><i>"+this.getString(R.string.detail_created) + " " + note.getDateCreationFormated()+"</i>");
+            String dateC       = note.getDateCreation();
+            String dateM       = note.getDateModification();
+            String noteDetails = "<b>" + this.getString(R.string.detail_title) + ": " + note.getTitre() +
+                                 "</b> <br/>" + note.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30"))) +
+                                 "<br/>" + this.getString(R.string.detail_nb_char) + " : " + note.getNote().length() +
+                                 "<br/><i>" + this.getString(R.string.detail_created) + " " + note.getDateCreationFormated() + "</i>";
             if (dateC.equals(dateM))
             {
-                //noteDetails += "<br/><i>Not modified </i>";
-                noteDetails += "<br/><i>"+this.getString(R.string.detail_not_modified)+" </i>";
+                noteDetails += "<br/><i>" + this.getString(R.string.detail_not_modified) + " </i>";
             }
             else
             {
-                //noteDetails += "<br/><i>Modified the "+ note.getDateModificationFormated() +"</i>";
                 noteDetails += "<br/><i>" + this.getString(R.string.detail_modified) + " " + note.getDateModificationFormated() + "</i>";
             }
             alertDialog.setMessage(Html.fromHtml(noteDetails));
@@ -563,127 +563,140 @@ public class NoteMain extends Activity
             {
                 public void onClick(DialogInterface dialog, int which)
                 {
-                    // TODO Add your code for the button here.
+                    // Do nothing
                 }
             });
             // Set the Icon for the Dialog
             alertDialog.show();
-
         }
         else
         {
-            return false;
+            return(false);
         }
         simpleAdpt.notifyDataSetChanged();
-        return true;
+        return(true);
     }
+
     @Override
     public boolean onContextItemSelected(MenuItem item)
     {
         NotesBDD noteBdd = new NotesBDD(this);
+
         noteBdd.open();
-        final MenuItem itemf = item;
-        AdapterContextMenuInfo aInfo = (AdapterContextMenuInfo) item.getMenuInfo();
-        int noteid = (int) item.getItemId();
-        final Note note = (Note) simpleAdpt.getItem(aInfo.position);
+        final MenuItem         itemf = item;
+        AdapterContextMenuInfo aInfo = (AdapterContextMenuInfo)item.getMenuInfo();
+        final Note             note  = simpleAdpt.getItem(aInfo.position);
         noteBdd.close();
-        if (note.getPassword()!= null ) {
-            final EditText input = new EditText(NoteMain.this);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT);
+        if (note.getPassword() != null)
+        {
+            final EditText            input = new EditText(NoteMain.this);
+            LinearLayout.LayoutParams lp    = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
             input.setLayoutParams(lp);
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
             builder
-                    .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
-                    .setMessage(NoteMain.this.getString(R.string.dialog_pwd_msg))
-                    .setView(input)
-                    .setPositiveButton(NoteMain.this.getString(R.string.dialog_pwd_submit), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            String password = input.getText().toString();
-                            NotesBDD noteBdd = new NotesBDD(NoteMain.this);
-                            if ( note.getPassword().equals(SHA1(password)) ) {
-                                launchMenu(itemf,note);
-                            }
-                            else {
-                                Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    })
-                    .setNegativeButton(NoteMain.this.getString(R.string.dialog_pwd_cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    })
-                    .show();
-
+            .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
+            .setMessage(NoteMain.this.getString(R.string.dialog_pwd_msg))
+            .setView(input)
+            .setPositiveButton(NoteMain.this.getString(R.string.dialog_pwd_submit), new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    String password = input.getText().toString();
+                    if (note.getPassword().equals(SHA1(password)))
+                    {
+                        launchMenu(itemf, note);
+                    }
+                    else 
+                    {
+                        Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG).show();
+                    }
+                }
+            })
+            .setNegativeButton(NoteMain.this.getString(R.string.dialog_pwd_cancel), new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    dialog.cancel();
+                }
+            })
+            .show();
         }
-        else {
+        else
+        {
             launchMenu(item, note);
         }
         simpleAdpt.notifyDataSetChanged();
-        return true;
-
+        return(true);
     }
 
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_SEARCH:
-                if(editsearch.getVisibility() == View.VISIBLE)
-                {
-                    //Clear research text
-                    editsearch.setText("");
-                    
-                    editsearch.setVisibility(View.GONE);
-                    CheckBox cbSearchCase = (CheckBox) findViewById(R.id.search_case_cb);
-                    CheckBox cbSearchContent = (CheckBox) findViewById(R.id.search_content_cb);
-                    cbSearchCase.setVisibility(View.GONE);
-                    cbSearchContent.setVisibility(View.GONE);
-                    Button btn_clear = (Button) findViewById(R.id.btn_clear);
-                    btn_clear.setVisibility(View.GONE);
-                } else {
-                    editsearch.setVisibility(View.VISIBLE);
-                    cbSearchCase = (CheckBox) findViewById(R.id.search_case_cb);
-                    cbSearchContent = (CheckBox) findViewById(R.id.search_content_cb);
-                    cbSearchCase.setVisibility(View.VISIBLE);
-                    cbSearchContent.setVisibility(View.VISIBLE);
-                    cbSearchCase.setChecked(!pref.getBoolean("sensitiveSearch", false));
-                    cbSearchContent.setChecked(pref.getBoolean("contentSearch", false));
-                    // Button btn_clear is display only when text is typed
-                }
-                return true;
-            case KeyEvent.KEYCODE_MENU:
-                Intent i = new Intent(this, Preference.class);
-                startActivity(i);
-                return true;
+    public boolean onKeyUp(int keyCode, KeyEvent event)
+    {
+        switch (keyCode)
+        {
+        case KeyEvent.KEYCODE_SEARCH:
+            if (editsearch.getVisibility() == View.VISIBLE)
+            {
+                //Clear research text
+                editsearch.setText("");
 
-            default:
-                return super.onKeyUp(keyCode, event);
+                editsearch.setVisibility(View.GONE);
+                cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
+                cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
+                cbSearchCase.setVisibility(View.GONE);
+                cbSearchContent.setVisibility(View.GONE);
+                btnClear.setVisibility(View.GONE);
+            }
+            else
+            {
+                editsearch.setVisibility(View.VISIBLE);
+                cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
+                cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
+                cbSearchCase.setVisibility(View.VISIBLE);
+                cbSearchContent.setVisibility(View.VISIBLE);
+                cbSearchCase.setChecked(!pref.getBoolean(SEARCH_SENSITIVE, false));
+                cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
+                // Button btn_clear is display only when text is typed
+            }
+            return(true);
+
+        case KeyEvent.KEYCODE_MENU:
+            Intent i = new Intent(this, Preference.class);
+            startActivity(i);
+            return(true);
+
+        default:
+            return(super.onKeyUp(keyCode, event));
         }
     }
-	public void addNote(View v )
+
+    public void addNote(View v)
     {
         Intent intentTextEdition = new Intent(NoteMain.this, NoteEdition.class);
+
         intentTextEdition.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         NoteMain.this.startActivity(intentTextEdition);
     }
+
     public void quit(View v)
     {
         this.finish();
     }
 
-    public void search(View v){
-        new Thread(new Runnable() {
+    public void search(View v)
+    {
+        new Thread(new Runnable()
+        {
             @Override
-            public void run() {
-            new Instrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_SEARCH);
+            public void run()
+            {
+                new Instrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_SEARCH);
             }
         }).start();
     }
 }
-
-
