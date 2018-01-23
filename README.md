@@ -1,3 +1,5 @@
+[![pipeline status](https://gitlab.com/Varlorg/uNote/badges/master/pipeline.svg)](https://gitlab.com/Varlorg/uNote/commits/master)
+
 uNote
 =====
 
