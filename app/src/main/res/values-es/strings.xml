@@ -111,6 +111,8 @@
 	<string name="dialog_backup_menu_deletion">Eliminar este respaldo</string>
 	<string name="dialog_delete_backup">Eliminando respaldo</string>
 	<string name="toast_backup_deleted">Respaldo eliminado</string>
+	<string name="toast_backup_deleted_error">Error durante la eliminación del respaldo</string>
+
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>
 	<string name="text_view"> </string>-->
