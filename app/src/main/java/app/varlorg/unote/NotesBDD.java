@@ -112,7 +112,7 @@ public class NotesBDD
     public Note getNoteWithTitre(String titre)
     {
         //Récupère dans un Cursor les valeur correspondant à une note contenue dans la BDD (ici on sélectionne la note grâce à son titre)
-        Cursor c = bdd.query(TABLE_NOTES, new String[] { COL_ID, COL_NOTE, COL_TITRE, COL_DATECREATION, COL_DATEMODIFICATION }, COL_TITRE + " LIKE \"" + titre + "\"", null, null, null, null);
+        Cursor c = bdd.query(TABLE_NOTES, new String[] { COL_ID, COL_NOTE, COL_TITRE, COL_DATECREATION, COL_DATEMODIFICATION }, COL_TITRE + " LIKE ? ", new String[]{ titre }, null, null, null);
 
         return(cursorToNote(c));
     }
@@ -179,7 +179,7 @@ public class NotesBDD
         }
 
         SQLiteDatabase db = this.maBaseSQLite.getWritableDatabase();
-        return(fillListNote(db, selectQuery, noteList));
+        return(fillListNote(db, selectQuery, noteList, null, false));
     }
 
     public List <Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch, int tri, boolean ordre)
@@ -200,11 +200,11 @@ public class NotesBDD
         selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE ";
         if (!contentSearch)
         {
-            selectQuery += COL_TITRE + " LIKE  \"%" + str + "%\" ";
+            selectQuery += COL_TITRE + " LIKE ? ";
         }
         else
         {
-            selectQuery += COL_TITRE + " LIKE  \"%" + str + "%\"" + " OR ( " + COL_NOTE + " LIKE  \"%" + str + "%\" AND " + COL_PASSWORD + " IS NULL) ";
+            selectQuery += COL_TITRE + " LIKE ?" + " OR ( " + COL_NOTE + " LIKE ? AND " + COL_PASSWORD + " IS NULL) ";
         }
         selectQuery += SQL_ORDER;
 
@@ -230,12 +230,24 @@ public class NotesBDD
             selectQuery += " DESC";
         }
 
-        return(fillListNote(db, selectQuery, noteList));
+        return(fillListNote(db, selectQuery, noteList, str, contentSearch));
     }
 
-    public List <Note> fillListNote(SQLiteDatabase db, String selectQuery, List <Note> noteList)
+    public List <Note> fillListNote(SQLiteDatabase db, String selectQuery, List <Note> noteList, String s, boolean contentSearch)
     {
-        Cursor c = db.rawQuery(selectQuery, null);
+        Cursor c;
+        if (s != null && contentSearch)
+        {
+            c = db.rawQuery(selectQuery, new String[] { "%" + s + "%", "%" + s + "%" });
+        }
+        else if (s != null)
+        {
+            c = db.rawQuery(selectQuery, new String[] { "%" + s + "%" });
+        }
+        else
+        {
+            c = db.rawQuery(selectQuery, null);
+        }
 
         // looping through all rows and adding to list
         if (c.moveToFirst())
