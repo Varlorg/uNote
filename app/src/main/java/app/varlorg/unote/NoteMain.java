@@ -3,6 +3,7 @@ package app.varlorg.unote;
 import java.util.List;
 import java.security.MessageDigest;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -105,15 +106,18 @@ public class NoteMain extends Activity
         listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
         /****************************************************************************************/
         // The data to show
-        lv         = (ListView)findViewById(R.id.listView);
+        lv = (ListView)findViewById(R.id.listView);
+
         simpleAdpt = new ArrayAdapter <Note>(this, R.layout.notelist, listeNotes)
         {
             @Override
             public View getView(int position, View view, ViewGroup viewGroup)
             {
-                view = super.getView(position, view, viewGroup);
+                View v = super.getView(position, view, viewGroup);
+
                 Note n = this.getItem(position);
-                return(getViewCustom(position, view, viewGroup, n));
+
+                return(getViewCustom(position, v, viewGroup, n));
             }
         };
         lv.setAdapter(simpleAdpt);
@@ -154,7 +158,7 @@ public class NoteMain extends Activity
                                 intentTextEdition.putExtra(EXTRA_ID, n.getId());
                                 NoteMain.this.startActivity(intentTextEdition);
                             }
-                            else 
+                            else
                             {
                                 Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG).show();
                             }
@@ -189,15 +193,41 @@ public class NoteMain extends Activity
 
         // we register for the contextmneu
         registerForContextMenu(lv);
-
+        int textSize = Integer.parseInt(pref.getString("pref_sizeNote", "16"));
         cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
         cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
         cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
         cbSearchCase.setChecked(pref.getBoolean(SEARCH_SENSITIVE, false));
+        cbSearchContent.setTextSize(textSize);
+        cbSearchCase.setTextSize(textSize);
+
+        final Button buttonAddNote = (Button)findViewById(R.id.addNoteButton);
+        final Button buttonSearch  = (Button)findViewById(R.id.returnSearch);
+        final Button buttonReturn  = (Button)findViewById(R.id.returnButton);
+        buttonAddNote.setTextSize(textSize);
+        buttonSearch.setTextSize(textSize);
+        buttonReturn.setTextSize(textSize);
+
+        final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.buttons);
+        buttonsBar.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if (buttonAddNote.getLineCount() > 1 || buttonSearch.getLineCount() > 1 || buttonReturn.getLineCount() > 1)
+                {
+                    buttonsBar.setOrientation(LinearLayout.VERTICAL);
+                    buttonAddNote.getLayoutParams().width = ActionBar.LayoutParams.MATCH_PARENT;
+                    buttonSearch.getLayoutParams().width  = ActionBar.LayoutParams.MATCH_PARENT;
+                    buttonReturn.getLayoutParams().width  = ActionBar.LayoutParams.MATCH_PARENT;
+                }
+            }
+        });
 
         // Locate the EditText in listview_main.xml
         editsearch = (EditText)findViewById(R.id.search);
         editsearch.setVisibility(View.GONE);
+        editsearch.setTextSize(textSize);
         // Capture Text in EditText
         editsearch.addTextChangedListener(new TextWatcher()
         {
@@ -305,6 +335,7 @@ public class NoteMain extends Activity
             }
         }
         ((TextView)view).setText(Html.fromHtml(noteSummary));
+        ((TextView)view).setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
         return(view);
     }
 
@@ -610,7 +641,7 @@ public class NoteMain extends Activity
                     {
                         launchMenu(itemf, note);
                     }
-                    else 
+                    else
                     {
                         Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG).show();
                     }

@@ -1,5 +1,6 @@
 package app.varlorg.unote;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,7 +11,9 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -100,10 +103,31 @@ public class NoteEdition extends Activity
                 }
             });
         }
-        titre.setTextSize(Integer.parseInt(pref.getString(EXTRA_SIZE, "16")));
-        note.setTextSize(Integer.parseInt(pref.getString(EXTRA_SIZE, "16")));
-        titreT.setTextSize(Integer.parseInt(pref.getString(EXTRA_SIZE, "16")));
-        noteT.setTextSize(Integer.parseInt(pref.getString(EXTRA_SIZE, "16")));
+
+        int textSize = Integer.parseInt(pref.getString(EXTRA_SIZE, "16"));
+        titre.setTextSize(textSize);
+        note.setTextSize(textSize);
+        titreT.setTextSize(textSize);
+        noteT.setTextSize(textSize);
+        final Button buttonSave = (Button)findViewById(R.id.ButtonSave);
+        final Button buttonQuit = (Button)findViewById(R.id.ButtonQuit);
+        buttonSave.setTextSize(textSize);
+        buttonQuit.setTextSize(textSize);
+
+        final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.editionButtons);
+        buttonsBar.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if (buttonQuit.getLineCount() > 1 || buttonSave.getLineCount() > 1)
+                {
+                    buttonsBar.setOrientation(LinearLayout.VERTICAL);
+                    buttonQuit.getLayoutParams().width = ActionBar.LayoutParams.MATCH_PARENT;
+                    buttonSave.getLayoutParams().width = ActionBar.LayoutParams.MATCH_PARENT;
+                }
+            }
+        });
     }
 
     public void save(View v)
@@ -196,14 +220,14 @@ public class NoteEdition extends Activity
     public void onBackPressed()
     {
         //Autosave
-        if ((note.getTag() != null || titre.getTag() != null) && (pref.getString("pref_back_action","0").equals("3")  ))
+        if ((note.getTag() != null || titre.getTag() != null) && (pref.getString("pref_back_action", "0").equals("3")))
         {
             save(getWindow().getDecorView().getRootView());
         }
         // Always cancel confirmation or as return button with confirmation enable
         if ((note.getTag() != null || titre.getTag() != null) &&
-                (pref.getString("pref_back_action","0").equals("2") ||
-                    (pref.getString("pref_back_action","0").equals("1") && pref.getBoolean("pref_cancel", false))))
+            (pref.getString("pref_back_action", "0").equals("2") ||
+             (pref.getString("pref_back_action", "0").equals("1") && pref.getBoolean("pref_cancel", false))))
         {
             dialogConfirmationExit();
         }
