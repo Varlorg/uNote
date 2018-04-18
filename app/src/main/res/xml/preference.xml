@@ -61,9 +61,11 @@ android:title="@string/preferences">
 	<CheckBoxPreference android:title="@string/pref_cancel_confirmation" android:key="pref_cancel"
 		android:defaultValue="True"
 		/>
-	<CheckBoxPreference android:title="@string/pref_cancel_confirmation_backButton" android:key="pref_cancel_back"
-		android:defaultValue="True"
-		android:summary="@string/pref_cancel_confirmation_backButton_summary"
+	<ListPreference android:title="@string/pref_backButton_action" android:key="pref_back_action"
+		android:summary="@string/pref_backButton_action_summary"
+		android:defaultValue="2"
+		android:entries="@array/backButtonAction"
+		android:entryValues="@array/backButtonActionValue"
 		/>
 	</PreferenceCategory>
     <PreferenceCategory
