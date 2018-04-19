@@ -30,4 +30,10 @@
         <item>3</item>
         <item>4</item>
     </string-array>
+        <string-array name="backButtonAction">
+        <item>Comme le bouton retour</item>
+        <item>Toujours une confirmation</item>
+        <item>Sauvegarde auto</item>
+        <item>Jamais de confirmation</item>
+    </string-array>
 </resources>
