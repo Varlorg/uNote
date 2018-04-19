@@ -10,25 +10,10 @@
 		<item>Gigante</item>
         <item>Enorme</item>
     </string-array>
-    <string-array name="textSizeValues">
-        <item>8</item>
-        <item>11</item>
-        <item>14</item>
-        <item>18</item>
-        <item>24</item>
-        <item>32</item>
-        <item>42</item>
-    </string-array>      
-        <string-array name="tri">
+    <string-array name="tri">
         <item>Data de Criação</item>
         <item>Data de Modificação</item>
         <item>Título (Sensível a Maiúsculas)</item>
         <item>Título (Não Sensível a Maiúsculas)</item>
-    </string-array>
-    <string-array name="triValeur">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
     </string-array>
 </resources>
