@@ -31,4 +31,10 @@
         <item>3</item>
         <item>4</item>
     </string-array>
+    <string-array name="backButtonAction">
+        <item>Como botón de volver</item>
+        <item>Siempre confirmación para cancelar</item>
+        <item>Guardar automáticamente</item>
+        <item>Nunca confirmación para cancelar</item>
+    </string-array>
 </resources>
