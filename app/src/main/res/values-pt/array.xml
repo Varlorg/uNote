@@ -16,4 +16,10 @@
         <item>Título (Sensível a Maiúsculas)</item>
         <item>Título (Não Sensível a Maiúsculas)</item>
     </string-array>
+    <string-array name="backButtonAction">
+        <item>Como botão de retorno</item>
+        <item>Sempre confirmação de cancelar</item>
+        <item>Salvamento automático</item>
+        <item>Nunca confirmação de cancelar</item>
+    </string-array>
 </resources>
