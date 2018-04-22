@@ -35,8 +35,8 @@
 	<string name="pref_theme_sum">Light or dark theme</string>
 	<string name="pref_delete_confirmation">Delete confirmation</string>
 	<string name="pref_cancel_confirmation">Cancel confirmation</string>
-	<string name="pref_cancel_confirmation_backButton">Back button cancel</string>
-	<string name="pref_cancel_confirmation_backButton_summary">Force cancel confirmation with back button</string>
+	<string name="pref_backButton_action">Back button action</string>
+	<string name="pref_backButton_action_summary">Define behaviour when back button pressed</string>
 	<string name="pref_sort">Descending sort</string>
 	<string name="pref_sort_by">Sort by</string>
 	<string name="pref_text_size">Text Size</string>

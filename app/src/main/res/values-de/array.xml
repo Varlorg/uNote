@@ -10,25 +10,16 @@
         <item>Riesig</item>
         <item>Sehr groß</item>
     </string-array>
-    <string-array name="textSizeValues">
-        <item>8</item>
-        <item>11</item>
-        <item>14</item>
-        <item>18</item>
-        <item>24</item>
-        <item>32</item>
-        <item>42</item>
-    </string-array>      
     <string-array name="tri">
         <item>Erstellungsdatum</item>
         <item>Änderungsdatum</item>
         <item>Titel (case-sensitive)</item>
         <item>Titel (case-insensitive)</item>
     </string-array>
-    <string-array name="triValeur">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
+    <string-array name="backButtonAction">
+        <item>Als Rücklauftaste</item>
+        <item>Rückmeldung immer abbrechen</item>
+        <item>Autosave</item>
+        <item>Rückmeldung nie abbrechen</item>
     </string-array>
 </resources>

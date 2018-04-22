@@ -9,25 +9,16 @@
 		<item>Grand</item>
         <item>Énorme</item>
     </string-array>
-    <string-array name="textSizeValues">
-        <item>8</item>
-        <item>11</item>
-        <item>14</item>
-        <item>18</item>
-        <item>24</item>
-        <item>32</item>
-        <item>42</item>
-    </string-array>      
-        <string-array name="tri">
+    <string-array name="tri">
         <item>Date de création</item>
         <item>Date de modification</item>
         <item>Titre (sensible à la casse)</item>
         <item>Titre (Insensible à la casse)</item>
     </string-array>
-    <string-array name="triValeur">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
+    <string-array name="backButtonAction">
+        <item>Comme le bouton retour</item>
+        <item>Toujours une confirmation</item>
+        <item>Sauvegarde auto</item>
+        <item>Jamais de confirmation</item>
     </string-array>
 </resources>

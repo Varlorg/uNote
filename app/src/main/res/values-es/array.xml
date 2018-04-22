@@ -6,29 +6,20 @@
         <item>Pequeño</item>
         <item>Medio</item>
         <item>Normal</item>
-	<item>Grande</item>
-	<item>Muy grande</item>
+	    <item>Grande</item>
+	    <item>Muy grande</item>
         <item>Enorme</item>
     </string-array>
-    <string-array name="textSizeValues">
-        <item>8</item>
-        <item>11</item>
-        <item>14</item>
-        <item>18</item>
-        <item>24</item>
-        <item>32</item>
-        <item>42</item>
-    </string-array>      
-        <string-array name="tri">
+    <string-array name="tri">
         <item>Fecha de creación</item>
         <item>Fecha de modificación</item>
         <item>Título (sensible a mayúsculas)</item>
         <item>Título (insensible a mayúsculas)</item>
     </string-array>
-    <string-array name="triValeur">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
+    <string-array name="backButtonAction">
+        <item>Como botón de volver</item>
+        <item>Siempre confirmación para cancelar</item>
+        <item>Guardar automáticamente</item>
+        <item>Nunca confirmación para cancelar</item>
     </string-array>
 </resources>

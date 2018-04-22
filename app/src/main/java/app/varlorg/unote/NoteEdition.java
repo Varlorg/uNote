@@ -195,7 +195,15 @@ public class NoteEdition extends Activity
     @Override
     public void onBackPressed()
     {
-        if ((note.getTag() != null || titre.getTag() != null) && (pref.getBoolean("pref_cancel_back", false) || pref.getBoolean("pref_cancel", false)))
+        //Autosave
+        if ((note.getTag() != null || titre.getTag() != null) && (pref.getString("pref_back_action","0").equals("3")  ))
+        {
+            save(getWindow().getDecorView().getRootView());
+        }
+        // Always cancel confirmation or as return button with confirmation enable
+        if ((note.getTag() != null || titre.getTag() != null) &&
+                (pref.getString("pref_back_action","0").equals("2") ||
+                    (pref.getString("pref_back_action","0").equals("1") && pref.getBoolean("pref_cancel", false))))
         {
             dialogConfirmationExit();
         }

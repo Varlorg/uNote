@@ -35,8 +35,8 @@
 	<string name="pref_theme_sum">Tema Claro ou Escuro</string>
 	<string name="pref_delete_confirmation">Confirmar apagar</string>
 	<string name="pref_cancel_confirmation">Confirmar cancelar</string>
-	<string name="pref_cancel_confirmation_backButton">Botão Voltar cancela</string>
-	<string name="pref_cancel_confirmation_backButton_summary">Forçar confirmação de cancelar com botão voltar</string>
+	<string name="pref_backButton_action">Ação tecla de volta</string>
+	<string name="pref_backButton_action_summary">Definir o comportamento da tecla de volta</string>
 	<string name="pref_sort">Ordem descendente</string>
 	<string name="pref_sort_by">Ordenar por</string>
 	<string name="pref_text_size">Tamanho do texto</string>
