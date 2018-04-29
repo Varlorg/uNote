@@ -111,8 +111,9 @@ public class NoteEdition extends Activity
         noteT.setTextSize(textSize);
         final Button buttonSave = (Button)findViewById(R.id.ButtonSave);
         final Button buttonQuit = (Button)findViewById(R.id.ButtonQuit);
-        buttonSave.setTextSize(textSize);
-        buttonQuit.setTextSize(textSize);
+        int textSizeButton_offset = Integer.parseInt(pref.getString("pref_sizeNote_button_offset", "0" ));
+        buttonSave.setTextSize(textSize + textSizeButton_offset);
+        buttonQuit.setTextSize(textSize + textSizeButton_offset);
 
         final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.editionButtons);
         buttonsBar.post(new Runnable()

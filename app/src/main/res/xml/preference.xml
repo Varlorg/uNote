@@ -45,14 +45,23 @@ android:title="@string/preferences">
 		<CheckBoxPreference android:title="@string/pref_sort" android:key="pref_ordretri"
 			android:defaultValue="false"
 			/>
+		<!--
 		<ListPreference
 			android:key="pref_sizeNote"
 			android:title="@string/pref_text_size"
 			android:defaultValue="18"
 			android:entries="@array/textSize"
 			android:entryValues="@array/textSizeValues" />
+			-->
 		<EditTextPreference
-			android:key="pref_sizeNote_button"
+			android:key="pref_sizeNote"
+			android:inputType="number"
+			android:defaultValue="18"
+			android:maxLength="2"
+			android:title="pref_sizeNote"
+			/>
+		<EditTextPreference
+			android:key="pref_sizeNote_button_offset"
 			android:inputType="number|numberDecimal|numberSigned"
 			android:defaultValue="0"
 			android:maxLength="3"

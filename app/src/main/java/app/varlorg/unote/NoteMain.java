@@ -204,10 +204,10 @@ public class NoteMain extends Activity
         final Button buttonAddNote = (Button)findViewById(R.id.addNoteButton);
         final Button buttonSearch  = (Button)findViewById(R.id.returnSearch);
         final Button buttonReturn  = (Button)findViewById(R.id.returnButton);
-        int textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "0" ));
-        buttonAddNote.setTextSize(textSize + textSizeButton);
-        buttonSearch.setTextSize(textSize + textSizeButton);
-        buttonReturn.setTextSize(textSize + textSizeButton);
+        int textSizeButton_offset = Integer.parseInt(pref.getString("pref_sizeNote_button_offset", "0" ));
+        buttonAddNote.setTextSize(textSize + textSizeButton_offset);
+        buttonSearch.setTextSize(textSize + textSizeButton_offset);
+        buttonReturn.setTextSize(textSize + textSizeButton_offset);
 
         final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.buttons);
 

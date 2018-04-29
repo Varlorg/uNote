@@ -15,7 +15,7 @@
 
         <Button
             android:id="@+id/addNoteButton"
-			android:layout_width="155dp"
+			android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="addNote"
 	        android:layout_weight="0.5"
@@ -23,14 +23,14 @@
 		<!--android:height="32px"-->
 		<Button
 			android:id="@+id/returnSearch"
-			android:layout_width="140dp"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_weight="0.5"
 			android:onClick="search"
 			android:text="@string/search" />
 		<Button
             android:id="@+id/returnButton"
-            android:layout_width="140dp"
+            android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 	        android:layout_weight="0.5"
             android:onClick="quit"
