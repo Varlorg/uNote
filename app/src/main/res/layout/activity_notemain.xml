@@ -16,7 +16,7 @@
         <Button
             android:id="@+id/addNoteButton"
 			android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:onClick="addNote"
 	        android:layout_weight="0.5"
 			android:text="@string/addNoteB"/>
@@ -24,14 +24,14 @@
 		<Button
 			android:id="@+id/returnSearch"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="match_parent"
 			android:layout_weight="0.5"
 			android:onClick="search"
 			android:text="@string/search" />
 		<Button
             android:id="@+id/returnButton"
             android:layout_width="match_parent"
-			android:layout_height="wrap_content"
+			android:layout_height="match_parent"
 	        android:layout_weight="0.5"
             android:onClick="quit"
             android:text="@string/quit" />
