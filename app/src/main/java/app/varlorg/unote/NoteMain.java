@@ -204,17 +204,20 @@ public class NoteMain extends Activity
         final Button buttonAddNote = (Button)findViewById(R.id.addNoteButton);
         final Button buttonSearch  = (Button)findViewById(R.id.returnSearch);
         final Button buttonReturn  = (Button)findViewById(R.id.returnButton);
-        buttonAddNote.setTextSize(textSize);
-        buttonSearch.setTextSize(textSize);
-        buttonReturn.setTextSize(textSize);
+        int textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "0" ));
+        buttonAddNote.setTextSize(textSize + textSizeButton);
+        buttonSearch.setTextSize(textSize + textSizeButton);
+        buttonReturn.setTextSize(textSize + textSizeButton);
 
         final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.buttons);
+
         buttonsBar.post(new Runnable()
         {
             @Override
             public void run()
             {
-                if (buttonAddNote.getLineCount() > 1 || buttonSearch.getLineCount() > 1 || buttonReturn.getLineCount() > 1)
+                Boolean forceButtons_horizontal = pref.getBoolean("pref_forceButtonsH", false);
+                if ((buttonAddNote.getLineCount() > 1 || buttonSearch.getLineCount() > 1 || buttonReturn.getLineCount() > 1) && !forceButtons_horizontal )
                 {
                     buttonsBar.setOrientation(LinearLayout.VERTICAL);
                     buttonAddNote.getLayoutParams().width = ActionBar.LayoutParams.MATCH_PARENT;

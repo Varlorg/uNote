@@ -51,6 +51,19 @@ android:title="@string/preferences">
 			android:defaultValue="18"
 			android:entries="@array/textSize"
 			android:entryValues="@array/textSizeValues" />
+		<EditTextPreference
+			android:key="pref_sizeNote_button"
+			android:inputType="number|numberDecimal|numberSigned"
+			android:defaultValue="0"
+			android:maxLength="3"
+			android:title="pref_sizeNote_button"
+			/>
+		<CheckBoxPreference android:title="pref_forceButtonsH" android:key="pref_forceButtonsH"
+			android:defaultValue="false"
+			/>
+		<CheckBoxPreference android:title="pref_forceEditionButtonsH" android:key="pref_forceEditionButtonsH"
+			android:defaultValue="false"
+			/>
 	</PreferenceCategory>
 
 	<PreferenceCategory

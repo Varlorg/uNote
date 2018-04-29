@@ -120,7 +120,8 @@ public class NoteEdition extends Activity
             @Override
             public void run()
             {
-                if (buttonQuit.getLineCount() > 1 || buttonSave.getLineCount() > 1)
+                Boolean forceButtons_horizontal = pref.getBoolean("pref_forceEditionButtonsH", false);
+                if ((buttonQuit.getLineCount() > 1 || buttonSave.getLineCount() > 1) && !forceButtons_horizontal)
                 {
                     buttonsBar.setOrientation(LinearLayout.VERTICAL);
                     buttonQuit.getLayoutParams().width = ActionBar.LayoutParams.MATCH_PARENT;
