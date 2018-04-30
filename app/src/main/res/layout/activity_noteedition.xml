@@ -67,16 +67,16 @@
 
         <Button
             android:id="@+id/ButtonSave"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:onClick="save"
             android:text="@string/save" />
 
         <Button
             android:id="@+id/ButtonQuit"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:onClick="quit"
             android:text="@string/returnB" />
