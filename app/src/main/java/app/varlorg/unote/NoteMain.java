@@ -204,11 +204,11 @@ public class NoteMain extends Activity
         final Button buttonSearch  = (Button)findViewById(R.id.returnSearch);
         final Button buttonReturn  = (Button)findViewById(R.id.returnButton);
 
-        textSize = Integer.parseInt(pref.getString("pref_sizeNote", "16"));
+        textSize = Integer.parseInt(pref.getString("pref_sizeNote", "18"));
         int textSizeButton = textSize < 15 ? textSize - 1: textSize - 4;
         if ( textSize == -1 )
         {
-            textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "16"));
+            textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "18"));
             textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "14" ));
         }
 
