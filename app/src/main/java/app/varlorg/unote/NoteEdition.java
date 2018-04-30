@@ -30,6 +30,7 @@ public class NoteEdition extends Activity
     private SharedPreferences pref;
     private EditText titre;
     private EditText note;
+    private int textSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -103,7 +104,7 @@ public class NoteEdition extends Activity
                 }
             });
         }
-        int textSize = Integer.parseInt(pref.getString(EXTRA_SIZE, "16"));
+        textSize = Integer.parseInt(pref.getString(EXTRA_SIZE, "16"));
         int textSizeButton = textSize - 2;
         if ( textSize == -1 )
         {
@@ -162,16 +163,22 @@ public class NoteEdition extends Activity
         {
             if (!edit)
             {
-                Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG).show();
+                Toast toast = Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG);
+                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+                toast.show();
             }
             else
             {
-                Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG).show();
+                Toast toast = Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG);
+                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+                toast.show();
             }
         }
         else
         {
-            Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG).show();
+            Toast toast = Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG);
+            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+            toast.show();
         }
 
         noteBdd.close();

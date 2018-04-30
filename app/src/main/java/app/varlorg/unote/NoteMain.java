@@ -161,7 +161,9 @@ public class NoteMain extends Activity
                             }
                             else
                             {
-                                Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG).show();
+                                Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
+                                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+                                toast.show();
                             }
                         }
                     })
@@ -498,7 +500,9 @@ public class NoteMain extends Activity
         NotesBDD noteBdd = new NotesBDD(NoteMain.this);
         noteBdd.open();
         noteBdd.removeNoteWithID(note.getId());
-        Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
+        Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG);
+        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+        toast.show();
         simpleAdpt.notifyDataSetChanged();
         noteBdd.close();
     }
@@ -555,7 +559,9 @@ public class NoteMain extends Activity
                     noteBdd.close();
                     note.setPassword(SHA1(password));
                     simpleAdpt.notifyDataSetChanged();
-                    Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_added), Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_added), Toast.LENGTH_LONG);
+                    ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+                    toast.show();
                 }
             })
             .setNeutralButton(NoteMain.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener()
@@ -676,7 +682,9 @@ public class NoteMain extends Activity
                     }
                     else
                     {
-                        Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG).show();
+                        Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
+                        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+                        toast.show();
                     }
                 }
             })
