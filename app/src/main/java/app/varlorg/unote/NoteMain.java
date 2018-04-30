@@ -45,6 +45,7 @@ public class NoteMain extends Activity
     private ListView lv;
     private SharedPreferences pref;
     private Parcelable state;
+    private int textSize;
 
     @Override
     public void onPause()
@@ -193,24 +194,31 @@ public class NoteMain extends Activity
 
         // we register for the contextmneu
         registerForContextMenu(lv);
-        int textSize = Integer.parseInt(pref.getString("pref_sizeNote", "16"));
+
         cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
         cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
         cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
         cbSearchCase.setChecked(pref.getBoolean(SEARCH_SENSITIVE, false));
-        cbSearchContent.setTextSize(textSize);
-        cbSearchCase.setTextSize(textSize);
 
         final Button buttonAddNote = (Button)findViewById(R.id.addNoteButton);
         final Button buttonSearch  = (Button)findViewById(R.id.returnSearch);
         final Button buttonReturn  = (Button)findViewById(R.id.returnButton);
-        int textSizeButton_offset = Integer.parseInt(pref.getString("pref_sizeNote_button_offset", "0" ));
-        buttonAddNote.setTextSize(textSize + textSizeButton_offset);
-        buttonSearch.setTextSize(textSize + textSizeButton_offset);
-        buttonReturn.setTextSize(textSize + textSizeButton_offset);
+
+        textSize = Integer.parseInt(pref.getString("pref_sizeNote", "16"));
+        int textSizeButton = textSize - 2;
+        if ( textSize == -1 )
+        {
+            textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "16"));
+            textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "-2" ));
+        }
+
+        cbSearchContent.setTextSize(textSize);
+        cbSearchCase.setTextSize(textSize);
+        buttonAddNote.setTextSize(textSizeButton);
+        buttonSearch.setTextSize(textSizeButton);
+        buttonReturn.setTextSize(textSizeButton);
 
         final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.buttons);
-
         buttonsBar.post(new Runnable()
         {
             @Override
@@ -351,7 +359,7 @@ public class NoteMain extends Activity
             }
         }
         ((TextView)view).setText(Html.fromHtml(noteSummary));
-        ((TextView)view).setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "16")));
+        ((TextView)view).setTextSize(textSize);
         return(view);
     }
 
