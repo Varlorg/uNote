@@ -72,7 +72,7 @@
             android:summary="@string/pref_text_size_custom_summary"
             android:title="@string/pref_text_size_custom" />
         <EditTextPreference
-            android:defaultValue="16"
+            android:defaultValue="14"
             android:inputType="number"
             android:key="pref_sizeNote_button"
             android:maxLength="2"
