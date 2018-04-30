@@ -623,6 +623,9 @@ public class NoteMain extends Activity
             });
             // Set the Icon for the Dialog
             alertDialog.show();
+
+            //Change popup content text size
+            ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize(textSize);
         }
         else
         {
