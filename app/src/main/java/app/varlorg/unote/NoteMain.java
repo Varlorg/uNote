@@ -38,7 +38,7 @@ public class NoteMain extends Activity
     private static final String HEX = "0123456789ABCDEF";
     private ArrayAdapter <Note> simpleAdpt;
     private EditText editsearch;
-    private Button btnClear;
+    private ImageButton btnClear;
     private List <Note> listeNotes;
     private CheckBox cbSearchContent;
     private CheckBox cbSearchCase;
@@ -309,7 +309,11 @@ public class NoteMain extends Activity
             }
         });
 
-        btnClear = (Button)findViewById(R.id.btn_clear);
+        btnClear = (ImageButton)findViewById(R.id.btn_clear);
+        ViewGroup.LayoutParams params=btnClear.getLayoutParams();
+        params.width=Math.max(textSize*2,35);
+        params.height=params.width;
+        btnClear.setLayoutParams(params);
         //set on text change listener for edittext
         editsearch.addTextChangedListener(textWatcher());
         //set event for clear button

@@ -53,7 +53,7 @@
 				android:layout_height="wrap_content" >
 				<requestFocus />
 			</EditText>
-			<Button
+			<ImageButton
 				android:id="@+id/btn_clear"
 				android:layout_width="25dp"
 				android:layout_height="25dp"
