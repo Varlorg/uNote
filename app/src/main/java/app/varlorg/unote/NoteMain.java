@@ -318,6 +318,15 @@ public class NoteMain extends Activity
         editsearch.addTextChangedListener(textWatcher());
         //set event for clear button
         btnClear.setOnClickListener(onClickListener());
+
+        final LinearLayout searchOptBar = (LinearLayout)findViewById(R.id.search_options);
+        Boolean bCheckboxesVertical = pref.getBoolean("pref_searchCheckboxV", false);
+        if ( bCheckboxesVertical )
+        {
+            searchOptBar.setOrientation(LinearLayout.VERTICAL);
+            cbSearchContent.getLayoutParams().width = ActionBar.LayoutParams.MATCH_PARENT;
+            cbSearchCase.getLayoutParams().width  = ActionBar.LayoutParams.MATCH_PARENT;
+        }
         noteBdd.close();
     }
 
