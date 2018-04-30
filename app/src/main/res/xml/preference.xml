@@ -1,112 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" 
-android:title="@string/preferences">
-	<PreferenceCategory
-		android:title="@string/pref_cat_search">
-	 <CheckBoxPreference android:title="@string/pref_search" android:key="contentSearch"
-	android:summary="@string/pref_search_sum"
-	android:defaultValue="false"
-	 />
-	<CheckBoxPreference android:title="@string/pref_sensitive_search" android:key="sensitiveSearch"
-		android:defaultValue="true"
-		/>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/preferences">
+    <PreferenceCategory android:title="@string/pref_cat_search">
         <CheckBoxPreference
-            android:title="@string/pref_display_search_option"
-            android:key="displaySearchOptions"
+            android:defaultValue="false"
+            android:key="contentSearch"
+            android:summary="@string/pref_search_sum"
+            android:title="@string/pref_search" />
+        <CheckBoxPreference
             android:defaultValue="true"
-            />
-		<CheckBoxPreference android:title="@string/pref_search_option_orientation"
-			android:key="pref_searchCheckboxV"
-			android:defaultValue="false"
-			/>
-	</PreferenceCategory>
-	<PreferenceCategory
-		android:title="@string/pref_cat_display">
-	 <CheckBoxPreference android:title="@string/pref_date" android:key="pref_date"
-	android:summary="@string/pref_date_sum"
-	android:defaultValue="false"
-	 />
-    <CheckBoxPreference android:title="@string/pref_date_mod" android:key="pref_date_mod"
-        android:summary="@string/pref_date_mod_sum"
-        android:defaultValue="false"
-        />
-    <CheckBoxPreference android:title="@string/pref_theme" android:key="pref_theme"
-        android:summary="@string/pref_theme_sum"
-        android:defaultValue="false"
-    />
-	<EditTextPreference
-		android:key="pref_preview_char_limit"
-		android:inputType="number"
-		android:defaultValue="30"
-		android:maxLength="4"
-		android:summary="@string/pref_preview_limit_summary"
-		android:title="@string/pref_preview_limit"
-		/>
-		<CheckBoxPreference android:title="@string/pref_keep_position_scroll" android:key="pref_scroll"
-			android:defaultValue="False"
-			/>
-		<ListPreference
-			android:key="pref_tri"
-			android:title="@string/pref_sort_by"
-			android:defaultValue="1"
-			android:entries="@array/tri"
-			android:entryValues="@array/triValeur" />
-		<CheckBoxPreference android:title="@string/pref_sort" android:key="pref_ordretri"
-			android:defaultValue="false"
-			/>
+            android:key="sensitiveSearch"
+            android:title="@string/pref_sensitive_search" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="displaySearchOptions"
+            android:title="@string/pref_display_search_option" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_searchCheckboxV"
+            android:title="@string/pref_search_option_orientation" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_display">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_date"
+            android:summary="@string/pref_date_sum"
+            android:title="@string/pref_date" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_date_mod"
+            android:summary="@string/pref_date_mod_sum"
+            android:title="@string/pref_date_mod" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_theme"
+            android:summary="@string/pref_theme_sum"
+            android:title="@string/pref_theme" />
+        <EditTextPreference
+            android:defaultValue="30"
+            android:inputType="number"
+            android:key="pref_preview_char_limit"
+            android:maxLength="4"
+            android:summary="@string/pref_preview_limit_summary"
+            android:title="@string/pref_preview_limit" />
+        <CheckBoxPreference
+            android:defaultValue="False"
+            android:key="pref_scroll"
+            android:title="@string/pref_keep_position_scroll" />
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/tri"
+            android:entryValues="@array/triValeur"
+            android:key="pref_tri"
+            android:title="@string/pref_sort_by" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_ordretri"
+            android:title="@string/pref_sort" />
 
-		<ListPreference
-			android:key="pref_sizeNote"
-			android:title="@string/pref_text_size"
-			android:defaultValue="18"
-			android:entries="@array/textSize"
-			android:entryValues="@array/textSizeValues" />
-		<EditTextPreference
-			android:key="pref_sizeNote_custom"
-			android:inputType="number"
-			android:summary="@string/pref_text_size_custom_summary"
-			android:defaultValue="18"
-			android:maxLength="2"
-			android:title="@string/pref_text_size_custom"
-			/>
-		<EditTextPreference
-			android:key="pref_sizeNote_button"
-			android:inputType="number"
-			android:defaultValue="16"
-			android:maxLength="2"
-			android:title="@string/pref_text_size_button_custom"
-			/>
-		<CheckBoxPreference android:title="@string/pref_main_button_orientation"
+        <ListPreference
+            android:defaultValue="18"
+            android:entries="@array/textSize"
+            android:entryValues="@array/textSizeValues"
+            android:key="pref_sizeNote"
+            android:title="@string/pref_text_size" />
+        <EditTextPreference
+            android:defaultValue="18"
+            android:inputType="number"
+            android:key="pref_sizeNote_custom"
+            android:maxLength="2"
+            android:summary="@string/pref_text_size_custom_summary"
+            android:title="@string/pref_text_size_custom" />
+        <EditTextPreference
+            android:defaultValue="16"
+            android:inputType="number"
+            android:key="pref_sizeNote_button"
+            android:maxLength="2"
+            android:title="@string/pref_text_size_button_custom" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="pref_forceButtonsH"
-			android:defaultValue="false"
-			/>
-		<CheckBoxPreference android:title="@string/pref_edition_button_orientation"
+            android:title="@string/pref_main_button_orientation" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="pref_forceEditionButtonsH"
-			android:defaultValue="false"
-			/>
-	</PreferenceCategory>
+            android:title="@string/pref_edition_button_orientation" />
+    </PreferenceCategory>
 
-	<PreferenceCategory
-		android:title="@string/pref_cat_confirmation">
-	<CheckBoxPreference android:title="@string/pref_delete_confirmation" android:key="pref_del"
-		android:defaultValue="True"
-		/>
-	<CheckBoxPreference android:title="@string/pref_cancel_confirmation" android:key="pref_cancel"
-		android:defaultValue="True"
-		/>
-	<ListPreference android:title="@string/pref_backButton_action" android:key="pref_back_action"
-		android:summary="@string/pref_backButton_action_summary"
-		android:defaultValue="2"
-		android:entries="@array/backButtonAction"
-		android:entryValues="@array/backButtonActionValue"
-		/>
-	</PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/pref_db">
-        <Preference android:title="@string/pref_export_db"
-                android:key="buttonExport" />
-        <Preference android:title="@string/pref_import_db"
-            android:key="buttonImport" />
+    <PreferenceCategory android:title="@string/pref_cat_confirmation">
+        <CheckBoxPreference
+            android:defaultValue="True"
+            android:key="pref_del"
+            android:title="@string/pref_delete_confirmation" />
+        <CheckBoxPreference
+            android:defaultValue="True"
+            android:key="pref_cancel"
+            android:title="@string/pref_cancel_confirmation" />
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/backButtonAction"
+            android:entryValues="@array/backButtonActionValue"
+            android:key="pref_back_action"
+            android:summary="@string/pref_backButton_action_summary"
+            android:title="@string/pref_backButton_action" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_db">
+        <Preference
+            android:key="buttonExport"
+            android:title="@string/pref_export_db" />
+        <Preference
+            android:key="buttonImport"
+            android:title="@string/pref_import_db" />
         <!--<Preference android:title="@string/pref_clean_db"
             android:key="buttonDelete" />-->
     </PreferenceCategory>
