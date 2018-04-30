@@ -27,6 +27,8 @@
     <string name="pref_search_sum">Suche auch in dem Notizen\' Inhalt aber nicht in passwortgeschützten Notizen</string>
     <string name="pref_sensitive_search">Fallsensitive Forschung</string>
     <string name="cb_sensitive_search">Fallsensitive Forschung</string>
+    <string name="pref_display_search_option">Suchoptionen anzeigen</string>
+    <string name="pref_search_option_orientation">Vertikale Suchoptionen</string>
     <string name="pref_date">Erstellungsdatum</string>
     <string name="pref_date_sum">Zeige Erstellungsdatum</string>
     <string name="pref_date_mod">Änderungsdatum</string>
@@ -40,6 +42,11 @@
     <string name="pref_sort">Absteigende Sortierung</string>
     <string name="pref_sort_by">Sortieren nach</string>
     <string name="pref_text_size">Textgröße</string>
+    <string name="pref_text_size_custom">Benutzerdefinierte Textgröße</string>
+    <string name="pref_text_size_custom_summary">Wählen Sie Benutzerdefinierter Eintrag in Textgröße</string>
+    <string name="pref_text_size_button_custom">Benutzerdefinierte Textgröße für Schaltflächen</string>
+    <string name="pref_main_button_orientation">Hauptbildschirmtasten horizontal</string>
+    <string name="pref_edition_button_orientation">Editionsknöpfe horizontal</string>
     <string name="pref_db">Datenbank</string>
     <string name="pref_export_db">Datenbank exportieren</string>
     <string name="pref_import_db">Datenbank importieren</string>
