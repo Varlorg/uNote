@@ -318,8 +318,14 @@ public class NoteMain extends Activity
         });
 
         btnClear = (ImageButton)findViewById(R.id.btn_clear);
+
+        EditText ee = (EditText)findViewById(R.id.search);
+        ViewGroup.MarginLayoutParams paramsb= (ViewGroup.MarginLayoutParams) ee.getLayoutParams();
+        paramsb.setMargins(0,0,Math.max(textSize*3,60),0);
+        ee.setLayoutParams(paramsb);
+
         ViewGroup.LayoutParams params=btnClear.getLayoutParams();
-        params.width=Math.max(textSize*2,35);
+        params.width=Math.max(textSize*2,40);
         params.height=params.width;
         btnClear.setLayoutParams(params);
         //set on text change listener for edittext
