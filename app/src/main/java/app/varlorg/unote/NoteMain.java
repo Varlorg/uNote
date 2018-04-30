@@ -571,8 +571,15 @@ public class NoteMain extends Activity
                 {
                     dialog.cancel();
                 }
-            })
-            .show();
+            });
+            //.show();
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(Math.min(36,textSize));
+            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,textSize));
+            alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(Math.min(36,textSize));
+            ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize(textSize);
+
         }
         else if (item.getTitle().equals(this.getString(R.string.menu_delete)))
         {
@@ -599,8 +606,13 @@ public class NoteMain extends Activity
                     {
                         dialog.cancel();
                     }
-                })
-                .show();
+                });
+                //.show();
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(textSize);
+                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(textSize);
+                ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize(textSize);
             }
             else
             {
@@ -626,15 +638,17 @@ public class NoteMain extends Activity
                 noteDetails += "<br/><i>" + this.getString(R.string.detail_modified) + " " + note.getDateModificationFormated() + "</i>";
             }
             alertDialog.setMessage(Html.fromHtml(noteDetails));
-            alertDialog.setButton("OK", new DialogInterface.OnClickListener()
+            alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL,"OK", new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which)
                 {
                     // Do nothing
                 }
             });
+
             // Set the Icon for the Dialog
             alertDialog.show();
+            alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(textSize);
 
             //Change popup content text size
             ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize(textSize);
