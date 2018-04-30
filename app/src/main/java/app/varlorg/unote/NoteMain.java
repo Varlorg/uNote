@@ -689,13 +689,17 @@ public class NoteMain extends Activity
             else
             {
                 editsearch.setVisibility(View.VISIBLE);
-                cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
-                cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
-                cbSearchCase.setVisibility(View.VISIBLE);
-                cbSearchContent.setVisibility(View.VISIBLE);
-                cbSearchCase.setChecked(!pref.getBoolean(SEARCH_SENSITIVE, false));
-                cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
+                if (pref.getBoolean("displaySearchOptions",true))
+                {
+                    cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
+                    cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
+                    cbSearchCase.setVisibility(View.VISIBLE);
+                    cbSearchContent.setVisibility(View.VISIBLE);
+                    cbSearchCase.setChecked(!pref.getBoolean(SEARCH_SENSITIVE, false));
+                    cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
+                }
                 // Button btn_clear is display only when text is typed
+
             }
             return(true);
 

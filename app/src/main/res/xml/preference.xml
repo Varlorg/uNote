@@ -10,6 +10,11 @@ android:title="@string/preferences">
 	<CheckBoxPreference android:title="@string/pref_sensitive_search" android:key="sensitiveSearch"
 		android:defaultValue="true"
 		/>
+        <CheckBoxPreference
+            android:title="@string/pref_display_search_option"
+            android:key="displaySearchOptions"
+            android:defaultValue="true"
+            />
 	</PreferenceCategory>
 	<PreferenceCategory
 		android:title="@string/pref_cat_display">
