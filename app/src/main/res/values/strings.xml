@@ -28,6 +28,7 @@
 	<string name="pref_sensitive_search">Case sensitive research </string>
 	<string name="cb_sensitive_search">Ignore case</string>
 	<string name="pref_display_search_option">Display search options</string>
+	<string name="pref_search_option_orientation">Vertical search options</string>
 	<string name="pref_date">Creation date</string>
 	<string name="pref_date_sum">Display creation date</string>
 	<string name="pref_date_mod">Modification Date</string>
