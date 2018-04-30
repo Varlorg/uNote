@@ -103,17 +103,21 @@ public class NoteEdition extends Activity
                 }
             });
         }
-
         int textSize = Integer.parseInt(pref.getString(EXTRA_SIZE, "16"));
+        int textSizeButton = textSize - 2;
+        if ( textSize == -1 )
+        {
+            textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "16"));
+            textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "-2" ));
+        }
         titre.setTextSize(textSize);
         note.setTextSize(textSize);
         titreT.setTextSize(textSize);
         noteT.setTextSize(textSize);
         final Button buttonSave = (Button)findViewById(R.id.ButtonSave);
         final Button buttonQuit = (Button)findViewById(R.id.ButtonQuit);
-        int textSizeButton_offset = Integer.parseInt(pref.getString("pref_sizeNote_button_offset", "0" ));
-        buttonSave.setTextSize(textSize + textSizeButton_offset);
-        buttonQuit.setTextSize(textSize + textSizeButton_offset);
+        buttonSave.setTextSize(textSizeButton);
+        buttonQuit.setTextSize(textSizeButton);
 
         final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.editionButtons);
         buttonsBar.post(new Runnable()
