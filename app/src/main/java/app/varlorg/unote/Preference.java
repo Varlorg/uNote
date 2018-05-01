@@ -38,14 +38,14 @@ public class Preference extends PreferenceActivity {
                 {
                     Toast toast = Toast.makeText(Preference.this, Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ", Toast.LENGTH_LONG);
                     ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "18")));
-                    if ( pref.getBoolean("pref_popup", true))
+                    if ( pref.getBoolean("pref_notifications", true))
                         toast.show();
                 }
                 else
                 {
                     Toast toast = Toast.makeText(Preference.this, " Error " + path + " ! ", Toast.LENGTH_LONG);
                     ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "18")));
-                    if ( pref.getBoolean("pref_popup", true))
+                    if ( pref.getBoolean("pref_notifications", true))
                         toast.show();
                 }
                 return(false);

@@ -59,8 +59,8 @@
             android:title="@string/pref_sort" />
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="pref_popup"
-            android:title="@string/pref_popup" />
+            android:key="pref_notifications"
+            android:title="@string/pref_notifications" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_text_size">
         <ListPreference

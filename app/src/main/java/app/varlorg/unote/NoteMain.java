@@ -163,7 +163,7 @@ public class NoteMain extends Activity
                             {
                                 Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
                                 ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
-                                if ( pref.getBoolean("pref_popup", true))
+                                if ( pref.getBoolean("pref_notifications", true))
                                     toast.show();
                             }
                         }
@@ -503,7 +503,7 @@ public class NoteMain extends Activity
         noteBdd.removeNoteWithID(note.getId());
         Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG);
         ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
-        if ( pref.getBoolean("pref_popup", true))
+        if ( pref.getBoolean("pref_notifications", true))
             toast.show();
         simpleAdpt.notifyDataSetChanged();
         noteBdd.close();
@@ -563,7 +563,7 @@ public class NoteMain extends Activity
                     simpleAdpt.notifyDataSetChanged();
                     Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_added), Toast.LENGTH_LONG);
                     ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
-                    if ( pref.getBoolean("pref_popup", true))
+                    if ( pref.getBoolean("pref_notifications", true))
                         toast.show();
                 }
             })
@@ -701,7 +701,7 @@ public class NoteMain extends Activity
                     {
                         Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
                         ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
-                        if ( pref.getBoolean("pref_popup", true))
+                        if ( pref.getBoolean("pref_notifications", true))
                             toast.show();
                     }
                 }

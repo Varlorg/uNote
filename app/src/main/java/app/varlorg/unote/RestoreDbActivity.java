@@ -70,7 +70,7 @@ public class RestoreDbActivity extends ListActivity {
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         textSize = Integer.parseInt(pref.getString("pref_sizeNote", "18"));
-        toast_enabled = pref.getBoolean("pref_popup", true);
+        toast_enabled = pref.getBoolean("pref_notifications", true);
         adapter = new ArrayAdapter <NameOnlyFile>(this, R.layout.restore_entry, R.id.RestoreName) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent){
