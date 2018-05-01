@@ -12,14 +12,19 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class RestoreDbActivity extends ListActivity {
@@ -59,12 +64,29 @@ public class RestoreDbActivity extends ListActivity {
     {
         super.onCreate(savedInstanceState);
 
-        adapter = new ArrayAdapter <>(this, R.layout.restore_entry, R.id.RestoreName);
+        adapter = new ArrayAdapter <NameOnlyFile>(this, R.layout.restore_entry, R.id.RestoreName) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                // Cast the list view each item as text view
+                TextView item = (TextView) super.getView(position,convertView,parent);
+                // Change the item text size
+                item.setTextSize((int) (0.8 * Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(RestoreDbActivity.this).getString("pref_sizeNote", "18"))));
+                // return the view
+                return item;
+            }
+        };
 
         refresh();
 
+        TextView tv = new TextView(this);
+        tv.setText(new File(
+                Environment.getExternalStorageDirectory(),
+                BuildConfig.APPLICATION_ID).toString() + "/*" + EXTENSION);
+        tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+        tv.setTextSize((int) (0.8 * Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("pref_sizeNote", "18"))));
         setListAdapter(adapter);
         registerForContextMenu(getListView());
+        getListView().addHeaderView(tv, null, false);
 
         restoreWarningBuilder = new AlertDialog.Builder(this);
         restoreWarningBuilder.setMessage(R.string.restoreWarnMessage)
@@ -113,10 +135,10 @@ public class RestoreDbActivity extends ListActivity {
         boolean res = false;
         if (item.getTitle().equals((this.getString(R.string.dialog_backup_menu_deletion))))
         {
-            restoreFile = adapter.getItem(aInfo.position);
+            restoreFile = adapter.getItem(aInfo.position - 1);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
-            .setTitle(this.getString(R.string.dialog_delete_backup) + " " + adapter.getItem(aInfo.position).toString())
+            .setTitle(this.getString(R.string.dialog_delete_backup) + " " + adapter.getItem(aInfo.position - 1).toString())
             .setMessage(this.getString(R.string.dialog_delete_msg))
             .setPositiveButton(this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener()
             {
@@ -152,7 +174,7 @@ public class RestoreDbActivity extends ListActivity {
     {
         super.onListItemClick(l, v, position, id);
 
-        restoreFile = adapter.getItem(position);
+        restoreFile = adapter.getItem(position - 1);
 
         try
         {
