@@ -5,6 +5,8 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.content.Intent;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Preference extends PreferenceActivity {
@@ -12,7 +14,7 @@ public class Preference extends PreferenceActivity {
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (!pref.getBoolean("pref_theme", false))
         {
@@ -34,11 +36,17 @@ public class Preference extends PreferenceActivity {
                 String path      = noteBdd.exportDB();
                 if (path != null)
                 {
-                    Toast.makeText(Preference.this, Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ", Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(Preference.this, Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ", Toast.LENGTH_LONG);
+                    ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "18")));
+                    if ( pref.getBoolean("pref_popup", true))
+                        toast.show();
                 }
                 else
                 {
-                    Toast.makeText(Preference.this, " Error " + path + " ! ", Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(Preference.this, " Error " + path + " ! ", Toast.LENGTH_LONG);
+                    ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "18")));
+                    if ( pref.getBoolean("pref_popup", true))
+                        toast.show();
                 }
                 return(false);
             }

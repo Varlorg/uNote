@@ -165,20 +165,23 @@ public class NoteEdition extends Activity
             {
                 Toast toast = Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG);
                 ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
-                toast.show();
+                if ( pref.getBoolean("pref_popup", true))
+                    toast.show();
             }
             else
             {
                 Toast toast = Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG);
                 ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
-                toast.show();
+                if ( pref.getBoolean("pref_popup", true))
+                    toast.show();
             }
         }
         else
         {
             Toast toast = Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG);
             ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
-            toast.show();
+            if ( pref.getBoolean("pref_popup", true))
+                toast.show();
         }
 
         noteBdd.close();

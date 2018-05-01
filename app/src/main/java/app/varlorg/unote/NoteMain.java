@@ -163,7 +163,8 @@ public class NoteMain extends Activity
                             {
                                 Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
                                 ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
-                                toast.show();
+                                if ( pref.getBoolean("pref_popup", true))
+                                    toast.show();
                             }
                         }
                     })
@@ -502,7 +503,8 @@ public class NoteMain extends Activity
         noteBdd.removeNoteWithID(note.getId());
         Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG);
         ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
-        toast.show();
+        if ( pref.getBoolean("pref_popup", true))
+            toast.show();
         simpleAdpt.notifyDataSetChanged();
         noteBdd.close();
     }
@@ -561,7 +563,8 @@ public class NoteMain extends Activity
                     simpleAdpt.notifyDataSetChanged();
                     Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_added), Toast.LENGTH_LONG);
                     ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
-                    toast.show();
+                    if ( pref.getBoolean("pref_popup", true))
+                        toast.show();
                 }
             })
             .setNeutralButton(NoteMain.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener()
@@ -698,7 +701,8 @@ public class NoteMain extends Activity
                     {
                         Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
                         ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
-                        toast.show();
+                        if ( pref.getBoolean("pref_popup", true))
+                            toast.show();
                     }
                 }
             })

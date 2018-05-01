@@ -57,7 +57,12 @@
             android:defaultValue="false"
             android:key="pref_ordretri"
             android:title="@string/pref_sort" />
-
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_popup"
+            android:title="@string/pref_popup" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_text_size">
         <ListPreference
             android:defaultValue="18"
             android:entries="@array/textSize"
