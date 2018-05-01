@@ -34,8 +34,8 @@ public class NoteMain extends Activity
     private static final String SEARCH_SENSITIVE = "sensitiveSearch";
     private static final String PREF_SORT        = "pref_tri";
     private static final String PREF_SORT_ORDER  = "pref_ordretri";
-    public  static final double POPUP_TEXTSIZE_FACTOR    = 0.75;
-    public  static final double TOAST_TEXTSIZE_FACTOR    = 0.7;
+    public  static final double POPUP_TEXTSIZE_FACTOR    = 0.9;
+    public  static final double TOAST_TEXTSIZE_FACTOR    = 0.9;
 
     private static final String HEX = "0123456789ABCDEF";
     private ArrayAdapter <Note> simpleAdpt;
