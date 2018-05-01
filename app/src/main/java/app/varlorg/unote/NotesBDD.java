@@ -307,6 +307,7 @@ public class NotesBDD
             // returns false if the file exists => overwritten, manual action db cannot changed
         } catch (IOException e) {
             Log.e(BuildConfig.APPLICATION_ID, "IOException exportDB", e);
+            return(null);
         }
 
         try (
