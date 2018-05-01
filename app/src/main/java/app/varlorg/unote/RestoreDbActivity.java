@@ -77,7 +77,7 @@ public class RestoreDbActivity extends ListActivity {
                 // Cast the list view each item as text view
                 TextView item = (TextView) super.getView(position,convertView,parent);
                 // Change the item text size
-                item.setTextSize((int) (0.8 * textSize));
+                item.setTextSize((int) (NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
                 // return the view
                 return item;
             }
