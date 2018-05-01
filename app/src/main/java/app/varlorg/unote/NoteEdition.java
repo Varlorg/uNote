@@ -164,14 +164,14 @@ public class NoteEdition extends Activity
             if (!edit)
             {
                 Toast toast = Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG);
-                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
                 if ( pref.getBoolean("pref_notifications", true))
                     toast.show();
             }
             else
             {
                 Toast toast = Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG);
-                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
                 if ( pref.getBoolean("pref_notifications", true))
                     toast.show();
             }
@@ -179,7 +179,7 @@ public class NoteEdition extends Activity
         else
         {
             Toast toast = Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG);
-            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
             if ( pref.getBoolean("pref_notifications", true))
                 toast.show();
         }
@@ -218,6 +218,11 @@ public class NoteEdition extends Activity
             }
         })
         .show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(Math.min(36,(int)(textSize * NoteMain.POPUP_TEXTSIZE_FACTOR)));
+        alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,(int)(textSize * NoteMain.POPUP_TEXTSIZE_FACTOR)));
+        ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * NoteMain.POPUP_TEXTSIZE_FACTOR));
     }
 
     public void quit(View v)

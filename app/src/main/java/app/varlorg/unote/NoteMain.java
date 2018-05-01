@@ -34,6 +34,8 @@ public class NoteMain extends Activity
     private static final String SEARCH_SENSITIVE = "sensitiveSearch";
     private static final String PREF_SORT        = "pref_tri";
     private static final String PREF_SORT_ORDER  = "pref_ordretri";
+    public  static final double POPUP_TEXTSIZE_FACTOR    = 0.75;
+    public  static final double TOAST_TEXTSIZE_FACTOR    = 0.7;
 
     private static final String HEX = "0123456789ABCDEF";
     private ArrayAdapter <Note> simpleAdpt;
@@ -162,7 +164,7 @@ public class NoteMain extends Activity
                             else
                             {
                                 Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
-                                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+                                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
                                 if ( pref.getBoolean("pref_notifications", true))
                                     toast.show();
                             }
@@ -175,8 +177,13 @@ public class NoteMain extends Activity
                         {
                             dialog.cancel();
                         }
-                    })
-                    .show();
+                    });
+
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                    alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                    ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
                 }
                 else
                 {
@@ -214,7 +221,6 @@ public class NoteMain extends Activity
             textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "18"));
             textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "14" ));
         }
-
         cbSearchContent.setTextSize(textSize);
         cbSearchCase.setTextSize(textSize);
         buttonAddNote.setTextSize(textSizeButton);
@@ -502,7 +508,7 @@ public class NoteMain extends Activity
         noteBdd.open();
         noteBdd.removeNoteWithID(note.getId());
         Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG);
-        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
         if ( pref.getBoolean("pref_notifications", true))
             toast.show();
         simpleAdpt.notifyDataSetChanged();
@@ -562,7 +568,7 @@ public class NoteMain extends Activity
                     note.setPassword(SHA1(password));
                     simpleAdpt.notifyDataSetChanged();
                     Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_added), Toast.LENGTH_LONG);
-                    ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+                    ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
                     if ( pref.getBoolean("pref_notifications", true))
                         toast.show();
                 }
@@ -578,10 +584,10 @@ public class NoteMain extends Activity
             //.show();
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(Math.min(36,textSize));
-            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,textSize));
-            alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(Math.min(36,textSize));
-            ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize(textSize);
+            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
+            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
+            alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
+            ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
 
         }
         else if (item.getTitle().equals(this.getString(R.string.menu_delete)))
@@ -591,7 +597,14 @@ public class NoteMain extends Activity
             if (pref.getBoolean("pref_del", false))
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                /*TextView tv_delete = new TextView(this);
+                tv_delete.setText(NoteMain.this.getString(R.string.dialog_delete_title) + " " + note.getTitre().substring(0,32));
+                tv_delete.setHeight(textSize*5);
+                tv_delete.setGravity(Gravity.CENTER);
+                tv_delete.setTextSize((int)(textSize*0.85));*/
+
                 builder
+                //.setCustomTitle(tv_delete)
                 .setTitle(NoteMain.this.getString(R.string.dialog_delete_title) + " " + note.getTitre())
                 .setMessage(NoteMain.this.getString(R.string.dialog_delete_msg))
                 .setPositiveButton(NoteMain.this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener()
@@ -613,9 +626,9 @@ public class NoteMain extends Activity
                 //.show();
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
-                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(textSize);
-                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(textSize);
-                ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize(textSize);
+                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
             }
             else
             {
@@ -626,6 +639,12 @@ public class NoteMain extends Activity
         {
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle(this.getString(R.string.menu_detail));
+            /*TextView tv_details = new TextView(this);
+            tv_details.setText(this.getString(R.string.menu_detail));
+            tv_details.setHeight(textSize*5);
+            tv_details.setGravity(Gravity.CENTER);
+            tv_details.setTextSize((int)(textSize*0.85));
+            alertDialog.setCustomTitle(tv_details);*/
             String dateC       = note.getDateCreation();
             String dateM       = note.getDateModification();
             String noteDetails = "<b>" + this.getString(R.string.detail_title) + ": " + note.getTitre() +
@@ -649,12 +668,9 @@ public class NoteMain extends Activity
                 }
             });
 
-            // Set the Icon for the Dialog
             alertDialog.show();
-            alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(textSize);
-
-            //Change popup content text size
-            ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize(textSize);
+            alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+            ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
         }
         else
         {
@@ -700,7 +716,7 @@ public class NoteMain extends Activity
                     else
                     {
                         Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
-                        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+                        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
                         if ( pref.getBoolean("pref_notifications", true))
                             toast.show();
                     }
@@ -713,8 +729,13 @@ public class NoteMain extends Activity
                 {
                     dialog.cancel();
                 }
-            })
-            .show();
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+            ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
         }
         else
         {

@@ -121,7 +121,8 @@ public class RestoreDbActivity extends ListActivity {
     {
         if (id == DIALOG_RESTORE_WARN)
         {
-            return(restoreWarningBuilder.create());
+            AlertDialog adRestoreWarningBuilder = restoreWarningBuilder.create();
+            return(adRestoreWarningBuilder);
         }
 
         return(super.onCreateDialog(id));
@@ -158,7 +159,7 @@ public class RestoreDbActivity extends ListActivity {
                                 RestoreDbActivity.this,
                                 RestoreDbActivity.this.getString(R.string.toast_backup_deleted_error),
                                 Toast.LENGTH_LONG);
-                        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+                        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
                         if ( toast_enabled )
                             toast.show();
                     }
@@ -169,7 +170,7 @@ public class RestoreDbActivity extends ListActivity {
                                 RestoreDbActivity.this,
                                 RestoreDbActivity.this.getString(R.string.toast_backup_deleted),
                                 Toast.LENGTH_LONG);
-                        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+                        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
                         if ( toast_enabled )
                             toast.show();
                     }
@@ -211,7 +212,7 @@ public class RestoreDbActivity extends ListActivity {
                     RestoreDbActivity.this,
                     RestoreDbActivity.this.getString(R.string.restoreToastInvalidDB),
                     Toast.LENGTH_LONG);
-            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
             if ( toast_enabled )
                 toast.show();
         }
@@ -246,7 +247,7 @@ public class RestoreDbActivity extends ListActivity {
                     RestoreDbActivity.this,
                     RestoreDbActivity.this.getString(R.string.restoreToastMountProblem),
                     Toast.LENGTH_LONG);
-            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
             if ( toast_enabled )
                 toast.show();
             return;
@@ -262,7 +263,7 @@ public class RestoreDbActivity extends ListActivity {
                     RestoreDbActivity.this,
                     R.string.restoreToastUnableToMove,
                     Toast.LENGTH_LONG);
-            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
             if ( toast_enabled )
                 toast.show();
             return;
@@ -287,7 +288,7 @@ public class RestoreDbActivity extends ListActivity {
                     RestoreDbActivity.this,
                     R.string.restoreToastCopyFailed,
                     Toast.LENGTH_LONG);
-            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
             if ( toast_enabled )
                 toast.show();
             return;
@@ -298,7 +299,7 @@ public class RestoreDbActivity extends ListActivity {
                 (new NameOnlyFile(restoreFile.getFile())).toString() + " " +
                 getResources().getString(R.string.restoreToastRestoreFinished),
                 Toast.LENGTH_LONG);
-        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(textSize);
+        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
         if ( toast_enabled )
             toast.show();
 
