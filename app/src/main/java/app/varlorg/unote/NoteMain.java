@@ -221,8 +221,8 @@ public class NoteMain extends Activity
             textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "18"));
             textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "14" ));
         }
-        cbSearchContent.setTextSize(textSize);
-        cbSearchCase.setTextSize(textSize);
+        cbSearchContent.setTextSize((int)(POPUP_TEXTSIZE_FACTOR * textSize));
+        cbSearchCase.setTextSize((int)(POPUP_TEXTSIZE_FACTOR * textSize));
         buttonAddNote.setTextSize(textSizeButton);
         buttonSearch.setTextSize(textSizeButton);
         buttonReturn.setTextSize(textSizeButton);
