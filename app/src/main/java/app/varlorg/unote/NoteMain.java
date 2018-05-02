@@ -537,7 +537,7 @@ public class NoteMain extends Activity
             input.setLayoutParams(lp);
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             TextView menuPwdMsg = new TextView(NoteMain.this);
-            menuPwdMsg.setText(NoteMain.this.getString(R.string.dialog_add_pwd_msg) + " " + note.getTitre().substring(0,32));
+            menuPwdMsg.setText(NoteMain.this.getString(R.string.dialog_add_pwd_msg));
             menuPwdMsg.setTextSize((int)(textSize*0.85));
             LinearLayout menuPwdView = new LinearLayout(NoteMain.this);
             menuPwdView.addView(menuPwdMsg); 
@@ -595,6 +595,7 @@ public class NoteMain extends Activity
             alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
+            //alertDialog.show();
         }
         else if (item.getTitle().equals(this.getString(R.string.menu_delete)))
         {
