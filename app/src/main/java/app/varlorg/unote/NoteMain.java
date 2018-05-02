@@ -536,11 +536,19 @@ public class NoteMain extends Activity
                 LinearLayout.LayoutParams.MATCH_PARENT);
             input.setLayoutParams(lp);
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            TextView menuPwdMsg = new TextView(NoteMain.this);
+            menuPwdMsg.setText((NoteMain.this.getString(R.string.dialog_add_pwd_msge) + " " + note.getTitre().substring(0,32));
+            menuPwdMsg.setTextSize((int)(textSize*0.85));
+            LinearLayout menuPwdView = new LinearLayout(NoteMain.this);
+            menuPwdView.addView(menuPwdMsg); 
+            menuPwdView.addView(input);
+            menuPwdView.setOrientation(LinearLayout.VERTICAL);
+            input.getLayoutParams().width = ActionBar.LayoutParams.MATCH_PARENT;
+            menuPwdMsg.getLayoutParams().width  = ActionBar.LayoutParams.MATCH_PARENT;
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
             .setTitle(NoteMain.this.getString(R.string.dialog_add_pwd_title))
-            .setMessage(NoteMain.this.getString(R.string.dialog_add_pwd_msg))
-            .setView(input)
+            .setView(menuPwdView)
             .setNegativeButton(NoteMain.this.getString(R.string.dialog_add_pwd_remove), new DialogInterface.OnClickListener()
             {
                 @Override
@@ -587,8 +595,6 @@ public class NoteMain extends Activity
             alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
-            ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
-
         }
         else if (item.getTitle().equals(this.getString(R.string.menu_delete)))
         {
