@@ -537,7 +537,7 @@ public class NoteMain extends Activity
             input.setLayoutParams(lp);
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             TextView menuPwdMsg = new TextView(NoteMain.this);
-            menuPwdMsg.setText((NoteMain.this.getString(R.string.dialog_add_pwd_msge) + " " + note.getTitre().substring(0,32));
+            menuPwdMsg.setText(NoteMain.this.getString(R.string.dialog_add_pwd_msg) + " " + note.getTitre().substring(0,32));
             menuPwdMsg.setTextSize((int)(textSize*0.85));
             LinearLayout menuPwdView = new LinearLayout(NoteMain.this);
             menuPwdView.addView(menuPwdMsg); 
