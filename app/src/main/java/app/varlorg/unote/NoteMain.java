@@ -613,7 +613,7 @@ public class NoteMain extends Activity
         {
             pref = PreferenceManager.getDefaultSharedPreferences(this);
 
-            if (pref.getBoolean("pref_del", false))
+            if (pref.getBoolean("pref_del", true))
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 /*TextView tv_delete = new TextView(this);
