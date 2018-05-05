@@ -104,12 +104,12 @@ public class NoteEdition extends Activity
                 }
             });
         }
-        textSize = Integer.parseInt(pref.getString(EXTRA_SIZE, "16"));
-        int textSizeButton = textSize - 2;
+        textSize = Integer.parseInt(pref.getString("pref_sizeNote", "18"));
+        int textSizeButton = textSize < 15 ? textSize - 1: textSize - 4;
         if ( textSize == -1 )
         {
-            textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "16"));
-            textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "-2" ));
+            textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "18"));
+            textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "14" ));
         }
         titre.setTextSize(textSize);
         note.setTextSize(textSize);
