@@ -139,6 +139,7 @@ public class NoteMain extends Activity
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT);
                     input.setLayoutParams(lp);
+                    input.setTextSize(textSize);
                     input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
                     builder
@@ -535,6 +536,7 @@ public class NoteMain extends Activity
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
             input.setLayoutParams(lp);
+            input.setTextSize(textSize);
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
@@ -716,6 +718,7 @@ public class NoteMain extends Activity
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
             input.setLayoutParams(lp);
+            input.setTextSize(textSize);
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
             builder
