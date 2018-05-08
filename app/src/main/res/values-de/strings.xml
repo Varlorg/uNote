@@ -41,6 +41,7 @@
 	<string name="pref_backButton_action_summary">Definieren Sie das Verhalten der Zurück-Taste</string>
     <string name="pref_sort">Absteigende Sortierung</string>
     <string name="pref_sort_by">Sortieren nach</string>
+    <string name="pref_notifications">Meldungen anzeigen</string>
     <string name="pref_text_size">Textgröße</string>
     <string name="pref_text_size_custom">Benutzerdefinierte Textgröße</string>
     <string name="pref_text_size_custom_summary">Wählen Sie Benutzerdefinierter Eintrag in Textgröße</string>

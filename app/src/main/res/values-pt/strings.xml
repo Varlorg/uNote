@@ -41,6 +41,7 @@
 	<string name="pref_backButton_action_summary">Definir o comportamento da tecla de volta</string>
 	<string name="pref_sort">Ordem descendente</string>
 	<string name="pref_sort_by">Ordenar por</string>
+	<string name="pref_notifications">Mostrar notificações</string>
 	<string name="pref_text_size">Tamanho do texto</string>
 	<string name="pref_text_size_custom">Tamanho do texto personalizado</string>
 	<string name="pref_text_size_custom_summary">Escolha Personalizada no tamanho do texto</string>
