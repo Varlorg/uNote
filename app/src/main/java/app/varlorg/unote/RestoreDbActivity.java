@@ -12,14 +12,20 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class RestoreDbActivity extends ListActivity {
@@ -32,6 +38,9 @@ public class RestoreDbActivity extends ListActivity {
     private NameOnlyFile restoreFile;
     private FilenameFilter restoreFilenameFilter;
     private Comparator <NameOnlyFile> comparator;
+    private SharedPreferences pref;
+    int textSize;
+    boolean toast_enabled;
 
     public RestoreDbActivity()
     {
@@ -59,12 +68,32 @@ public class RestoreDbActivity extends ListActivity {
     {
         super.onCreate(savedInstanceState);
 
-        adapter = new ArrayAdapter <>(this, R.layout.restore_entry, R.id.RestoreName);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        textSize = Integer.parseInt(pref.getString("pref_sizeNote", "18"));
+        toast_enabled = pref.getBoolean("pref_notifications", true);
+        adapter = new ArrayAdapter <NameOnlyFile>(this, R.layout.restore_entry, R.id.RestoreName) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                // Cast the list view each item as text view
+                TextView item = (TextView) super.getView(position,convertView,parent);
+                // Change the item text size
+                item.setTextSize((int) (NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+                // return the view
+                return item;
+            }
+        };
 
         refresh();
 
+        TextView tv = new TextView(this);
+        tv.setText(new File(
+                Environment.getExternalStorageDirectory(),
+                BuildConfig.APPLICATION_ID).toString() + "/*" + EXTENSION);
+        tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+        tv.setTextSize((int) (0.8 * textSize));
         setListAdapter(adapter);
         registerForContextMenu(getListView());
+        getListView().addHeaderView(tv, null, false);
 
         restoreWarningBuilder = new AlertDialog.Builder(this);
         restoreWarningBuilder.setMessage(R.string.restoreWarnMessage)
@@ -92,7 +121,8 @@ public class RestoreDbActivity extends ListActivity {
     {
         if (id == DIALOG_RESTORE_WARN)
         {
-            return(restoreWarningBuilder.create());
+            AlertDialog adRestoreWarningBuilder = restoreWarningBuilder.create();
+            return(adRestoreWarningBuilder);
         }
 
         return(super.onCreateDialog(id));
@@ -113,10 +143,10 @@ public class RestoreDbActivity extends ListActivity {
         boolean res = false;
         if (item.getTitle().equals((this.getString(R.string.dialog_backup_menu_deletion))))
         {
-            restoreFile = adapter.getItem(aInfo.position);
+            restoreFile = adapter.getItem(aInfo.position - 1);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
-            .setTitle(this.getString(R.string.dialog_delete_backup) + " " + adapter.getItem(aInfo.position).toString())
+            .setTitle(this.getString(R.string.dialog_delete_backup) + " " + adapter.getItem(aInfo.position - 1).toString())
             .setMessage(this.getString(R.string.dialog_delete_msg))
             .setPositiveButton(this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener()
             {
@@ -125,12 +155,24 @@ public class RestoreDbActivity extends ListActivity {
                 {
                     if (!restoreFile.getFile().delete())
                     {
-                        (Toast.makeText(RestoreDbActivity.this, RestoreDbActivity.this.getString(R.string.toast_backup_deleted_error), Toast.LENGTH_LONG)).show();
+                        Toast toast = Toast.makeText(
+                                RestoreDbActivity.this,
+                                RestoreDbActivity.this.getString(R.string.toast_backup_deleted_error),
+                                Toast.LENGTH_LONG);
+                        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+                        if ( toast_enabled )
+                            toast.show();
                     }
                     else
                     {
                         refresh();
-                        (Toast.makeText(RestoreDbActivity.this, RestoreDbActivity.this.getString(R.string.toast_backup_deleted), Toast.LENGTH_LONG)).show();
+                        Toast toast = Toast.makeText(
+                                RestoreDbActivity.this,
+                                RestoreDbActivity.this.getString(R.string.toast_backup_deleted),
+                                Toast.LENGTH_LONG);
+                        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+                        if ( toast_enabled )
+                            toast.show();
                     }
                 }
             })
@@ -152,7 +194,7 @@ public class RestoreDbActivity extends ListActivity {
     {
         super.onListItemClick(l, v, position, id);
 
-        restoreFile = adapter.getItem(position);
+        restoreFile = adapter.getItem(position - 1);
 
         try
         {
@@ -166,8 +208,13 @@ public class RestoreDbActivity extends ListActivity {
         }
         catch (Exception e)
         {
-            Toast t = Toast.makeText(this, R.string.restoreToastInvalidDB, Toast.LENGTH_LONG);
-            t.show();
+            Toast toast = Toast.makeText(
+                    RestoreDbActivity.this,
+                    RestoreDbActivity.this.getString(R.string.restoreToastInvalidDB),
+                    Toast.LENGTH_LONG);
+            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+            if ( toast_enabled )
+                toast.show();
         }
     }
 
@@ -196,11 +243,13 @@ public class RestoreDbActivity extends ListActivity {
 
         if (!Environment.MEDIA_MOUNTED.equals(state))
         {
-            Toast.makeText(
-                this,
-                R.string.restoreToastMountProblem,
-                Toast.LENGTH_LONG
-                ).show();
+            Toast toast = Toast.makeText(
+                    RestoreDbActivity.this,
+                    RestoreDbActivity.this.getString(R.string.restoreToastMountProblem),
+                    Toast.LENGTH_LONG);
+            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+            if ( toast_enabled )
+                toast.show();
             return;
         }
 
@@ -210,11 +259,13 @@ public class RestoreDbActivity extends ListActivity {
         boolean moved     = dbFile.renameTo(dbBakFile);
         if (!moved)
         {
-            Toast.makeText(
-                this,
-                R.string.restoreToastUnableToMove,
-                Toast.LENGTH_LONG
-                ).show();
+            Toast toast = Toast.makeText(
+                    RestoreDbActivity.this,
+                    R.string.restoreToastUnableToMove,
+                    Toast.LENGTH_LONG);
+            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+            if ( toast_enabled )
+                toast.show();
             return;
         }
 
@@ -233,20 +284,24 @@ public class RestoreDbActivity extends ListActivity {
             dbFile.delete();
             dbBakFile.renameTo(dbFile);
 
-            Toast.makeText(
-                this,
-                R.string.restoreToastCopyFailed,
-                Toast.LENGTH_LONG
-                ).show();
+            Toast toast = Toast.makeText(
+                    RestoreDbActivity.this,
+                    R.string.restoreToastCopyFailed,
+                    Toast.LENGTH_LONG);
+            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+            if ( toast_enabled )
+                toast.show();
             return;
         }
 
-        Toast.makeText(
-            this,
-            (new NameOnlyFile(restoreFile.getFile())).toString() + " " +
-            getResources().getString(R.string.restoreToastRestoreFinished),
-            Toast.LENGTH_LONG
-            ).show();
+        Toast toast = Toast.makeText(
+                RestoreDbActivity.this,
+                (new NameOnlyFile(restoreFile.getFile())).toString() + " " +
+                getResources().getString(R.string.restoreToastRestoreFinished),
+                Toast.LENGTH_LONG);
+        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+        if ( toast_enabled )
+            toast.show();
 
         finish();
     }

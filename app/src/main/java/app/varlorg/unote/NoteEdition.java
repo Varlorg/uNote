@@ -1,5 +1,6 @@
 package app.varlorg.unote;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,7 +11,9 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,7 @@ public class NoteEdition extends Activity
     private SharedPreferences pref;
     private EditText titre;
     private EditText note;
+    private int textSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -100,10 +104,37 @@ public class NoteEdition extends Activity
                 }
             });
         }
-        titre.setTextSize(Integer.parseInt(pref.getString(EXTRA_SIZE, "16")));
-        note.setTextSize(Integer.parseInt(pref.getString(EXTRA_SIZE, "16")));
-        titreT.setTextSize(Integer.parseInt(pref.getString(EXTRA_SIZE, "16")));
-        noteT.setTextSize(Integer.parseInt(pref.getString(EXTRA_SIZE, "16")));
+        textSize = Integer.parseInt(pref.getString("pref_sizeNote", "18"));
+        int textSizeButton = textSize < 15 ? textSize - 1: textSize - 4;
+        if ( textSize == -1 )
+        {
+            textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "18"));
+            textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "14" ));
+        }
+        titre.setTextSize(textSize);
+        note.setTextSize(textSize);
+        titreT.setTextSize(textSize);
+        noteT.setTextSize(textSize);
+        final Button buttonSave = (Button)findViewById(R.id.ButtonSave);
+        final Button buttonQuit = (Button)findViewById(R.id.ButtonQuit);
+        buttonSave.setTextSize(textSizeButton);
+        buttonQuit.setTextSize(textSizeButton);
+
+        final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.editionButtons);
+        buttonsBar.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Boolean forceButtons_horizontal = pref.getBoolean("pref_forceEditionButtonsH", false);
+                if ((buttonQuit.getLineCount() > 1 || buttonSave.getLineCount() > 1) && !forceButtons_horizontal)
+                {
+                    buttonsBar.setOrientation(LinearLayout.VERTICAL);
+                    buttonQuit.getLayoutParams().width = ActionBar.LayoutParams.MATCH_PARENT;
+                    buttonSave.getLayoutParams().width = ActionBar.LayoutParams.MATCH_PARENT;
+                }
+            }
+        });
     }
 
     public void save(View v)
@@ -132,16 +163,25 @@ public class NoteEdition extends Activity
         {
             if (!edit)
             {
-                Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG).show();
+                Toast toast = Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG);
+                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+                if ( pref.getBoolean("pref_notifications", true))
+                    toast.show();
             }
             else
             {
-                Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG).show();
+                Toast toast = Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG);
+                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+                if ( pref.getBoolean("pref_notifications", true))
+                    toast.show();
             }
         }
         else
         {
-            Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG).show();
+            Toast toast = Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG);
+            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+            if ( pref.getBoolean("pref_notifications", true))
+                toast.show();
         }
 
         noteBdd.close();
@@ -178,6 +218,11 @@ public class NoteEdition extends Activity
             }
         })
         .show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(Math.min(36,(int)(textSize * NoteMain.POPUP_TEXTSIZE_FACTOR)));
+        alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,(int)(textSize * NoteMain.POPUP_TEXTSIZE_FACTOR)));
+        ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * NoteMain.POPUP_TEXTSIZE_FACTOR));
     }
 
     public void quit(View v)
@@ -196,14 +241,14 @@ public class NoteEdition extends Activity
     public void onBackPressed()
     {
         //Autosave
-        if ((note.getTag() != null || titre.getTag() != null) && (pref.getString("pref_back_action","0").equals("3")  ))
+        if ((note.getTag() != null || titre.getTag() != null) && (pref.getString("pref_back_action", "0").equals("3")))
         {
             save(getWindow().getDecorView().getRootView());
         }
         // Always cancel confirmation or as return button with confirmation enable
         if ((note.getTag() != null || titre.getTag() != null) &&
-                (pref.getString("pref_back_action","0").equals("2") ||
-                    (pref.getString("pref_back_action","0").equals("1") && pref.getBoolean("pref_cancel", false))))
+            (pref.getString("pref_back_action", "0").equals("2") ||
+             (pref.getString("pref_back_action", "0").equals("1") && pref.getBoolean("pref_cancel", false))))
         {
             dialogConfirmationExit();
         }

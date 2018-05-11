@@ -8,6 +8,7 @@
 		<item>Large</item>
 		<item>Grand</item>
         <item>Énorme</item>
+        <item>Personnalisée</item>
     </string-array>
     <string-array name="tri">
         <item>Date de création</item>

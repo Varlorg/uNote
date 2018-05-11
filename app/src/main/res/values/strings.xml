@@ -27,6 +27,8 @@
 	<string name="pref_search_sum">Search also in the notes\' content but not in note protected by password</string>
 	<string name="pref_sensitive_search">Case sensitive research </string>
 	<string name="cb_sensitive_search">Ignore case</string>
+	<string name="pref_display_search_option">Display search options</string>
+	<string name="pref_search_option_orientation">Vertical search options</string>
 	<string name="pref_date">Creation date</string>
 	<string name="pref_date_sum">Display creation date</string>
 	<string name="pref_date_mod">Modification Date</string>
@@ -39,7 +41,13 @@
 	<string name="pref_backButton_action_summary">Define behaviour when back button pressed</string>
 	<string name="pref_sort">Descending sort</string>
 	<string name="pref_sort_by">Sort by</string>
+	<string name="pref_notifications">Display notifications</string>
 	<string name="pref_text_size">Text Size</string>
+	<string name="pref_text_size_custom">Custom text size</string>
+	<string name="pref_text_size_custom_summary">Choose Custom entry in Text Size</string>
+	<string name="pref_text_size_button_custom">Custom text size for buttons</string>
+	<string name="pref_main_button_orientation">Main screen buttons horizontal</string>
+	<string name="pref_edition_button_orientation">Edition buttons horizontal</string>
 	<string name="pref_db">Database</string>
 	<string name="pref_export_db">Export database</string>
 	<string name="pref_import_db">Import database</string>

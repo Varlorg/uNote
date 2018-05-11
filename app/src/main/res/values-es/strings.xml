@@ -27,6 +27,8 @@
 	<string name="pref_search_sum">Buscar en el contenido de las notas a menos que estén protegidas por contraseña</string>
 	<string name="pref_sensitive_search">Búsqueda sensible al caso </string>
 	<string name="cb_sensitive_search">Insensible al caso</string>
+	<string name="pref_display_search_option">Mostrar opciones de búsqueda</string>
+	<string name="pref_search_option_orientation">Opciones de búsqueda vertical</string>
 	<string name="pref_date">Fecha de creación</string>
 	<string name="pref_date_sum">Mostrar fecha de creación</string>
 	<string name="pref_date_mod">Fecha de modificación</string>
@@ -39,7 +41,13 @@
 	<string name="pref_backButton_action_summary">Definir el comportamiento de la tecla de retorno</string>
 	<string name="pref_sort">Ordenar de forma descendiente</string>
 	<string name="pref_sort_by">Ordenar por</string>
+	<string name="pref_notifications">Mostrar avisos</string>
 	<string name="pref_text_size">Tamaño del texto</string>
+	<string name="pref_text_size_custom">Tamaño de texto personalizado</string>
+	<string name="pref_text_size_custom_summary">Elija Personalizada en tamaño del texto</string>
+	<string name="pref_text_size_button_custom">Tamaño de texto personalizado para los botones</string>
+	<string name="pref_main_button_orientation">Botones de la pantalla principal horizontal</string>
+	<string name="pref_edition_button_orientation">Botones de edición horizontal</string>
 	<string name="pref_db">Base de datos</string>
 	<string name="pref_export_db">Exportar base de datos</string>
 	<string name="pref_import_db">Importar base de datos</string>

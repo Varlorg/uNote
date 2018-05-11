@@ -112,7 +112,7 @@ public class NotesBDD
     public Note getNoteWithTitre(String titre)
     {
         //Récupère dans un Cursor les valeur correspondant à une note contenue dans la BDD (ici on sélectionne la note grâce à son titre)
-        Cursor c = bdd.query(TABLE_NOTES, new String[] { COL_ID, COL_NOTE, COL_TITRE, COL_DATECREATION, COL_DATEMODIFICATION }, COL_TITRE + " LIKE ? ", new String[]{ titre }, null, null, null);
+        Cursor c = bdd.query(TABLE_NOTES, new String[] { COL_ID, COL_NOTE, COL_TITRE, COL_DATECREATION, COL_DATEMODIFICATION }, COL_TITRE + " LIKE ? ", new String[] { titre }, null, null, null);
 
         return(cursorToNote(c));
     }
@@ -236,7 +236,8 @@ public class NotesBDD
     public List <Note> fillListNote(SQLiteDatabase db, String selectQuery, List <Note> noteList, String s, boolean contentSearch)
     {
         Cursor c;
-        if (s != null && contentSearch)
+
+        if (s != null&& contentSearch)
         {
             c = db.rawQuery(selectQuery, new String[] { "%" + s + "%", "%" + s + "%" });
         }
@@ -306,6 +307,7 @@ public class NotesBDD
             // returns false if the file exists => overwritten, manual action db cannot changed
         } catch (IOException e) {
             Log.e(BuildConfig.APPLICATION_ID, "IOException exportDB", e);
+            return(null);
         }
 
         try (

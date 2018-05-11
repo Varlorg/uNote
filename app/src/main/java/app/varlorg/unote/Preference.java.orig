@@ -1,12 +1,11 @@
 package app.varlorg.unote;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.content.Intent;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class Preference extends PreferenceActivity {
@@ -14,15 +13,30 @@ public class Preference extends PreferenceActivity {
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        int currentapiVersion  = android.os.Build.VERSION.SDK_INT;
 
-        if (!pref.getBoolean("pref_theme", false))
+        if (currentapiVersion >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
         {
-            setTheme(android.R.style.Theme_DeviceDefault);
+            if (!pref.getBoolean("pref_theme", false))
+            {
+                setTheme(android.R.style.Theme_DeviceDefault);
+            }
+            else
+            {
+                setTheme(android.R.style.Theme_DeviceDefault_Light);
+            }
         }
         else
         {
-            setTheme(android.R.style.Theme_DeviceDefault_Light);
+            if (!pref.getBoolean("pref_theme", false))
+            {
+                setTheme(android.R.style.Theme_Black);
+            }
+            else
+            {
+                setTheme(android.R.style.Theme_Light);
+            }
         }
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preference);
@@ -30,24 +44,12 @@ public class Preference extends PreferenceActivity {
         button.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
             @Override
-            public boolean onPreferenceClick(android.preference.Preference arg0)
+            public boolean onPreferenceClick(
+                android.preference.Preference arg0)
             {
                 NotesBDD noteBdd = new NotesBDD(null);
                 String path      = noteBdd.exportDB();
-                if (path != null)
-                {
-                    Toast toast = Toast.makeText(Preference.this, Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ", Toast.LENGTH_LONG);
-                    ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "18")));
-                    if ( pref.getBoolean("pref_notifications", true))
-                        toast.show();
-                }
-                else
-                {
-                    Toast toast = Toast.makeText(Preference.this, " Error " + path + " ! ", Toast.LENGTH_LONG);
-                    ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "18")));
-                    if ( pref.getBoolean("pref_notifications", true))
-                        toast.show();
-                }
+                Toast.makeText(Preference.this, Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ", Toast.LENGTH_LONG).show();
                 return(false);
             }
         });
@@ -55,7 +57,8 @@ public class Preference extends PreferenceActivity {
         buttonImport.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
             @Override
-            public boolean onPreferenceClick(android.preference.Preference arg0)
+            public boolean onPreferenceClick(
+                android.preference.Preference arg0)
             {
                 Intent restoreActivity = new Intent(getBaseContext(), RestoreDbActivity.class);
                 startActivity(restoreActivity);

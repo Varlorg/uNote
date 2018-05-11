@@ -3,6 +3,7 @@ package app.varlorg.unote;
 import java.util.List;
 import java.security.MessageDigest;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -33,17 +34,20 @@ public class NoteMain extends Activity
     private static final String SEARCH_SENSITIVE = "sensitiveSearch";
     private static final String PREF_SORT        = "pref_tri";
     private static final String PREF_SORT_ORDER  = "pref_ordretri";
+    public  static final double POPUP_TEXTSIZE_FACTOR    = 0.9;
+    public  static final double TOAST_TEXTSIZE_FACTOR    = 0.9;
 
     private static final String HEX = "0123456789ABCDEF";
     private ArrayAdapter <Note> simpleAdpt;
     private EditText editsearch;
-    private Button btnClear;
+    private ImageButton btnClear;
     private List <Note> listeNotes;
     private CheckBox cbSearchContent;
     private CheckBox cbSearchCase;
     private ListView lv;
     private SharedPreferences pref;
     private Parcelable state;
+    private int textSize;
 
     @Override
     public void onPause()
@@ -105,15 +109,18 @@ public class NoteMain extends Activity
         listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
         /****************************************************************************************/
         // The data to show
-        lv         = (ListView)findViewById(R.id.listView);
+        lv = (ListView)findViewById(R.id.listView);
+
         simpleAdpt = new ArrayAdapter <Note>(this, R.layout.notelist, listeNotes)
         {
             @Override
             public View getView(int position, View view, ViewGroup viewGroup)
             {
-                view = super.getView(position, view, viewGroup);
+                View v = super.getView(position, view, viewGroup);
+
                 Note n = this.getItem(position);
-                return(getViewCustom(position, view, viewGroup, n));
+
+                return(getViewCustom(position, v, viewGroup, n));
             }
         };
         lv.setAdapter(simpleAdpt);
@@ -132,6 +139,7 @@ public class NoteMain extends Activity
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT);
                     input.setLayoutParams(lp);
+                    input.setTextSize(textSize);
                     input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
                     builder
@@ -154,9 +162,12 @@ public class NoteMain extends Activity
                                 intentTextEdition.putExtra(EXTRA_ID, n.getId());
                                 NoteMain.this.startActivity(intentTextEdition);
                             }
-                            else 
+                            else
                             {
-                                Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG).show();
+                                Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
+                                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
+                                if ( pref.getBoolean("pref_notifications", true))
+                                    toast.show();
                             }
                         }
                     })
@@ -167,8 +178,13 @@ public class NoteMain extends Activity
                         {
                             dialog.cancel();
                         }
-                    })
-                    .show();
+                    });
+
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                    alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                    ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
                 }
                 else
                 {
@@ -195,9 +211,44 @@ public class NoteMain extends Activity
         cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
         cbSearchCase.setChecked(pref.getBoolean(SEARCH_SENSITIVE, false));
 
+        final Button buttonAddNote = (Button)findViewById(R.id.addNoteButton);
+        final Button buttonSearch  = (Button)findViewById(R.id.returnSearch);
+        final Button buttonReturn  = (Button)findViewById(R.id.returnButton);
+
+        textSize = Integer.parseInt(pref.getString("pref_sizeNote", "18"));
+        int textSizeButton = textSize < 15 ? textSize - 1: textSize - 4;
+        if ( textSize == -1 )
+        {
+            textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "18"));
+            textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "14" ));
+        }
+        cbSearchContent.setTextSize((int)(POPUP_TEXTSIZE_FACTOR * textSize));
+        cbSearchCase.setTextSize((int)(POPUP_TEXTSIZE_FACTOR * textSize));
+        buttonAddNote.setTextSize(textSizeButton);
+        buttonSearch.setTextSize(textSizeButton);
+        buttonReturn.setTextSize(textSizeButton);
+
+        final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.buttons);
+        buttonsBar.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Boolean forceButtons_horizontal = pref.getBoolean("pref_forceButtonsH", false);
+                if ((buttonAddNote.getLineCount() > 1 || buttonSearch.getLineCount() > 1 || buttonReturn.getLineCount() > 1) && !forceButtons_horizontal )
+                {
+                    buttonsBar.setOrientation(LinearLayout.VERTICAL);
+                    buttonAddNote.getLayoutParams().width = ActionBar.LayoutParams.MATCH_PARENT;
+                    buttonSearch.getLayoutParams().width  = ActionBar.LayoutParams.MATCH_PARENT;
+                    buttonReturn.getLayoutParams().width  = ActionBar.LayoutParams.MATCH_PARENT;
+                }
+            }
+        });
+
         // Locate the EditText in listview_main.xml
         editsearch = (EditText)findViewById(R.id.search);
         editsearch.setVisibility(View.GONE);
+        editsearch.setTextSize(textSize);
         // Capture Text in EditText
         editsearch.addTextChangedListener(new TextWatcher()
         {
@@ -218,7 +269,7 @@ public class NoteMain extends Activity
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
             {
                 String text = editsearch.getText().toString();
-                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, pref.getBoolean(SEARCH_CONTENT, false), pref.getBoolean(SEARCH_SENSITIVE, false), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
                 simpleAdpt = new ArrayAdapter <Note>     (getApplicationContext(), R.layout.notelist, listeNotesRecherche)
                 {
                     @Override
@@ -276,11 +327,30 @@ public class NoteMain extends Activity
             }
         });
 
-        btnClear = (Button)findViewById(R.id.btn_clear);
+        btnClear = (ImageButton)findViewById(R.id.btn_clear);
+
+        EditText ee = (EditText)findViewById(R.id.search);
+        ViewGroup.MarginLayoutParams paramsb= (ViewGroup.MarginLayoutParams) ee.getLayoutParams();
+        paramsb.setMargins(0,0,Math.max(textSize*3,60),0);
+        ee.setLayoutParams(paramsb);
+
+        ViewGroup.LayoutParams params=btnClear.getLayoutParams();
+        params.width=Math.max(textSize*2,40);
+        params.height=params.width;
+        btnClear.setLayoutParams(params);
         //set on text change listener for edittext
         editsearch.addTextChangedListener(textWatcher());
         //set event for clear button
         btnClear.setOnClickListener(onClickListener());
+
+        final LinearLayout searchOptBar = (LinearLayout)findViewById(R.id.search_options);
+        Boolean bCheckboxesVertical = pref.getBoolean("pref_searchCheckboxV", false);
+        if ( bCheckboxesVertical )
+        {
+            searchOptBar.setOrientation(LinearLayout.VERTICAL);
+            cbSearchContent.getLayoutParams().width = ActionBar.LayoutParams.MATCH_PARENT;
+            cbSearchCase.getLayoutParams().width  = ActionBar.LayoutParams.MATCH_PARENT;
+        }
         noteBdd.close();
     }
 
@@ -305,6 +375,7 @@ public class NoteMain extends Activity
             }
         }
         ((TextView)view).setText(Html.fromHtml(noteSummary));
+        ((TextView)view).setTextSize(textSize);
         return(view);
     }
 
@@ -437,7 +508,10 @@ public class NoteMain extends Activity
         NotesBDD noteBdd = new NotesBDD(NoteMain.this);
         noteBdd.open();
         noteBdd.removeNoteWithID(note.getId());
-        Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
+        Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG);
+        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
+        if ( pref.getBoolean("pref_notifications", true))
+            toast.show();
         simpleAdpt.notifyDataSetChanged();
         noteBdd.close();
     }
@@ -462,12 +536,14 @@ public class NoteMain extends Activity
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
             input.setLayoutParams(lp);
+            input.setTextSize(textSize);
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
             .setTitle(NoteMain.this.getString(R.string.dialog_add_pwd_title))
             .setMessage(NoteMain.this.getString(R.string.dialog_add_pwd_msg))
             .setView(input)
+            //.setView(menuPwdView)
             .setNegativeButton(NoteMain.this.getString(R.string.dialog_add_pwd_remove), new DialogInterface.OnClickListener()
             {
                 @Override
@@ -494,7 +570,10 @@ public class NoteMain extends Activity
                     noteBdd.close();
                     note.setPassword(SHA1(password));
                     simpleAdpt.notifyDataSetChanged();
-                    Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_added), Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_added), Toast.LENGTH_LONG);
+                    ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
+                    if ( pref.getBoolean("pref_notifications", true))
+                        toast.show();
                 }
             })
             .setNeutralButton(NoteMain.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener()
@@ -504,17 +583,49 @@ public class NoteMain extends Activity
                 {
                     dialog.cancel();
                 }
-            })
-            .show();
+            });
+            //.show();
+            final AlertDialog alertDialog = builder.create();
+            // Bug on Lollipop when large text size to display the 3 buttons
+            // https://stackoverflow.com/questions/27187353/dialog-buttons-with-long-text-not-wrapping-squeezed-out-material-theme-on-an
+            alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    try {
+                        LinearLayout linearLayout = (LinearLayout) alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).getParent();
+                        int wPos = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).getWidth();
+                        int wNeg = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).getWidth();
+                        int wNeu = alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).getWidth();
+                        if (linearLayout != null && wPos + wNeg + wNeu > linearLayout.getWidth()) {
+                            linearLayout.setOrientation(LinearLayout.VERTICAL);
+                            linearLayout.setGravity(Gravity.RIGHT);
+                        }
+                    } catch (Exception ignored) {
+
+                    }
+                }
+            });
+            alertDialog.show();
+            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
+            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
+            alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
+            ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
         }
         else if (item.getTitle().equals(this.getString(R.string.menu_delete)))
         {
             pref = PreferenceManager.getDefaultSharedPreferences(this);
 
-            if (pref.getBoolean("pref_del", false))
+            if (pref.getBoolean("pref_del", true))
             {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                /*TextView tv_delete = new TextView(this);
+                tv_delete.setText(NoteMain.this.getString(R.string.dialog_delete_title) + " " + note.getTitre().substring(0,32));
+                tv_delete.setHeight(textSize*5);
+                tv_delete.setGravity(Gravity.CENTER);
+                tv_delete.setTextSize((int)(textSize*0.85));*/
+
                 builder
+                //.setCustomTitle(tv_delete)
                 .setTitle(NoteMain.this.getString(R.string.dialog_delete_title) + " " + note.getTitre())
                 .setMessage(NoteMain.this.getString(R.string.dialog_delete_msg))
                 .setPositiveButton(NoteMain.this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener()
@@ -532,8 +643,13 @@ public class NoteMain extends Activity
                     {
                         dialog.cancel();
                     }
-                })
-                .show();
+                });
+                //.show();
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
             }
             else
             {
@@ -544,6 +660,12 @@ public class NoteMain extends Activity
         {
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle(this.getString(R.string.menu_detail));
+            /*TextView tv_details = new TextView(this);
+            tv_details.setText(this.getString(R.string.menu_detail));
+            tv_details.setHeight(textSize*5);
+            tv_details.setGravity(Gravity.CENTER);
+            tv_details.setTextSize((int)(textSize*0.85));
+            alertDialog.setCustomTitle(tv_details);*/
             String dateC       = note.getDateCreation();
             String dateM       = note.getDateModification();
             String noteDetails = "<b>" + this.getString(R.string.detail_title) + ": " + note.getTitre() +
@@ -559,15 +681,17 @@ public class NoteMain extends Activity
                 noteDetails += "<br/><i>" + this.getString(R.string.detail_modified) + " " + note.getDateModificationFormated() + "</i>";
             }
             alertDialog.setMessage(Html.fromHtml(noteDetails));
-            alertDialog.setButton("OK", new DialogInterface.OnClickListener()
+            alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL,"OK", new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int which)
                 {
                     // Do nothing
                 }
             });
-            // Set the Icon for the Dialog
+
             alertDialog.show();
+            alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+            ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
         }
         else
         {
@@ -594,6 +718,7 @@ public class NoteMain extends Activity
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
             input.setLayoutParams(lp);
+            input.setTextSize(textSize);
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
             builder
@@ -610,9 +735,12 @@ public class NoteMain extends Activity
                     {
                         launchMenu(itemf, note);
                     }
-                    else 
+                    else
                     {
-                        Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG).show();
+                        Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
+                        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
+                        if ( pref.getBoolean("pref_notifications", true))
+                            toast.show();
                     }
                 }
             })
@@ -623,8 +751,13 @@ public class NoteMain extends Activity
                 {
                     dialog.cancel();
                 }
-            })
-            .show();
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+            ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
         }
         else
         {
@@ -655,13 +788,17 @@ public class NoteMain extends Activity
             else
             {
                 editsearch.setVisibility(View.VISIBLE);
-                cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
-                cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
-                cbSearchCase.setVisibility(View.VISIBLE);
-                cbSearchContent.setVisibility(View.VISIBLE);
-                cbSearchCase.setChecked(!pref.getBoolean(SEARCH_SENSITIVE, false));
-                cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
+                if (pref.getBoolean("displaySearchOptions",true))
+                {
+                    cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
+                    cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
+                    cbSearchCase.setVisibility(View.VISIBLE);
+                    cbSearchContent.setVisibility(View.VISIBLE);
+                    cbSearchCase.setChecked(!pref.getBoolean(SEARCH_SENSITIVE, false));
+                    cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
+                }
                 // Button btn_clear is display only when text is typed
+
             }
             return(true);
 

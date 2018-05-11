@@ -9,6 +9,7 @@
         <item>Groß</item>
         <item>Riesig</item>
         <item>Sehr groß</item>
+        <item>Benutzerdefiniert</item>
     </string-array>
     <string-array name="tri">
         <item>Erstellungsdatum</item>

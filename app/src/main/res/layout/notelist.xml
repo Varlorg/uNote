@@ -6,7 +6,7 @@
 	    android:paddingTop="2dip" 
 	    android:paddingBottom="3dip" 
 	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content"
-	    android:textSize="16sp" /> 
+	    android:layout_height="wrap_content"/>
+
 	    
      <!--  android:id="@android:id/text1"-->  

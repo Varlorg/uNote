@@ -1,85 +1,85 @@
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
     <TextView
-		android:id="@+id/TitreNote"
-		android:text="@string/TitreEdition"
-        android:textStyle="bold"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"  />
-    
-    <TextView
-		android:layout_width="fill_parent"
-        android:background="#999999"
-        android:layout_height="2dp"  />
-      
- 	<EditText
- 	    android:id="@+id/TitreNoteEdition"
- 	    android:layout_width="fill_parent"
- 	    android:layout_height="wrap_content"
- 	    android:hint="@string/editTitle_hint"
- 	    android:inputType="text"
-
-		android:layout_margin="6px"
-        android:padding="4dp"
- 	    android:lines="1" />
-
-    <TextView
-      android:id="@+id/NoteEditionTitre"
-      android:text="@string/TexteEdition"
-        android:textStyle="bold"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"  />
+        android:id="@+id/TitreNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/TitreEdition"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="fill_parent"
-        android:background="#999999"
-        android:layout_height="2dp"  />
-      
-	<EditText
-	    android:id="@+id/NoteEdition"
-	    android:gravity="top|left"
-	    android:layout_width="fill_parent"
-	    android:layout_height="0dp"
-	    android:layout_weight="0.75"
-	    android:hint="@string/editText_hint"
-		android:layout_margin="6px"
-        android:paddingBottom="0px"
+        android:layout_height="2dp"
+        android:background="#999999" />
+
+    <EditText
+        android:id="@+id/TitreNoteEdition"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6px"
+        android:hint="@string/editTitle_hint"
+
+        android:inputType="text"
+        android:lines="1"
+        android:padding="4dp" />
+
+    <TextView
+        android:id="@+id/NoteEditionTitre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/TexteEdition"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#999999" />
+
+    <EditText
+        android:id="@+id/NoteEdition"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_margin="6px"
         android:layout_marginBottom="0px"
-        android:padding="11px"
+        android:layout_weight="0.75"
+        android:gravity="top|left"
+        android:hint="@string/editText_hint"
         android:inputType="textMultiLine"
+        android:padding="11px"
+        android:paddingBottom="0px"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
- <!--<TextView
-   android:id="@+id/text_view"
-   android:layout_width="wrap_content"
-   android:layout_height="wrap_content"  />
-   android:text="@string/text_view" -->
+    <!--<TextView
+      android:id="@+id/text_view"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"  />
+      android:text="@string/text_view" -->
 
-	<LinearLayout
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/editionButtons"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="0px"
-	    android:orientation="horizontal" >
+        android:orientation="horizontal">
 
-	    <Button
-	        android:id="@+id/ButtonSave"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-			android:layout_weight="0.5"
-	        android:onClick="save"
-	        android:text="@string/save" />
+        <Button
+            android:id="@+id/ButtonSave"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:onClick="save"
+            android:text="@string/save" />
 
-	    <Button
-	        android:id="@+id/ButtonQuit"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_weight="0.5"
-	        android:onClick="quit"
-	        android:text="@string/returnB" />
-	</LinearLayout>
-	
+        <Button
+            android:id="@+id/ButtonQuit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:onClick="quit"
+            android:text="@string/returnB" />
+    </LinearLayout>
+
 </LinearLayout>
