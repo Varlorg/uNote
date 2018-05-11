@@ -134,7 +134,57 @@ public class NoteMain extends Activity
                 boolean canEdit = false;
                 if (n.getPassword() != null)
                 {
-                    askPassword(n);
+                    final EditText input         = new EditText(NoteMain.this);
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                    input.setLayoutParams(lp);
+                    input.setTextSize(textSize);
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
+                    builder
+                    .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
+                    .setMessage(NoteMain.this.getString(R.string.dialog_pwd_msg))
+                    .setView(input)
+                    .setPositiveButton(NoteMain.this.getString(R.string.dialog_pwd_submit), new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            String password = input.getText().toString();
+                            if (n.getPassword().equals(SHA1(password)))
+                            {
+                                Intent intentTextEdition = new Intent(NoteMain.this,
+                                                                      NoteEdition.class);
+                                intentTextEdition.putExtra(EXTRA_TITLE, n.getTitre());
+                                intentTextEdition.putExtra(EXTRA_NOTE, n.getNote());
+                                intentTextEdition.putExtra(EXTRA_EDITION, true);
+                                intentTextEdition.putExtra(EXTRA_ID, n.getId());
+                                NoteMain.this.startActivity(intentTextEdition);
+                            }
+                            else
+                            {
+                                Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
+                                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
+                                if ( pref.getBoolean("pref_notifications", true))
+                                    toast.show();
+                            }
+                        }
+                    })
+                    .setNegativeButton(NoteMain.this.getString(R.string.dialog_pwd_cancel), new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            dialog.cancel();
+                        }
+                    });
+
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                    alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                    ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
                 }
                 else
                 {
@@ -663,7 +713,51 @@ public class NoteMain extends Activity
         noteBdd.close();
         if (note.getPassword() != null)
         {
-            askPassword(note);
+            final EditText            input = new EditText(NoteMain.this);
+            LinearLayout.LayoutParams lp    = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+            input.setLayoutParams(lp);
+            input.setTextSize(textSize);
+            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
+            builder
+            .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
+            .setMessage(NoteMain.this.getString(R.string.dialog_pwd_msg))
+            .setView(input)
+            .setPositiveButton(NoteMain.this.getString(R.string.dialog_pwd_submit), new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    String password = input.getText().toString();
+                    if (note.getPassword().equals(SHA1(password)))
+                    {
+                        launchMenu(itemf, note);
+                    }
+                    else
+                    {
+                        Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
+                        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
+                        if ( pref.getBoolean("pref_notifications", true))
+                            toast.show();
+                    }
+                }
+            })
+            .setNegativeButton(NoteMain.this.getString(R.string.dialog_pwd_cancel), new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int id)
+                {
+                    dialog.cancel();
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+            alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+            ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
         }
         else
         {
@@ -741,60 +835,5 @@ public class NoteMain extends Activity
                 new Instrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_SEARCH);
             }
         }).start();
-    }
-
-    private void askPassword(final Note n)
-    {
-        final EditText input         = new EditText(NoteMain.this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setLayoutParams(lp);
-        input.setTextSize(textSize);
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
-        builder
-                .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
-                .setMessage(NoteMain.this.getString(R.string.dialog_pwd_msg))
-                .setView(input)
-                .setPositiveButton(NoteMain.this.getString(R.string.dialog_pwd_submit), new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        String password = input.getText().toString();
-                        if (n.getPassword().equals(SHA1(password)))
-                        {
-                            Intent intentTextEdition = new Intent(NoteMain.this,
-                                    NoteEdition.class);
-                            intentTextEdition.putExtra(EXTRA_TITLE, n.getTitre());
-                            intentTextEdition.putExtra(EXTRA_NOTE, n.getNote());
-                            intentTextEdition.putExtra(EXTRA_EDITION, true);
-                            intentTextEdition.putExtra(EXTRA_ID, n.getId());
-                            NoteMain.this.startActivity(intentTextEdition);
-                        }
-                        else
-                        {
-                            Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
-                            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
-                            if ( pref.getBoolean("pref_notifications", true))
-                                toast.show();
-                        }
-                    }
-                })
-                .setNegativeButton(NoteMain.this.getString(R.string.dialog_pwd_cancel), new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
-        alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
-        ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
     }
 }
