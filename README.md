@@ -1,7 +1,5 @@
+# uNote 
 [![pipeline status](https://gitlab.com/Varlorg/uNote/badges/master/pipeline.svg)](https://gitlab.com/Varlorg/uNote/commits/master)
-
-uNote
-=====
 
 uNote is an android application, it's a lightweight and minimalist notepad. uNote is for "micro Note".  
 It is available on f-droid repo:
@@ -9,6 +7,9 @@ It is available on f-droid repo:
 [<img src="https://f-droid.org/badge/get-it-on.png"
       alt="Get it on F-Droid"
       height="80">](https://f-droid.org/app/app.varlorg.unote)
+      
+  
+# Functionality
 
 It focuses on simplicity and gives only basic features:
 
@@ -20,7 +21,7 @@ It focuses on simplicity and gives only basic features:
 
 Warning: the database may be cleaned if you update from 1.0.X to 1.1.X
 
-**Translations**
+# Translations
 
 * English
 * French
@@ -28,7 +29,7 @@ Warning: the database may be cleaned if you update from 1.0.X to 1.1.X
 * Spanish thanks to Andrés Hernándeaz (alias auroszx)
 * Portuguese thanks to John (alias Maverick74)
 
-**Translation contribution**
+## Translation contribution
 
 *If you want to add a new language*
 
@@ -40,11 +41,25 @@ Fork the project and modify files info the folder named "values-`<ISO_code>`" in
 
 [A guide about Android ISO code](http://www.wilsonmar.com/android_localization.htm)
 
-**Icon**
+# Icon
 
 The icon of the application has been taken for openclipart.org, made by enolynn [here the link] (https://openclipart.org/detail/190827/feuille-de-carnet-sheet-book)
 
-**Screenshots**
+# Donations
+
+In case you want to support the project and its developers you can do that on [Liberapay](https://liberapay.com/Varlorg).
+
+<a href="https://liberapay.com/Varlorg/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
+
+# License and Copyright
+
+uNote is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+# Screenshots
 
 The main screen 
 
