@@ -216,8 +216,7 @@ public class NoteEdition extends Activity
             {
                 dialog.cancel();
             }
-        })
-        .show();
+        });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
         alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(Math.min(36,(int)(textSize * NoteMain.POPUP_TEXTSIZE_FACTOR)));
