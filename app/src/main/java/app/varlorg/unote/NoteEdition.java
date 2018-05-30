@@ -216,8 +216,7 @@ public class NoteEdition extends Activity
             {
                 dialog.cancel();
             }
-        })
-        .show();
+        });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
         alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(Math.min(36,(int)(textSize * NoteMain.POPUP_TEXTSIZE_FACTOR)));
@@ -227,7 +226,7 @@ public class NoteEdition extends Activity
 
     public void quit(View v)
     {
-        if ((note.getTag() != null || titre.getTag() != null) && pref.getBoolean("pref_cancel", false))
+        if ((note.getTag() != null || titre.getTag() != null) && pref.getBoolean("pref_cancel", true))
         {
             dialogConfirmationExit();
         }
@@ -248,7 +247,7 @@ public class NoteEdition extends Activity
         // Always cancel confirmation or as return button with confirmation enable
         if ((note.getTag() != null || titre.getTag() != null) &&
             (pref.getString("pref_back_action", "0").equals("2") ||
-             (pref.getString("pref_back_action", "0").equals("1") && pref.getBoolean("pref_cancel", false))))
+             (pref.getString("pref_back_action", "0").equals("1") && pref.getBoolean("pref_cancel", true))))
         {
             dialogConfirmationExit();
         }
