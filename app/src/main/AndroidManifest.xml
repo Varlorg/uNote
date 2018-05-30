@@ -11,6 +11,7 @@
         <!--android:theme="@style/AppTheme"-->
         <activity
             android:name=".NoteEdition"
+            android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
         <activity
