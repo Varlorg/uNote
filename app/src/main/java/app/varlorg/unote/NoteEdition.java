@@ -166,9 +166,9 @@ public class NoteEdition extends Activity
             {
                 if ( pref.getBoolean("pref_notifications", true))
                 {
+                    Toast toast = Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG);
                     try 
                     {
-                        Toast toast = Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG);
                         ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
                     }
                     catch (ClassCastException e)
@@ -182,9 +182,9 @@ public class NoteEdition extends Activity
             {
                 if ( pref.getBoolean("pref_notifications", true))
                 {
+                    Toast toast = Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG);
                     try 
                     {
-                        Toast toast = Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG);
                         ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
                     }
                     catch (ClassCastException e)
@@ -199,9 +199,9 @@ public class NoteEdition extends Activity
         {
             if ( pref.getBoolean("pref_notifications", true))
             {
+                Toast toast = Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG);
                 try 
                 {
-                    Toast toast = Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG);
                     ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
                 }
                 catch (ClassCastException e)
