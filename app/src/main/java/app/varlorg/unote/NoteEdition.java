@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 
 public class NoteEdition extends Activity
@@ -163,25 +164,52 @@ public class NoteEdition extends Activity
         {
             if (!edit)
             {
-                Toast toast = Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG);
-                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
                 if ( pref.getBoolean("pref_notifications", true))
+                {
+                    Toast toast = Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG);
+                    try 
+                    {
+                        ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+                    }
+                    catch (ClassCastException e)
+                    {
+                        Log.e(EXTRA_NOTE, "Error in toast_save");
+                    }
                     toast.show();
+                }
             }
             else
             {
-                Toast toast = Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG);
-                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
                 if ( pref.getBoolean("pref_notifications", true))
+                {
+                    Toast toast = Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG);
+                    try 
+                    {
+                        ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+                    }
+                    catch (ClassCastException e)
+                    {
+                        Log.e(EXTRA_NOTE, "Error in toast_update");
+                    }
                     toast.show();
+                }
             }
         }
         else
         {
-            Toast toast = Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG);
-            ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
             if ( pref.getBoolean("pref_notifications", true))
+            {
+                Toast toast = Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG);
+                try 
+                {
+                    ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+                }
+                catch (ClassCastException e)
+                {
+                    Log.e(EXTRA_NOTE, "Error in toast_fail");
+                }
                 toast.show();
+            }
         }
 
         noteBdd.close();
