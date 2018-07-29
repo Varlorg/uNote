@@ -3,8 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.adrian.test.MainActivity">
     <item
+        android:id="@+id/action_add"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/addNoteB"
+        android:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/search"
+        android:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/settings"
         android:showAsAction="always" />
 </menu>

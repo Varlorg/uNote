@@ -448,6 +448,13 @@ public class NoteMain extends Activity
             finish();
             return(true);
         }
+        else if (id == R.id.action_add) {
+            addNote(getWindow().getDecorView().getRootView());
+        }
+        else if (id == R.id.action_search) {
+            search(getWindow().getDecorView().getRootView());
+        }
+        //noinspection SimplifiableIfStatement
         return(super.onOptionsItemSelected(item));
     }
 
@@ -788,6 +795,7 @@ public class NoteMain extends Activity
             else
             {
                 editsearch.setVisibility(View.VISIBLE);
+                editsearch.requestFocus();
                 if (pref.getBoolean("displaySearchOptions",true))
                 {
                     cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
