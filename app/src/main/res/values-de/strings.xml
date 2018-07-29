@@ -54,6 +54,8 @@
     <string name="pref_preview_limit">Vorschau limit</string>
     <string name="pref_preview_limit_summary">Anzahl der Zeichen pro Note Vorschau</string>
     <string name="pref_keep_position_scroll">Halten Sie die Scrollposition</string>
+    <string name="pref_export_csv_db">CSV exportieren</string>
+    <string name="pref_export_csv_db_summary">Exportieren Sie alle nicht kennwortgeschützten Notizen in eine csv-Datei.</string>
     <!--<string name="pref_clean_db">Datenbank leeren (Lösche alle Notizen)</string>-->
 
     <!-- Preference toasts' text"-->
