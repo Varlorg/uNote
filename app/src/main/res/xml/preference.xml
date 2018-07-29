@@ -116,6 +116,9 @@
         <Preference
             android:key="buttonImport"
             android:title="@string/pref_import_db" />
+        <Preference
+            android:key="buttonExportCSV"
+            android:title="pref_export_csv_db" />
         <!--<Preference android:title="@string/pref_clean_db"
             android:key="buttonDelete" />-->
     </PreferenceCategory>
