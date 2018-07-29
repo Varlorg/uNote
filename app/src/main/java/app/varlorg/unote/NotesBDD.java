@@ -1,11 +1,14 @@
 package app.varlorg.unote;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -359,5 +362,58 @@ public class NotesBDD
         {
             return(null);
         }
+    }
+
+    public String exportCSV()
+    { 
+        File        sd            = Environment.getExternalStorageDirectory();
+        String      exportCSVFile  = BuildConfig.APPLICATION_ID + "/unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) + ".csv";
+        File exportDir = new File(sd, "");
+        if (!exportDir.exists())
+        {
+            exportDir.mkdirs();
+        }
+        File file = new File(exportDir, exportCSVFile);
+        try {
+        FileWriter csvWrite = new FileWriter(file,true);
+        String      selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE " + COL_PASSWORD + " IS NULL ";
+        if (this.maBaseSQLite == null )
+            return "null";
+
+        if (this.bdd == null )
+                return "null2";
+        //SQLiteDatabase db =
+                //this.open();
+        //db.close();
+        Cursor c = this.bdd.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst())
+        {
+            CSVUtils.writeLine(csvWrite, Arrays.asList("TITLE",
+                    "DATE_CREATION",
+                    "DATE_MODIFICATION",
+                    "NOTE"),
+                    ',',
+                    '"');
+            do
+            {
+                CSVUtils.writeLine(csvWrite, Arrays.asList(c.getString(NUM_COL_TITRE),
+                        c.getString(NUM_COL_DATECREATION),
+                        c.getString(NUM_COL_DATEMODIFICATION),
+                        c.getString(NUM_COL_ISBN)),
+                        ',',
+                        '"');
+
+            } while (c.moveToNext());
+        }
+
+        // return contact list
+        csvWrite.close();
+        c.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return(file.toString());
     }
 }
