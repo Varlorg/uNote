@@ -27,6 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.util.Log;
 
+import static app.varlorg.unote.NoteMain.POPUP_TEXTSIZE_FACTOR;
+import static app.varlorg.unote.NoteMain.TOAST_TEXTSIZE_FACTOR;
+
 
 public class NoteEdition extends Activity
 {
@@ -337,7 +340,7 @@ public class NoteEdition extends Activity
                     Toast toast = Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG);
                     try 
                     {
-                        ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+                        ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
                     }
                     catch (ClassCastException e)
                     {
@@ -353,7 +356,7 @@ public class NoteEdition extends Activity
                     Toast toast = Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG);
                     try 
                     {
-                        ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+                        ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
                     }
                     catch (ClassCastException e)
                     {
@@ -370,7 +373,7 @@ public class NoteEdition extends Activity
                 Toast toast = Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG);
                 try 
                 {
-                    ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(NoteMain.TOAST_TEXTSIZE_FACTOR * textSize));
+                    ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
                 }
                 catch (ClassCastException e)
                 {
@@ -415,9 +418,9 @@ public class NoteEdition extends Activity
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(Math.min(36,(int)(textSize * NoteMain.POPUP_TEXTSIZE_FACTOR)));
-        alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,(int)(textSize * NoteMain.POPUP_TEXTSIZE_FACTOR)));
-        ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * NoteMain.POPUP_TEXTSIZE_FACTOR));
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
+        alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
+        ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
     }
 
     public void quit(View v)
