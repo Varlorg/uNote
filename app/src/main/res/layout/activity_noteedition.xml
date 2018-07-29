@@ -1,7 +1,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_noteedition"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_within_note"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/search_note"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_search"
+            android:hint="@string/searchText">
+
+            <requestFocus />
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/btn_clear_edition"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@android:drawable/ic_delete"
+            android:visibility="gone" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/TitreNote"
@@ -47,6 +75,7 @@
         android:layout_weight="0.75"
         android:gravity="top|left"
         android:hint="@string/editText_hint"
+        android:imeOptions="actionSearch"
         android:inputType="textMultiLine"
         android:padding="11px"
         android:paddingBottom="0px"
