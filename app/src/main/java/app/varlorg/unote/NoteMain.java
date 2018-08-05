@@ -269,7 +269,7 @@ public class NoteMain extends Activity
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
             {
                 String text = editsearch.getText().toString();
-                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, pref.getBoolean(SEARCH_CONTENT, false), pref.getBoolean(SEARCH_SENSITIVE, false), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
                 simpleAdpt = new ArrayAdapter <Note>     (NoteMain.this, R.layout.notelist, listeNotesRecherche)
                 {
                     @Override
