@@ -107,6 +107,7 @@ public class NoteMain extends Activity
         final NotesBDD noteBdd = new NotesBDD(this);
         noteBdd.open();
         listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+        noteBdd.close();
         /****************************************************************************************/
         // The data to show
         lv = (ListView)findViewById(R.id.listView);
@@ -269,7 +270,9 @@ public class NoteMain extends Activity
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
             {
                 String text = editsearch.getText().toString();
+                noteBdd.open();
                 List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+                noteBdd.close();
                 simpleAdpt = new ArrayAdapter <Note>     (NoteMain.this, R.layout.notelist, listeNotesRecherche)
                 {
                     @Override
@@ -290,7 +293,9 @@ public class NoteMain extends Activity
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
                 String text = editsearch.getText().toString();
+                noteBdd.open();
                 List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, isChecked, !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+                noteBdd.close();
                 simpleAdpt = new ArrayAdapter <Note>(NoteMain.this, R.layout.notelist, listeNotesRecherche)
                 {
                     @Override
@@ -312,7 +317,9 @@ public class NoteMain extends Activity
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
                 String text = editsearch.getText().toString();
+                noteBdd.open();
                 List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !isChecked, Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+                noteBdd.close();
                 simpleAdpt = new ArrayAdapter <Note>(NoteMain.this, R.layout.notelist, listeNotesRecherche)
                 {
                     @Override
@@ -351,7 +358,6 @@ public class NoteMain extends Activity
             cbSearchContent.getLayoutParams().width = ActionBar.LayoutParams.MATCH_PARENT;
             cbSearchCase.getLayoutParams().width  = ActionBar.LayoutParams.MATCH_PARENT;
         }
-        noteBdd.close();
     }
 
     public View getViewCustom(int position, View view, ViewGroup viewGroup, Note n)
@@ -711,13 +717,10 @@ public class NoteMain extends Activity
     @Override
     public boolean onContextItemSelected(MenuItem item)
     {
-        NotesBDD noteBdd = new NotesBDD(this);
 
-        noteBdd.open();
         final MenuItem         itemf = item;
         AdapterContextMenuInfo aInfo = (AdapterContextMenuInfo)item.getMenuInfo();
         final Note             note  = simpleAdpt.getItem(aInfo.position);
-        noteBdd.close();
         if (note.getPassword() != null)
         {
             final EditText            input = new EditText(NoteMain.this);
