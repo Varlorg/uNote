@@ -25,8 +25,8 @@
     <string name="pref_cat_confirmation">Löschen und Abbrechen des Verhaltens</string>
     <string name="pref_search">Suche im Inhalt</string>
     <string name="pref_search_sum">Suche auch in dem Notizen\' Inhalt aber nicht in passwortgeschützten Notizen</string>
-    <string name="pref_sensitive_search">Fallsensitive Forschung</string>
-    <string name="cb_sensitive_search">Fallsensitive Forschung</string>
+    <string name="pref_sensitive_search">Fallsensitive Suche</string>
+    <string name="cb_sensitive_search">Fallsensitive Suche</string>
     <string name="pref_display_search_option">Suchoptionen anzeigen</string>
     <string name="pref_search_option_orientation">Vertikale Suchoptionen</string>
     <string name="pref_date">Erstellungsdatum</string>
@@ -37,22 +37,22 @@
     <string name="pref_theme_sum">Helles oder dunkles Thema</string>
     <string name="pref_delete_confirmation">Bestätigung löschen</string>
     <string name="pref_cancel_confirmation">Bestätigung abbrechen</string>
-	<string name="pref_backButton_action">Zurück-Taste Aktion</string>
-	<string name="pref_backButton_action_summary">Definieren Sie das Verhalten der Zurück-Taste</string>
+	<string name="pref_backButton_action">Zurückschaltfäche Aktion</string>
+	<string name="pref_backButton_action_summary">Definieren Sie das Verhalten der Zurückschaltfläche</string>
     <string name="pref_sort">Absteigende Sortierung</string>
     <string name="pref_sort_by">Sortieren nach</string>
     <string name="pref_notifications">Meldungen anzeigen</string>
     <string name="pref_text_size">Textgröße</string>
     <string name="pref_text_size_custom">Benutzerdefinierte Textgröße</string>
-    <string name="pref_text_size_custom_summary">Wählen Sie Benutzerdefinierter Eintrag in Textgröße</string>
+    <string name="pref_text_size_custom_summary">Wählen Sie benutzerdefinierter Eintrag in Textgröße</string>
     <string name="pref_text_size_button_custom">Benutzerdefinierte Textgröße für Schaltflächen</string>
     <string name="pref_main_button_orientation">Hauptbildschirmtasten horizontal</string>
-    <string name="pref_edition_button_orientation">Editionsknöpfe horizontal</string>
+    <string name="pref_edition_button_orientation">Editierschaltfächen horizontal</string>
     <string name="pref_db">Datenbank</string>
     <string name="pref_export_db">Datenbank exportieren</string>
     <string name="pref_import_db">Datenbank importieren</string>
-    <string name="pref_preview_limit">Vorschau limit</string>
-    <string name="pref_preview_limit_summary">Anzahl der Zeichen pro Note Vorschau</string>
+    <string name="pref_preview_limit">Vorschau Limit</string>
+    <string name="pref_preview_limit_summary">Anzahl der Zeichen pro Notiz Vorschau</string>
     <string name="pref_keep_position_scroll">Halten Sie die Scrollposition</string>
     <string name="pref_export_csv_db">CSV exportieren</string>
     <string name="pref_export_csv_db_summary">Exportieren Sie alle nicht kennwortgeschützten Notizen in eine csv-Datei.</string>
@@ -112,15 +112,15 @@
     <string name="restoreWarnPositive">Ja</string>
     <string name="restoreWarnNegative">Nein</string>
     <string name="restoreToastInvalidDB">Diese Datenbank war ungültig oder beschädigt! Nicht wiederhergestellt.</string>
-    <string name="restoreToastMountProblem">Medien nicht montiert oder schreibgeschützt</string>
+    <string name="restoreToastMountProblem">Medien nicht eingehängt oder schreibgeschützt</string>
     <string name="restoreToastUnableToMove">Kann die alte Datenbank nicht aus dem Weg ziehen.</string>
     <string name="restoreToastCopyFailed">Konnte die Datenbank nicht wiederherstellen. Nichts restauriert.</string>
     <string name="restoreToastRestoreFinished">Datenbank wiederhergestellt.</string>
 
-    <string name="dialog_backup_menu">Datensicherung menu</string>
+    <string name="dialog_backup_menu">Datensicherung Menu</string>
     <string name="dialog_backup_menu_deletion">Datensicherung wird gelöscht</string>
     <string name="dialog_delete_backup">Datensicherung wird gelöscht</string>
-    <string name="toast_backup_deleted">Datensicherung deleted</string>
+    <string name="toast_backup_deleted">Datensicherung gelöscht</string>
 	<string name="toast_backup_deleted_error">Löschen der Datensicherung fehlgeschlagen</string>
 
     <!-- Not used ? -
