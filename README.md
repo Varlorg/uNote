@@ -1,14 +1,14 @@
-# uNote 
+# uNote
 [![pipeline status](https://gitlab.com/Varlorg/uNote/badges/master/pipeline.svg)](https://gitlab.com/Varlorg/uNote/commits/master)
 
-uNote is an android application, it's a lightweight and minimalist notepad. uNote is for "micro Note".  
+uNote is an android application, it's a lightweight and minimalist notepad. uNote is for "micro Note".
 It is available on f-droid repo:
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
       alt="Get it on F-Droid"
       height="80">](https://f-droid.org/app/app.varlorg.unote)
-      
-  
+
+
 # Functionality
 
 It focuses on simplicity and gives only basic features:
@@ -25,7 +25,7 @@ Warning: the database may be cleaned if you update from 1.0.X to 1.1.X
 
 * English
 * French
-* German thanks to Chris Orj
+* German thanks to Chris Orj and paulle69
 * Spanish thanks to Andrés Hernándeaz (alias auroszx)
 * Portuguese thanks to John (alias Maverick74)
 
@@ -61,7 +61,7 @@ You should have received a copy of the GNU General Public License along with thi
 
 # Screenshots
 
-The main screen 
+The main screen
 
 ![Main screen](img/main.png?raw=true "Main activity empty")
 
