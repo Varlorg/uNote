@@ -367,8 +367,8 @@ public class NotesBDD
     public String exportCSV()
     { 
         File        sd            = Environment.getExternalStorageDirectory();
-        String      exportCSVFile  = BuildConfig.APPLICATION_ID + "/unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) + ".csv";
-        File exportDir = new File(sd, "");
+        String      exportCSVFile  = "unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) + ".csv";
+        File exportDir = new File(sd, BuildConfig.APPLICATION_ID);
         if (!exportDir.exists())
         {
             exportDir.mkdirs();
