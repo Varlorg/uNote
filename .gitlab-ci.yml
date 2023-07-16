@@ -4,6 +4,13 @@ variables:
   ANDROID_COMPILE_SDK: "26"
   ANDROID_BUILD_TOOLS: "26.0.2"
   ANDROID_SDK_TOOLS: "24.4.1"
+  # Package version can only contain numbers (0-9), and dots (.).
+  # Must be in the format of X.Y.Z, i.e. should match /\A\d+\.\d+\.\d+\z/ regular expresion.
+  # See https://docs.gitlab.com/ee/user/packages/generic_packages/#publish-a-package-file
+  PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/unote/${CI_COMMIT_TAG}"
+  APK_RELEASE: "app-release-unsigned.apk"
+  APK_DEBUG: "app-debug.apk"
+  APK_FOLDER: "app/build/outputs/apk/"
 
 before_script:
   - apt-get --quiet update --yes
@@ -23,6 +30,8 @@ before_script:
 stages:
   - build
   - release
+  - upload
+  - release_apk
 
 build:
   stage: build
@@ -39,3 +48,28 @@ release:
   artifacts:
     paths:
     - app/build/outputs/
+
+upload:
+  stage: upload
+  image: curlimages/curl:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - |
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file ${APK_FOLDER}/release/app-release-unsigned.apk "${PACKAGE_REGISTRY_URL}/${APK_RELEASE}"
+    - |
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file ${APK_FOLDER}/debug/app-debug.apk "${PACKAGE_REGISTRY_URL}/${APK_DEBUG}"
+
+release_apk:
+  stage: release
+  # Caution, as of 2021-02-02 these assets links require a login, see:
+  # https://gitlab.com/gitlab-org/gitlab/-/issues/299384
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - |
+      release-cli create --name "Release $CI_COMMIT_TAG" --tag-name $CI_COMMIT_TAG \
+        --assets-link "{\"name\":\"${APK_RELEASE}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${APK_RELEASE}\"}" \
+        --assets-link "{\"name\":\"${APK_DEBUG}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${APK_DEBUG}\"}"
+
