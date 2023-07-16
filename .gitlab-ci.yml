@@ -61,7 +61,7 @@ upload:
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file ${APK_FOLDER}/debug/app-debug.apk "${PACKAGE_REGISTRY_URL}/${APK_DEBUG}"
 
 release_apk:
-  stage: release
+  stage: release_apk
   # Caution, as of 2021-02-02 these assets links require a login, see:
   # https://gitlab.com/gitlab-org/gitlab/-/issues/299384
   image: registry.gitlab.com/gitlab-org/release-cli:latest
