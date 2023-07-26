@@ -43,6 +43,7 @@ public class NoteEdition extends Activity
     private SharedPreferences pref;
     private EditText titre;
     private EditText note;
+    private TextView noteTV;
     private int textSize;
     private EditText searchNote;
 
@@ -63,14 +64,39 @@ public class NoteEdition extends Activity
 
         titre = (EditText)findViewById(R.id.TitreNoteEdition);
         note  = (EditText)findViewById(R.id.NoteEdition);
+        noteTV = (TextView)findViewById(R.id.NoteEditionTV);
         TextView noteT  = (TextView)findViewById(R.id.NoteEditionTitre);
         TextView titreT = (TextView)findViewById(R.id.TitreNote);
 
+        note.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                noteTV.setVisibility(View.VISIBLE);
+                note.setVisibility(View.GONE);
+                noteTV.setText(note.getText());
+                return false;
+
+            }
+        });
+        noteTV.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                noteTV.setVisibility(View.GONE);
+                note.setVisibility(View.VISIBLE);
+                return false;
+
+            }
+        });
         Intent intent = getIntent();
         if (intent != null)
         {
             titre.setText(intent.getStringExtra(EXTRA_TITLE));
             note.setText(intent.getStringExtra(EXTRA_NOTE));
+            noteTV.setText(intent.getStringExtra(EXTRA_NOTE));
+            if (intent.getStringExtra(EXTRA_NOTE) == null ) {
+                noteTV.setVisibility(View.GONE);
+                note.setVisibility(View.VISIBLE);
+            }
             edit = intent.getBooleanExtra(EXTRA_EDITION, false);
             id   = intent.getIntExtra(EXTRA_ID, 0);
             titre.setTag(null);
@@ -127,6 +153,7 @@ public class NoteEdition extends Activity
         }
         titre.setTextSize(textSize);
         note.setTextSize(textSize);
+        noteTV.setTextSize(textSize);
         titreT.setTextSize(textSize);
         noteT.setTextSize(textSize);
         final Button buttonSave = (Button)findViewById(R.id.ButtonSave);
