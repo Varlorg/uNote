@@ -56,6 +56,8 @@
     <string name="pref_keep_position_scroll">Halten Sie die Scrollposition</string>
     <string name="pref_export_csv_db">CSV exportieren</string>
     <string name="pref_export_csv_db_summary">Exportieren Sie alle nicht kennwortgeschützten Notizen in eine csv-Datei.</string>
+    <string name="pref_edit_mode_view">Vorschau als Standardanzeige der Notenbearbeitung einstellen</string>
+    <string name="pref_edit_mode_menu_all">Alle Menüpunkte bei der Notenbearbeitung anzeigen</string>
     <!--<string name="pref_clean_db">Datenbank leeren (Lösche alle Notizen)</string>-->
 
     <!-- Preference toasts' text"-->

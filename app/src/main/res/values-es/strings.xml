@@ -56,6 +56,8 @@
 	<string name="pref_keep_position_scroll">Guadar la posición de desplazándose</string>
 	<string name="pref_export_csv_db">Exportar csv</string>
 	<string name="pref_export_csv_db_summary">Exportar todas las notas no protegidas por contraseña a un archivo en formato csv</string>
+	<string name="pref_edit_mode_view">Establecer la vista previa como visualización por defecto de la edición de notas</string>
+	<string name="pref_edit_mode_menu_all">Mostrar todos los elementos del menú al editar notas</string>
 	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
 
 	<!-- Preference toasts' text"-->

@@ -11,7 +11,13 @@
         android:id="@+id/action_save"
         android:icon="@android:drawable/ic_menu_save"
         android:title="action_save"
-        android:showAsAction="ifRoom" />
+        android:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_switch_mode"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="action_edit"
+        android:showAsAction="always" />
 
     <item
         android:id="@+id/action_delete"

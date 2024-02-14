@@ -46,7 +46,9 @@ public class NoteEdition extends Activity
     private TextView noteTV;
     private int textSize;
     private EditText searchNote;
-
+    private Menu optionsMenu;
+    private TextView noteT;
+    private TextView titreT;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -65,28 +67,9 @@ public class NoteEdition extends Activity
         titre = (EditText)findViewById(R.id.TitreNoteEdition);
         note  = (EditText)findViewById(R.id.NoteEdition);
         noteTV = (TextView)findViewById(R.id.NoteEditionTV);
-        TextView noteT  = (TextView)findViewById(R.id.NoteEditionTitre);
-        TextView titreT = (TextView)findViewById(R.id.TitreNote);
+        noteT  = (TextView)findViewById(R.id.NoteEditionTitre);
+        titreT = (TextView)findViewById(R.id.TitreNote);
 
-        note.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                noteTV.setVisibility(View.VISIBLE);
-                note.setVisibility(View.GONE);
-                noteTV.setText(note.getText());
-                return false;
-
-            }
-        });
-        noteTV.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                noteTV.setVisibility(View.GONE);
-                note.setVisibility(View.VISIBLE);
-                return false;
-
-            }
-        });
         Intent intent = getIntent();
         if (intent != null)
         {
@@ -182,6 +165,30 @@ public class NoteEdition extends Activity
     public boolean onCreateOptionsMenu(Menu menu) {
         //ajoute les entrées de menu_test à l'ActionBar
         getMenuInflater().inflate(R.menu.menu_edit, menu);
+        optionsMenu = menu;
+
+        if (pref.getBoolean("pref_edit_mode_menu_all", false))
+        {
+            MenuItem itemDelete = optionsMenu.findItem(R.id.action_delete);
+            itemDelete.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+            MenuItem itemReturn = optionsMenu.findItem(R.id.action_return);
+            itemReturn.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
+        if (pref.getBoolean("pref_edit_mode_view", false))
+        {
+            MenuItem item = optionsMenu.findItem(R.id.action_switch_mode);
+            item.setIcon(android.R.drawable.ic_menu_edit);
+            noteTV.setText(note.getText());
+            noteTV.setVisibility(View.VISIBLE);
+            note.setVisibility(View.GONE);
+
+            noteT.setText(getString(R.string.TexteEdition) + " 👁️");
+        }
+        else
+        {
+            noteT.setText( getString(R.string.TexteEdition) + " ✍️" );
+        }
         return true;
     }
 
@@ -194,6 +201,36 @@ public class NoteEdition extends Activity
         }
         if (id == R.id.action_return){
             quit(getWindow().getDecorView().getRootView());
+            return true;
+        }
+        if (id == R.id.action_switch_mode){
+            //switch_mode(getWindow().getDecorView().getRootView());
+            EditText note  = (EditText)findViewById(R.id.NoteEdition);
+            TextView noteTV = (TextView)findViewById(R.id.NoteEditionTV);
+            TextView noteT  = (TextView)findViewById(R.id.NoteEditionTitre);
+
+            if ( noteTV.getVisibility() == View.VISIBLE){
+                item.setIcon(android.R.drawable.ic_menu_view);
+
+                noteTV.setVisibility(View.GONE);
+                note.setVisibility(View.VISIBLE);
+
+                noteT.setText( getString(R.string.TexteEdition) + " ✍️" ); // ✏️ ?
+            }
+            else {
+                item.setIcon(android.R.drawable.ic_menu_edit);
+
+                noteTV.setVisibility(View.VISIBLE);
+                note.setVisibility(View.GONE);
+
+                noteTV.setText(note.getText());
+
+                noteT.setText(getString(R.string.TexteEdition) + " 👁️");
+            }
+
+
+            /*MenuItem menuItemView = (MenuItem) optionsMenu.findItem(R.id.action_view);
+            menuItemView.setVisible(true);*/
             return true;
         }
         if (id == R.id.action_delete){
