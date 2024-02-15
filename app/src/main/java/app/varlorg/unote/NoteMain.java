@@ -838,13 +838,30 @@ public class NoteMain extends Activity
 
     public void search(View v)
     {
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
+        if (editsearch.getVisibility() == View.VISIBLE){
+            //Clear research text
+            editsearch.setText("");
+
+            editsearch.setVisibility(View.GONE);
+            cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
+            cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
+            cbSearchCase.setVisibility(View.GONE);
+            cbSearchContent.setVisibility(View.GONE);
+            btnClear.setVisibility(View.GONE);
+        } else {
+            editsearch.setVisibility(View.VISIBLE);
+            editsearch.requestFocus();
+            if (pref.getBoolean("displaySearchOptions",true))
             {
-                new Instrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_SEARCH);
+                cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
+                cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
+                cbSearchCase.setVisibility(View.VISIBLE);
+                cbSearchContent.setVisibility(View.VISIBLE);
+                cbSearchCase.setChecked(!pref.getBoolean(SEARCH_SENSITIVE, false));
+                cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
             }
-        }).start();
+            // Button btn_clear is display only when text is typed
+
+        }
     }
 }

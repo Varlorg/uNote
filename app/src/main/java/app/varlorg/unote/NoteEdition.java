@@ -46,7 +46,9 @@ public class NoteEdition extends Activity
     private TextView noteTV;
     private int textSize;
     private EditText searchNote;
-
+    private Menu optionsMenu;
+    private TextView noteT;
+    private TextView titreT;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -65,28 +67,9 @@ public class NoteEdition extends Activity
         titre = (EditText)findViewById(R.id.TitreNoteEdition);
         note  = (EditText)findViewById(R.id.NoteEdition);
         noteTV = (TextView)findViewById(R.id.NoteEditionTV);
-        TextView noteT  = (TextView)findViewById(R.id.NoteEditionTitre);
-        TextView titreT = (TextView)findViewById(R.id.TitreNote);
+        noteT  = (TextView)findViewById(R.id.NoteEditionTitre);
+        titreT = (TextView)findViewById(R.id.TitreNote);
 
-        note.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                noteTV.setVisibility(View.VISIBLE);
-                note.setVisibility(View.GONE);
-                noteTV.setText(note.getText());
-                return false;
-
-            }
-        });
-        noteTV.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                noteTV.setVisibility(View.GONE);
-                note.setVisibility(View.VISIBLE);
-                return false;
-
-            }
-        });
         Intent intent = getIntent();
         if (intent != null)
         {
@@ -182,122 +165,179 @@ public class NoteEdition extends Activity
     public boolean onCreateOptionsMenu(Menu menu) {
         //ajoute les entrées de menu_test à l'ActionBar
         getMenuInflater().inflate(R.menu.menu_edit, menu);
+        optionsMenu = menu;
+
+        if (pref.getBoolean("pref_edit_mode_menu_all", false))
+        {
+            MenuItem itemDelete = optionsMenu.findItem(R.id.action_delete);
+            itemDelete.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+            MenuItem itemReturn = optionsMenu.findItem(R.id.action_return);
+            itemReturn.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
+        if (pref.getBoolean("pref_edit_mode_view", false))
+        {
+            MenuItem item = optionsMenu.findItem(R.id.action_switch_mode);
+            item.setIcon(android.R.drawable.ic_menu_edit);
+            noteTV.setText(note.getText());
+            noteTV.setVisibility(View.VISIBLE);
+            note.setVisibility(View.GONE);
+
+            noteT.setText(getString(R.string.TexteEdition) + " 👁️");
+        }
+        else
+        {
+            noteT.setText( getString(R.string.TexteEdition) + " ✍️" );
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_save:
-                save(getWindow().getDecorView().getRootView());
-                return true;
-            case R.id.action_return:
-                quit(getWindow().getDecorView().getRootView());
-                return true;
-            case R.id.action_delete:
-                final NotesBDD noteBdd = new NotesBDD(this);
-                noteBdd.open();
-                if (!edit)
-                {
-                    dialogConfirmationExit();
+        int id = item.getItemId();
+        if (id == R.id.action_save){
+            save(getWindow().getDecorView().getRootView());
+            return true;
+        }
+        if (id == R.id.action_return){
+            quit(getWindow().getDecorView().getRootView());
+            return true;
+        }
+        if (id == R.id.action_switch_mode){
+            //switch_mode(getWindow().getDecorView().getRootView());
+            EditText note  = (EditText)findViewById(R.id.NoteEdition);
+            TextView noteTV = (TextView)findViewById(R.id.NoteEditionTV);
+            TextView noteT  = (TextView)findViewById(R.id.NoteEditionTitre);
+
+            if ( noteTV.getVisibility() == View.VISIBLE){
+                item.setIcon(android.R.drawable.ic_menu_view);
+
+                noteTV.setVisibility(View.GONE);
+                note.setVisibility(View.VISIBLE);
+
+                noteT.setText( getString(R.string.TexteEdition) + " ✍️" ); // ✏️ ?
+            }
+            else {
+                item.setIcon(android.R.drawable.ic_menu_edit);
+
+                noteTV.setVisibility(View.VISIBLE);
+                note.setVisibility(View.GONE);
+
+                noteTV.setText(note.getText());
+
+                noteT.setText(getString(R.string.TexteEdition) + " 👁️");
+            }
+
+
+            /*MenuItem menuItemView = (MenuItem) optionsMenu.findItem(R.id.action_view);
+            menuItemView.setVisible(true);*/
+            return true;
+        }
+        if (id == R.id.action_delete){
+            final NotesBDD noteBdd = new NotesBDD(this);
+            noteBdd.open();
+            if (!edit)
+            {
+                dialogConfirmationExit();
+            }
+            else {
+                pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+                if (pref.getBoolean("pref_del", true)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder
+                            .setTitle(this.getString(R.string.dialog_delete_title))
+                            .setMessage(this.getString(R.string.dialog_delete_msg))
+                            .setPositiveButton(this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int ida) {
+                                    noteBdd.removeNoteWithID(id);
+                                    noteBdd.close();
+                                    Toast.makeText(NoteEdition.this, NoteEdition.this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
+                                    returnMain();
+
+                                }
+                            })
+                            .setNegativeButton(this.getString(R.string.dialog_delete_no), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int) (textSize * POPUP_TEXTSIZE_FACTOR));
+                    alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int) (textSize * POPUP_TEXTSIZE_FACTOR));
+                    ((TextView) alertDialog.findViewById(android.R.id.message)).setTextSize((int) (textSize * POPUP_TEXTSIZE_FACTOR));
+                } else {
+                    noteBdd.removeNoteWithID(id);
+                    noteBdd.close();
+
+                    returnMain();
+                    Toast toast = Toast.makeText(this, this.getString(R.string.note_deleted), Toast.LENGTH_LONG);
+                    ((TextView) ((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int) (TOAST_TEXTSIZE_FACTOR * textSize));
+                    if (pref.getBoolean("pref_notifications", true))
+                        toast.show();
                 }
-                else {
-                    pref = PreferenceManager.getDefaultSharedPreferences(this);
+            }
 
-                    if (pref.getBoolean("pref_del", true)) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder
-                                .setTitle(this.getString(R.string.dialog_delete_title))
-                                .setMessage(this.getString(R.string.dialog_delete_msg))
-                                .setPositiveButton(this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int ida) {
-                                        noteBdd.removeNoteWithID(id);
-                                        noteBdd.close();
-                                        Toast.makeText(NoteEdition.this, NoteEdition.this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
-                                        returnMain();
+            //returnMain();
+            return true;
+        }
+        if (id == R.id.action_search){
+            final String noteContent = ((EditText)findViewById(R.id.NoteEdition)).getText().toString();
 
-                                    }
-                                })
-                                .setNegativeButton(this.getString(R.string.dialog_delete_no), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                        AlertDialog alertDialog = builder.create();
-                        alertDialog.show();
-                        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int) (textSize * POPUP_TEXTSIZE_FACTOR));
-                        alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int) (textSize * POPUP_TEXTSIZE_FACTOR));
-                        ((TextView) alertDialog.findViewById(android.R.id.message)).setTextSize((int) (textSize * POPUP_TEXTSIZE_FACTOR));
-                    } else {
-                        noteBdd.removeNoteWithID(id);
-                        noteBdd.close();
+            searchNote = findViewById(R.id.search_note);
+            final FrameLayout searchNote_lay = findViewById(R.id.search_within_note);
+            final ImageButton btnClear = (ImageButton)findViewById(R.id.btn_clear_edition);
+            searchNote.setTextSize(textSize);
 
-                        returnMain();
-                        Toast toast = Toast.makeText(this, this.getString(R.string.note_deleted), Toast.LENGTH_LONG);
-                        ((TextView) ((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int) (TOAST_TEXTSIZE_FACTOR * textSize));
-                        if (pref.getBoolean("pref_notifications", true))
-                            toast.show();
+            ViewGroup.LayoutParams params=btnClear.getLayoutParams();
+            params.width=Math.max(textSize*2,40);
+            params.height=params.width;
+            btnClear.setLayoutParams(params);
+            //set event for clear button
+            btnClear.setOnClickListener(onClickListener());
+
+            if (searchNote_lay.getVisibility() == View.VISIBLE)
+            {
+                searchNote.setText("");
+                note.setText(note.getText().toString());
+                searchNote_lay.setVisibility(View.GONE);
+                btnClear.setVisibility(View.GONE);
+            }
+            else {
+                searchNote.requestFocus();
+                (findViewById(R.id.search_within_note)).setVisibility(View.VISIBLE);
+                searchNote.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                                                }
+
+                    @Override
+                    public void beforeTextChanged(CharSequence arg0, int arg1,
+                                                    int arg2, int arg3) {
+                        // Do nothing
                     }
-                }
 
-                //returnMain();
-                return true;
-            case R.id.action_search:
-                final String noteContent = ((EditText)findViewById(R.id.NoteEdition)).getText().toString();
+                    @Override
+                    public void onTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
 
-                searchNote = findViewById(R.id.search_note);
-                final FrameLayout searchNote_lay = findViewById(R.id.search_within_note);
-                final ImageButton btnClear = (ImageButton)findViewById(R.id.btn_clear_edition);
-                searchNote.setTextSize(textSize);
-
-                ViewGroup.LayoutParams params=btnClear.getLayoutParams();
-                params.width=Math.max(textSize*2,40);
-                params.height=params.width;
-                btnClear.setLayoutParams(params);
-                //set event for clear button
-                btnClear.setOnClickListener(onClickListener());
-
-                if (searchNote_lay.getVisibility() == View.VISIBLE)
-                {
-                    searchNote.setText("");
-                    note.setText(note.getText().toString());
-                    searchNote_lay.setVisibility(View.GONE);
-                    btnClear.setVisibility(View.GONE);
-                }
-                else {
-                    searchNote.requestFocus();
-                    (findViewById(R.id.search_within_note)).setVisibility(View.VISIBLE);
-                    searchNote.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void afterTextChanged(Editable s) {
-                                                    }
-
-                        @Override
-                        public void beforeTextChanged(CharSequence arg0, int arg1,
-                                                      int arg2, int arg3) {
-                            // Do nothing
+                        if (!searchNote.getText().toString().equals(""))   //if edittext include text
+                        {
+                            btnClear.setVisibility(View.VISIBLE);
+                            highlightText(s.toString());
+                        } else     //not include text
+                        {
+                            btnClear.setVisibility(View.GONE);
+                            note.setText(note.getText().toString());
                         }
+                    }
+                });
+            }
+            //use "test" string for test
 
-                        @Override
-                        public void onTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
-
-                            if (!searchNote.getText().toString().equals(""))   //if edittext include text
-                            {
-                                btnClear.setVisibility(View.VISIBLE);
-                                highlightText(s.toString());
-                            } else     //not include text
-                            {
-                                btnClear.setVisibility(View.GONE);
-                                note.setText(note.getText().toString());
-                            }
-                        }
-                    });
-                }
-                //use "test" string for test
-
-                return true;
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -365,14 +405,6 @@ public class NoteEdition extends Activity
                 if ( pref.getBoolean("pref_notifications", true))
                 {
                     Toast toast = Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG);
-                    try 
-                    {
-                        ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
-                    }
-                    catch (ClassCastException e)
-                    {
-                        Log.e(EXTRA_NOTE, "Error in toast_save");
-                    }
                     toast.show();
                 }
             }
@@ -381,14 +413,6 @@ public class NoteEdition extends Activity
                 if ( pref.getBoolean("pref_notifications", true))
                 {
                     Toast toast = Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG);
-                    try 
-                    {
-                        ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
-                    }
-                    catch (ClassCastException e)
-                    {
-                        Log.e(EXTRA_NOTE, "Error in toast_update");
-                    }
                     toast.show();
                 }
             }
@@ -398,14 +422,6 @@ public class NoteEdition extends Activity
             if ( pref.getBoolean("pref_notifications", true))
             {
                 Toast toast = Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG);
-                try 
-                {
-                    ((TextView)((LinearLayout) toast.getView()).findViewById(android.R.id.message)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
-                }
-                catch (ClassCastException e)
-                {
-                    Log.e(EXTRA_NOTE, "Error in toast_fail");
-                }
                 toast.show();
             }
         }

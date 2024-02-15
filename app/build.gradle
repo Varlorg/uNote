@@ -7,15 +7,25 @@ apply plugin: 'org.sonarqube'
 apply plugin: 'jacoco'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 34
+    buildToolsVersion "34.0.0"
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId "app.varlorg.unote"
         minSdkVersion 19
-        targetSdkVersion 19
+        targetSdkVersion 34
         versionCode 20
         versionName "1.5.1"
+
+        buildConfigField "String", "applicationId", "\"app.varlorg.unote\""
     }
+
+    namespace "app.varlorg.unote"
+    testNamespace "app.varlorg.unoteTest"
 
     buildTypes {
         release {
@@ -36,8 +46,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
     //compile 'com.android.support:appcompat-v7:23.1.1'
 }
 
@@ -93,8 +102,12 @@ project.afterEvaluate {
                 executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
 
                 reports {
-                    xml.enabled = true
-                    html.enabled = true
+                    html {
+                        enabled true   
+                    }
+                    xml {
+                        enabled true   
+                    }
                 }
             }
         }
