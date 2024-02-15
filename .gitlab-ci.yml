@@ -1,4 +1,5 @@
 image: mobiledevops/android-sdk-image:34.0.0-jdk17
+# image: cimg/android:2024.01.1
 
 variables:
   # Package version can only contain numbers (0-9), and dots (.).
