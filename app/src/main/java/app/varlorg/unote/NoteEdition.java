@@ -187,6 +187,8 @@ public class NoteEdition extends Activity
         }
         else
         {
+            noteTV.setVisibility(View.GONE);
+            note.setVisibility(View.VISIBLE);
             noteT.setText( getString(R.string.TexteEdition) + " ✍️" );
         }
         return true;
