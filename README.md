@@ -18,7 +18,7 @@ It focuses on simplicity and gives only basic features:
 * sort notes by create date, modification date or title
 * Search notes (only title or also in content except the ones password protected)
 * Export/Import database to sdcard
-* Long press to switch between edit/view mode (view mode detects link)
+* Preview mode (to detect url links and email addresses )
 
 Warning: the database may be cleaned if you update from 1.0.X to 1.1.X
 
