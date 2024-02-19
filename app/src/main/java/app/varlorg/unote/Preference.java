@@ -41,7 +41,7 @@ public class Preference extends PreferenceActivity {
             public boolean onPreferenceClick(android.preference.Preference arg0)
             {
                 NotesBDD noteBdd = new NotesBDD(null);
-                String path      = noteBdd.exportDB();
+                String path      = noteBdd.exportDB(Preference.this);
                 if (path != null)
                 {
                     if ( pref.getBoolean("pref_notifications", true)) {
@@ -88,7 +88,7 @@ public class Preference extends PreferenceActivity {
             {
                 NotesBDD noteBdd = new NotesBDD(Preference.this);
                 noteBdd.open();
-                String path      = noteBdd.exportCSV();
+                String path      = noteBdd.exportCSV(Preference.this);
                 if (path != null)
                 {
                     if ( pref.getBoolean("pref_notifications", true)) {

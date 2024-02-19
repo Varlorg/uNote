@@ -291,18 +291,16 @@ public class NotesBDD
      *  return cursor.getCount();
      * }*/
 
-    public String exportDB()
+    public String exportDB(Context context)
     {
-        File        sd            = Environment.getExternalStorageDirectory();
+        File        sd            = context.getExternalFilesDir(null);
         File        data          = Environment.getDataDirectory();
         FileChannel source        = null;
         FileChannel destination   = null;
         String      currentDBPath = DATA_PATH + BuildConfig.APPLICATION_ID + DATABASE_FOLDER + NOM_BDD;
-        String      backupDBPath  = BuildConfig.APPLICATION_ID + "/unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) + ".db";
+        String      backupDBPath  = "unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) + ".db";
         File        currentDB     = new File(data, currentDBPath);
-        File        backupDirDB   = new File(sd, BuildConfig.APPLICATION_ID);
 
-        backupDirDB.mkdirs();
         File backupDB = new File(sd, backupDBPath);
         try {
             backupDB.createNewFile();
@@ -364,53 +362,50 @@ public class NotesBDD
         }
     }
 
-    public String exportCSV()
+    public String exportCSV(Context context)
     { 
         File        sd            = Environment.getExternalStorageDirectory();
+
         String      exportCSVFile  = "unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) + ".csv";
-        File exportDir = new File(sd, BuildConfig.APPLICATION_ID);
-        if (!exportDir.exists())
-        {
-            exportDir.mkdirs();
-        }
-        File file = new File(exportDir, exportCSVFile);
+
+        File file = new File(context.getExternalFilesDir(null), exportCSVFile);
         try {
-        FileWriter csvWrite = new FileWriter(file,true);
-        String      selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE " + COL_PASSWORD + " IS NULL ";
-        if (this.maBaseSQLite == null )
-            return "null";
+            FileWriter csvWrite = new FileWriter(file,true);
+            String      selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE " + COL_PASSWORD + " IS NULL ";
+            if (this.maBaseSQLite == null )
+                return "null";
 
-        if (this.bdd == null )
-                return "null2";
-        //SQLiteDatabase db =
-                //this.open();
-        //db.close();
-        Cursor c = this.bdd.rawQuery(selectQuery, null);
+            if (this.bdd == null )
+                    return "null2";
+            //SQLiteDatabase db =
+                    //this.open();
+            //db.close();
+            Cursor c = this.bdd.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
-        if (c.moveToFirst())
-        {
-            CSVUtils.writeLine(csvWrite, Arrays.asList("TITLE",
-                    "DATE_CREATION",
-                    "DATE_MODIFICATION",
-                    "NOTE"),
-                    ',',
-                    '"');
-            do
+            // looping through all rows and adding to list
+            if (c.moveToFirst())
             {
-                CSVUtils.writeLine(csvWrite, Arrays.asList(c.getString(NUM_COL_TITRE),
-                        c.getString(NUM_COL_DATECREATION),
-                        c.getString(NUM_COL_DATEMODIFICATION),
-                        c.getString(NUM_COL_ISBN)),
+                CSVUtils.writeLine(csvWrite, Arrays.asList("TITLE",
+                        "DATE_CREATION",
+                        "DATE_MODIFICATION",
+                        "NOTE"),
                         ',',
                         '"');
+                do
+                {
+                    CSVUtils.writeLine(csvWrite, Arrays.asList(c.getString(NUM_COL_TITRE),
+                            c.getString(NUM_COL_DATECREATION),
+                            c.getString(NUM_COL_DATEMODIFICATION),
+                            c.getString(NUM_COL_ISBN)),
+                            ',',
+                            '"');
 
-            } while (c.moveToNext());
-        }
+                } while (c.moveToNext());
+            }
 
-        // return contact list
-        csvWrite.close();
-        c.close();
+            // return contact list
+            csvWrite.close();
+            c.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
