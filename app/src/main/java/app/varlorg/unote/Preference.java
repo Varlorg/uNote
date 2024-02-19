@@ -11,10 +11,18 @@ import android.widget.Toast;
 
 public class Preference extends PreferenceActivity {
     /** Called when the activity is first created. */
+
+    private int textSize;
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        textSize = Integer.parseInt(pref.getString("pref_sizeNote", "18"));
+        if ( textSize == -1 )
+        {
+            textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "18"));
+        }
 
         if (!pref.getBoolean("pref_theme", false))
         {
@@ -36,17 +44,27 @@ public class Preference extends PreferenceActivity {
                 String path      = noteBdd.exportDB();
                 if (path != null)
                 {
-                    Toast toast = Toast.makeText(Preference.this, Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ", Toast.LENGTH_LONG);
-                    ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "18")));
-                    if ( pref.getBoolean("pref_notifications", true))
+                    if ( pref.getBoolean("pref_notifications", true)) {
+                        TextView textView = new TextView(Preference.this);
+                        textView.setText(Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ");
+                        textView.setTextSize((int)(textSize * NoteMain.TOAST_TEXTSIZE_FACTOR));
+
+                        Toast toast = new Toast(Preference.this);
+                        toast.setView(textView);
                         toast.show();
+                    }
                 }
                 else
                 {
-                    Toast toast = Toast.makeText(Preference.this, " Error " + path + " ! ", Toast.LENGTH_LONG);
-                    ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "18")));
-                    if ( pref.getBoolean("pref_notifications", true))
+                    if ( pref.getBoolean("pref_notifications", true)) {
+                        TextView textView = new TextView(Preference.this);
+                        textView.setText(" Error " + path + " ! ");
+                        textView.setTextSize((int)(textSize * NoteMain.TOAST_TEXTSIZE_FACTOR));
+
+                        Toast toast = new Toast(Preference.this);
+                        toast.setView(textView);
                         toast.show();
+                    }
                 }
                 return(false);
             }
@@ -73,17 +91,27 @@ public class Preference extends PreferenceActivity {
                 String path      = noteBdd.exportCSV();
                 if (path != null)
                 {
-                    Toast toast = Toast.makeText(Preference.this, Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ", Toast.LENGTH_LONG);
-                    ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "18")));
-                    if ( pref.getBoolean("pref_notifications", true))
+                    if ( pref.getBoolean("pref_notifications", true)) {
+                        TextView textView = new TextView(Preference.this);
+                        textView.setText(Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ");
+                        textView.setTextSize((int)(textSize * NoteMain.TOAST_TEXTSIZE_FACTOR));
+
+                        Toast toast = new Toast(Preference.this);
+                        toast.setView(textView);
                         toast.show();
+                    }
                 }
                 else
                 {
-                    Toast toast = Toast.makeText(Preference.this, " Error " + path + " ! ", Toast.LENGTH_LONG);
-                    ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize(Integer.parseInt(pref.getString("pref_sizeNote", "18")));
-                    if ( pref.getBoolean("pref_notifications", true))
+                    if ( pref.getBoolean("pref_notifications", true)) {
+                        TextView textView = new TextView(Preference.this);
+                        textView.setText(" Error " + path + " ! ");
+                        textView.setTextSize((int)(textSize * NoteMain.TOAST_TEXTSIZE_FACTOR));
+
+                        Toast toast = new Toast(Preference.this);
+                        toast.setView(textView);
                         toast.show();
+                    }
                 }
                 return(false);
             }

@@ -276,10 +276,16 @@ public class NoteEdition extends Activity
                     noteBdd.close();
 
                     returnMain();
-                    Toast toast = Toast.makeText(this, this.getString(R.string.note_deleted), Toast.LENGTH_LONG);
-                    ((TextView) ((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int) (TOAST_TEXTSIZE_FACTOR * textSize));
-                    if (pref.getBoolean("pref_notifications", true))
+                    if ( pref.getBoolean("pref_notifications", true))
+                    {
+                        TextView textView = new TextView(NoteEdition.this);
+                        textView.setText(NoteEdition.this.getString(R.string.note_deleted));
+                        textView.setTextSize((int)(textSize * TOAST_TEXTSIZE_FACTOR));
+
+                        Toast toast = new Toast(NoteEdition.this);
+                        toast.setView(textView);
                         toast.show();
+                    }
                 }
             }
 
@@ -406,7 +412,12 @@ public class NoteEdition extends Activity
             {
                 if ( pref.getBoolean("pref_notifications", true))
                 {
-                    Toast toast = Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG);
+                    TextView textView = new TextView(NoteEdition.this);
+                    textView.setText(NoteEdition.this.getString(R.string.toast_save));
+                    textView.setTextSize((int)(textSize * TOAST_TEXTSIZE_FACTOR));
+
+                    Toast toast = new Toast(NoteEdition.this);
+                    toast.setView(textView);
                     toast.show();
                 }
             }
@@ -414,7 +425,12 @@ public class NoteEdition extends Activity
             {
                 if ( pref.getBoolean("pref_notifications", true))
                 {
-                    Toast toast = Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG);
+                    TextView textView = new TextView(NoteEdition.this);
+                    textView.setText(NoteEdition.this.getString(R.string.toast_update));
+                    textView.setTextSize((int)(textSize * TOAST_TEXTSIZE_FACTOR));
+
+                    Toast toast = new Toast(NoteEdition.this);
+                    toast.setView(textView);
                     toast.show();
                 }
             }
@@ -423,7 +439,12 @@ public class NoteEdition extends Activity
         {
             if ( pref.getBoolean("pref_notifications", true))
             {
-                Toast toast = Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG);
+                TextView textView = new TextView(NoteEdition.this);
+                textView.setText(NoteEdition.this.getString(R.string.toast_fail));
+                textView.setTextSize((int)(textSize * TOAST_TEXTSIZE_FACTOR));
+
+                Toast toast = new Toast(NoteEdition.this);
+                toast.setView(textView);
                 toast.show();
             }
         }

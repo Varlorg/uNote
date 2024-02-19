@@ -165,10 +165,15 @@ public class NoteMain extends Activity
                             }
                             else
                             {
-                                Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
-                                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
-                                if ( pref.getBoolean("pref_notifications", true))
+                                if ( pref.getBoolean("pref_notifications", true)) {
+                                    TextView textView = new TextView(NoteMain.this);
+                                    textView.setText(NoteMain.this.getString(R.string.toast_pwd_error));
+                                    textView.setTextSize((int)(textSize * TOAST_TEXTSIZE_FACTOR));
+
+                                    Toast toast = new Toast(NoteMain.this);
+                                    toast.setView(textView);
                                     toast.show();
+                                }
                             }
                         }
                     })
@@ -521,10 +526,16 @@ public class NoteMain extends Activity
         NotesBDD noteBdd = new NotesBDD(NoteMain.this);
         noteBdd.open();
         noteBdd.removeNoteWithID(note.getId());
-        Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG);
-        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
         if ( pref.getBoolean("pref_notifications", true))
+        {
+            TextView textView = new TextView(NoteMain.this);
+            textView.setText(NoteMain.this.getString(R.string.note_deleted));
+            textView.setTextSize((int)(textSize * TOAST_TEXTSIZE_FACTOR));
+
+            Toast toast = new Toast(NoteMain.this);
+            toast.setView(textView);
             toast.show();
+        }
         simpleAdpt.notifyDataSetChanged();
         noteBdd.close();
     }
@@ -583,10 +594,16 @@ public class NoteMain extends Activity
                     noteBdd.close();
                     note.setPassword(SHA1(password));
                     simpleAdpt.notifyDataSetChanged();
-                    Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_added), Toast.LENGTH_LONG);
-                    ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
                     if ( pref.getBoolean("pref_notifications", true))
+                    {
+                        TextView textView = new TextView(NoteMain.this);
+                        textView.setText(NoteMain.this.getString(R.string.toast_pwd_added));
+                        textView.setTextSize((int)(textSize * TOAST_TEXTSIZE_FACTOR));
+
+                        Toast toast = new Toast(NoteMain.this);
+                        toast.setView(textView);
                         toast.show();
+                    }
                 }
             })
             .setNeutralButton(NoteMain.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener()
@@ -747,10 +764,16 @@ public class NoteMain extends Activity
                     }
                     else
                     {
-                        Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
-                        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
                         if ( pref.getBoolean("pref_notifications", true))
+                        {
+                            TextView textView = new TextView(NoteMain.this);
+                            textView.setText(NoteMain.this.getString(R.string.toast_pwd_error));
+                            textView.setTextSize((int)(textSize * TOAST_TEXTSIZE_FACTOR));
+
+                            Toast toast = new Toast(NoteMain.this);
+                            toast.setView(textView);
                             toast.show();
+                        }
                     }
                 }
             })
