@@ -1,10 +1,13 @@
 package app.varlorg.unote;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.content.Intent;
+import android.provider.Settings;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +20,7 @@ public class Preference extends PreferenceActivity {
     public void onCreate(Bundle savedInstanceState)
     {
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        //String uri = Uri.parse("package:${BuildConfig.APPLICATION_ID}");
 
         textSize = Integer.parseInt(pref.getString("pref_sizeNote", "18"));
         if ( textSize == -1 )
@@ -48,6 +52,7 @@ public class Preference extends PreferenceActivity {
                         TextView textView = new TextView(Preference.this);
                         textView.setText(Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ");
                         textView.setTextSize((int)(textSize * NoteMain.TOAST_TEXTSIZE_FACTOR));
+                        textView.setAlpha(1f);
 
                         Toast toast = new Toast(Preference.this);
                         toast.setView(textView);
@@ -98,6 +103,8 @@ public class Preference extends PreferenceActivity {
 
                         Toast toast = new Toast(Preference.this);
                         toast.setView(textView);
+                        toast.getView().setAlpha(1f);
+                        toast.getView().setBackgroundResource(android.R.color.background_dark); // Couleur du texte
                         toast.show();
                     }
                 }
