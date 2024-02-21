@@ -501,6 +501,7 @@ public class NoteMain extends Activity
         menu.setHeaderTitle(this.getString(R.string.menu_title));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_edit));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_passwd));
+        menu.add(0, v.getId(), 0, "Export");
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_delete));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_detail));
     }
@@ -545,6 +546,18 @@ public class NoteMain extends Activity
         return(result.toString());
     }
 
+    public void exportNote(final Note note)
+    {
+        NotesBDD noteBdd = new NotesBDD(NoteMain.this);
+        noteBdd.open();
+        String ret = noteBdd.exportNote(getApplicationContext(), note.getId());
+        if ( pref.getBoolean("pref_notifications", true))
+        {
+            customToast("Note exported " + ret);
+            //customToast(NoteMain.this.getString(R.string.note_deleted));
+        }
+        noteBdd.close();
+    }
     public void deleteNote(final Note note)
     {
         simpleAdpt.remove(note);
@@ -653,6 +666,10 @@ public class NoteMain extends Activity
             alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+        }
+        else if (item.getTitle().equals("Export"))
+        {
+                exportNote(note);
         }
         else if (item.getTitle().equals(this.getString(R.string.menu_delete)))
         {

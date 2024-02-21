@@ -268,6 +268,12 @@ public class NoteEdition extends Activity
             menuItemView.setVisible(true);*/
             return true;
         }
+        if (id_menu == R.id.action_export){
+            final NotesBDD noteBdd = new NotesBDD(this);
+            noteBdd.open();
+            noteBdd.exportNote(getApplicationContext(), id);
+            noteBdd.close();
+        }
         if (id_menu == R.id.action_delete){
             final NotesBDD noteBdd = new NotesBDD(this);
             noteBdd.open();

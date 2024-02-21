@@ -24,7 +24,11 @@
         android:icon="@android:drawable/ic_menu_delete"
         android:title="@string/menu_delete"
         android:showAsAction="ifRoom" />
-
+    <item
+        android:id="@+id/action_export"
+        android:icon="@android:drawable/ic_menu_upload"
+        android:title="Export"
+        android:showAsAction="always" />
     <item
         android:id="@+id/action_return"
         android:icon="@android:drawable/ic_menu_revert"
