@@ -1,6 +1,7 @@
 package app.varlorg.unote;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -16,6 +17,36 @@ public class Preference extends PreferenceActivity {
     /** Called when the activity is first created. */
 
     private int textSize;
+    void customToast(String msgToDisplay){
+        LinearLayout linearLayout=new LinearLayout(getApplicationContext());
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        GradientDrawable shape=new GradientDrawable();
+        shape.setShape(GradientDrawable.RECTANGLE);
+        shape.setCornerRadius(50);
+        shape.setColor(getResources().getColor(android.R.color.background_light));
+        shape.setStroke(3,getResources().getColor(android.R.color.transparent));
+
+        TextView textView=new TextView(getApplicationContext());
+        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT,1f));
+        textView.setMaxWidth((int)(getResources().getDisplayMetrics().widthPixels*0.9));
+        textView.setText(msgToDisplay);
+        textView.setTextSize((int)(textSize*NoteMain.TOAST_TEXTSIZE_FACTOR));
+        textView.setTextColor(getResources().getColor(android.R.color.black));
+        textView.setAlpha(1f);
+        textView.setBackground(shape);
+        int pad_width=(int)(getResources().getDisplayMetrics().widthPixels*0.04);
+        int pad_height=(int)(getResources().getDisplayMetrics().heightPixels*0.02);
+        textView.setPadding(pad_width,pad_height,pad_width,pad_height);
+
+        Toast toast=new Toast(getApplicationContext());
+
+        linearLayout.addView(textView);
+        toast.setView(linearLayout);
+
+        toast.show();
+    }
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -49,26 +80,13 @@ public class Preference extends PreferenceActivity {
                 if (path != null)
                 {
                     if ( pref.getBoolean("pref_notifications", true)) {
-                        TextView textView = new TextView(Preference.this);
-                        textView.setText(Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ");
-                        textView.setTextSize((int)(textSize * NoteMain.TOAST_TEXTSIZE_FACTOR));
-                        textView.setAlpha(1f);
-
-                        Toast toast = new Toast(Preference.this);
-                        toast.setView(textView);
-                        toast.show();
+                        customToast(Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ");
                     }
                 }
                 else
                 {
                     if ( pref.getBoolean("pref_notifications", true)) {
-                        TextView textView = new TextView(Preference.this);
-                        textView.setText(" Error " + path + " ! ");
-                        textView.setTextSize((int)(textSize * NoteMain.TOAST_TEXTSIZE_FACTOR));
-
-                        Toast toast = new Toast(Preference.this);
-                        toast.setView(textView);
-                        toast.show();
+                        customToast(" Error " + path + " ! ");
                     }
                 }
                 return(false);
@@ -97,27 +115,13 @@ public class Preference extends PreferenceActivity {
                 if (path != null)
                 {
                     if ( pref.getBoolean("pref_notifications", true)) {
-                        TextView textView = new TextView(Preference.this);
-                        textView.setText(Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ");
-                        textView.setTextSize((int)(textSize * NoteMain.TOAST_TEXTSIZE_FACTOR));
-
-                        Toast toast = new Toast(Preference.this);
-                        toast.setView(textView);
-                        toast.getView().setAlpha(1f);
-                        toast.getView().setBackgroundResource(android.R.color.background_dark); // Couleur du texte
-                        toast.show();
+                        customToast(Preference.this.getString(R.string.toast_export_db) + " " + path + " ! ");
                     }
                 }
                 else
                 {
                     if ( pref.getBoolean("pref_notifications", true)) {
-                        TextView textView = new TextView(Preference.this);
-                        textView.setText(" Error " + path + " ! ");
-                        textView.setTextSize((int)(textSize * NoteMain.TOAST_TEXTSIZE_FACTOR));
-
-                        Toast toast = new Toast(Preference.this);
-                        toast.setView(textView);
-                        toast.show();
+                        customToast(" Error " + path + " ! ");
                     }
                 }
                 return(false);
