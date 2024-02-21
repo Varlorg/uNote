@@ -228,16 +228,16 @@ public class NoteEdition extends Activity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_save){
+        int id_menu = item.getItemId();
+        if (id_menu == R.id.action_save){
             save(getWindow().getDecorView().getRootView());
             return true;
         }
-        if (id == R.id.action_return){
+        if (id_menu == R.id.action_return){
             quit(getWindow().getDecorView().getRootView());
             return true;
         }
-        if (id == R.id.action_switch_mode){
+        if (id_menu == R.id.action_switch_mode){
             //switch_mode(getWindow().getDecorView().getRootView());
             EditText note  = (EditText)findViewById(R.id.NoteEdition);
             TextView noteTV = (TextView)findViewById(R.id.NoteEditionTV);
@@ -267,7 +267,7 @@ public class NoteEdition extends Activity
             menuItemView.setVisible(true);*/
             return true;
         }
-        if (id == R.id.action_delete){
+        if (id_menu == R.id.action_delete){
             final NotesBDD noteBdd = new NotesBDD(this);
             noteBdd.open();
             if (!edit)
@@ -318,7 +318,7 @@ public class NoteEdition extends Activity
             //returnMain();
             return true;
         }
-        if (id == R.id.action_search){
+        if (id_menu == R.id.action_search){
             final String noteContent = ((EditText)findViewById(R.id.NoteEdition)).getText().toString();
 
             searchNote = findViewById(R.id.search_note);
