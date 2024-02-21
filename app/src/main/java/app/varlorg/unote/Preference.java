@@ -44,6 +44,7 @@ public class Preference extends PreferenceActivity {
 
         linearLayout.addView(textView);
         toast.setView(linearLayout);
+        toast.setDuration(Toast.LENGTH_LONG);
 
         toast.show();
     }

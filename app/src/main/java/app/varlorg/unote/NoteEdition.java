@@ -78,6 +78,7 @@ public class NoteEdition extends Activity
 
         linearLayout.addView(textView);
         toast.setView(linearLayout);
+        toast.setDuration(Toast.LENGTH_LONG);
 
         toast.show();
     }
