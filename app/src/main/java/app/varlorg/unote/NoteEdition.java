@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -49,6 +50,38 @@ public class NoteEdition extends Activity
     private Menu optionsMenu;
     private TextView noteT;
     private TextView titreT;
+
+    void customToast(String msgToDisplay){
+        LinearLayout linearLayout=new LinearLayout(getApplicationContext());
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        GradientDrawable shape=new GradientDrawable();
+        shape.setShape(GradientDrawable.RECTANGLE);
+        shape.setCornerRadius(50);
+        shape.setColor(getResources().getColor(android.R.color.background_light));
+        shape.setStroke(3,getResources().getColor(android.R.color.transparent));
+
+        TextView textView=new TextView(getApplicationContext());
+        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT,1f));
+        textView.setMaxWidth((int)(getResources().getDisplayMetrics().widthPixels*0.9));
+        textView.setText(msgToDisplay);
+        textView.setTextSize((int)(textSize*NoteMain.TOAST_TEXTSIZE_FACTOR));
+        textView.setTextColor(getResources().getColor(android.R.color.black));
+        textView.setAlpha(1f);
+        textView.setBackground(shape);
+        int pad_width=(int)(getResources().getDisplayMetrics().widthPixels*0.04);
+        int pad_height=(int)(getResources().getDisplayMetrics().heightPixels*0.02);
+        textView.setPadding(pad_width,pad_height,pad_width,pad_height);
+
+        Toast toast=new Toast(getApplicationContext());
+
+        linearLayout.addView(textView);
+        toast.setView(linearLayout);
+        toast.setDuration(Toast.LENGTH_LONG);
+
+        toast.show();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -196,16 +229,16 @@ public class NoteEdition extends Activity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_save){
+        int id_menu = item.getItemId();
+        if (id_menu == R.id.action_save){
             save(getWindow().getDecorView().getRootView());
             return true;
         }
-        if (id == R.id.action_return){
+        if (id_menu == R.id.action_return){
             quit(getWindow().getDecorView().getRootView());
             return true;
         }
-        if (id == R.id.action_switch_mode){
+        if (id_menu == R.id.action_switch_mode){
             //switch_mode(getWindow().getDecorView().getRootView());
             EditText note  = (EditText)findViewById(R.id.NoteEdition);
             TextView noteTV = (TextView)findViewById(R.id.NoteEditionTV);
@@ -235,7 +268,7 @@ public class NoteEdition extends Activity
             menuItemView.setVisible(true);*/
             return true;
         }
-        if (id == R.id.action_delete){
+        if (id_menu == R.id.action_delete){
             final NotesBDD noteBdd = new NotesBDD(this);
             noteBdd.open();
             if (!edit)
@@ -255,7 +288,7 @@ public class NoteEdition extends Activity
                                 public void onClick(DialogInterface dialog, int ida) {
                                     noteBdd.removeNoteWithID(id);
                                     noteBdd.close();
-                                    Toast.makeText(NoteEdition.this, NoteEdition.this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
+                                    customToast(NoteEdition.this.getString(R.string.note_deleted));
                                     returnMain();
 
                                 }
@@ -276,17 +309,17 @@ public class NoteEdition extends Activity
                     noteBdd.close();
 
                     returnMain();
-                    Toast toast = Toast.makeText(this, this.getString(R.string.note_deleted), Toast.LENGTH_LONG);
-                    ((TextView) ((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int) (TOAST_TEXTSIZE_FACTOR * textSize));
-                    if (pref.getBoolean("pref_notifications", true))
-                        toast.show();
+                    if ( pref.getBoolean("pref_notifications", true))
+                    {
+                        customToast(NoteEdition.this.getString(R.string.note_deleted));
+                    }
                 }
             }
 
             //returnMain();
             return true;
         }
-        if (id == R.id.action_search){
+        if (id_menu == R.id.action_search){
             final String noteContent = ((EditText)findViewById(R.id.NoteEdition)).getText().toString();
 
             searchNote = findViewById(R.id.search_note);
@@ -406,16 +439,14 @@ public class NoteEdition extends Activity
             {
                 if ( pref.getBoolean("pref_notifications", true))
                 {
-                    Toast toast = Toast.makeText(this, this.getString(R.string.toast_save), Toast.LENGTH_LONG);
-                    toast.show();
+                    customToast(NoteEdition.this.getString(R.string.toast_save));
                 }
             }
             else
             {
                 if ( pref.getBoolean("pref_notifications", true))
                 {
-                    Toast toast = Toast.makeText(this, this.getString(R.string.toast_update), Toast.LENGTH_LONG);
-                    toast.show();
+                    customToast(NoteEdition.this.getString(R.string.toast_update));
                 }
             }
         }
@@ -423,8 +454,7 @@ public class NoteEdition extends Activity
         {
             if ( pref.getBoolean("pref_notifications", true))
             {
-                Toast toast = Toast.makeText(this, this.getString(R.string.toast_fail), Toast.LENGTH_LONG);
-                toast.show();
+                customToast(NoteEdition.this.getString(R.string.toast_fail));
             }
         }
 

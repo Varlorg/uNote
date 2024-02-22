@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -48,7 +49,37 @@ public class NoteMain extends Activity
     private SharedPreferences pref;
     private Parcelable state;
     private int textSize;
+    void customToast(String msgToDisplay){
+        LinearLayout linearLayout=new LinearLayout(getApplicationContext());
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
 
+        GradientDrawable shape=new GradientDrawable();
+        shape.setShape(GradientDrawable.RECTANGLE);
+        shape.setCornerRadius(50);
+        shape.setColor(getResources().getColor(android.R.color.background_light));
+        shape.setStroke(3,getResources().getColor(android.R.color.transparent));
+
+        TextView textView=new TextView(getApplicationContext());
+        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT,1f));
+        textView.setMaxWidth((int)(getResources().getDisplayMetrics().widthPixels*0.9));
+        textView.setText(msgToDisplay);
+        textView.setTextSize((int)(textSize*NoteMain.TOAST_TEXTSIZE_FACTOR));
+        textView.setTextColor(getResources().getColor(android.R.color.black));
+        textView.setAlpha(1f);
+        textView.setBackground(shape);
+        int pad_width=(int)(getResources().getDisplayMetrics().widthPixels*0.04);
+        int pad_height=(int)(getResources().getDisplayMetrics().heightPixels*0.02);
+        textView.setPadding(pad_width,pad_height,pad_width,pad_height);
+
+        Toast toast=new Toast(getApplicationContext());
+
+        linearLayout.addView(textView);
+        toast.setView(linearLayout);
+        toast.setDuration(Toast.LENGTH_LONG);
+
+        toast.show();
+    }
     @Override
     public void onPause()
     {
@@ -165,10 +196,9 @@ public class NoteMain extends Activity
                             }
                             else
                             {
-                                Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
-                                ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
-                                if ( pref.getBoolean("pref_notifications", true))
-                                    toast.show();
+                                if ( pref.getBoolean("pref_notifications", true)) {
+                                    customToast(NoteMain.this.getString(R.string.toast_pwd_error));
+                                }
                             }
                         }
                     })
@@ -521,10 +551,10 @@ public class NoteMain extends Activity
         NotesBDD noteBdd = new NotesBDD(NoteMain.this);
         noteBdd.open();
         noteBdd.removeNoteWithID(note.getId());
-        Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.note_deleted), Toast.LENGTH_LONG);
-        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
         if ( pref.getBoolean("pref_notifications", true))
-            toast.show();
+        {
+            customToast(NoteMain.this.getString(R.string.note_deleted));
+        }
         simpleAdpt.notifyDataSetChanged();
         noteBdd.close();
     }
@@ -583,10 +613,10 @@ public class NoteMain extends Activity
                     noteBdd.close();
                     note.setPassword(SHA1(password));
                     simpleAdpt.notifyDataSetChanged();
-                    Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_added), Toast.LENGTH_LONG);
-                    ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
                     if ( pref.getBoolean("pref_notifications", true))
-                        toast.show();
+                    {
+                        customToast(NoteMain.this.getString(R.string.toast_pwd_added));
+                    }
                 }
             })
             .setNeutralButton(NoteMain.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener()
@@ -747,10 +777,10 @@ public class NoteMain extends Activity
                     }
                     else
                     {
-                        Toast toast = Toast.makeText(NoteMain.this, NoteMain.this.getString(R.string.toast_pwd_error), Toast.LENGTH_LONG);
-                        ((TextView)((LinearLayout) toast.getView()).getChildAt(0)).setTextSize((int)(TOAST_TEXTSIZE_FACTOR * textSize));
                         if ( pref.getBoolean("pref_notifications", true))
-                            toast.show();
+                        {
+                            customToast(NoteMain.this.getString(R.string.toast_pwd_error));
+                        }
                     }
                 }
             })
