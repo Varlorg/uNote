@@ -288,7 +288,7 @@ public class NoteEdition extends Activity
                                 public void onClick(DialogInterface dialog, int ida) {
                                     noteBdd.removeNoteWithID(id);
                                     noteBdd.close();
-                                    Toast.makeText(NoteEdition.this, NoteEdition.this.getString(R.string.note_deleted), Toast.LENGTH_LONG).show();
+                                    customToast(NoteEdition.this.getString(R.string.note_deleted));
                                     returnMain();
 
                                 }
