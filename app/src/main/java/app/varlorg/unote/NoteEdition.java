@@ -61,6 +61,7 @@ public class NoteEdition extends Activity
     private TextView titreL;
     private EditText titreNote;
     private TextView titreNoteTV;
+    private Intent intent;
 
     void customToast(String msgToDisplay){
         LinearLayout linearLayout=new LinearLayout(getApplicationContext());
@@ -118,21 +119,12 @@ public class NoteEdition extends Activity
         titreNote  = (EditText)findViewById(R.id.TitreNoteEdition);
         titreNoteTV = (TextView)findViewById(R.id.TitreNoteEditionTV);
 
-        Intent intent = getIntent();
+        intent = getIntent();
         if (intent != null)
         {
             titre.setText(intent.getStringExtra(EXTRA_TITLE));
             note.setText(intent.getStringExtra(EXTRA_NOTE));
             noteTV.setText(intent.getStringExtra(EXTRA_NOTE));
-            if (intent.getStringExtra(EXTRA_NOTE) == null ) {
-                titreT.setVisibility(View.GONE);
-                titreL.setVisibility(View.GONE);
-
-                noteTV.setVisibility(View.GONE);
-                note.setVisibility(View.VISIBLE);
-                titreNoteTV.setVisibility(View.GONE);
-                titreNote.setVisibility(View.VISIBLE);
-            }
             edit = intent.getBooleanExtra(EXTRA_EDITION, false);
             id   = intent.getIntExtra(EXTRA_ID, 0);
             titre.setTag(null);
@@ -229,7 +221,7 @@ public class NoteEdition extends Activity
             MenuItem itemReturn = optionsMenu.findItem(R.id.action_return);
             itemReturn.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
-        if (pref.getBoolean("pref_edit_mode_view", false))
+        if (pref.getBoolean("pref_edit_mode_view", false) && (intent.getStringExtra(EXTRA_NOTE) != null ))
         {
             MenuItem item = optionsMenu.findItem(R.id.action_switch_mode);
             item.setIcon(android.R.drawable.ic_menu_edit);
