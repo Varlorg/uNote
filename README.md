@@ -1,5 +1,6 @@
 # uNote
 [![pipeline status](https://gitlab.com/Varlorg/uNote/badges/master/pipeline.svg)](https://gitlab.com/Varlorg/uNote/commits/master)
+[![release](https://gitlab.com/Varlorg/uNote/-/badges/release.svg?order_by=release_at)](https://gitlab.com/Varlorg/uNote/-/releases)
 
 uNote is an android application, it's a lightweight and minimalist notepad. uNote is for "micro Note".
 It is available on f-droid repo:
