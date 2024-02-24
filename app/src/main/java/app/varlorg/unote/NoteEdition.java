@@ -322,18 +322,42 @@ public class NoteEdition extends Activity
             return true;
         }
         if (id_menu == R.id.action_export){
+            String n = String.valueOf(note.getText());
+            String t = String.valueOf(titreNote.getText());
 
             /*final NotesBDD noteBdd = new NotesBDD(this);
             noteBdd.open();
             noteBdd.exportNote(getApplicationContext(), id);
             noteBdd.close();*/
+            boolean exportDate = false;
+            boolean exportTitle = false;
+            if ( pref.getBoolean("pref_export_note_date", true))
+            {
+                exportDate = true;
+            }
+            if ( pref.getBoolean("pref_export_note_title", true))
+            {
+                exportTitle = true;
+            }
 
             File sd            = Environment.getExternalStorageDirectory();
-            // name format TODO ? note_id ? title ?
-            String      exportNoteFile  = "unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) + ".txt";
+            String exportNoteFile = "unote_";
+            if (exportTitle)
+            {
+                exportNoteFile += t.replaceAll("[^a-zA-Z0-9.-]", "_");
+            }
+            else {
+                exportNoteFile += id ;
+            }
+
+            if (exportDate)
+            {
+                exportNoteFile += "_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) ;
+            }
+            exportNoteFile += ".txt";
+
             File file = new File(getApplicationContext().getExternalFilesDir(null), exportNoteFile);
-            String n = String.valueOf(note.getText());
-            String t = String.valueOf(titreNote.getText());
+
             try {
                 FileWriter w = new FileWriter(file,true);
 
@@ -353,7 +377,7 @@ public class NoteEdition extends Activity
 
             if ( pref.getBoolean("pref_notifications", true))
             {
-                customToast("Export " + file.toString() + t);
+                customToast("Export " + file.toString());
             }
         }
         if (id_menu == R.id.action_delete){

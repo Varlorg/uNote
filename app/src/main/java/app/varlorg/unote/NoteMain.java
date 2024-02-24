@@ -548,9 +548,19 @@ public class NoteMain extends Activity
 
     public void exportNote(final Note note)
     {
+        boolean exportDate = false;
+        boolean exportTitle = false;
+        if ( pref.getBoolean("pref_export_note_date", true))
+        {
+            exportDate = true;
+        }
+        if ( pref.getBoolean("pref_export_note_title", true))
+        {
+            exportTitle = true;
+        }
         NotesBDD noteBdd = new NotesBDD(NoteMain.this);
         noteBdd.open();
-        String ret = noteBdd.exportNote(getApplicationContext(), note.getId());
+        String ret = noteBdd.exportNote(getApplicationContext(), note.getId(), exportDate, exportTitle);
         if ( pref.getBoolean("pref_notifications", true))
         {
             customToast("Note exported " + ret);

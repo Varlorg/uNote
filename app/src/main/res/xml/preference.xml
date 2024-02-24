@@ -122,6 +122,14 @@
             android:title="@string/pref_backButton_action" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_db">
+        <CheckBoxPreference
+            android:defaultValue="True"
+            android:key="pref_export_note_date"
+            android:title="pref_export_note_date" />
+        <CheckBoxPreference
+            android:defaultValue="False"
+            android:key="pref_export_note_title"
+            android:title="pref_export_note_title" />
         <Preference
             android:key="buttonExport"
             android:title="@string/pref_export_db" />

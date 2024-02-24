@@ -411,26 +411,41 @@ public class NotesBDD
         }
         return(file.toString());
     }
-    public String exportNote(Context context, int id)
+    public String exportNote(Context context, int id, boolean exportDate, boolean exportTitle)
     { 
         File        sd            = Environment.getExternalStorageDirectory();
         // name format TODO ? note_id ? title ?
-        String      exportCSVFile  = "unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) + ".txt";
-        File file = new File(context.getExternalFilesDir(null), exportCSVFile);
+        Note n = this.getNoteWithId(id);
+        String t = n.getTitre();
+
+        String exportNoteFile = "unote_";
+        if (exportTitle)
+        {
+            exportNoteFile += t.replaceAll("[^a-zA-Z0-9.-]", "_");
+        }
+        else {
+            exportNoteFile += id ;
+        }
+
+        if (exportDate)
+        {
+            exportNoteFile += "_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) ;
+        }
+        exportNoteFile += ".txt";
+        File file = new File(context.getExternalFilesDir(null), exportNoteFile);
         try {
-            FileWriter w = new FileWriter(file,true);
+            FileWriter w = new FileWriter(file,false);
             if (this.maBaseSQLite == null )
                 return "null";
 
             if (this.bdd == null )
                     return "null2";
-            Note n = this.getNoteWithId(id);
 
             StringBuilder sb = new StringBuilder();
 
-            sb.append(n.getTitre() +"\n\n");
+            sb.append(t +"\n\n");
             sb.append(n.getNote());
-            w.append(sb.toString());
+            w.write(sb.toString());
 
             w.close();
             Log.d(BuildConfig.APPLICATION_ID, "exportNote " + sb.toString());
