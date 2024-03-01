@@ -48,6 +48,10 @@
 	<string name="pref_text_size_button_custom">Custom text size for buttons</string>
 	<string name="pref_main_button_orientation">Main screen buttons horizontal</string>
 	<string name="pref_edition_button_orientation">Edition buttons horizontal</string>
+	<string name="pref_export_note">Note export</string>
+	<string name="pref_export_note_date">Add date to note filename</string>
+	<string name="pref_export_note_title_short">Use title instead of id in note filename</string>
+	<string name="pref_export_note_title">Use note\'s title for the export filename instead of id</string>
 	<string name="pref_db">Database</string>
 	<string name="pref_export_db">Export database</string>
 	<string name="pref_import_db">Import database</string>
@@ -58,6 +62,7 @@
 	<string name="pref_export_csv_db_summary">Export all non-password protected notes into csv format file</string>
 	<string name="pref_edit_mode_view">Set preview as note edition default display</string>
 	<string name="pref_edit_mode_menu_all">Display all menu items when note editing</string>
+	<string name="pref_edit_mode_view_ui">User clean preview note</string>
 	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
 
 	<!-- Preference toasts' text"-->
@@ -77,11 +82,13 @@
 	<!-- Note Main toasts' text"-->
 	<string name="pwd_protected">Password Protected</string>
 	<string name="note_deleted">Note deleted !</string>
+	<string name="note_exported">Note exported</string>
 	<string name="toast_pwd_error">Incorrect password</string>
 
 	<string name="menu_title">Note Menu</string>
 	<string name="menu_edit">Edit</string>
 	<string name="menu_passwd">Password</string>
+	<string name="menu_export">Export</string>
 	<string name="menu_delete">Delete</string>
 	<string name="menu_detail">Details</string>
 

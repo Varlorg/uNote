@@ -48,6 +48,10 @@
     <string name="pref_text_size_button_custom">Benutzerdefinierte Textgröße für Schaltflächen</string>
     <string name="pref_main_button_orientation">Hauptbildschirmtasten horizontal</string>
     <string name="pref_edition_button_orientation">Editierschaltfächen horizontal</string>
+    <string name="pref_export_note">Exportieren von Notizen</string>
+    <string name="pref_export_note_date">Datum an den Dateinamen anhängen</string>
+    <string name="pref_export_note_title_short">Titel anstelle von id verwenden</string>
+    <string name="pref_export_note_title">Verwenden Sie den Titel der Notiz für den Export-Dateinamen anstelle der id</string>
     <string name="pref_db">Datenbank</string>
     <string name="pref_export_db">Datenbank exportieren</string>
     <string name="pref_import_db">Datenbank importieren</string>
@@ -58,6 +62,7 @@
     <string name="pref_export_csv_db_summary">Exportieren Sie alle nicht kennwortgeschützten Notizen in eine csv-Datei.</string>
     <string name="pref_edit_mode_view">Vorschau als Standardanzeige der Notenbearbeitung einstellen</string>
     <string name="pref_edit_mode_menu_all">Alle Menüpunkte bei der Notenbearbeitung anzeigen</string>
+    <string name="pref_edit_mode_view_ui">Die neue Vorschau verwenden</string>
     <!--<string name="pref_clean_db">Datenbank leeren (Lösche alle Notizen)</string>-->
 
     <!-- Preference toasts' text"-->
@@ -77,12 +82,14 @@
     <!-- Note Main toasts' text"-->
     <string name="pwd_protected">Passwortgeschützt</string>
     <string name="note_deleted">Notiz gelöscht !</string>
+    <string name="note_exported">Exportierte Note</string>
     <string name="toast_pwd_error">Falsches Passwort</string>
 
     <string name="menu_title">Notiz Menu</string>
     <string name="menu_edit">Editieren</string>
     <string name="menu_passwd">Passwort</string>
     <string name="menu_delete">Löschen</string>
+    <string name="menu_export">Exportieren</string>
     <string name="menu_detail">Details</string>
 
     <string name="detail_title">Titel</string>

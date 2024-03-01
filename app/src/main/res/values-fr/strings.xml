@@ -47,6 +47,10 @@
 	<string name="pref_text_size_button_custom">Taille du texte des boutons personnalisée</string>
 	<string name="pref_main_button_orientation">Boutons de l\'écran principal horizontaux</string>
 	<string name="pref_edition_button_orientation">Boutons dans l\'édition horizontaux </string>
+	<string name="pref_export_note">Export des notes</string>
+	<string name="pref_export_note_date">Ajouter la date au nom du fichier</string>
+	<string name="pref_export_note_title_short">Utiliser le titre au lieu de l\'id</string>
+	<string name="pref_export_note_title">Utilise le titre de la note pour le nom du fichier d\'export au lieu de l\'id</string>
 	<string name="pref_db">Base de donnée</string>
 	<string name="pref_export_db">Exporter la base de donnée</string>
 	<string name="pref_import_db">Importer une base de donnée</string>
@@ -57,6 +61,7 @@
 	<string name="pref_export_csv_db_summary">Exporter toutes les notes non protégées par mot de passe dans un fichier au format csv</string>
 	<string name="pref_edit_mode_view">Définir l\'aperçu comme affichage par défaut en mode edition</string>
 	<string name="pref_edit_mode_menu_all">Afficher tous les menus en mode edition</string>
+	<string name="pref_edit_mode_view_ui">Utiliser le nouvel aperçu</string>
 	<!--<string name="pref_clean_db">Vider la base de donnée (Supprime toutes les notes)</string>-->
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>
@@ -79,12 +84,14 @@
 	<!-- Note Main toasts' text"-->
 	<string name="pwd_protected">Protégée par mot de passe</string>
 	<string name="note_deleted">Note supprimée !</string>
+	<string name="note_exported">Note exportée</string>
 	<string name="toast_pwd_error">Mot de passe incorrect</string>
 
 	<string name="menu_title">Note Menu</string>
 	<string name="menu_edit">Éditer</string>
 	<string name="menu_passwd">Mot de passe</string>
 	<string name="menu_delete">Supprimer</string>
+	<string name="menu_export">Exporter</string>
 	<string name="menu_detail">Détails</string>
 
 	<string name="detail_title">Titre</string>

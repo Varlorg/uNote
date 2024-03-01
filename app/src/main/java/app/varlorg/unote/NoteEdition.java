@@ -215,11 +215,9 @@ public class NoteEdition extends Activity
 
         if (pref.getBoolean("pref_edit_mode_menu_all", false))
         {
-            MenuItem itemDelete = optionsMenu.findItem(R.id.action_delete);
-            itemDelete.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-            MenuItem itemReturn = optionsMenu.findItem(R.id.action_return);
-            itemReturn.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            optionsMenu.findItem(R.id.action_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            optionsMenu.findItem(R.id.action_export).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            optionsMenu.findItem(R.id.action_return).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
         if (pref.getBoolean("pref_edit_mode_view", false) && (intent.getStringExtra(EXTRA_NOTE) != null ))
         {
@@ -363,7 +361,6 @@ public class NoteEdition extends Activity
 
                 StringBuilder sb = new StringBuilder();
 
-
                 sb.append(t +"\n\n");
                 sb.append(n);
                 w.append(sb.toString());
@@ -377,7 +374,7 @@ public class NoteEdition extends Activity
 
             if ( pref.getBoolean("pref_notifications", true))
             {
-                customToast("Export " + file.toString());
+                customToast(getApplicationContext().getString(R.string.note_exported) + file.toString());
             }
         }
         if (id_menu == R.id.action_delete){

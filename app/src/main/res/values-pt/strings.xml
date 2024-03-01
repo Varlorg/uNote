@@ -48,6 +48,10 @@
 	<string name="pref_text_size_button_custom">Tamanho de texto personalizado para botões</string>
 	<string name="pref_main_button_orientation">Botões da tela principal horizontal</string>
 	<string name="pref_edition_button_orientation">Botões de edição horizontais</string>
+	<string name="pref_export_note">Exportação de notas</string>
+	<string name="pref_export_note_date">Adicionar data ao nome do ficheiro da nota</string>
+	<string name="pref_export_note_title_short">Utilizar título em vez de id no nome do ficheiro da nota</string>
+	<string name="pref_export_note_title">Utilizar o título da nota para o nome do ficheiro de exportação em vez do id</string>
 	<string name="pref_db">Base de Dados</string>
 	<string name="pref_export_db">Exportar Base de Dados</string>
 	<string name="pref_import_db">Importar Base de Dados</string>
@@ -58,6 +62,7 @@
 	<string name="pref_export_csv_db_summary">Exportar todas as notas não protegidas por senha para o formato de arquivo csv</string>
 	<string name="pref_edit_mode_view">Definir a pré-visualização como ecrã predefinido da edição de notas</string>
 	<string name="pref_edit_mode_menu_all">Mostrar todos os itens de menu ao editar uma nota</string>
+	<string name="pref_edit_mode_view_ui">Utilizar a nova pré-visualização</string>
 	<!--<string name="pref_clean_db">Limpar Base de Dados (Apagar todas as notas)</string>-->
 
 	<!-- Preference toasts' text"-->
@@ -77,12 +82,14 @@
 	<!-- Note Main toasts' text"-->
 	<string name="pwd_protected">Protegida por Password</string>
 	<string name="note_deleted">Nota apagada!</string>
+	<string name="note_exported">Nota exportada</string>
 	<string name="toast_pwd_error">Password incorreta</string>
 
 	<string name="menu_title">Menu Nota</string>
 	<string name="menu_edit">Editar</string>
 	<string name="menu_passwd">Password</string>
 	<string name="menu_delete">Apagar</string>
+	<string name="menu_export">Exportação</string>
 	<string name="menu_detail">Detalhes</string>
 
 	<string name="detail_title">Título</string>
@@ -124,6 +131,7 @@
 	<string name="dialog_delete_backup">Apagar Backup</string>
 	<string name="toast_backup_deleted">Backup apagado</string>
 	<string name="toast_backup_deleted_error">Falha na supressão de backup</string>
+
 
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>
