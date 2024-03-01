@@ -47,7 +47,7 @@
     <TextView
         android:id="@+id/TitreNoteEditionTV"
         android:scrollbars="horizontal"
-        android:textIsSelectable="true"
+        android:textIsSelectable="false"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6px"
@@ -105,7 +105,7 @@
         android:imeOptions="actionSearch"
         android:inputType="textMultiLine"
         android:scrollbars="vertical"
-        android:textIsSelectable="true"
+        android:textIsSelectable="false"
         android:padding="11px"
         android:paddingBottom="0px"
         android:textAppearance="?android:attr/textAppearanceMedium" />
