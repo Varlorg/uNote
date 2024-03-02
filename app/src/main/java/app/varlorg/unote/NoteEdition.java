@@ -128,11 +128,19 @@ public class NoteEdition extends Activity
             if (Intent.ACTION_SEND.equals(action) && type != null) {
                 if ("text/plain".equals(type)) {
                     String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                    String sharedTitle = intent.getStringExtra(Intent.EXTRA_TITLE);
+                    String sharedSubject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+                    if (sharedSubject != null) {
+                        titre.setText(sharedSubject);
+                        titreNoteTV.setText(sharedSubject);
+                    }
+                    if (sharedTitle != null) {
+                        titre.setText(sharedTitle);
+                        titreNoteTV.setText(sharedTitle);
+                    }
                     if (sharedText != null) {
-                        titre.setText(intent.getStringExtra(Intent.EXTRA_TITLE));
-                        titreNoteTV.setText(intent.getStringExtra(Intent.EXTRA_TITLE));
-                        note.setText(intent.getStringExtra(Intent.EXTRA_TEXT));
-                        noteTV.setText(intent.getStringExtra(Intent.EXTRA_TEXT));
+                        note.setText(sharedText);
+                        noteTV.setText(sharedText);
                     }
                     Log.d(BuildConfig.APPLICATION_ID, "ACTION_SEND rcv EXTRA_TITLE" + intent.getStringExtra(Intent.EXTRA_TITLE));
                     Log.d(BuildConfig.APPLICATION_ID, "ACTION_SEND rcv EXTRA_TEXT" + intent.getStringExtra(Intent.EXTRA_TEXT));
