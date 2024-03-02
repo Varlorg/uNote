@@ -98,6 +98,7 @@
     <string name="detail_created">Erstellt am </string>
     <string name="detail_modified">Geändert am </string>
     <string name="detail_not_modified">Nicht geändert </string>
+    <string name="detail_number_notes">Anzahl der Noten </string>
 
 
     <string name="dialog_pwd_title">Passwort fordern</string>

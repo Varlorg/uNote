@@ -100,6 +100,7 @@
 	<string name="detail_created">Créée le </string>
 	<string name="detail_modified">Modifiée le </string>
 	<string name="detail_not_modified">Non Modifiée </string>
+	<string name="detail_number_notes">Nombre de notes </string>
 
 
 	<string name="dialog_pwd_title">Mot de passe</string>

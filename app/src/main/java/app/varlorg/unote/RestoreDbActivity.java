@@ -8,18 +8,21 @@ import static app.varlorg.unote.NoteMain.POPUP_TEXTSIZE_FACTOR;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Comparator;
+import java.util.Date;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -37,7 +40,8 @@ import android.widget.Toast;
 public class RestoreDbActivity extends ListActivity {
     private static final String EXTENSION        = ".db";
     private static final String NOM_BDD          = "notes.db";
-
+    private static final String TABLE_NOTES          = "table_notes";
+    private static final String COL_ID               = "ID";
     private ArrayAdapter <NameOnlyFile> adapter;
     private AlertDialog.Builder restoreWarningBuilder;
     private NameOnlyFile restoreFile;
@@ -168,6 +172,7 @@ public class RestoreDbActivity extends ListActivity {
         menu.setHeaderTitle((this.getString(R.string.dialog_backup_menu)));
         menu.add(0, v.getId(), 0, (this.getString(R.string.dialog_backup_menu_deletion)));
         menu.add(0, v.getId(), 0, (this.getString(R.string.dialog_backup_rename_valid)));
+        menu.add(0, v.getId(), 0, (this.getString(R.string.menu_detail)));
     }
 
     @Override
@@ -177,7 +182,45 @@ public class RestoreDbActivity extends ListActivity {
         boolean res = false;
         restoreFile = adapter.getItem(aInfo.position - 1);
 
-        if (item.getTitle().equals((this.getString(R.string.dialog_backup_menu_deletion))))
+        if (item.getTitle().equals((this.getString(R.string.menu_detail))))
+        {
+            int db_size = 0;
+            SQLiteDatabase db = SQLiteDatabase.openDatabase(
+                    restoreFile.getFile().getPath(), null, SQLiteDatabase.OPEN_READONLY);
+            try {
+                Cursor c = db.rawQuery(String.format("SELECT count(%s) FROM %s ;", COL_ID, TABLE_NOTES),
+                        null);
+                c.moveToFirst();
+                db_size = c.getInt(0);
+                c.close();
+            } catch (Exception e) {
+
+            }
+            db.close();
+
+            //SimpleDateFormat df   = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
+            //String           date = df.format(restoreFile.getFile().lastModified());
+            String noteDetails = "<b>" +  this.getString(R.string.detail_number_notes) + ":</b>" + db_size +
+                //"<br/><i>" + this.getString(R.string.detail_modified) + " " + date + "</i>";
+                "<br/><i>" + this.getString(R.string.detail_modified) + " " + new Date(restoreFile.getFile().lastModified()) + "</i>";
+
+
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle(this.getString(R.string.menu_detail));
+            alertDialog.setMessage(Html.fromHtml(noteDetails));
+            alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL,"OK", new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    // Do nothing
+                }
+            });
+
+            alertDialog.show();
+            alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+            ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+        }
+        else if (item.getTitle().equals((this.getString(R.string.dialog_backup_menu_deletion))))
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder

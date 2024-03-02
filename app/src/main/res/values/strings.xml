@@ -98,6 +98,7 @@
 	<string name="detail_created">Created the </string>
 	<string name="detail_modified">Modified the </string>
 	<string name="detail_not_modified">Not Modified </string>
+	<string name="detail_number_notes">Number of notes</string>
 
 
 	<string name="dialog_pwd_title">Asking password</string>
