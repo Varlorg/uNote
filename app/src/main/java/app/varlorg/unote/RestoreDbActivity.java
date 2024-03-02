@@ -194,7 +194,7 @@ public class RestoreDbActivity extends ListActivity {
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
-            .setTitle(this.getString(R.string.dialog_delete_backup) + " " + adapter.getItem(aInfo.position - 1).toString())
+            .setTitle(this.getString(R.string.dialog_delete_backup) + " " + restoreFile.toString())
             .setMessage(this.getString(R.string.dialog_delete_msg))
             .setPositiveButton(this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener()
             {
@@ -251,7 +251,7 @@ public class RestoreDbActivity extends ListActivity {
             //AlertDialog.Builder builder = new AlertDialog.Builder(this, theme_used);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
-                    .setTitle(getApplicationContext().getString(R.string.dialog_backup_rename))
+                    .setTitle(getApplicationContext().getString(R.string.dialog_backup_rename) + " " + restoreFile.toString())
                     .setMessage(getApplicationContext().getString(R.string.dialog_backup_rename_msg))
                     .setView(input)
                     .setPositiveButton(getApplicationContext().getString(R.string.dialog_backup_rename_valid), new DialogInterface.OnClickListener()
