@@ -2,3 +2,4 @@ New features
 - Add note export as text file
 - Change preview ui
 - Add share capability
+- Backup rename
