@@ -217,6 +217,7 @@ public class NoteEdition extends Activity
         {
             optionsMenu.findItem(R.id.action_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_export).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            optionsMenu.findItem(R.id.action_share).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_return).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
         if (pref.getBoolean("pref_edit_mode_view", false) && (intent.getStringExtra(EXTRA_NOTE) != null ))
@@ -318,6 +319,19 @@ public class NoteEdition extends Activity
             /*MenuItem menuItemView = (MenuItem) optionsMenu.findItem(R.id.action_view);
             menuItemView.setVisible(true);*/
             return true;
+        }
+        if (id_menu == R.id.action_share){
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, note.getText().toString());
+            sendIntent.putExtra(Intent.EXTRA_TITLE, titreNote.getText().toString());
+            sendIntent.putExtra(Intent.EXTRA_SUBJECT, titreNote.getText().toString());
+            sendIntent.setType("text/plain");
+            Log.d(BuildConfig.APPLICATION_ID, "ACTION_SEND EXTRA_TITLE" + sendIntent.getStringExtra(Intent.EXTRA_TITLE));
+            Log.d(BuildConfig.APPLICATION_ID, "ACTION_SEND EXTRA_SUBJECT" + sendIntent.getStringExtra(Intent.EXTRA_SUBJECT));
+            Log.d(BuildConfig.APPLICATION_ID, "ACTION_SEND EXTRA_TEXT" + sendIntent.getStringExtra(Intent.EXTRA_TEXT));
+            //Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(sendIntent);
         }
         if (id_menu == R.id.action_export){
             String n = String.valueOf(note.getText());

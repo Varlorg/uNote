@@ -90,6 +90,7 @@
 	<string name="menu_passwd">Password</string>
 	<string name="menu_delete">Apagar</string>
 	<string name="menu_export">Exportação</string>
+	<string name="menu_share">Partilhar</string>
 	<string name="menu_detail">Detalhes</string>
 
 	<string name="detail_title">Título</string>

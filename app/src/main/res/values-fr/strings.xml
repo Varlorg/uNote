@@ -92,6 +92,7 @@
 	<string name="menu_passwd">Mot de passe</string>
 	<string name="menu_delete">Supprimer</string>
 	<string name="menu_export">Exporter</string>
+	<string name="menu_share">Partager</string>
 	<string name="menu_detail">Détails</string>
 
 	<string name="detail_title">Titre</string>

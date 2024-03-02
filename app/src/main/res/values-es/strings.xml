@@ -90,6 +90,7 @@
 	<string name="menu_passwd">Contraseña</string>
 	<string name="menu_delete">Eliminar</string>
 	<string name="menu_export">Exportar</string>
+	<string name="menu_share">Compartir</string>
 	<string name="menu_detail">Detalles</string>
 
 	<string name="detail_title">Título</string>
