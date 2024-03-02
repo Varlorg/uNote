@@ -255,7 +255,7 @@ public class NoteEdition extends Activity
             titreNote.setVisibility(View.GONE);
 
             noteT.setText(getString(R.string.TexteEdition) + " 👁️");
-            if (pref.getBoolean("pref_edit_mode_view_ui", false))
+            if (pref.getBoolean("pref_edit_mode_view_ui", true))
             {
                 titreT.setVisibility(View.GONE);
                 titreL.setVisibility(View.GONE);
@@ -324,7 +324,7 @@ public class NoteEdition extends Activity
                 noteTV.setText(note.getText());
 
                 noteT.setText(getString(R.string.TexteEdition) + " 👁️");
-                if (pref.getBoolean("pref_edit_mode_view_ui", false))
+                if (pref.getBoolean("pref_edit_mode_view_ui", true))
                 {
                     titreT.setVisibility(View.GONE);
                     titreL.setVisibility(View.GONE);
