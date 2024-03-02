@@ -1,0 +1,5 @@
+Fixes for issues in 1.6.0 and 1.6.1:
+- notifications
+- export db
+- note deletion
+

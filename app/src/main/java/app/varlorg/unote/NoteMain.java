@@ -501,8 +501,10 @@ public class NoteMain extends Activity
         menu.setHeaderTitle(this.getString(R.string.menu_title));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_edit));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_passwd));
+        menu.add(0, v.getId(), 0, this.getString(R.string.menu_export));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_delete));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_detail));
+        menu.add(0, v.getId(), 0, this.getString(R.string.menu_share));
     }
 
     public static String SHA1(String text)
@@ -545,6 +547,27 @@ public class NoteMain extends Activity
         return(result.toString());
     }
 
+    public void exportNote(final Note note)
+    {
+        boolean exportDate = false;
+        boolean exportTitle = false;
+        if ( pref.getBoolean("pref_export_note_date", true))
+        {
+            exportDate = true;
+        }
+        if ( pref.getBoolean("pref_export_note_title", true))
+        {
+            exportTitle = true;
+        }
+        NotesBDD noteBdd = new NotesBDD(NoteMain.this);
+        noteBdd.open();
+        String ret = noteBdd.exportNote(getApplicationContext(), note.getId(), exportDate, exportTitle);
+        if ( pref.getBoolean("pref_notifications", true))
+        {
+            customToast(getApplicationContext().getString(R.string.note_exported) + ret);
+        }
+        noteBdd.close();
+    }
     public void deleteNote(final Note note)
     {
         simpleAdpt.remove(note);
@@ -653,6 +676,24 @@ public class NoteMain extends Activity
             alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+        }
+        else if (item.getTitle().equals(this.getString(R.string.menu_share)))
+        {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, note.getNote());
+            sendIntent.putExtra(Intent.EXTRA_TITLE, note.getTitre());
+            sendIntent.putExtra(Intent.EXTRA_SUBJECT, note.getTitre());
+            sendIntent.setType("text/plain");
+            Log.d(BuildConfig.APPLICATION_ID, "ACTION_SEND EXTRA_TITLE" + sendIntent.getStringExtra(Intent.EXTRA_TITLE));
+            Log.d(BuildConfig.APPLICATION_ID, "ACTION_SEND EXTRA_SUBJECT" + sendIntent.getStringExtra(Intent.EXTRA_SUBJECT));
+            Log.d(BuildConfig.APPLICATION_ID, "ACTION_SEND EXTRA_TEXT" + sendIntent.getStringExtra(Intent.EXTRA_TEXT));
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+        }
+        else if (item.getTitle().equals(this.getString(R.string.menu_export)))
+        {
+                exportNote(note);
         }
         else if (item.getTitle().equals(this.getString(R.string.menu_delete)))
         {

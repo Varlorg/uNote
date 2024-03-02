@@ -39,9 +39,20 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/TitreNoteLine"
         android:layout_width="fill_parent"
         android:layout_height="2dp"
         android:background="#999999" />
+
+    <TextView
+        android:id="@+id/TitreNoteEditionTV"
+        android:scrollbars="horizontal"
+        android:textIsSelectable="false"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6px"
+        android:lines="1"
+        android:padding="4dp" />
 
     <EditText
         android:id="@+id/TitreNoteEdition"
@@ -49,7 +60,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="6px"
         android:hint="@string/editTitle_hint"
-
         android:inputType="text"
         android:lines="1"
         android:padding="4dp" />
@@ -62,6 +72,7 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/NoteEditionLine"
         android:layout_width="fill_parent"
         android:layout_height="2dp"
         android:background="#999999" />
@@ -93,6 +104,8 @@
         android:gravity="top|left"
         android:imeOptions="actionSearch"
         android:inputType="textMultiLine"
+        android:scrollbars="vertical"
+        android:textIsSelectable="false"
         android:padding="11px"
         android:paddingBottom="0px"
         android:textAppearance="?android:attr/textAppearanceMedium" />

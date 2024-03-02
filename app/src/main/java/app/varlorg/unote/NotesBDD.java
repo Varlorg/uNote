@@ -363,7 +363,7 @@ public class NotesBDD
     }
 
     public String exportCSV(Context context)
-    { 
+    {
         File        sd            = Environment.getExternalStorageDirectory();
 
         String      exportCSVFile  = "unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) + ".csv";
@@ -376,9 +376,9 @@ public class NotesBDD
                 return "null";
 
             if (this.bdd == null )
-                    return "null2";
+                return "null2";
             //SQLiteDatabase db =
-                    //this.open();
+            //this.open();
             //db.close();
             Cursor c = this.bdd.rawQuery(selectQuery, null);
 
@@ -386,17 +386,17 @@ public class NotesBDD
             if (c.moveToFirst())
             {
                 CSVUtils.writeLine(csvWrite, Arrays.asList("TITLE",
-                        "DATE_CREATION",
-                        "DATE_MODIFICATION",
-                        "NOTE"),
+                                "DATE_CREATION",
+                                "DATE_MODIFICATION",
+                                "NOTE"),
                         ',',
                         '"');
                 do
                 {
                     CSVUtils.writeLine(csvWrite, Arrays.asList(c.getString(NUM_COL_TITRE),
-                            c.getString(NUM_COL_DATECREATION),
-                            c.getString(NUM_COL_DATEMODIFICATION),
-                            c.getString(NUM_COL_ISBN)),
+                                    c.getString(NUM_COL_DATECREATION),
+                                    c.getString(NUM_COL_DATEMODIFICATION),
+                                    c.getString(NUM_COL_ISBN)),
                             ',',
                             '"');
 
@@ -406,6 +406,50 @@ public class NotesBDD
             // return contact list
             csvWrite.close();
             c.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return(file.toString());
+    }
+    public String exportNote(Context context, int id, boolean exportDate, boolean exportTitle)
+    { 
+        File        sd            = Environment.getExternalStorageDirectory();
+        // name format TODO ? note_id ? title ?
+        Note n = this.getNoteWithId(id);
+        String t = n.getTitre();
+
+        String exportNoteFile = "unote_";
+        if (exportTitle)
+        {
+            exportNoteFile += t.replaceAll("[^a-zA-Z0-9.-]", "_");
+        }
+        else {
+            exportNoteFile += id ;
+        }
+
+        if (exportDate)
+        {
+            exportNoteFile += "_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) ;
+        }
+        exportNoteFile += ".txt";
+        File file = new File(context.getExternalFilesDir(null), exportNoteFile);
+        try {
+            FileWriter w = new FileWriter(file,false);
+            if (this.maBaseSQLite == null )
+                return "null";
+
+            if (this.bdd == null )
+                    return "null2";
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.append(t +"\n\n");
+            sb.append(n.getNote());
+            w.write(sb.toString());
+
+            w.close();
+            Log.d(BuildConfig.APPLICATION_ID, "exportNote " + sb.toString());
+            Log.d(BuildConfig.APPLICATION_ID, "exportNote" + file.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -69,6 +69,10 @@
             android:defaultValue="false"
             android:key="pref_edit_mode_view"
             android:title="@string/pref_edit_mode_view" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_edit_mode_view_ui"
+            android:title="@string/pref_edit_mode_view_ui" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_text_size">
         <ListPreference
@@ -116,6 +120,17 @@
             android:key="pref_back_action"
             android:summary="@string/pref_backButton_action_summary"
             android:title="@string/pref_backButton_action" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_export_note">
+        <CheckBoxPreference
+            android:defaultValue="True"
+            android:key="pref_export_note_date"
+            android:title="@string/pref_export_note_date" />
+        <CheckBoxPreference
+            android:defaultValue="False"
+            android:key="pref_export_note_title"
+            android:title="@string/pref_export_note_title_short"
+            android:summary="@string/pref_export_note_title" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_db">
         <Preference
