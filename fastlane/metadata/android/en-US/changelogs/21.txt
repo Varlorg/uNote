@@ -1,0 +1,3 @@
+- App is now  compatible with Android 14
+- Add preview note mode to detect links and email
+- Add preference to display all menu edition in the bar

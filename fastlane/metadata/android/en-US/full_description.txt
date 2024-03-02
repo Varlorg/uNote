@@ -1,0 +1,8 @@
+Lightweight and minimalist notepad which focuses on simplicity and gives only basic features:
+
+* add/delete note
+* secure a note with password
+* sort notes by create date, modification date or title
+* search notes (only title or also in content except protected ones)
+* export/import database to sdcard
+* export note to plain text file
