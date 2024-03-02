@@ -564,7 +564,7 @@ public class NoteMain extends Activity
         String ret = noteBdd.exportNote(getApplicationContext(), note.getId(), exportDate, exportTitle);
         if ( pref.getBoolean("pref_notifications", true))
         {
-            customToast(getApplicationContext().getString(R.string.note_exported) + ret);
+            customToast(getApplicationContext().getString(R.string.note_exported) + " " + ret);
         }
         noteBdd.close();
     }

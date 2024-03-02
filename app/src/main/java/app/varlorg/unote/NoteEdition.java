@@ -406,7 +406,8 @@ public class NoteEdition extends Activity
 
             if ( pref.getBoolean("pref_notifications", true))
             {
-                customToast(getApplicationContext().getString(R.string.note_exported) + file.toString());
+                customToast(getApplicationContext().getString(R.string.note_exported) + " " +
+                        file.toString());
             }
         }
         if (id_menu == R.id.action_delete){
