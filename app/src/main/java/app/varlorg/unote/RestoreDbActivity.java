@@ -35,7 +35,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class RestoreDbActivity extends ListActivity {
-    private static final int DIALOG_RESTORE_WARN = 300;
     private static final String EXTENSION        = ".db";
     private static final String NOM_BDD          = "notes.db";
 
@@ -160,19 +159,6 @@ public class RestoreDbActivity extends ListActivity {
                 dialog.cancel();
             }
         });
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int id)
-    {
-        if (id == DIALOG_RESTORE_WARN)
-        {
-            AlertDialog adRestoreWarningBuilder = restoreWarningBuilder.create();
-            adRestoreWarningBuilder.setTitle(this.getString(R.string.restoreWarnTitle) + " " + restoreFile.getFile().getName() );
-            return(adRestoreWarningBuilder);
-        }
-
-        return(super.onCreateDialog(id));
     }
 
     @Override
@@ -329,7 +315,9 @@ public class RestoreDbActivity extends ListActivity {
             db.close();
 
             // Dialog: This will overwrite the existing items, continue?
-            showDialog(DIALOG_RESTORE_WARN);
+            AlertDialog adRestoreWarningBuilder = restoreWarningBuilder.create();
+            adRestoreWarningBuilder.setTitle(this.getString(R.string.restoreWarnTitle) + " " + restoreFile.getFile().getName() );
+            adRestoreWarningBuilder.show();
         }
         catch (Exception e)
         {
