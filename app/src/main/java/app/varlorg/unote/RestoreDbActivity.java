@@ -168,6 +168,7 @@ public class RestoreDbActivity extends ListActivity {
         if (id == DIALOG_RESTORE_WARN)
         {
             AlertDialog adRestoreWarningBuilder = restoreWarningBuilder.create();
+            adRestoreWarningBuilder.setTitle(this.getString(R.string.restoreWarnTitle) + " " + restoreFile.getFile().getName() );
             return(adRestoreWarningBuilder);
         }
 
