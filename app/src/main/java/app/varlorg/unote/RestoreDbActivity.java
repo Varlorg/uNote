@@ -4,6 +4,7 @@ package app.varlorg.unote;
  * Inspired by the one from SimplyDo
  */
 
+import static app.varlorg.unote.NoteMain.POPUP_TEXTSIZE_FACTOR;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Comparator;
@@ -19,11 +20,15 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.text.InputType;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -69,6 +74,7 @@ public class RestoreDbActivity extends ListActivity {
 
         linearLayout.addView(textView);
         toast.setView(linearLayout);
+        toast.setDuration(Toast.LENGTH_LONG);
 
         toast.show();
     }
@@ -174,6 +180,7 @@ public class RestoreDbActivity extends ListActivity {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.setHeaderTitle((this.getString(R.string.dialog_backup_menu)));
         menu.add(0, v.getId(), 0, (this.getString(R.string.dialog_backup_menu_deletion)));
+        menu.add(0, v.getId(), 0, (this.getString(R.string.dialog_backup_rename_valid)));
     }
 
     @Override
@@ -181,9 +188,10 @@ public class RestoreDbActivity extends ListActivity {
     {
         AdapterView.AdapterContextMenuInfo aInfo = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         boolean res = false;
+        restoreFile = adapter.getItem(aInfo.position - 1);
+
         if (item.getTitle().equals((this.getString(R.string.dialog_backup_menu_deletion))))
         {
-            restoreFile = adapter.getItem(aInfo.position - 1);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
             .setTitle(this.getString(R.string.dialog_delete_backup) + " " + adapter.getItem(aInfo.position - 1).toString())
@@ -217,6 +225,90 @@ public class RestoreDbActivity extends ListActivity {
                 }
             })
             .show();
+        }
+        else if (item.getTitle().equals((this.getString(R.string.dialog_backup_rename_valid))))
+        {
+            pref = PreferenceManager.getDefaultSharedPreferences(this);
+            int text_color;
+            if (!pref.getBoolean("pref_theme", false))
+            {
+                text_color = getResources().getColor(android.R.color.white);
+            }
+            else
+            {
+                text_color =getResources().getColor(android.R.color.black);
+            }
+
+            Log.d(BuildConfig.APPLICATION_ID, "dialog_backup_menu_rename");
+            final EditText input = new EditText(getApplicationContext());
+            LinearLayout.LayoutParams lp    = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+            input.setLayoutParams(lp);
+            input.setTextSize(textSize);
+            input.setTextColor(text_color);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            //AlertDialog.Builder builder = new AlertDialog.Builder(this, theme_used);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder
+                    .setTitle(getApplicationContext().getString(R.string.dialog_backup_rename))
+                    .setMessage(getApplicationContext().getString(R.string.dialog_backup_rename_msg))
+                    .setView(input)
+                    .setPositiveButton(getApplicationContext().getString(R.string.dialog_backup_rename_valid), new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            String newDbName = input.getText().toString() + ".db";
+                            Log.d(BuildConfig.APPLICATION_ID, "dialog_backup_menu_rename - " + newDbName);
+                            Log.d(BuildConfig.APPLICATION_ID, "dialog_backup_menu_rename - " + restoreFile.getFile().getParentFile() );
+                            File newDbNamefile = new File(restoreFile.getFile().getParentFile(), newDbName);
+                            boolean isMoved = restoreFile.getFile().renameTo(newDbNamefile);
+                            if (!isMoved) {
+                                if ( toast_enabled ){
+                                    customToast(RestoreDbActivity.this.getString(R.string.toast_backup_rename_error));
+                                }
+                            }
+                            else {
+                                refresh();
+                                if ( toast_enabled ){
+                                    customToast(RestoreDbActivity.this.getString(R.string.toast_backup_rename_success));
+                                }
+                            }
+                        }
+                    })
+                    .setNeutralButton(getApplicationContext().getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            dialog.cancel();
+                        }
+                    });
+            //    .show();
+            final AlertDialog alertDialog = builder.create();
+            // Bug on Lollipop when large text size to display the 3 buttons
+            // https://stackoverflow.com/questions/27187353/dialog-buttons-with-long-text-not-wrapping-squeezed-out-material-theme-on-an
+            alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    try {
+                        LinearLayout linearLayout = (LinearLayout) alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).getParent();
+                        int wPos = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).getWidth();
+                        int wNeu = alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).getWidth();
+                        if (linearLayout != null && wPos + wNeu > linearLayout.getWidth()) {
+                            linearLayout.setOrientation(LinearLayout.VERTICAL);
+                            linearLayout.setGravity(Gravity.RIGHT);
+                        }
+                    } catch (Exception ignored) {
+
+                    }
+                }
+            });
+            alertDialog.show();
+            alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
+            alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
+            ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
         }
         return(res);
     }

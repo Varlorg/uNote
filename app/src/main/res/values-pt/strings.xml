@@ -130,8 +130,13 @@
 	<string name="dialog_backup_menu">Opção de Backup Option</string>
 	<string name="dialog_backup_menu_deletion">Apagar este backup</string>
 	<string name="dialog_delete_backup">Apagar Backup</string>
-	<string name="toast_backup_deleted">Backup apagado</string>
+	<string name="dialog_backup_rename">Renomear cópia de segurança</string>
+	<string name="dialog_backup_rename_msg">Introduza o novo nome da cópia de segurança (o prefixo .db é automaticamente adicionado)</string>
+	<string name="dialog_backup_rename_valid">Renomear</string>
+    <string name="toast_backup_deleted">Backup apagado</string>
 	<string name="toast_backup_deleted_error">Falha na supressão de backup</string>
+	<string name="toast_backup_rename_success">Cópia de segurança renomeada</string>
+	<string name="toast_backup_rename_error">Falha ao renomear a cópia</string>
 
 
 	<!-- Not used ? -

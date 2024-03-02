@@ -130,8 +130,13 @@
 	<string name="dialog_backup_menu">Backup Option</string>
 	<string name="dialog_backup_menu_deletion">Delete this backup</string>
 	<string name="dialog_delete_backup">Delete Backup</string>
+	<string name="dialog_backup_rename">Rename Backup</string>
+	<string name="dialog_backup_rename_msg">Enter the new name of the backup (prefix .db is automatically added)</string>
+	<string name="dialog_backup_rename_valid">Rename</string>
 	<string name="toast_backup_deleted">Backup deleted</string>
 	<string name="toast_backup_deleted_error">Deleting backup failed</string>
+	<string name="toast_backup_rename_success">Backup renamed</string>
+	<string name="toast_backup_rename_error">Renaming backup failed</string>
 
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>

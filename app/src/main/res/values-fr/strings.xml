@@ -132,6 +132,11 @@
 	<string name="dialog_backup_menu">Sauvegarde option</string>
 	<string name="dialog_backup_menu_deletion">Supprimer cette sauvegarde</string>
 	<string name="dialog_delete_backup">Suppression de la sauvegarde</string>
-	<string name="toast_backup_deleted">Sauvegarde supprimée</string>
+	<string name="dialog_backup_rename">Renommer la sauvegarde</string>
+	<string name="dialog_backup_rename_msg">Entrer le nouveau nom de la sauvegarde (le suffixe .db est automatiquement ajouté)</string>
+	<string name="dialog_backup_rename_valid">Renommer</string>
+    <string name="toast_backup_deleted">Sauvegarde supprimée</string>
 	<string name="toast_backup_deleted_error">Échec de la suppression de la sauvegarde</string>
+	<string name="toast_backup_rename_success">Sauvegarde renommée</string>
+	<string name="toast_backup_rename_error">Échec du renommage de la sauvegarde</string>
 </resources>

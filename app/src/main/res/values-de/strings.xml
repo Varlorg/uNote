@@ -130,8 +130,13 @@
     <string name="dialog_backup_menu">Datensicherung Menu</string>
     <string name="dialog_backup_menu_deletion">Datensicherung wird gelöscht</string>
     <string name="dialog_delete_backup">Datensicherung wird gelöscht</string>
+    <string name="dialog_backup_rename">Sicherung umbenennen</string>
+    <string name="dialog_backup_rename_msg">Geben Sie den neuen Namen der Sicherung ein (das Präfix .db wird automatisch hinzugefügt)</string>
+    <string name="dialog_backup_rename_valid">Umbenennen</string>
     <string name="toast_backup_deleted">Datensicherung gelöscht</string>
 	<string name="toast_backup_deleted_error">Löschen der Datensicherung fehlgeschlagen</string>
+    <string name="toast_backup_rename_success">Sicherung umbenannt</string>
+    <string name="toast_backup_rename_error">Umbenennen der Sicherung fehlgeschlagen</string>
 
     <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>

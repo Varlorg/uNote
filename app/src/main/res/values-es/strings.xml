@@ -130,8 +130,13 @@
 	<string name="dialog_backup_menu">Opción de respaldo</string>
 	<string name="dialog_backup_menu_deletion">Eliminar este respaldo</string>
 	<string name="dialog_delete_backup">Eliminando respaldo</string>
-	<string name="toast_backup_deleted">Respaldo eliminado</string>
+	<string name="dialog_backup_rename">Renombrar copia de seguridad</string>
+	<string name="dialog_backup_rename_msg">Introduzca el nuevo nombre de la copia de seguridad (el prefijo .db se añade automáticamente)</string>
+	<string name="dialog_backup_rename_valid">Renombrar</string>
+    <string name="toast_backup_deleted">Respaldo eliminado</string>
 	<string name="toast_backup_deleted_error">Error durante la eliminación del respaldo</string>
+	<string name="toast_backup_rename_success">Copia de seguridad renombrada</string>
+	<string name="toast_backup_rename_error">Error al renombrar la copia</string>
 
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>
