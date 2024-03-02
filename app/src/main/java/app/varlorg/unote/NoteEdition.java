@@ -122,11 +122,28 @@ public class NoteEdition extends Activity
         intent = getIntent();
         if (intent != null)
         {
-            titre.setText(intent.getStringExtra(EXTRA_TITLE));
-            note.setText(intent.getStringExtra(EXTRA_NOTE));
-            noteTV.setText(intent.getStringExtra(EXTRA_NOTE));
-            edit = intent.getBooleanExtra(EXTRA_EDITION, false);
-            id   = intent.getIntExtra(EXTRA_ID, 0);
+            // Get intent, action and MIME type
+            String action = intent.getAction();
+            String type = intent.getType();
+            if (Intent.ACTION_SEND.equals(action) && type != null) {
+                if ("text/plain".equals(type)) {
+                    String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                    if (sharedText != null) {
+                        titre.setText(intent.getStringExtra(Intent.EXTRA_TITLE));
+                        titreNoteTV.setText(intent.getStringExtra(Intent.EXTRA_TITLE));
+                        note.setText(intent.getStringExtra(Intent.EXTRA_TEXT));
+                        noteTV.setText(intent.getStringExtra(Intent.EXTRA_TEXT));
+                    }
+                    Log.d(BuildConfig.APPLICATION_ID, "ACTION_SEND rcv EXTRA_TITLE" + intent.getStringExtra(Intent.EXTRA_TITLE));
+                    Log.d(BuildConfig.APPLICATION_ID, "ACTION_SEND rcv EXTRA_TEXT" + intent.getStringExtra(Intent.EXTRA_TEXT));
+                }
+            }else {
+                titre.setText(intent.getStringExtra(EXTRA_TITLE));
+                note.setText(intent.getStringExtra(EXTRA_NOTE));
+                noteTV.setText(intent.getStringExtra(EXTRA_NOTE));
+                edit = intent.getBooleanExtra(EXTRA_EDITION, false);
+                id = intent.getIntExtra(EXTRA_ID, 0);
+            }
             titre.setTag(null);
             note.setTag(null);
             titre.addTextChangedListener(new TextWatcher()
@@ -323,6 +340,7 @@ public class NoteEdition extends Activity
         if (id_menu == R.id.action_share){
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(BuildConfig.APPLICATION_ID, note.getText().toString());
             sendIntent.putExtra(Intent.EXTRA_TEXT, note.getText().toString());
             sendIntent.putExtra(Intent.EXTRA_TITLE, titreNote.getText().toString());
             sendIntent.putExtra(Intent.EXTRA_SUBJECT, titreNote.getText().toString());
@@ -330,8 +348,8 @@ public class NoteEdition extends Activity
             Log.d(BuildConfig.APPLICATION_ID, "ACTION_SEND EXTRA_TITLE" + sendIntent.getStringExtra(Intent.EXTRA_TITLE));
             Log.d(BuildConfig.APPLICATION_ID, "ACTION_SEND EXTRA_SUBJECT" + sendIntent.getStringExtra(Intent.EXTRA_SUBJECT));
             Log.d(BuildConfig.APPLICATION_ID, "ACTION_SEND EXTRA_TEXT" + sendIntent.getStringExtra(Intent.EXTRA_TEXT));
-            //Intent shareIntent = Intent.createChooser(sendIntent, null);
-            startActivity(sendIntent);
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
         }
         if (id_menu == R.id.action_export){
             String n = String.valueOf(note.getText());
