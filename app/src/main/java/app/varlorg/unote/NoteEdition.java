@@ -1,8 +1,11 @@
 package app.varlorg.unote;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +23,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -62,6 +67,7 @@ public class NoteEdition extends Activity
     private EditText titreNote;
     private TextView titreNoteTV;
     private Intent intent;
+        private Context context;
 
     void customToast(String msgToDisplay){
         LinearLayout linearLayout=new LinearLayout(getApplicationContext());
@@ -262,6 +268,15 @@ public class NoteEdition extends Activity
             note.setVisibility(View.GONE);
             titreNote.setVisibility(View.GONE);
 
+            note.setTextIsSelectable(false);
+            titreNote.setTextIsSelectable(false);
+
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(noteTV.getWindowToken(), 0);
+            this.getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+            );
+
             noteT.setText(getString(R.string.TexteEdition) + " 👁️");
             if (pref.getBoolean("pref_edit_mode_view_ui", true))
             {
@@ -277,6 +292,8 @@ public class NoteEdition extends Activity
             titreNoteTV.setVisibility(View.GONE);
             note.setVisibility(View.VISIBLE);
             titreNote.setVisibility(View.VISIBLE);
+            note.setTextIsSelectable(true);
+            titreNote.setTextIsSelectable(true);
             noteT.setText( getString(R.string.TexteEdition) + " ✍️" );
         }
         return true;
@@ -306,12 +323,14 @@ public class NoteEdition extends Activity
 
                 titreNoteTV.setVisibility(View.GONE);
                 titreNote.setVisibility(View.VISIBLE);
+                titreNote.setTextIsSelectable(true);
 
                 titreT.setVisibility(View.VISIBLE);
                 titreL.setVisibility(View.VISIBLE);
 
                 noteTV.setVisibility(View.GONE);
                 note.setVisibility(View.VISIBLE);
+                note.setTextIsSelectable(true);
 
                 noteT.setVisibility(View.VISIBLE);
                 noteT.setText( getString(R.string.TexteEdition) + " ✍️" ); // ✏️ ?
@@ -330,6 +349,15 @@ public class NoteEdition extends Activity
 
                 titreNoteTV.setText(titreNote.getText());
                 noteTV.setText(note.getText());
+
+                note.setTextIsSelectable(false);
+                titreNote.setTextIsSelectable(false);
+
+                InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(noteTV.getWindowToken(), 0);
+                this.getWindow().setSoftInputMode(
+                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                );
 
                 noteT.setText(getString(R.string.TexteEdition) + " 👁️");
                 if (pref.getBoolean("pref_edit_mode_view_ui", true))
