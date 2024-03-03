@@ -589,6 +589,7 @@ public class NoteEdition extends Activity
             count++;
         }
         note.setText(spannableString);
+        noteTV.setText(spannableString);
         return count;
     }
 
