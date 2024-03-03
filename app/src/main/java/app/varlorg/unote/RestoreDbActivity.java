@@ -6,6 +6,7 @@ package app.varlorg.unote;
 
 import static app.varlorg.unote.NoteMain.POPUP_TEXTSIZE_FACTOR;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.util.Comparator;
 import java.util.Date;
@@ -342,7 +343,28 @@ public class RestoreDbActivity extends ListActivity {
         }
         return(res);
     }
+    public boolean isValidSQLite(String dbPath) {
+        File file = new File(dbPath);
 
+        if (!file.exists() || !file.canRead()) {
+            return false;
+        }
+
+        try {
+            FileReader fr = new FileReader(file);
+            char[] buffer = new char[16];
+
+            fr.read(buffer, 0, 16);
+            String str = String.valueOf(buffer);
+            fr.close();
+
+            return str.equals("SQLite format 3\u0000");
+
+        } catch (Exception e) {
+            Log.d(BuildConfig.APPLICATION_ID, "isValidSQLite failed " + e );
+            return false;
+        }
+    }
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id)
     {
@@ -350,12 +372,12 @@ public class RestoreDbActivity extends ListActivity {
 
         restoreFile = adapter.getItem(position - 1);
 
-        try
+        if (isValidSQLite(restoreFile.getFile().getPath()))
         {
             // test restore file
-            SQLiteDatabase db = SQLiteDatabase.openDatabase(
+           /* SQLiteDatabase db = SQLiteDatabase.openDatabase(
                 restoreFile.getFile().getPath(), null, SQLiteDatabase.OPEN_READONLY);
-            db.close();
+            db.close();*/
 
             // Dialog: This will overwrite the existing items, continue?
             AlertDialog adRestoreWarningBuilder = restoreWarningBuilder.create();
@@ -383,9 +405,11 @@ public class RestoreDbActivity extends ListActivity {
             adRestoreWarningBuilder.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
             ((TextView)adRestoreWarningBuilder.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
         }
-        catch (Exception e)
+        else
+        //catch (Exception e)
         {
-            Log.d(BuildConfig.APPLICATION_ID, "Restore db failed " + e );
+            //Log.d(BuildConfig.APPLICATION_ID, "Restore db failed " + e );
+            Log.d(BuildConfig.APPLICATION_ID, "Restore db failed "  );
             if ( toast_enabled ){
                 customToast(RestoreDbActivity.this.getString(R.string.restoreToastInvalidDB));
             }
