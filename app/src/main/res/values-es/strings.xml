@@ -60,6 +60,8 @@
 	<string name="pref_keep_position_scroll">Guadar la posición de desplazándose</string>
 	<string name="pref_export_csv_db">Exportar csv</string>
 	<string name="pref_export_csv_db_summary">Exportar todas las notas no protegidas por contraseña a un archivo en formato csv</string>
+	<string name="pref_export_all_notes_summary">Exportar todas las notas no protegidas por contraseña en texto plano en una carpeta</string>
+	<string name="pref_export_all_notes">Exportar todas las notas en texto plano</string>
 	<string name="pref_edit_mode_view">Establecer la vista previa como visualización por defecto de la edición de notas</string>
 	<string name="pref_edit_mode_menu_all">Mostrar todos los elementos del menú al editar notas</string>
 	<string name="pref_edit_mode_view_ui">Usuario nueva nota previa</string>
@@ -69,6 +71,7 @@
 	<string name="toast_export_db">Base de datos exportada en </string>
 	<string name="toast_import_db">Base de datos importada de </string>
 	<string name="toast_import_no_db">No base de datos encontrada, exporta primero.</string>
+	<string name="toast_export_all_notes">Todas las notas exportadas en </string>
 
 	<!-- Note Edition toasts' text"-->
 	<string name="toast_save">Guardada</string>

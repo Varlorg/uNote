@@ -15,9 +15,11 @@ import java.util.Calendar;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class NotesBDD
@@ -413,7 +415,6 @@ public class NotesBDD
     }
     public String exportNote(Context context, int id, boolean exportDate, boolean exportTitle)
     { 
-        File        sd            = Environment.getExternalStorageDirectory();
         // name format TODO ? note_id ? title ?
         Note n = this.getNoteWithId(id);
         String t = n.getTitre();
@@ -448,11 +449,98 @@ public class NotesBDD
             w.write(sb.toString());
 
             w.close();
-            Log.d(BuildConfig.APPLICATION_ID, "exportNote " + sb.toString());
-            Log.d(BuildConfig.APPLICATION_ID, "exportNote" + file.toString());
+            Log.d(BuildConfig.APPLICATION_ID, "exportNote " + file.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
         return(file.toString());
+    }
+    public String exportNoteTo(Context context, int id, boolean exportDate, boolean exportTitle, File parentFolder)
+    {
+        Note n = this.getNoteWithId(id);
+        String t = n.getTitre();
+
+        String exportNoteFile = "unote_";
+        if (exportTitle)
+        {
+            exportNoteFile += t.replaceAll("[^a-zA-Z0-9.-]", "_");
+        }
+        else {
+            exportNoteFile += id ;
+        }
+
+        if (exportDate)
+        {
+            exportNoteFile += "_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) ;
+        }
+        exportNoteFile += ".txt";
+
+        File file = new File(parentFolder, exportNoteFile);
+        try {
+            FileWriter w = new FileWriter(file,false);
+            if (this.maBaseSQLite == null )
+                return "null";
+
+            if (this.bdd == null )
+                return "null2";
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.append(t +"\n\n");
+            sb.append(n.getNote());
+            w.write(sb.toString());
+
+            w.close();
+            Log.d(BuildConfig.APPLICATION_ID, "exportNote " + file.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return(file.toString());
+    }
+
+    public String exportAllNotes(Context context)
+    {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean exportDate = false;
+        boolean exportTitle = false;
+        if ( pref.getBoolean("pref_export_note_date", true))
+        {
+            exportDate = true;
+        }
+        if ( pref.getBoolean("pref_export_note_title", true))
+        {
+            exportTitle = true;
+        }
+        String      destFolder  = "unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime());
+        File externalFilesDir = context.getExternalFilesDir(null);
+        File destinationPath = new File(externalFilesDir, destFolder);
+        Log.d(BuildConfig.APPLICATION_ID, "exportAllNotes "+ destinationPath);
+        if( ! destinationPath.exists())
+        {
+            destinationPath.mkdirs();
+            Log.d(BuildConfig.APPLICATION_ID, "exportNoteTo mkdir "+ destinationPath);
+        }
+        try {
+            String      selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE " + COL_PASSWORD + " IS NULL ";
+            if (this.maBaseSQLite == null )
+                return "null";
+
+            if (this.bdd == null )
+                return "null2";
+            Cursor c = this.bdd.rawQuery(selectQuery, null);
+
+            // looping through all rows and adding to list
+            if (c.moveToFirst())
+            {
+                do
+                {
+                    exportNoteTo(context, c.getInt(NUM_COL_ID), exportDate, exportTitle, destinationPath);
+                } while (c.moveToNext());
+            }
+            c.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return(destinationPath.toString());
     }
 }

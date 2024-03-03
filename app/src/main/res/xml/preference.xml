@@ -143,6 +143,10 @@
             android:key="buttonExportCSV"
             android:summary="@string/pref_export_csv_db_summary"
             android:title="@string/pref_export_csv_db" />
+        <Preference
+            android:key="buttonExportAllNotes"
+            android:summary="@string/pref_export_all_notes_summary"
+            android:title="@string/pref_export_all_notes" />
         <!--<Preference android:title="@string/pref_clean_db"
             android:key="buttonDelete" />-->
     </PreferenceCategory>

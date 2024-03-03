@@ -60,6 +60,8 @@
 	<string name="pref_keep_position_scroll">Keep scrolling position</string>
 	<string name="pref_export_csv_db">Export csv</string>
 	<string name="pref_export_csv_db_summary">Export all non-password protected notes into csv format file</string>
+	<string name="pref_export_all_notes_summary">Export all non-password protected notes in plain text in a folder</string>
+	<string name="pref_export_all_notes">Export all notes in plain text</string>
 	<string name="pref_edit_mode_view">Set preview as note edition default display</string>
 	<string name="pref_edit_mode_menu_all">Display all menu items when note editing</string>
 	<string name="pref_edit_mode_view_ui">User clean preview note</string>
@@ -69,6 +71,7 @@
 	<string name="toast_export_db">Database exported in </string>
 	<string name="toast_import_db">Database imported from </string>
 	<string name="toast_import_no_db">No database found, please export first.</string>
+	<string name="toast_export_all_notes">All notes exported in </string>
 
 	<!-- Note Edition toasts' text"-->
 	<string name="toast_save">Saved</string>

@@ -129,6 +129,32 @@ public class Preference extends PreferenceActivity {
                 return(false);
             }
         });
+
+        android.preference.Preference buttonExportAllNotes = findPreference("buttonExportAllNotes");
+        buttonExportAllNotes.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(android.preference.Preference arg0)
+            {
+                NotesBDD noteBdd = new NotesBDD(Preference.this);
+                noteBdd.open();
+                String path = noteBdd.exportAllNotes(Preference.this);
+                noteBdd.close();
+                if (path != null)
+                {
+                    if ( pref.getBoolean("pref_notifications", true)) {
+                        customToast(Preference.this.getString(R.string.toast_export_all_notes) + " " + path + " ! ");
+                    }
+                }
+                else
+                {
+                    if ( pref.getBoolean("pref_notifications", true)) {
+                        customToast(" Error " + path + " ! ");
+                    }
+                }
+                return(false);
+            }
+        });
     }
 
     @Override
