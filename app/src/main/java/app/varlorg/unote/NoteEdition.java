@@ -211,7 +211,8 @@ public class NoteEdition extends Activity
             textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "14" ));
         }
         titre.setTextSize(textSize);
-        titreNoteTV.setTextSize(textSize * (float) 1.3);
+        //titreNoteTV.setTextSize(textSize * (float) 1.3);
+        titreNoteTV.setTextSize(textSize);
         note.setTextSize(textSize);
         noteTV.setTextSize(textSize);
         titreT.setTextSize(textSize);
@@ -277,7 +278,7 @@ public class NoteEdition extends Activity
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
             );
 
-            noteT.setText(getString(R.string.TexteEdition) + " 👁️");
+            noteT.setText(getString(R.string.TexteEdition) + " \uD83D\uDC41");
             if (pref.getBoolean("pref_edit_mode_view_ui", true))
             {
                 titreT.setVisibility(View.GONE);
@@ -294,7 +295,7 @@ public class NoteEdition extends Activity
             titreNote.setVisibility(View.VISIBLE);
             note.setTextIsSelectable(true);
             titreNote.setTextIsSelectable(true);
-            noteT.setText( getString(R.string.TexteEdition) + " ✍️" );
+            noteT.setText( getString(R.string.TexteEdition) + " \u270d\ufe0e" ); //✍  ✏️ ?
         }
         return true;
     }
@@ -333,7 +334,7 @@ public class NoteEdition extends Activity
                 note.setTextIsSelectable(true);
 
                 noteT.setVisibility(View.VISIBLE);
-                noteT.setText( getString(R.string.TexteEdition) + " ✍️" ); // ✏️ ?
+                noteT.setText( getString(R.string.TexteEdition) + " \u270d\ufe0e" ); //✍  ✏️ ?  ✏︎
             }
             else {
                 item.setIcon(android.R.drawable.ic_menu_edit);
@@ -359,7 +360,9 @@ public class NoteEdition extends Activity
                         WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
                 );
 
-                noteT.setText(getString(R.string.TexteEdition) + " 👁️");
+                noteT.setText(getString(R.string.TexteEdition) + " \uD83D\uDC41");
+                //noteT.setText(getString(R.string.TexteEdition) + Html.fromHtml("\ud83d\udc41\ufe0e  \uD83D\uDD0F\ufe0e \uD83D\uDD12\ufe0e"));
+                //noteT.setText("\uD83D\uDC40"); 👁︎ - 📄  -- 📄️ --- 𓁺 ;
                 if (pref.getBoolean("pref_edit_mode_view_ui", true))
                 {
                     titreT.setVisibility(View.GONE);
