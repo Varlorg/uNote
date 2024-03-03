@@ -62,6 +62,7 @@
     <string name="pref_export_csv_db_summary">Exportieren Sie alle nicht kennwortgeschützten Notizen in eine csv-Datei.</string>
     <string name="pref_export_all_notes_summary">Exportieren Sie alle nicht passwortgeschützten Notizen im Klartext in einen Ordner</string>
     <string name="pref_export_all_notes">Alle Notizen im Klartext exportieren</string>
+    <string name="export_info_path">Pfad exportieren </string>
     <string name="pref_edit_mode_view">Vorschau als Standardanzeige der Notenbearbeitung einstellen</string>
     <string name="pref_edit_mode_menu_all">Alle Menüpunkte bei der Notenbearbeitung anzeigen</string>
     <string name="pref_edit_mode_view_ui">Die neue Vorschau verwenden</string>

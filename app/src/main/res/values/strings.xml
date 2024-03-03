@@ -62,6 +62,7 @@
 	<string name="pref_export_csv_db_summary">Export all non-password protected notes into csv format file</string>
 	<string name="pref_export_all_notes_summary">Export all non-password protected notes in plain text in a folder</string>
 	<string name="pref_export_all_notes">Export all notes in plain text</string>
+	<string name="export_info_path">Export path </string>
 	<string name="pref_edit_mode_view">Set preview as note edition default display</string>
 	<string name="pref_edit_mode_menu_all">Display all menu items when note editing</string>
 	<string name="pref_edit_mode_view_ui">User clean preview note</string>

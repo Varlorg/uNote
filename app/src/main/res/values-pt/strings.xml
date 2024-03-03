@@ -62,6 +62,7 @@
 	<string name="pref_export_csv_db_summary">Exportar todas as notas não protegidas por senha para o formato de arquivo csv</string>
 	<string name="pref_export_all_notes_summary">Exportar todas as notas não protegidas por palavra-passe em texto simples numa pasta</string>
 	<string name="pref_export_all_notes">Exportar todas as notas em texto simples</string>
+	<string name="export_info_path">Caminho de exportação </string>
 	<string name="pref_edit_mode_view">Definir a pré-visualização como ecrã predefinido da edição de notas</string>
 	<string name="pref_edit_mode_menu_all">Mostrar todos os itens de menu ao editar uma nota</string>
 	<string name="pref_edit_mode_view_ui">Utilizar a nova pré-visualização</string>

@@ -1,9 +1,12 @@
 package app.varlorg.unote;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.content.Intent;
@@ -12,6 +15,8 @@ import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
 
 public class Preference extends PreferenceActivity {
     /** Called when the activity is first created. */
@@ -155,6 +160,34 @@ public class Preference extends PreferenceActivity {
                 return(false);
             }
         });
+
+
+        SharedPreferences sp = getPreferenceScreen().getSharedPreferences();
+        File externalFilesDir = getApplicationContext().getExternalFilesDir(null);
+        PreferenceCategory textPref = (PreferenceCategory) findPreference("exportInfo");
+        textPref.setTitle(this.getString(R.string.export_info_path) + " " + externalFilesDir);
+        /*android.preference.Preference buttonExportInfo = findPreference("buttonExportInfo");
+        buttonExportInfo.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
+        {
+            File externalFilesDir = getApplicationContext().getExternalFilesDir(null);
+
+            @Override
+            public boolean onPreferenceClick(android.preference.Preference arg0)
+            {
+                new AlertDialog.Builder(getApplicationContext())
+                        .setTitle("Export info")
+                        .setMessage("Export path " + externalFilesDir)
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setNeutralButton(android.R.string.ok, null)
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        //.setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .show();
+                return true;
+            }
+        });*/
     }
 
     @Override

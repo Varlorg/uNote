@@ -61,6 +61,7 @@
 	<string name="pref_export_csv_db_summary">Exporter toutes les notes non protégées par mot de passe dans un fichier au format csv</string>
 	<string name="pref_export_all_notes_summary">Exporter toutes les notes non protégées par mot de passe au format texte dans un dossier</string>
 	<string name="pref_export_all_notes">Exporter les notes au format texte</string>
+	<string name="export_info_path">Chemin d\'export </string>
 	<string name="pref_edit_mode_view">Définir l\'aperçu comme affichage par défaut en mode edition</string>
 	<string name="pref_edit_mode_menu_all">Afficher tous les menus en mode edition</string>
 	<string name="pref_edit_mode_view_ui">Utiliser le nouvel aperçu</string>
