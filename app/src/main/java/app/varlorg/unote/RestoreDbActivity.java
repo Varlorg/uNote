@@ -360,10 +360,32 @@ public class RestoreDbActivity extends ListActivity {
             // Dialog: This will overwrite the existing items, continue?
             AlertDialog adRestoreWarningBuilder = restoreWarningBuilder.create();
             adRestoreWarningBuilder.setTitle(this.getString(R.string.restoreWarnTitle) + " " + restoreFile.getFile().getName() );
+            // Bug on Lollipop when large text size to display the 3 buttons
+            // https://stackoverflow.com/questions/27187353/dialog-buttons-with-long-text-not-wrapping-squeezed-out-material-theme-on-an
+            adRestoreWarningBuilder.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    try {
+                        LinearLayout linearLayout = (LinearLayout) adRestoreWarningBuilder.getButton(DialogInterface.BUTTON_POSITIVE).getParent();
+                        int wPos = adRestoreWarningBuilder.getButton(DialogInterface.BUTTON_POSITIVE).getWidth();
+                        int wNeg = adRestoreWarningBuilder.getButton(DialogInterface.BUTTON_NEGATIVE).getWidth();
+                        if (linearLayout != null && wPos + wNeg > linearLayout.getWidth()) {
+                            linearLayout.setOrientation(LinearLayout.VERTICAL);
+                            linearLayout.setGravity(Gravity.RIGHT);
+                        }
+                    } catch (Exception ignored) {
+
+                    }
+                }
+            });
             adRestoreWarningBuilder.show();
+            adRestoreWarningBuilder.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+            adRestoreWarningBuilder.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+            ((TextView)adRestoreWarningBuilder.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
         }
         catch (Exception e)
         {
+            Log.d(BuildConfig.APPLICATION_ID, "Restore db failed " + e );
             if ( toast_enabled ){
                 customToast(RestoreDbActivity.this.getString(R.string.restoreToastInvalidDB));
             }
