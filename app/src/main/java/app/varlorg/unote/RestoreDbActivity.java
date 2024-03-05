@@ -201,7 +201,8 @@ public class RestoreDbActivity extends ListActivity {
 
             //SimpleDateFormat df   = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
             //String           date = df.format(restoreFile.getFile().lastModified());
-            String noteDetails = "<b>" +  this.getString(R.string.detail_number_notes) + ":</b>  " + db_size +
+            String noteDetails = "<b>" +   restoreFile + "</b><br/>" +
+                    "<b>" +  this.getString(R.string.detail_number_notes) + ":</b>  " + db_size +
                 //"<br/><i>" + this.getString(R.string.detail_modified) + " " + date + "</i>";
                 "<br/><i>" + this.getString(R.string.detail_modified) + " " + new Date(restoreFile.getFile().lastModified()) + "</i>";
 
