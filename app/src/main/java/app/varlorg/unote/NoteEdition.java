@@ -505,8 +505,10 @@ public class NoteEdition extends Activity
 
             searchNote = findViewById(R.id.search_note);
             final FrameLayout searchNote_lay = findViewById(R.id.search_within_note);
+            final TextView searchNoteCountTV = (TextView)findViewById(R.id.search_note_count);
             final ImageButton btnClear = (ImageButton)findViewById(R.id.btn_clear_edition);
             searchNote.setTextSize(textSize);
+            searchNoteCountTV.setTextSize(textSize);
 
             ViewGroup.LayoutParams params=btnClear.getLayoutParams();
             params.width=Math.max(textSize*2,40);
@@ -518,8 +520,10 @@ public class NoteEdition extends Activity
             if (searchNote_lay.getVisibility() == View.VISIBLE)
             {
                 searchNote.setText("");
+                searchNoteCountTV.setText("");
                 note.setText(note.getText().toString());
                 searchNote_lay.setVisibility(View.GONE);
+                searchNoteCountTV.setVisibility(View.GONE);
                 btnClear.setVisibility(View.GONE);
             }
             else {
@@ -542,10 +546,14 @@ public class NoteEdition extends Activity
                         if (!searchNote.getText().toString().equals(""))   //if edittext include text
                         {
                             btnClear.setVisibility(View.VISIBLE);
-                            highlightText(s.toString());
+                            searchNoteCountTV.setVisibility(View.VISIBLE);
+                            int patternFoundNb = highlightText(s.toString());
+                            if ( pref.getBoolean("pref_search_note_count", true))
+                                searchNoteCountTV.setText("" + patternFoundNb);
                         } else     //not include text
                         {
                             btnClear.setVisibility(View.GONE);
+                            searchNoteCountTV.setVisibility(View.GONE);
                             note.setText(note.getText().toString());
                         }
                     }

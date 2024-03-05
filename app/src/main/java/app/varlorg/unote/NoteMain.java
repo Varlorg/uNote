@@ -41,6 +41,7 @@ public class NoteMain extends Activity
     private static final String HEX = "0123456789ABCDEF";
     private ArrayAdapter <Note> simpleAdpt;
     private EditText editsearch;
+    private TextView searchCount;
     private ImageButton btnClear;
     private List <Note> listeNotes;
     private CheckBox cbSearchContent;
@@ -104,6 +105,9 @@ public class NoteMain extends Activity
         else
         {
             listeNotes = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+
+            if ( pref.getBoolean("pref_search_note_count", true))
+                searchCount.setText("" + listeNotes.size());
         }
         noteBdd.close();
         simpleAdpt.clear();
@@ -258,6 +262,7 @@ public class NoteMain extends Activity
         buttonAddNote.setTextSize(textSizeButton);
         buttonSearch.setTextSize(textSizeButton);
         buttonReturn.setTextSize(textSizeButton);
+        ((TextView)findViewById(R.id.search_count)).setTextSize(textSizeButton);
 
         final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.buttons);
         buttonsBar.post(new Runnable()
@@ -278,8 +283,11 @@ public class NoteMain extends Activity
 
         // Locate the EditText in listview_main.xml
         editsearch = (EditText)findViewById(R.id.search);
+        searchCount = (TextView) findViewById(R.id.search_count);
         editsearch.setVisibility(View.GONE);
+        searchCount.setVisibility(View.GONE);
         editsearch.setTextSize(textSize);
+        searchCount.setTextSize(textSize);
         // Capture Text in EditText
         editsearch.addTextChangedListener(new TextWatcher()
         {
@@ -314,6 +322,8 @@ public class NoteMain extends Activity
                     }
                 };
                 lv.setAdapter(simpleAdpt);
+                if ( pref.getBoolean("pref_search_note_count", true))
+                    searchCount.setText("" + listeNotesRecherche.size());
             }
         });
 
@@ -337,6 +347,8 @@ public class NoteMain extends Activity
                     }
                 };
                 lv.setAdapter(simpleAdpt);
+                if ( pref.getBoolean("pref_search_note_count", true))
+                    searchCount.setText("" + listeNotesRecherche.size());
             }
         });
 
@@ -361,6 +373,8 @@ public class NoteMain extends Activity
                     }
                 };
                 lv.setAdapter(simpleAdpt);
+                if ( pref.getBoolean("pref_search_note_count", true))
+                    searchCount.setText("" + listeNotesRecherche.size());
             }
         });
 
@@ -860,6 +874,7 @@ public class NoteMain extends Activity
                 editsearch.setText("");
 
                 editsearch.setVisibility(View.GONE);
+                searchCount.setVisibility(View.GONE);
                 cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
                 cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
                 cbSearchCase.setVisibility(View.GONE);
@@ -869,6 +884,7 @@ public class NoteMain extends Activity
             else
             {
                 editsearch.setVisibility(View.VISIBLE);
+                searchCount.setVisibility(View.VISIBLE);
                 editsearch.requestFocus();
                 if (pref.getBoolean("displaySearchOptions",true))
                 {
@@ -914,6 +930,7 @@ public class NoteMain extends Activity
             editsearch.setText("");
 
             editsearch.setVisibility(View.GONE);
+            searchCount.setVisibility(View.GONE);
             cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
             cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
             cbSearchCase.setVisibility(View.GONE);
@@ -921,6 +938,7 @@ public class NoteMain extends Activity
             btnClear.setVisibility(View.GONE);
         } else {
             editsearch.setVisibility(View.VISIBLE);
+            searchCount.setVisibility(View.VISIBLE);
             editsearch.requestFocus();
             if (pref.getBoolean("displaySearchOptions",true))
             {

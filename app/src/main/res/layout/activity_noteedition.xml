@@ -1,32 +1,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_noteedition"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
     <FrameLayout
+        android:id="@+id/search_within_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/search_within_note"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <EditText
             android:id="@+id/search_note"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@android:drawable/ic_menu_search"
+            android:layout_marginEnd="50sp"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:inputType="text"
             android:hint="@string/searchText">
-
             <requestFocus />
         </EditText>
 
+        <TextView
+            android:id="@+id/search_note_count"
+            android:layout_width="wrap_content"
+            android:minWidth="20sp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="30sp"
+            android:layout_marginTop="15sp"
+            android:text=""
+            android:textStyle="italic" />
+
         <ImageButton
             android:id="@+id/btn_clear_edition"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
             android:background="@android:drawable/ic_delete"
             android:visibility="gone" />
     </FrameLayout>
