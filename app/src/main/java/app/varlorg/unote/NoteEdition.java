@@ -5,12 +5,15 @@ import static android.app.PendingIntent.getActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -256,6 +259,7 @@ public class NoteEdition extends Activity
             optionsMenu.findItem(R.id.action_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_export).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_share).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            optionsMenu.findItem(R.id.action_copy).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_return).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
         if (pref.getBoolean("pref_edit_mode_view", false) && (intent.getStringExtra(EXTRA_NOTE) != null ))
@@ -403,6 +407,18 @@ public class NoteEdition extends Activity
             Log.d(BuildConfig.APPLICATION_ID, "ACTION_SEND EXTRA_TEXT" + sendIntent.getStringExtra(Intent.EXTRA_TEXT));
             Intent shareIntent = Intent.createChooser(sendIntent, null);
             startActivity(shareIntent);
+        }
+        if (id_menu == R.id.action_copy){
+            // Gets a handle to the clipboard service.
+            ClipboardManager clipboard = (ClipboardManager)
+                    getSystemService(Context.CLIPBOARD_SERVICE);
+            // Creates a new text clip to put on the clipboard.
+            ClipData clip = ClipData.newPlainText("uNote copy", String.valueOf(note.getText()));
+            Log.d(BuildConfig.APPLICATION_ID, " menu_copy - " +  String.valueOf(note.getText()));
+            // Set the clipboard's primary clip.
+            clipboard.setPrimaryClip(clip);
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
+                customToast(getString(android.R.string.copy));
         }
         if (id_menu == R.id.action_export){
             String n = String.valueOf(note.getText());
