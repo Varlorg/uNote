@@ -178,7 +178,10 @@ public class NoteEdition extends Activity
                 @Override
                 public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
                 {
-                    titre.setTag("modified");
+                    if (titre.hasFocus()) {
+                        titre.setTag("modified");
+                        Log.d(BuildConfig.APPLICATION_ID, "titre setTag");
+                    }
                 }
             });
             note.addTextChangedListener(new TextWatcher()
@@ -199,7 +202,10 @@ public class NoteEdition extends Activity
                 @Override
                 public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
                 {
-                    note.setTag("modified");
+                    if (note.hasFocus()) {
+                        note.setTag("modified");
+                        Log.d(BuildConfig.APPLICATION_ID, "note setTag " + note.getTag());
+                    }
                 }
             });
         }
