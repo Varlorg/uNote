@@ -70,7 +70,6 @@ public class NoteEdition extends Activity
     private EditText titreNote;
     private TextView titreNoteTV;
     private Intent intent;
-        private Context context;
 
     void customToast(String msgToDisplay){
         LinearLayout linearLayout=new LinearLayout(getApplicationContext());
@@ -256,6 +255,7 @@ public class NoteEdition extends Activity
 
         if (pref.getBoolean("pref_edit_mode_menu_all", false))
         {
+            this.setTitle("");
             optionsMenu.findItem(R.id.action_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_export).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_share).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
