@@ -97,6 +97,8 @@
 	<string name="menu_delete">Delete</string>
 	<string name="menu_share">Share</string>
 	<string name="menu_detail">Details</string>
+	<string name="menu_copy">Copy content</string>
+	<string name="menu_duplicate">Duplicate</string>
 
 	<string name="detail_title">Title</string>
 	<string name="detail_nb_char">Number of characters</string>

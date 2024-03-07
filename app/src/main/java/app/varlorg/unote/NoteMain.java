@@ -6,11 +6,15 @@ import java.security.MessageDigest;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -519,7 +523,8 @@ public class NoteMain extends Activity
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_delete));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_detail));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_share));
-        menu.add(0, v.getId(), 0, "this.getString(R.string.menu_copy)");
+        menu.add(0, v.getId(), 0, this.getString(R.string.menu_copy));
+        menu.add(0, v.getId(), 0, this.getString(R.string.menu_duplicate));
     }
 
     public static String SHA1(String text)
@@ -710,7 +715,21 @@ public class NoteMain extends Activity
         {
                 exportNote(note);
         }
-        else if (item.getTitle().equals("this.getString(R.string.menu_copy)"))
+        else if (item.getTitle().equals(this.getString(R.string.menu_copy)))
+        {
+            // Gets a handle to the clipboard service.
+            ClipboardManager clipboard = (ClipboardManager)
+                    getSystemService(Context.CLIPBOARD_SERVICE);
+            // Creates a new text clip to put on the clipboard.
+            ClipData clip = ClipData.newPlainText("uNote copy", note.getNote());
+            Log.d(BuildConfig.APPLICATION_ID, " menu_copy - " +  note.getNote());
+            // Set the clipboard's primary clip.
+            clipboard.setPrimaryClip(clip);
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
+                customToast(getString(android.R.string.copy));
+
+        }
+        else if (item.getTitle().equals(this.getString(R.string.menu_duplicate)))
         {
             Note new_note = new Note(note.getTitre(), note.getNote());
             NotesBDD noteBdd = new NotesBDD(NoteMain.this);

@@ -96,6 +96,8 @@
 	<string name="menu_export">Exportação</string>
 	<string name="menu_share">Partilhar</string>
 	<string name="menu_detail">Detalhes</string>
+	<string name="menu_copy">Copiar conteúdo</string>
+	<string name="menu_duplicate">Duplicar</string>
 
 	<string name="detail_title">Título</string>
 	<string name="detail_nb_char">Número de Caracteres</string>
