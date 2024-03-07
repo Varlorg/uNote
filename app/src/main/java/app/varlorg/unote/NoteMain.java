@@ -519,6 +519,7 @@ public class NoteMain extends Activity
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_delete));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_detail));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_share));
+        menu.add(0, v.getId(), 0, "this.getString(R.string.menu_copy)");
     }
 
     public static String SHA1(String text)
@@ -708,6 +709,18 @@ public class NoteMain extends Activity
         else if (item.getTitle().equals(this.getString(R.string.menu_export)))
         {
                 exportNote(note);
+        }
+        else if (item.getTitle().equals("this.getString(R.string.menu_copy)"))
+        {
+            Note new_note = new Note(note.getTitre(), note.getNote());
+            NotesBDD noteBdd = new NotesBDD(NoteMain.this);
+            noteBdd.open();
+            noteBdd.insertNote(new_note);
+            noteBdd.close();
+            listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+            simpleAdpt.clear();
+            simpleAdpt.addAll(listeNotes);
+            simpleAdpt.notifyDataSetChanged();
         }
         else if (item.getTitle().equals(this.getString(R.string.menu_delete)))
         {
