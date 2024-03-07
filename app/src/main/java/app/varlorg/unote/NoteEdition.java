@@ -621,17 +621,25 @@ public class NoteEdition extends Activity
         Note n = new Note(titreEdited, content);
 
         noteBdd.open();
+        long ret_id = 0;
+        int ret_update = 1;
         if (!edit)
         {
-            noteBdd.insertNote(n);
+            ret_id = noteBdd.insertNote(n);
+            id = (int) ret_id;
+            Log.d(BuildConfig.APPLICATION_ID, "insertNote rc " + ret_id);
         }
         else
         {
-            noteBdd.updateNote(id, n);
+            ret_update = noteBdd.updateNote(id, n);
+            Log.d(BuildConfig.APPLICATION_ID, "updateNote  rc " + ret_update);
         }
 
-        Note noteFromBdd = noteBdd.getNoteWithTitre(n.getTitre());
-        if (noteFromBdd != null)
+        Log.d(BuildConfig.APPLICATION_ID, "save id " + id);
+
+        Note noteFromBdd = noteBdd.getNoteWithId(id);
+        Log.d(BuildConfig.APPLICATION_ID, "noteFromBdd " + noteFromBdd);
+        if (noteFromBdd != null && ret_update == 1)
         {
             if (!edit)
             {
