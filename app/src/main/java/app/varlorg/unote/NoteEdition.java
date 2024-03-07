@@ -278,12 +278,16 @@ public class NoteEdition extends Activity
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
             );
 
-            noteT.setText(getString(R.string.TexteEdition) + " \uD83D\uDC41");
+            noteT.setText(getString(R.string.TexteEdition) + " \uD83D\uDC41"); // 👁
             if (pref.getBoolean("pref_edit_mode_view_ui", true))
             {
                 titreT.setVisibility(View.GONE);
                 titreL.setVisibility(View.GONE);
                 noteT.setVisibility(View.GONE);
+                titreNoteTV.setTextSize((float) (textSize * 1.2 ));
+            }
+            else {
+                titreNoteTV.setTextSize(textSize);
             }
 
         }
@@ -368,6 +372,10 @@ public class NoteEdition extends Activity
                     titreT.setVisibility(View.GONE);
                     titreL.setVisibility(View.GONE);
                     noteT.setVisibility(View.GONE);
+                    titreNoteTV.setTextSize((float) (textSize * 1.2 ));
+                }
+                else {
+                    titreNoteTV.setTextSize(textSize);
                 }
             }
 
