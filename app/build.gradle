@@ -29,11 +29,13 @@ android {
 
     buildTypes {
         release {
+            debuggable false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             testCoverageEnabled false
         }
         debug {
+            debuggable true
             testCoverageEnabled = true
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
