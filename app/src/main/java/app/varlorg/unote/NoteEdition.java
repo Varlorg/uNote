@@ -439,7 +439,9 @@ public class NoteEdition extends Activity
                 exportTitle = true;
             }
 
-            File sd            = Environment.getExternalStorageDirectory();
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            File externalFilesDir = getApplicationContext().getExternalFilesDir(null);
+            String outputDir = pref.getString("output_backup_dir", externalFilesDir.toString());
             String exportNoteFile = "unote_";
             if (exportTitle)
             {
@@ -455,7 +457,7 @@ public class NoteEdition extends Activity
             }
             exportNoteFile += ".txt";
 
-            File file = new File(getApplicationContext().getExternalFilesDir(null), exportNoteFile);
+            File file = new File(outputDir, exportNoteFile);
 
             try {
                 FileWriter w = new FileWriter(file,true);

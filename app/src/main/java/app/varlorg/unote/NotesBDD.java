@@ -295,7 +295,11 @@ public class NotesBDD
 
     public String exportDB(Context context)
     {
-        File        sd            = context.getExternalFilesDir(null);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        File externalFilesDir = context.getExternalFilesDir(null);
+        String outputDir = pref.getString("output_backup_dir", externalFilesDir.toString());
+
+        File        sd            = new File(outputDir);
         File        data          = Environment.getDataDirectory();
         FileChannel source        = null;
         FileChannel destination   = null;
@@ -366,11 +370,13 @@ public class NotesBDD
 
     public String exportCSV(Context context)
     {
-        File        sd            = Environment.getExternalStorageDirectory();
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        File externalFilesDir = context.getExternalFilesDir(null);
+        String outputDir = pref.getString("output_backup_dir", externalFilesDir.toString());
 
         String      exportCSVFile  = "unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) + ".csv";
 
-        File file = new File(context.getExternalFilesDir(null), exportCSVFile);
+        File file = new File(outputDir, exportCSVFile);
         try {
             FileWriter csvWrite = new FileWriter(file,true);
             String      selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE " + COL_PASSWORD + " IS NULL ";
@@ -433,7 +439,10 @@ public class NotesBDD
             exportNoteFile += "_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) ;
         }
         exportNoteFile += ".txt";
-        File file = new File(context.getExternalFilesDir(null), exportNoteFile);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        File externalFilesDir = context.getExternalFilesDir(null);
+        String outputDir = pref.getString("output_backup_dir", externalFilesDir.toString());
+        File file = new File(outputDir, exportNoteFile);
         try {
             FileWriter w = new FileWriter(file,false);
             if (this.maBaseSQLite == null )
@@ -513,7 +522,8 @@ public class NotesBDD
         }
         String      destFolder  = "unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime());
         File externalFilesDir = context.getExternalFilesDir(null);
-        File destinationPath = new File(externalFilesDir, destFolder);
+        String outputDir = pref.getString("output_backup_dir", externalFilesDir.toString());
+        File destinationPath = new File(outputDir, destFolder);
         Log.d(BuildConfig.APPLICATION_ID, "exportAllNotes "+ destinationPath);
         if( ! destinationPath.exists())
         {
