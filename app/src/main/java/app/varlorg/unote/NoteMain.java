@@ -481,7 +481,7 @@ public class NoteMain extends Activity
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return(true);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -900,36 +900,7 @@ public class NoteMain extends Activity
         switch (keyCode)
         {
         case KeyEvent.KEYCODE_SEARCH:
-            if (editsearch.getVisibility() == View.VISIBLE)
-            {
-                //Clear research text
-                editsearch.setText("");
-
-                editsearch.setVisibility(View.GONE);
-                searchCount.setVisibility(View.GONE);
-                cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
-                cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
-                cbSearchCase.setVisibility(View.GONE);
-                cbSearchContent.setVisibility(View.GONE);
-                btnClear.setVisibility(View.GONE);
-            }
-            else
-            {
-                editsearch.setVisibility(View.VISIBLE);
-                searchCount.setVisibility(View.VISIBLE);
-                editsearch.requestFocus();
-                if (pref.getBoolean("displaySearchOptions",true))
-                {
-                    cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
-                    cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
-                    cbSearchCase.setVisibility(View.VISIBLE);
-                    cbSearchContent.setVisibility(View.VISIBLE);
-                    cbSearchCase.setChecked(!pref.getBoolean(SEARCH_SENSITIVE, false));
-                    cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
-                }
-                // Button btn_clear is display only when text is typed
-
-            }
+            search(getWindow().getDecorView().getRootView());
             return(true);
 
         case KeyEvent.KEYCODE_MENU:
