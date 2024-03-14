@@ -1,11 +1,15 @@
 package app.varlorg.unote;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CSVUtils {
     private static final char DEFAULT_SEPARATOR = ';';
+    private static final char DEFAULT_QUOTE = '"';
 
     public static void writeLine(Writer w, List<String> values) throws IOException {
         writeLine(w, values, DEFAULT_SEPARATOR, ' ');
@@ -53,5 +57,59 @@ public class CSVUtils {
         w.append(sb.toString());
 
 
+    }
+    public static List<String[]> read(String csvFile, char separators, char customQuote) throws IOException {
+        List<String[]> content = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] fields = parseLine(line, separators, customQuote);
+                content.add(fields);
+            }
+        }
+        return content;
+    }
+    public static List<String[]> read(String csvFile) throws IOException {
+        return read(csvFile, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
+    }
+
+    private static String[] parseLine(String cvsLine, char separators, char customQuote) {
+        List<String> result = new ArrayList<>();
+        if (cvsLine == null || cvsLine.isEmpty()) {
+            return new String[0];
+        }
+        if (customQuote == ' ') {
+            customQuote = DEFAULT_QUOTE;
+        }
+        if (separators == ' ') {
+            separators = DEFAULT_SEPARATOR;
+        }
+        StringBuilder curVal = new StringBuilder();
+        boolean inQuotes = false;
+        char[] chars = cvsLine.toCharArray();
+        for (char ch : chars) {
+            if (inQuotes) {
+                if (ch == customQuote) {
+                    inQuotes = false;
+                } else {
+                    curVal.append(ch);
+                }
+            } else {
+                if (ch == customQuote) {
+                    inQuotes = true;
+                } else if (ch == separators) {
+                    result.add(curVal.toString());
+                    curVal = new StringBuilder();
+                } else if (ch == '\r') {
+                    continue;
+                } else if (ch == '\n') {
+                    break;
+                } else {
+                    curVal.append(ch);
+                }
+            }
+        }
+        result.add(curVal.toString());
+        return result.toArray(new String[0]);
     }
 }

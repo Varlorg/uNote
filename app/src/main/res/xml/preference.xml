@@ -152,6 +152,12 @@
             android:summary="@string/pref_export_csv_db_summary"
             android:title="@string/pref_export_csv_db" />
         <Preference
+            android:selectable="true"
+            android:enabled="true"
+            android:key="importFromCSV"
+            android:title="@string/pref_import_csv"
+            android:summary="@string/pref_import_csv_summary" />
+        <Preference
             android:key="buttonExportAllNotes"
             android:summary="@string/pref_export_all_notes_summary"
             android:title="@string/pref_export_all_notes" />

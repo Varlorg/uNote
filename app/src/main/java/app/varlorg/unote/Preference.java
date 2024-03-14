@@ -22,6 +22,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -177,13 +178,41 @@ public class Preference extends PreferenceActivity {
             }
         });
 
+        android.preference.Preference importFromCSV = findPreference("importFromCSV");
+        importFromCSV.setOnPreferenceClickListener(arg0 -> {
+            Uri uri;
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+                if(!Environment.isExternalStorageManager()){
+                    try {
+                        //uri = Environment.getExternalStoragePublicDirectory();
+                        uri = Uri.parse("package:" + BuildConfig.APPLICATION_ID);
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
+                        intent.addCategory("android.intent.category.DEFAULT");
+                        intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getPackageName())));
+                        startActivity(intent);
+                        final int takeFlags = intent.getFlags()
+                                & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        getContentResolver().takePersistableUriPermission(uri, takeFlags);
+                    } catch (Exception ex){
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                        startActivity(intent);
+                    }
+                }
+            }
+            String outputDir = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("output_backup_dir", getApplicationContext().getExternalFilesDir(null).toString());
+            filePicker(outputDir, true);
+            return true;
+        });
+
         File externalFilesDir = getApplicationContext().getExternalFilesDir(null);
         exportDirCategory = (PreferenceCategory) findPreference("exportInfo");
         //File exportDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
 
         outputDir = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("output_backup_dir", getApplicationContext().getExternalFilesDir(null).toString());
         exportDirCategory.setTitle(this.getString(R.string.export_info_path));
-
 
         exportDirSelect = findPreference("exportDirSelect");
         exportDirSelect.setSummary(this.getString(R.string.export_path_select_summary) + " " + outputDir);
@@ -249,7 +278,7 @@ public class Preference extends PreferenceActivity {
                     File file = new File(dir.getAbsolutePath() + File.separator + filename);
                     if (showFiles)
                         return file.isDirectory()
-                                ;//|| file.isFile() ;&& file.getName().toLowerCase().indexOf("droidshows.db") == 0;
+                                || file.isFile() ;//&& file.getName().toLowerCase().indexOf("droidshows.db") == 0;
                     else
                         return file.isDirectory();
                 }
@@ -271,12 +300,36 @@ public class Preference extends PreferenceActivity {
         }
     }
     private void confirmRestore(final String backupFile) {
-        new AlertDialog.Builder(getApplicationContext())
-                .setTitle("R.string.dialog_restore")
-                .setMessage("R.string.dialog_restore_now")
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.dialog_import_csv))
+                .setMessage(getString(R.string.dialog_import_csv_msg) + " " + backupFile)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Log.d(BuildConfig.APPLICATION_ID, "confirmRestore  " + backupFile);
+                        try {
+                            boolean first = true;
+                            for( String[] l : CSVUtils.read(backupFile,',', '"'))
+                            {
+                                Log.d(BuildConfig.APPLICATION_ID, "CSVUtils read  " + l.length);
+                                for(String elt: l ){
+                                    Log.d(BuildConfig.APPLICATION_ID, "CSVUtils read  " + elt);
+                                }
+                                NotesBDD noteBdd = new NotesBDD(getApplicationContext());
+                                noteBdd.open();
+                                if(first) { // 1st line is "TITLE","DATE_CREATION","DATE_MODIFICATION", "NOTE"
+                                    first = false;
+                                }
+                                else {
+                                    long rc= noteBdd.insertNote(new Note(l[0], l[l.length - 1]));
+                                    if(rc != -1 ){
+                                        customToast("Error");
+                                    }
+                                }
+                                noteBdd.close();
+                            }
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, null)
@@ -284,8 +337,8 @@ public class Preference extends PreferenceActivity {
     }
     private void filePicker(final String folderString, final boolean restoring) {
         File folder = new File(folderString);
-        File[] tempDirList = dirContents(folder, false);
-        //File[] tempDirList = dirContents(folder, restoring);
+        //File[] tempDirList = dirContents(folder, false);
+        File[] tempDirList = dirContents(folder, restoring);
         int showParent = (folderString.equals(Environment.getExternalStorageDirectory().getPath()) ? 0 : 1);
         File[] dirList = new File[tempDirList.length + showParent];
         String[] dirNamesList = new String[tempDirList.length + showParent];

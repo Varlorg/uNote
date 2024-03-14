@@ -55,6 +55,8 @@
     <string name="pref_db">Datenbank</string>
     <string name="pref_export_db">Datenbank exportieren</string>
     <string name="pref_import_db">Datenbank importieren</string>
+    <string name="pref_import_csv">Importieren aus csv</string>
+    <string name="pref_import_csv_summary">Notizen aus einer csv-Datei importieren (zu bestehenden Notizen hinzufügen)</string>
     <string name="pref_preview_limit">Vorschau Limit</string>
     <string name="pref_preview_limit_summary">Anzahl der Zeichen pro Notiz Vorschau</string>
     <string name="pref_keep_position_scroll">Halten Sie die Scrollposition</string>
@@ -150,6 +152,8 @@
     <string name="export_path_select">"Exportpfad ändern "</string>
     <string name="export_path_select_summary">"Aktueller Pfad "</string>
     <string name="pref_edit_mode_edit_ui">Neue Schnittstelle für die Bearbeitung von Notizen</string>
+    <string name="dialog_import_csv">Import CSV</string>
+    <string name="dialog_import_csv_msg">"Notizen aus csv-Datei hinzufügen "</string>
 
     <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>

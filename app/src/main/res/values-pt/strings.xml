@@ -55,6 +55,8 @@
 	<string name="pref_db">Base de Dados</string>
 	<string name="pref_export_db">Exportar Base de Dados</string>
 	<string name="pref_import_db">Importar Base de Dados</string>
+	<string name="pref_import_csv">Importar de csv</string>
+	<string name="pref_import_csv_summary">Importar notas de un archivo csv (añadir a las existentes)</string>
 	<string name="pref_preview_limit">Prever Limite</string>
 	<string name="pref_preview_limit_summary">Número de carateres de previsão por nota</string>
 	<string name="pref_keep_position_scroll">Manter a posição de deslocamento</string>
@@ -150,6 +152,8 @@
 	<string name="export_path_select">"Alterar o caminho de exportação "</string>
 	<string name="export_path_select_summary">"Caminho atual "</string>
 	<string name="pref_edit_mode_edit_ui">Nova interface para editar notas</string>
+	<string name="dialog_import_csv">Importar CSV</string>
+	<string name="dialog_import_csv_msg">"Adicionar notas a partir de um ficheiro csv "</string>
 
 
 	<!-- Not used ? -

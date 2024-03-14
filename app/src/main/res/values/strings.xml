@@ -56,6 +56,8 @@
 	<string name="pref_db">Database</string>
 	<string name="pref_export_db">Export database</string>
 	<string name="pref_import_db">Import database</string>
+	<string name="pref_import_csv">Import from csv</string>
+	<string name="pref_import_csv_summary">Import notes from csv file (add to existing ones)</string>
 	<string name="pref_preview_limit">Preview limit</string>
 	<string name="pref_preview_limit_summary">Number of characters per note previewed</string>
 	<string name="pref_keep_position_scroll">Keep scrolling position</string>
@@ -150,6 +152,8 @@
 	<string name="toast_backup_deleted_error">Deleting backup failed</string>
 	<string name="toast_backup_rename_success">Backup renamed</string>
 	<string name="toast_backup_rename_error">Renaming backup failed</string>
+	<string name="dialog_import_csv">Import CSV</string>
+	<string name="dialog_import_csv_msg">Add notes from csv file </string>
 
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>
