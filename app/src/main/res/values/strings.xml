@@ -29,6 +29,7 @@
 	<string name="cb_sensitive_search">Ignore case</string>
 	<string name="pref_display_search_option">Display search options</string>
 	<string name="pref_search_option_orientation">Vertical search options</string>
+	<string name="pref_search_note_count">Display number of found inside note search</string>
 	<string name="pref_date">Creation date</string>
 	<string name="pref_date_sum">Display creation date</string>
 	<string name="pref_date_mod">Modification Date</string>
@@ -63,9 +64,12 @@
 	<string name="pref_export_all_notes_summary">Export all non-password protected notes in plain text in a folder</string>
 	<string name="pref_export_all_notes">Export all notes in plain text</string>
 	<string name="export_info_path">Export path </string>
+	<string name="export_path_select">Change export path </string>
+	<string name="export_path_select_summary">Current path </string>
 	<string name="pref_edit_mode_view">Set preview as note edition default display</string>
 	<string name="pref_edit_mode_menu_all">Display all menu items when note editing</string>
-	<string name="pref_edit_mode_view_ui">User clean preview note</string>
+	<string name="pref_edit_mode_view_ui">New interface for preview note</string>
+	<string name="pref_edit_mode_edit_ui">New interface for editing note</string>
 	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
 
 	<!-- Preference toasts' text"-->
@@ -87,6 +91,8 @@
 	<string name="pwd_protected">Password Protected</string>
 	<string name="note_deleted">Note deleted !</string>
 	<string name="note_exported">Note exported</string>
+	<string name="note_copied">Note copied</string>
+	<string name="note_duplicated">Note duplicated</string>
 	<string name="toast_pwd_error">Incorrect password</string>
 
 	<string name="menu_title">Note Menu</string>
@@ -96,6 +102,8 @@
 	<string name="menu_delete">Delete</string>
 	<string name="menu_share">Share</string>
 	<string name="menu_detail">Details</string>
+	<string name="menu_copy">Copy content</string>
+	<string name="menu_duplicate">Duplicate</string>
 
 	<string name="detail_title">Title</string>
 	<string name="detail_nb_char">Number of characters</string>

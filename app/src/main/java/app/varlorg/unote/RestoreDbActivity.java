@@ -136,7 +136,10 @@ public class RestoreDbActivity extends ListActivity {
         };
 
         refresh();
-        File        sd            = this.getExternalFilesDir(null);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        File externalFilesDir = getApplicationContext().getExternalFilesDir(null);
+        String outputDir = pref.getString("output_backup_dir", externalFilesDir.toString());
+        File        sd            = new File(outputDir);
         TextView tv = new TextView(this);
         tv.setText(sd.toString() + "/*" + EXTENSION);
         tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
@@ -419,7 +422,10 @@ public class RestoreDbActivity extends ListActivity {
 
     private void refresh()
     {
-        File backupDirectory = this.getExternalFilesDir(null);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        File externalFilesDir = getApplicationContext().getExternalFilesDir(null);
+        String outputDir = pref.getString("output_backup_dir", externalFilesDir.toString());
+        File backupDirectory = new File(outputDir);
 
         adapter.clear();
         if (backupDirectory.isDirectory())

@@ -19,6 +19,10 @@
             android:defaultValue="false"
             android:key="pref_searchCheckboxV"
             android:title="@string/pref_search_option_orientation" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_search_note_count"
+            android:title="@string/pref_search_note_count" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_cat_display">
         <CheckBoxPreference
@@ -73,6 +77,10 @@
             android:defaultValue="true"
             android:key="pref_edit_mode_view_ui"
             android:title="@string/pref_edit_mode_view_ui" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_edit_mode_edit_ui"
+            android:title="@string/pref_edit_mode_edit_ui" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_text_size">
         <ListPreference
@@ -152,7 +160,12 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:key="exportInfo"
-        android:summary="@string/pref_export_all_notes_summary"
-        android:title="@string/pref_export_all_notes" />
+        android:title="@string/export_info_path" />
+    <Preference
+        android:selectable="true"
+        android:enabled="true"
+        android:key="exportDirSelect"
+        android:title="@string/export_path_select"
+        android:summary="@string/export_path_select_summary" />
 
 </PreferenceScreen>	

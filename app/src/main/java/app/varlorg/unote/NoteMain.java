@@ -6,11 +6,15 @@ import java.security.MessageDigest;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -41,6 +45,7 @@ public class NoteMain extends Activity
     private static final String HEX = "0123456789ABCDEF";
     private ArrayAdapter <Note> simpleAdpt;
     private EditText editsearch;
+    private TextView searchCount;
     private ImageButton btnClear;
     private List <Note> listeNotes;
     private CheckBox cbSearchContent;
@@ -104,6 +109,9 @@ public class NoteMain extends Activity
         else
         {
             listeNotes = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+
+            if ( pref.getBoolean("pref_search_note_count", true))
+                searchCount.setText("" + listeNotes.size());
         }
         noteBdd.close();
         simpleAdpt.clear();
@@ -258,6 +266,7 @@ public class NoteMain extends Activity
         buttonAddNote.setTextSize(textSizeButton);
         buttonSearch.setTextSize(textSizeButton);
         buttonReturn.setTextSize(textSizeButton);
+        ((TextView)findViewById(R.id.search_count)).setTextSize(textSizeButton);
 
         final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.buttons);
         buttonsBar.post(new Runnable()
@@ -278,8 +287,11 @@ public class NoteMain extends Activity
 
         // Locate the EditText in listview_main.xml
         editsearch = (EditText)findViewById(R.id.search);
+        searchCount = (TextView) findViewById(R.id.search_count);
         editsearch.setVisibility(View.GONE);
+        searchCount.setVisibility(View.GONE);
         editsearch.setTextSize(textSize);
+        searchCount.setTextSize(textSize);
         // Capture Text in EditText
         editsearch.addTextChangedListener(new TextWatcher()
         {
@@ -314,6 +326,8 @@ public class NoteMain extends Activity
                     }
                 };
                 lv.setAdapter(simpleAdpt);
+                if ( pref.getBoolean("pref_search_note_count", true))
+                    searchCount.setText("" + listeNotesRecherche.size());
             }
         });
 
@@ -337,6 +351,8 @@ public class NoteMain extends Activity
                     }
                 };
                 lv.setAdapter(simpleAdpt);
+                if ( pref.getBoolean("pref_search_note_count", true))
+                    searchCount.setText("" + listeNotesRecherche.size());
             }
         });
 
@@ -361,6 +377,8 @@ public class NoteMain extends Activity
                     }
                 };
                 lv.setAdapter(simpleAdpt);
+                if ( pref.getBoolean("pref_search_note_count", true))
+                    searchCount.setText("" + listeNotesRecherche.size());
             }
         });
 
@@ -463,7 +481,7 @@ public class NoteMain extends Activity
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return(true);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -505,6 +523,8 @@ public class NoteMain extends Activity
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_delete));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_detail));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_share));
+        menu.add(0, v.getId(), 0, this.getString(R.string.menu_copy));
+        menu.add(0, v.getId(), 0, this.getString(R.string.menu_duplicate));
     }
 
     public static String SHA1(String text)
@@ -695,6 +715,36 @@ public class NoteMain extends Activity
         {
                 exportNote(note);
         }
+        else if (item.getTitle().equals(this.getString(R.string.menu_copy)))
+        {
+            // Gets a handle to the clipboard service.
+            ClipboardManager clipboard = (ClipboardManager)
+                    getSystemService(Context.CLIPBOARD_SERVICE);
+            // Creates a new text clip to put on the clipboard.
+            ClipData clip = ClipData.newPlainText("uNote copy", note.getNote());
+            Log.d(BuildConfig.APPLICATION_ID, " menu_copy - " +  note.getNote());
+            // Set the clipboard's primary clip.
+            clipboard.setPrimaryClip(clip);
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
+                customToast(this.getString(R.string.note_copied));
+                //customToast(getString(android.R.string.copy));
+
+        }
+        else if (item.getTitle().equals(this.getString(R.string.menu_duplicate)))
+        {
+            Note new_note = new Note(note.getTitre(), note.getNote());
+            NotesBDD noteBdd = new NotesBDD(NoteMain.this);
+            noteBdd.open();
+            long rc= noteBdd.insertNote(new_note);
+            noteBdd.close();
+            listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+            simpleAdpt.clear();
+            simpleAdpt.addAll(listeNotes);
+            simpleAdpt.notifyDataSetChanged();
+            if(rc != -1 ){
+                customToast(this.getString(R.string.menu_duplicate));
+            }
+        }
         else if (item.getTitle().equals(this.getString(R.string.menu_delete)))
         {
             pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -854,34 +904,7 @@ public class NoteMain extends Activity
         switch (keyCode)
         {
         case KeyEvent.KEYCODE_SEARCH:
-            if (editsearch.getVisibility() == View.VISIBLE)
-            {
-                //Clear research text
-                editsearch.setText("");
-
-                editsearch.setVisibility(View.GONE);
-                cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
-                cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
-                cbSearchCase.setVisibility(View.GONE);
-                cbSearchContent.setVisibility(View.GONE);
-                btnClear.setVisibility(View.GONE);
-            }
-            else
-            {
-                editsearch.setVisibility(View.VISIBLE);
-                editsearch.requestFocus();
-                if (pref.getBoolean("displaySearchOptions",true))
-                {
-                    cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
-                    cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
-                    cbSearchCase.setVisibility(View.VISIBLE);
-                    cbSearchContent.setVisibility(View.VISIBLE);
-                    cbSearchCase.setChecked(!pref.getBoolean(SEARCH_SENSITIVE, false));
-                    cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
-                }
-                // Button btn_clear is display only when text is typed
-
-            }
+            search(getWindow().getDecorView().getRootView());
             return(true);
 
         case KeyEvent.KEYCODE_MENU:
@@ -914,6 +937,7 @@ public class NoteMain extends Activity
             editsearch.setText("");
 
             editsearch.setVisibility(View.GONE);
+            searchCount.setVisibility(View.GONE);
             cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
             cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
             cbSearchCase.setVisibility(View.GONE);
@@ -921,6 +945,7 @@ public class NoteMain extends Activity
             btnClear.setVisibility(View.GONE);
         } else {
             editsearch.setVisibility(View.VISIBLE);
+            searchCount.setVisibility(View.VISIBLE);
             editsearch.requestFocus();
             if (pref.getBoolean("displaySearchOptions",true))
             {

@@ -5,12 +5,15 @@ import static android.app.PendingIntent.getActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -67,7 +70,6 @@ public class NoteEdition extends Activity
     private EditText titreNote;
     private TextView titreNoteTV;
     private Intent intent;
-        private Context context;
 
     void customToast(String msgToDisplay){
         LinearLayout linearLayout=new LinearLayout(getApplicationContext());
@@ -178,7 +180,10 @@ public class NoteEdition extends Activity
                 @Override
                 public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
                 {
-                    titre.setTag("modified");
+                    if (titre.hasFocus()) {
+                        titre.setTag("modified");
+                        Log.d(BuildConfig.APPLICATION_ID, "titre setTag");
+                    }
                 }
             });
             note.addTextChangedListener(new TextWatcher()
@@ -199,7 +204,10 @@ public class NoteEdition extends Activity
                 @Override
                 public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
                 {
-                    note.setTag("modified");
+                    if (note.hasFocus()) {
+                        note.setTag("modified");
+                        Log.d(BuildConfig.APPLICATION_ID, "note setTag " + note.getTag());
+                    }
                 }
             });
         }
@@ -247,9 +255,11 @@ public class NoteEdition extends Activity
 
         if (pref.getBoolean("pref_edit_mode_menu_all", false))
         {
+            this.setTitle("");
             optionsMenu.findItem(R.id.action_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_export).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_share).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            optionsMenu.findItem(R.id.action_copy).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_return).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
         if (pref.getBoolean("pref_edit_mode_view", false) && (intent.getStringExtra(EXTRA_NOTE) != null ))
@@ -278,12 +288,16 @@ public class NoteEdition extends Activity
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
             );
 
-            noteT.setText(getString(R.string.TexteEdition) + " \uD83D\uDC41");
+            noteT.setText(getString(R.string.TexteEdition) + " \uD83D\uDC41"); // 👁
             if (pref.getBoolean("pref_edit_mode_view_ui", true))
             {
                 titreT.setVisibility(View.GONE);
                 titreL.setVisibility(View.GONE);
                 noteT.setVisibility(View.GONE);
+                titreNoteTV.setTextSize((float) (textSize * 1.2 ));
+            }
+            else {
+                titreNoteTV.setTextSize(textSize);
             }
 
         }
@@ -296,6 +310,16 @@ public class NoteEdition extends Activity
             note.setTextIsSelectable(true);
             titreNote.setTextIsSelectable(true);
             noteT.setText( getString(R.string.TexteEdition) + " \u270d\ufe0e" ); //✍  ✏️ ?
+            if (pref.getBoolean("pref_edit_mode_edit_ui", false))
+            {
+                titreT.setVisibility(View.GONE);
+                titreL.setVisibility(View.GONE);
+                noteT.setVisibility(View.GONE);
+                titreNote.setTextSize((float) (textSize * 1.2 ));
+            }
+            else {
+                titreNote.setTextSize(textSize);
+            }
         }
         return true;
     }
@@ -335,6 +359,16 @@ public class NoteEdition extends Activity
 
                 noteT.setVisibility(View.VISIBLE);
                 noteT.setText( getString(R.string.TexteEdition) + " \u270d\ufe0e" ); //✍  ✏️ ?  ✏︎
+                if (pref.getBoolean("pref_edit_mode_edit_ui", false))
+                {
+                    titreT.setVisibility(View.GONE);
+                    titreL.setVisibility(View.GONE);
+                    noteT.setVisibility(View.GONE);
+                    titreNote.setTextSize((float) (textSize * 1.2 ));
+                }
+                else {
+                    titreNote.setTextSize(textSize);
+                }
             }
             else {
                 item.setIcon(android.R.drawable.ic_menu_edit);
@@ -368,6 +402,10 @@ public class NoteEdition extends Activity
                     titreT.setVisibility(View.GONE);
                     titreL.setVisibility(View.GONE);
                     noteT.setVisibility(View.GONE);
+                    titreNoteTV.setTextSize((float) (textSize * 1.2 ));
+                }
+                else {
+                    titreNoteTV.setTextSize(textSize);
                 }
             }
 
@@ -390,6 +428,18 @@ public class NoteEdition extends Activity
             Intent shareIntent = Intent.createChooser(sendIntent, null);
             startActivity(shareIntent);
         }
+        if (id_menu == R.id.action_copy){
+            // Gets a handle to the clipboard service.
+            ClipboardManager clipboard = (ClipboardManager)
+                    getSystemService(Context.CLIPBOARD_SERVICE);
+            // Creates a new text clip to put on the clipboard.
+            ClipData clip = ClipData.newPlainText("uNote copy", String.valueOf(note.getText()));
+            Log.d(BuildConfig.APPLICATION_ID, " menu_copy - " +  String.valueOf(note.getText()));
+            // Set the clipboard's primary clip.
+            clipboard.setPrimaryClip(clip);
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
+                customToast(getString(android.R.string.copy));
+        }
         if (id_menu == R.id.action_export){
             String n = String.valueOf(note.getText());
             String t = String.valueOf(titreNote.getText());
@@ -409,7 +459,9 @@ public class NoteEdition extends Activity
                 exportTitle = true;
             }
 
-            File sd            = Environment.getExternalStorageDirectory();
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            File externalFilesDir = getApplicationContext().getExternalFilesDir(null);
+            String outputDir = pref.getString("output_backup_dir", externalFilesDir.toString());
             String exportNoteFile = "unote_";
             if (exportTitle)
             {
@@ -425,7 +477,7 @@ public class NoteEdition extends Activity
             }
             exportNoteFile += ".txt";
 
-            File file = new File(getApplicationContext().getExternalFilesDir(null), exportNoteFile);
+            File file = new File(outputDir, exportNoteFile);
 
             try {
                 FileWriter w = new FileWriter(file,true);
@@ -505,8 +557,10 @@ public class NoteEdition extends Activity
 
             searchNote = findViewById(R.id.search_note);
             final FrameLayout searchNote_lay = findViewById(R.id.search_within_note);
+            final TextView searchNoteCountTV = (TextView)findViewById(R.id.search_note_count);
             final ImageButton btnClear = (ImageButton)findViewById(R.id.btn_clear_edition);
             searchNote.setTextSize(textSize);
+            searchNoteCountTV.setTextSize(textSize);
 
             ViewGroup.LayoutParams params=btnClear.getLayoutParams();
             params.width=Math.max(textSize*2,40);
@@ -518,8 +572,10 @@ public class NoteEdition extends Activity
             if (searchNote_lay.getVisibility() == View.VISIBLE)
             {
                 searchNote.setText("");
+                searchNoteCountTV.setText("");
                 note.setText(note.getText().toString());
                 searchNote_lay.setVisibility(View.GONE);
+                searchNoteCountTV.setVisibility(View.GONE);
                 btnClear.setVisibility(View.GONE);
             }
             else {
@@ -542,10 +598,14 @@ public class NoteEdition extends Activity
                         if (!searchNote.getText().toString().equals(""))   //if edittext include text
                         {
                             btnClear.setVisibility(View.VISIBLE);
-                            highlightText(s.toString());
+                            searchNoteCountTV.setVisibility(View.VISIBLE);
+                            int patternFoundNb = highlightText(s.toString());
+                            if ( pref.getBoolean("pref_search_note_count", true))
+                                searchNoteCountTV.setText("" + patternFoundNb);
                         } else     //not include text
                         {
                             btnClear.setVisibility(View.GONE);
+                            searchNoteCountTV.setVisibility(View.GONE);
                             note.setText(note.getText().toString());
                         }
                     }
@@ -605,17 +665,25 @@ public class NoteEdition extends Activity
         Note n = new Note(titreEdited, content);
 
         noteBdd.open();
+        long ret_id = 0;
+        int ret_update = 1;
         if (!edit)
         {
-            noteBdd.insertNote(n);
+            ret_id = noteBdd.insertNote(n);
+            id = (int) ret_id;
+            Log.d(BuildConfig.APPLICATION_ID, "insertNote rc " + ret_id);
         }
         else
         {
-            noteBdd.updateNote(id, n);
+            ret_update = noteBdd.updateNote(id, n);
+            Log.d(BuildConfig.APPLICATION_ID, "updateNote  rc " + ret_update);
         }
 
-        Note noteFromBdd = noteBdd.getNoteWithTitre(n.getTitre());
-        if (noteFromBdd != null)
+        Log.d(BuildConfig.APPLICATION_ID, "save id " + id);
+
+        Note noteFromBdd = noteBdd.getNoteWithId(id);
+        Log.d(BuildConfig.APPLICATION_ID, "noteFromBdd " + noteFromBdd);
+        if (noteFromBdd != null && ret_update == 1)
         {
             if (!edit)
             {

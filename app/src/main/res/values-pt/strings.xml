@@ -62,10 +62,12 @@
 	<string name="pref_export_csv_db_summary">Exportar todas as notas não protegidas por senha para o formato de arquivo csv</string>
 	<string name="pref_export_all_notes_summary">Exportar todas as notas não protegidas por palavra-passe em texto simples numa pasta</string>
 	<string name="pref_export_all_notes">Exportar todas as notas em texto simples</string>
+	<string name="note_copied">Nota copiada</string>
+	<string name="pref_search_note_count">Mostrar o número de notas encontradas dentro da pesquisa de notas</string>
 	<string name="export_info_path">Caminho de exportação </string>
 	<string name="pref_edit_mode_view">Definir a pré-visualização como ecrã predefinido da edição de notas</string>
 	<string name="pref_edit_mode_menu_all">Mostrar todos os itens de menu ao editar uma nota</string>
-	<string name="pref_edit_mode_view_ui">Utilizar a nova pré-visualização</string>
+	<string name="pref_edit_mode_view_ui">Nova interface para a nota de pré-visualização</string>
 	<!--<string name="pref_clean_db">Limpar Base de Dados (Apagar todas as notas)</string>-->
 
 	<!-- Preference toasts' text"-->
@@ -86,7 +88,8 @@
 	<!-- Note Main toasts' text"-->
 	<string name="pwd_protected">Protegida por Password</string>
 	<string name="note_deleted">Nota apagada!</string>
-	<string name="note_exported">Nota exportada</string>
+    <string name="note_duplicated">Nota duplicada</string>
+    <string name="note_exported">Nota exportada</string>
 	<string name="toast_pwd_error">Password incorreta</string>
 
 	<string name="menu_title">Menu Nota</string>
@@ -96,6 +99,8 @@
 	<string name="menu_export">Exportação</string>
 	<string name="menu_share">Partilhar</string>
 	<string name="menu_detail">Detalhes</string>
+	<string name="menu_copy">Copiar conteúdo</string>
+	<string name="menu_duplicate">Duplicar</string>
 
 	<string name="detail_title">Título</string>
 	<string name="detail_nb_char">Número de Caracteres</string>
@@ -142,6 +147,9 @@
 	<string name="toast_backup_deleted_error">Falha na supressão de backup</string>
 	<string name="toast_backup_rename_success">Cópia de segurança renomeada</string>
 	<string name="toast_backup_rename_error">Falha ao renomear a cópia</string>
+	<string name="export_path_select">"Alterar o caminho de exportação "</string>
+	<string name="export_path_select_summary">"Caminho atual "</string>
+	<string name="pref_edit_mode_edit_ui">Nova interface para editar notas</string>
 
 
 	<!-- Not used ? -

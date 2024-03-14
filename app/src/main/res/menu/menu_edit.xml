@@ -35,6 +35,10 @@
         android:title="@string/menu_share"
         android:showAsAction="ifRoom" />
     <item
+        android:id="@+id/action_copy"
+        android:title="@android:string/copy"
+        android:showAsAction="never" />
+    <item
         android:id="@+id/action_return"
         android:icon="@android:drawable/ic_menu_revert"
         android:title="@string/returnB"
