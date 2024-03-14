@@ -186,7 +186,7 @@ public class Preference extends PreferenceActivity {
 
 
         exportDirSelect = findPreference("exportDirSelect");
-        exportDirSelect.setSummary(this.getString(R.string.export_info_path) + " " + outputDir);
+        exportDirSelect.setSummary(this.getString(R.string.export_path_select_summary) + " " + outputDir);
         exportDirSelect.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
             @Override
@@ -221,7 +221,7 @@ public class Preference extends PreferenceActivity {
                 return true;
             }
         });
-        exportDirSelect.setSummary(this.getString(R.string.export_info_path) + " " + outputDir);
+        exportDirSelect.setSummary(this.getString(R.string.export_path_select_summary) + " " + outputDir);
 
     }
     private void openDirectory() {
@@ -337,29 +337,29 @@ public class Preference extends PreferenceActivity {
         filePicker.show();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        if (requestCode == REQUEST_CODE_OPEN_DIRECTORY && resultCode == Activity.RESULT_OK) {
-            uri = null;
-            if (resultData != null) {
-                uri = resultData.getData();
-                /*final int takeFlags = intent.getFlags()
-                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                getContentResolver().takePersistableUriPermission(uri, takeFlags);*/
-                // Enregistrez l'URI pour une utilisation ultérieure
-                Log.d(BuildConfig.APPLICATION_ID, "uri " + uri );
-                try {
-                    //String docId = DocumentsContract.getTreeDocumentId(uri);
-                    //exportDirSelect.setSummary(Preference.this.getString(R.string.export_info_path) + " " + docId  );
-                    //exportDirSelect.setSummary(Preference.this.getString(R.string.export_info_path)  );
-                    exportDirSelect.setSummary(Preference.this.getString(R.string.export_info_path) + " " + getContentResolver().openInputStream(uri)  );
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+//        if (requestCode == REQUEST_CODE_OPEN_DIRECTORY && resultCode == Activity.RESULT_OK) {
+//            uri = null;
+//            if (resultData != null) {
+//                uri = resultData.getData();
+//                /*final int takeFlags = intent.getFlags()
+//                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+//                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//                getContentResolver().takePersistableUriPermission(uri, takeFlags);*/
+//                // Enregistrez l'URI pour une utilisation ultérieure
+//                Log.d(BuildConfig.APPLICATION_ID, "uri " + uri );
+//                try {
+//                    //String docId = DocumentsContract.getTreeDocumentId(uri);
+//                    //exportDirSelect.setSummary(Preference.this.getString(R.string.export_info_path) + " " + docId  );
+//                    //exportDirSelect.setSummary(Preference.this.getString(R.string.export_info_path)  );
+//                    exportDirSelect.setSummary(Preference.this.getString(R.string.export_info_path) + " " + getContentResolver().openInputStream(uri)  );
+//                } catch (FileNotFoundException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        }
+//    }
 
     @Override
     public void onBackPressed()

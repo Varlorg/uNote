@@ -726,7 +726,8 @@ public class NoteMain extends Activity
             // Set the clipboard's primary clip.
             clipboard.setPrimaryClip(clip);
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2)
-                customToast(getString(android.R.string.copy));
+                customToast(this.getString(R.string.note_copied));
+                //customToast(getString(android.R.string.copy));
 
         }
         else if (item.getTitle().equals(this.getString(R.string.menu_duplicate)))
@@ -734,12 +735,15 @@ public class NoteMain extends Activity
             Note new_note = new Note(note.getTitre(), note.getNote());
             NotesBDD noteBdd = new NotesBDD(NoteMain.this);
             noteBdd.open();
-            noteBdd.insertNote(new_note);
+            long rc= noteBdd.insertNote(new_note);
             noteBdd.close();
             listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
             simpleAdpt.clear();
             simpleAdpt.addAll(listeNotes);
             simpleAdpt.notifyDataSetChanged();
+            if(rc != -1 ){
+                customToast(this.getString(R.string.menu_duplicate));
+            }
         }
         else if (item.getTitle().equals(this.getString(R.string.menu_delete)))
         {

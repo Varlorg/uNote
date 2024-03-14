@@ -156,12 +156,12 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:key="exportInfo"
-        android:title="@string/pref_export_all_notes" />
+        android:title="@string/export_info_path" />
     <Preference
         android:selectable="true"
         android:enabled="true"
         android:key="exportDirSelect"
-        android:title="Export dir"
-        android:summary="@string/pref_export_all_notes" />
+        android:title="@string/export_path_select"
+        android:summary="@string/export_path_select_summary" />
 
 </PreferenceScreen>	
