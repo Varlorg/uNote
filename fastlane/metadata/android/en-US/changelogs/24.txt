@@ -8,3 +8,4 @@ New features
 - Add note duplication and content copy to clipboard
 - Backup rename and info (nb of notes and date)
 - Select export folder
+- Import from csv file
