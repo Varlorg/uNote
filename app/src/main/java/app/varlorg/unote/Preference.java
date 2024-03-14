@@ -320,8 +320,9 @@ public class Preference extends PreferenceActivity {
                                     first = false;
                                 }
                                 else {
-                                    long rc= noteBdd.insertNote(new Note(l[0], l[l.length - 1]));
-                                    if(rc != -1 ){
+                                    long rc = noteBdd.insertNote(new Note(l[0], l[l.length - 1]));
+                                    if(rc == -1 ){
+                                        Log.d(BuildConfig.APPLICATION_ID, "CSVUtils insert error  " + String.join("-", l));
                                         customToast("Error");
                                     }
                                 }

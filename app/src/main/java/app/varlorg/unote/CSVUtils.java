@@ -62,21 +62,30 @@ public class CSVUtils {
         List<String[]> content = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             String line;
+            List<String> fields = new ArrayList<>();
+            StringBuilder sb = new StringBuilder();
             while ((line = br.readLine()) != null) {
-                String[] fields = parseLine(line, separators, customQuote);
-                content.add(fields);
+                sb.append(line);
+                if (countQuotes(sb.toString(), DEFAULT_QUOTE) % 2 == 0) {
+                    fields = parseLine(sb.toString(), separators, customQuote);
+                    content.add(fields.toArray(new String[0]));
+                    sb = new StringBuilder();  // reset the StringBuilder after parsing a line
+                } else {
+                    sb.append("\n");  // add newline character for multiline fields
+                }
             }
         }
         return content;
     }
+
     public static List<String[]> read(String csvFile) throws IOException {
         return read(csvFile, DEFAULT_SEPARATOR, DEFAULT_QUOTE);
     }
 
-    private static String[] parseLine(String cvsLine, char separators, char customQuote) {
+    private static List<String> parseLine(String cvsLine, char separators, char customQuote) {
         List<String> result = new ArrayList<>();
         if (cvsLine == null || cvsLine.isEmpty()) {
-            return new String[0];
+            return result;
         }
         if (customQuote == ' ') {
             customQuote = DEFAULT_QUOTE;
@@ -110,6 +119,16 @@ public class CSVUtils {
             }
         }
         result.add(curVal.toString());
-        return result.toArray(new String[0]);
+        return result;
+    }
+
+    private static int countQuotes(String str, char quoteChar) {
+        int count = 0;
+        for (char c : str.toCharArray()) {
+            if (c == quoteChar) {
+                count++;
+            }
+        }
+        return count;
     }
 }
