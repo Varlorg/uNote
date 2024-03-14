@@ -77,6 +77,10 @@
             android:defaultValue="true"
             android:key="pref_edit_mode_view_ui"
             android:title="@string/pref_edit_mode_view_ui" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_edit_mode_edit_ui"
+            android:title="@string/pref_edit_mode_edit_ui" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_text_size">
         <ListPreference

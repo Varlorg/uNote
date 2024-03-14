@@ -310,6 +310,16 @@ public class NoteEdition extends Activity
             note.setTextIsSelectable(true);
             titreNote.setTextIsSelectable(true);
             noteT.setText( getString(R.string.TexteEdition) + " \u270d\ufe0e" ); //✍  ✏️ ?
+            if (pref.getBoolean("pref_edit_mode_edit_ui", false))
+            {
+                titreT.setVisibility(View.GONE);
+                titreL.setVisibility(View.GONE);
+                noteT.setVisibility(View.GONE);
+                titreNote.setTextSize((float) (textSize * 1.2 ));
+            }
+            else {
+                titreNote.setTextSize(textSize);
+            }
         }
         return true;
     }
@@ -349,6 +359,16 @@ public class NoteEdition extends Activity
 
                 noteT.setVisibility(View.VISIBLE);
                 noteT.setText( getString(R.string.TexteEdition) + " \u270d\ufe0e" ); //✍  ✏️ ?  ✏︎
+                if (pref.getBoolean("pref_edit_mode_edit_ui", false))
+                {
+                    titreT.setVisibility(View.GONE);
+                    titreL.setVisibility(View.GONE);
+                    noteT.setVisibility(View.GONE);
+                    titreNote.setTextSize((float) (textSize * 1.2 ));
+                }
+                else {
+                    titreNote.setTextSize(textSize);
+                }
             }
             else {
                 item.setIcon(android.R.drawable.ic_menu_edit);
