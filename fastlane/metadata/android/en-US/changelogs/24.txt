@@ -1,5 +1,10 @@
+Fix
+- Screen scrolling in reading mode 
+
 New features
 - Add note export as text file
-- Change preview ui
+- Change preview and editing ui
 - Add share capability
+- Add note duplication and content copy to clipboard
 - Backup rename and info (nb of notes and date)
+- Select export folder
