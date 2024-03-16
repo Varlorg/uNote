@@ -55,8 +55,8 @@
 	<string name="pref_db">Base de donnée</string>
 	<string name="pref_export_db">Exporter la base de donnée</string>
 	<string name="pref_import_db">Importer une base de donnée</string>
-	<string name="pref_import_csv">Importer de CSV</string>
-	<string name="pref_import_csv_summary">Importer des notes à partir d\'un fichier csv (ajouter aux notes existantes)</string>
+	<string name="pref_import_csv">Importer CSV</string>
+	<string name="pref_import_csv_summary">Importer des notes à partir d\'un fichier csv (ajoute aux notes existantes)</string>
 	<string name="pref_preview_limit">Limite de l\'aperçu</string>
 	<string name="pref_preview_limit_summary">Nombre de caractères lors de l\'aperçu</string>
 	<string name="pref_keep_position_scroll">Garder la position de défilement</string>
