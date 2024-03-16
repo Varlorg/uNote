@@ -69,6 +69,7 @@
     <string name="note_copied">Notiz kopiert</string>
     <string name="pref_search_note_count">Anzeige der Anzahl der gefundenen Zettel innerhalb der Suche</string>
     <string name="export_info_path">Pfad exportieren </string>
+    <string name="pref_main_mode_menu_all">Alle Menüpunkte im Hauptfenster anzeigen</string>
     <string name="pref_edit_mode_view">Vorschau als Standardanzeige der Notenbearbeitung einstellen</string>
     <string name="pref_edit_mode_menu_all">Alle Menüpunkte bei der Notenbearbeitung anzeigen</string>
     <string name="pref_edit_mode_view_ui">Neue Schnittstelle für Vorschaunotizen</string>

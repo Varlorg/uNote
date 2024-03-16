@@ -69,6 +69,7 @@
 	<string name="export_info_path">Chemin d\'export </string>
 	<string name="export_path_select">Changer le chemin d\'export </string>
 	<string name="export_path_select_summary">Chemin actuel </string>
+	<string name="pref_main_mode_menu_all">Afficher tous les éléments du menu dans la fenêtre principale</string>
 	<string name="pref_edit_mode_view">Définir l\'aperçu comme affichage par défaut en mode edition</string>
 	<string name="pref_edit_mode_menu_all">Afficher tous les menus en mode edition</string>
 	<string name="pref_edit_mode_view_ui">Nouvelle interface pour aperçu</string>

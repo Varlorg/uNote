@@ -66,6 +66,10 @@
             android:key="pref_notifications"
             android:title="@string/pref_notifications" />
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_main_mode_menu_all"
+            android:title="@string/pref_main_mode_menu_all" />
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_edit_mode_menu_all"
             android:title="@string/pref_edit_mode_menu_all" />

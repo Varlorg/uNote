@@ -69,6 +69,7 @@
 	<string name="note_copied">Nota copiada</string>
 	<string name="pref_search_note_count">Mostrar el número de encontrados dentro de la búsqueda de notas</string>
 	<string name="export_info_path">Ruta de exportación  </string>
+	<string name="pref_main_mode_menu_all">Mostrar todos los elementos del menú en la ventana principal</string>
 	<string name="pref_edit_mode_view">Establecer la vista previa como visualización por defecto de la edición de notas</string>
 	<string name="pref_edit_mode_menu_all">Mostrar todos los elementos del menú al editar notas</string>
 	<string name="pref_edit_mode_view_ui">Nueva interfaz para la nota de previsualización</string>
