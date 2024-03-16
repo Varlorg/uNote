@@ -70,9 +70,9 @@
 	<string name="export_info_path">Export path </string>
 	<string name="export_path_select">Change export path </string>
 	<string name="export_path_select_summary">Current path </string>
-	<string name="pref_main_mode_menu_all">Display all menu items in main window</string>
+	<string name="pref_main_mode_menu_all">Display all menus in the main window</string>
 	<string name="pref_edit_mode_view">Set preview as note edition default display</string>
-	<string name="pref_edit_mode_menu_all">Display all menu items when note editing</string>
+	<string name="pref_edit_mode_menu_all">Display all menus in edition mode</string>
 	<string name="pref_edit_mode_view_ui">New interface for preview note</string>
 	<string name="pref_edit_mode_edit_ui">New interface for editing note</string>
 	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
