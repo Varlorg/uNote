@@ -9,6 +9,8 @@
 	<string name="searchText">Buscar</string>
 	<string name="search">Buscar</string>
 	<string name="quit">Salir</string>
+	<string name="action_multi">Modo selección</string>
+	<string name="item_selected">notas seleccionadas</string>
 
 	<!-- Edit -->
 	<string name="returnB">Volver</string>
@@ -93,6 +95,7 @@
     <string name="note_duplicated">Nota duplicada</string>
     <string name="note_exported">Nota exportada</string>
     <string name="toast_pwd_error">Contraseña incorrecta</string>
+	<string name="selected_notes_deleted">notas seleccionadas borradas</string>
 
 	<string name="menu_title">Menu de nota</string>
 	<string name="menu_edit">Editar</string>

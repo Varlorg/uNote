@@ -9,6 +9,8 @@
 	<string name="searchText">Search</string>
 	<string name="search">Search</string>
 	<string name="quit">Quit</string>
+	<string name="action_multi">Select mode</string>
+	<string name="item_selected">selected notes</string>
 
 	<!-- Edit -->
 	<string name="returnB">Return</string>
@@ -96,6 +98,7 @@
 	<string name="note_copied">Note copied</string>
 	<string name="note_duplicated">Note duplicated</string>
 	<string name="toast_pwd_error">Incorrect password</string>
+	<string name="selected_notes_deleted">selected notes deleted</string>
 
 	<string name="menu_title">Note Menu</string>
 	<string name="menu_edit">Edit</string>

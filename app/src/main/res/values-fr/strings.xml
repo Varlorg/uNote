@@ -8,6 +8,8 @@
 	<string name="searchText">Recherche</string>
 	<string name="search">Chercher</string>
 	<string name="quit">Quitter</string>
+	<string name="action_multi">Mode sélection</string>
+	<string name="item_selected">notes sélectionnées</string>
 
 	<!-- Edit -->
 	<string name="returnB">Retour</string>
@@ -98,6 +100,7 @@
 	<string name="note_copied">Note copiée</string>
 	<string name="note_duplicated">Note dupliquée</string>
 	<string name="toast_pwd_error">Mot de passe incorrect</string>
+	<string name="selected_notes_deleted">notes sélectionnées supprimées</string>
 
 	<string name="menu_title">Note Menu</string>
 	<string name="menu_edit">Éditer</string>
