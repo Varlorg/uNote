@@ -57,7 +57,7 @@
 	<string name="pref_db">Base de donnée</string>
 	<string name="pref_export_db">Exporter la base de donnée</string>
 	<string name="pref_import_db">Importer une base de donnée</string>
-	<string name="pref_import_csv">Importer CSV</string>
+	<string name="pref_import_csv">Importer csv</string>
 	<string name="pref_import_csv_summary">Importer des notes à partir d\'un fichier csv (ajoute aux notes existantes)</string>
 	<string name="pref_preview_limit">Limite de l\'aperçu</string>
 	<string name="pref_preview_limit_summary">Nombre de caractères lors de l\'aperçu</string>
@@ -158,6 +158,6 @@
 	<string name="toast_backup_deleted_error">Échec de la suppression de la sauvegarde</string>
 	<string name="toast_backup_rename_success">Sauvegarde renommée</string>
 	<string name="toast_backup_rename_error">Échec du renommage de la sauvegarde</string>
-	<string name="dialog_import_csv">Importer CSV</string>
+	<string name="dialog_import_csv">Importer csv</string>
 	<string name="dialog_import_csv_msg">"Ajouter des notes à partir d'un fichier csv "</string>
 </resources>

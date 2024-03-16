@@ -156,7 +156,7 @@
 	<string name="toast_backup_deleted_error">Deleting backup failed</string>
 	<string name="toast_backup_rename_success">Backup renamed</string>
 	<string name="toast_backup_rename_error">Renaming backup failed</string>
-	<string name="dialog_import_csv">Import CSV</string>
+	<string name="dialog_import_csv">Import csv</string>
 	<string name="dialog_import_csv_msg">Add notes from csv file </string>
 
 	<!-- Not used ? -
