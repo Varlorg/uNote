@@ -873,7 +873,7 @@ public class NoteMain extends Activity
             simpleAdpt.addAll(listeNotes);
             simpleAdpt.notifyDataSetChanged();
             if(rc != -1 ){
-                customToast(this.getString(R.string.menu_duplicate));
+                customToast(this.getString(R.string.note_duplicated));
             }
         }
         else if (item.getTitle().equals(this.getString(R.string.menu_delete)))
