@@ -3,9 +3,11 @@ Fix
 
 New features
 - Add note export as text file
-- Change preview and editing ui
+- Add new preview and editing ui
 - Add share capability
-- Add note duplication and content copy to clipboard
+- Add note duplication
+- Add content copy to clipboard
 - Backup rename and info (nb of notes and date)
 - Select export folder
 - Import from csv file
+- Note multi-selection for deletion
