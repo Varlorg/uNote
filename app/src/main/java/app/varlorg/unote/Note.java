@@ -15,6 +15,7 @@ public class Note
     private String dateCreation;
     private String dateModification;
     private String password;
+    private boolean selected = false;
 
     public Note(String t, String c)
     {
@@ -135,5 +136,13 @@ public class Note
     {
         // pw is null for removing password
         this.password = pw;
+    }
+    public boolean isSelected()
+    {
+        return(this.selected);
+    }
+    public void setSelected(boolean checked)
+    {
+        this.selected  = checked;
     }
 }
