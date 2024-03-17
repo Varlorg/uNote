@@ -542,7 +542,6 @@ public class NoteMain extends Activity
                                 deleteNote(n, false);
                             }
                             lv.clearChoices();
-                            simpleAdpt.notifyDataSetChanged();
                             if (pref.getBoolean("pref_notifications", true))
                             {
                                 customToast(notesToDelete.size() + " " + getString(R.string.selected_notes_deleted));
@@ -680,7 +679,14 @@ public class NoteMain extends Activity
         noteBdd.open();
         noteBdd.removeNoteWithID(note.getId());
         noteBdd.close();
-        simpleAdpt.notifyDataSetChanged();
+        if (editsearch.getVisibility() == View.VISIBLE){
+            updateSearch();
+        } else {
+            listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+            simpleAdpt.clear();
+            simpleAdpt.addAll(listeNotes);
+            simpleAdpt.notifyDataSetChanged();
+        }
         if (notification)
         {
             customToast(NoteMain.this.getString(R.string.note_deleted));
