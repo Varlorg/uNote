@@ -315,23 +315,7 @@ public class NoteMain extends Activity
             @Override
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
             {
-                String text = editsearch.getText().toString();
-                noteBdd.open();
-                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
-                noteBdd.close();
-                simpleAdpt = new ArrayAdapter <Note>     (NoteMain.this, R.layout.notelist, listeNotesRecherche)
-                {
-                    @Override
-                    public View getView(int position, View view, ViewGroup viewGroup)
-                    {
-                        view = super.getView(position, view, viewGroup);
-                        Note n = this.getItem(position);
-                        return(getViewCustom(position, view, viewGroup, n));
-                    }
-                };
-                lv.setAdapter(simpleAdpt);
-                if ( pref.getBoolean("pref_search_note_count", true))
-                    searchCount.setText("" + listeNotesRecherche.size());
+                updateSearch();
             }
         });
 
@@ -340,23 +324,7 @@ public class NoteMain extends Activity
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                String text = editsearch.getText().toString();
-                noteBdd.open();
-                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, isChecked, !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
-                noteBdd.close();
-                simpleAdpt = new ArrayAdapter <Note>(NoteMain.this, R.layout.notelist, listeNotesRecherche)
-                {
-                    @Override
-                    public View getView(int position, View view, ViewGroup viewGroup)
-                    {
-                        view = super.getView(position, view, viewGroup);
-                        Note n = this.getItem(position);
-                        return(getViewCustom(position, view, viewGroup, n));
-                    }
-                };
-                lv.setAdapter(simpleAdpt);
-                if ( pref.getBoolean("pref_search_note_count", true))
-                    searchCount.setText("" + listeNotesRecherche.size());
+                updateSearch();
             }
         });
 
@@ -366,23 +334,7 @@ public class NoteMain extends Activity
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                String text = editsearch.getText().toString();
-                noteBdd.open();
-                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !isChecked, Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
-                noteBdd.close();
-                simpleAdpt = new ArrayAdapter <Note>(NoteMain.this, R.layout.notelist, listeNotesRecherche)
-                {
-                    @Override
-                    public View getView(int position, View view, ViewGroup viewGroup)
-                    {
-                        view = super.getView(position, view, viewGroup);
-                        Note n = this.getItem(position);
-                        return(getViewCustom(position, view, viewGroup, n));
-                    }
-                };
-                lv.setAdapter(simpleAdpt);
-                if ( pref.getBoolean("pref_search_note_count", true))
-                    searchCount.setText("" + listeNotesRecherche.size());
+                updateSearch();
             }
         });
 
@@ -868,10 +820,14 @@ public class NoteMain extends Activity
             noteBdd.open();
             long rc= noteBdd.insertNote(new_note);
             noteBdd.close();
-            listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
-            simpleAdpt.clear();
-            simpleAdpt.addAll(listeNotes);
-            simpleAdpt.notifyDataSetChanged();
+            if (editsearch.getVisibility() == View.VISIBLE){
+                updateSearch();
+            } else {
+                listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+                simpleAdpt.clear();
+                simpleAdpt.addAll(listeNotes);
+                simpleAdpt.notifyDataSetChanged();
+            }
             if(rc != -1 ){
                 customToast(this.getString(R.string.note_duplicated));
             }
@@ -1061,6 +1017,18 @@ public class NoteMain extends Activity
         this.finish();
     }
 
+    public void updateSearch(){
+        NotesBDD noteBdd = new NotesBDD(this);
+        String text = editsearch.getText().toString();
+        noteBdd.open();
+        listeNotes = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+        noteBdd.close();
+        simpleAdpt.clear();
+        simpleAdpt.addAll(listeNotes);
+        lv.setAdapter(simpleAdpt);
+        if ( pref.getBoolean("pref_search_note_count", true))
+            searchCount.setText("" + listeNotes.size());
+    }
     public void search(View v)
     {
         if (editsearch.getVisibility() == View.VISIBLE){
