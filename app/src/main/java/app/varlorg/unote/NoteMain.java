@@ -1035,6 +1035,10 @@ public class NoteMain extends Activity
         String text = editsearch.getText().toString();
         noteBdd.open();
         listeNotes = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+        // Clean selected note from old view (selection mode)
+        for (int i = 0; i < lv.getCount(); i++) {
+            lv.setItemChecked(i, false);
+        }
         noteBdd.close();
         simpleAdpt.clear();
         simpleAdpt.addAll(listeNotes);
