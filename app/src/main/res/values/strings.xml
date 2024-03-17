@@ -9,6 +9,8 @@
 	<string name="searchText">Search</string>
 	<string name="search">Search</string>
 	<string name="quit">Quit</string>
+	<string name="action_multi">Select mode</string>
+	<string name="item_selected">selected note(s)</string>
 
 	<!-- Edit -->
 	<string name="returnB">Return</string>
@@ -68,8 +70,9 @@
 	<string name="export_info_path">Export path </string>
 	<string name="export_path_select">Change export path </string>
 	<string name="export_path_select_summary">Current path </string>
+	<string name="pref_main_mode_menu_all">Display all menus in the main window</string>
 	<string name="pref_edit_mode_view">Set preview as note edition default display</string>
-	<string name="pref_edit_mode_menu_all">Display all menu items when note editing</string>
+	<string name="pref_edit_mode_menu_all">Display all menus in edition mode</string>
 	<string name="pref_edit_mode_view_ui">New interface for preview note</string>
 	<string name="pref_edit_mode_edit_ui">New interface for editing note</string>
 	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
@@ -79,6 +82,7 @@
 	<string name="toast_import_db">Database imported from </string>
 	<string name="toast_import_no_db">No database found, please export first.</string>
 	<string name="toast_export_all_notes">All notes exported in </string>
+	<string name="toast_import_csv_added"> note(s) added</string>
 
 	<!-- Note Edition toasts' text"-->
 	<string name="toast_save">Saved</string>
@@ -96,6 +100,7 @@
 	<string name="note_copied">Note copied</string>
 	<string name="note_duplicated">Note duplicated</string>
 	<string name="toast_pwd_error">Incorrect password</string>
+	<string name="selected_notes_deleted">selected note(s) deleted</string>
 
 	<string name="menu_title">Note Menu</string>
 	<string name="menu_edit">Edit</string>
@@ -152,8 +157,10 @@
 	<string name="toast_backup_deleted_error">Deleting backup failed</string>
 	<string name="toast_backup_rename_success">Backup renamed</string>
 	<string name="toast_backup_rename_error">Renaming backup failed</string>
-	<string name="dialog_import_csv">Import CSV</string>
+	<string name="dialog_import_csv">Import csv</string>
 	<string name="dialog_import_csv_msg">Add notes from csv file </string>
+	<string name="mode_normal">Normal mode</string>
+	<string name="mode_selection">Selection mode</string>
 
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>

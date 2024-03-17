@@ -9,6 +9,8 @@
     <string name="searchText">Suchen</string>
     <string name="search">Suchen</string>
     <string name="quit">Beenden</string>
+    <string name="action_multi">Auswahlmodus</string>
+    <string name="item_selected">ausgewählte Notiz(en)</string>
 
     <!-- Edit -->
     <string name="returnB">Zurück</string>
@@ -67,8 +69,9 @@
     <string name="note_copied">Notiz kopiert</string>
     <string name="pref_search_note_count">Anzeige der Anzahl der gefundenen Zettel innerhalb der Suche</string>
     <string name="export_info_path">Pfad exportieren </string>
+    <string name="pref_main_mode_menu_all">Alle Menüs im Hauptfenster anzeigen</string>
     <string name="pref_edit_mode_view">Vorschau als Standardanzeige der Notenbearbeitung einstellen</string>
-    <string name="pref_edit_mode_menu_all">Alle Menüpunkte bei der Notenbearbeitung anzeigen</string>
+    <string name="pref_edit_mode_menu_all">Alle Menüs im Bearbeitungsmodus anzeigen</string>
     <string name="pref_edit_mode_view_ui">Neue Schnittstelle für Vorschaunotizen</string>
     <!--<string name="pref_clean_db">Datenbank leeren (Lösche alle Notizen)</string>-->
 
@@ -93,6 +96,7 @@
     <string name="note_duplicated">Notiz vervielfältigt</string>
     <string name="note_exported">Exportierte Note</string>
     <string name="toast_pwd_error">Falsches Passwort</string>
+    <string name="selected_notes_deleted">ausgewählte Notiz(en) gelöscht</string>
 
     <string name="menu_title">Notiz Menu</string>
     <string name="menu_edit">Editieren</string>
@@ -152,8 +156,11 @@
     <string name="export_path_select">"Exportpfad ändern "</string>
     <string name="export_path_select_summary">"Aktueller Pfad "</string>
     <string name="pref_edit_mode_edit_ui">Neue Schnittstelle für die Bearbeitung von Notizen</string>
-    <string name="dialog_import_csv">Import CSV</string>
+    <string name="dialog_import_csv">Import csv</string>
     <string name="dialog_import_csv_msg">"Notizen aus csv-Datei hinzufügen "</string>
+    <string name="mode_normal">Normaler Modus</string>
+    <string name="mode_selection">Auswahl-Modus</string>
+    <string name="toast_import_csv_added">" hinzugefügte Notiz(en)"</string>
 
     <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>

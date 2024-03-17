@@ -8,6 +8,8 @@
 	<string name="searchText">Recherche</string>
 	<string name="search">Chercher</string>
 	<string name="quit">Quitter</string>
+	<string name="action_multi">Mode sélection</string>
+	<string name="item_selected">note(s) sélectionnée(s)</string>
 
 	<!-- Edit -->
 	<string name="returnB">Retour</string>
@@ -55,7 +57,7 @@
 	<string name="pref_db">Base de donnée</string>
 	<string name="pref_export_db">Exporter la base de donnée</string>
 	<string name="pref_import_db">Importer une base de donnée</string>
-	<string name="pref_import_csv">Importer CSV</string>
+	<string name="pref_import_csv">Importer csv</string>
 	<string name="pref_import_csv_summary">Importer des notes à partir d\'un fichier csv (ajoute aux notes existantes)</string>
 	<string name="pref_preview_limit">Limite de l\'aperçu</string>
 	<string name="pref_preview_limit_summary">Nombre de caractères lors de l\'aperçu</string>
@@ -67,6 +69,7 @@
 	<string name="export_info_path">Chemin d\'export </string>
 	<string name="export_path_select">Changer le chemin d\'export </string>
 	<string name="export_path_select_summary">Chemin actuel </string>
+	<string name="pref_main_mode_menu_all">Afficher tous les menus dans la fenêtre principale</string>
 	<string name="pref_edit_mode_view">Définir l\'aperçu comme affichage par défaut en mode edition</string>
 	<string name="pref_edit_mode_menu_all">Afficher tous les menus en mode edition</string>
 	<string name="pref_edit_mode_view_ui">Nouvelle interface pour aperçu</string>
@@ -81,6 +84,7 @@
 	<string name="toast_import_db">Base de données importée depuis </string>
 	<string name="toast_import_no_db">Aucune base de données trouvées, exportez d\'abord.</string>
 	<string name="toast_export_all_notes">Notes exportées dans </string>
+	<string name="toast_import_csv_added"> note(s) ajoutée(s)</string>
 
 	<!-- Note Edition toasts' text"-->
 	<string name="toast_save">Sauvegardée</string>
@@ -98,6 +102,7 @@
 	<string name="note_copied">Note copiée</string>
 	<string name="note_duplicated">Note dupliquée</string>
 	<string name="toast_pwd_error">Mot de passe incorrect</string>
+	<string name="selected_notes_deleted">note(s) sélectionnée(s) supprimée(s)</string>
 
 	<string name="menu_title">Note Menu</string>
 	<string name="menu_edit">Éditer</string>
@@ -154,6 +159,8 @@
 	<string name="toast_backup_deleted_error">Échec de la suppression de la sauvegarde</string>
 	<string name="toast_backup_rename_success">Sauvegarde renommée</string>
 	<string name="toast_backup_rename_error">Échec du renommage de la sauvegarde</string>
-	<string name="dialog_import_csv">Importer CSV</string>
+	<string name="dialog_import_csv">Importer csv</string>
 	<string name="dialog_import_csv_msg">"Ajouter des notes à partir d'un fichier csv "</string>
+	<string name="mode_normal">Mode normal</string>
+	<string name="mode_selection">Mode sélection</string>
 </resources>

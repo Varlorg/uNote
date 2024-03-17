@@ -10,8 +10,13 @@
     <item
         android:id="@+id/action_search"
         android:icon="@android:drawable/ic_menu_search"
-        android:title="@string/search"
+        android:title="@android:string/search_go"
         android:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_multi"
+        android:icon="@drawable/baseline_dynamic_feed_24"
+        android:title="@string/action_multi"
+        android:showAsAction="always" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

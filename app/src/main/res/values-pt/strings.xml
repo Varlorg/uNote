@@ -9,6 +9,8 @@
 	<string name="searchText">Procurar</string>
 	<string name="search">Procurar</string>
 	<string name="quit">Sair</string>
+	<string name="action_multi">Modo seleção</string>
+	<string name="item_selected">nota(s) seleccionada(s)</string>
 
 	<!-- Edit -->
 	<string name="returnB">Voltar</string>
@@ -67,8 +69,9 @@
 	<string name="note_copied">Nota copiada</string>
 	<string name="pref_search_note_count">Mostrar o número de notas encontradas dentro da pesquisa de notas</string>
 	<string name="export_info_path">Caminho de exportação </string>
+	<string name="pref_main_mode_menu_all">Mostrar todos os menus na janela principal</string>
 	<string name="pref_edit_mode_view">Definir a pré-visualização como ecrã predefinido da edição de notas</string>
-	<string name="pref_edit_mode_menu_all">Mostrar todos os itens de menu ao editar uma nota</string>
+	<string name="pref_edit_mode_menu_all">Apresentar todos os menus no modo de edição</string>
 	<string name="pref_edit_mode_view_ui">Nova interface para a nota de pré-visualização</string>
 	<!--<string name="pref_clean_db">Limpar Base de Dados (Apagar todas as notas)</string>-->
 
@@ -93,6 +96,7 @@
     <string name="note_duplicated">Nota duplicada</string>
     <string name="note_exported">Nota exportada</string>
 	<string name="toast_pwd_error">Password incorreta</string>
+	<string name="selected_notes_deleted">nota(s) seleccionada(s) apagada(s)</string>
 
 	<string name="menu_title">Menu Nota</string>
 	<string name="menu_edit">Editar</string>
@@ -154,10 +158,13 @@
 	<string name="pref_edit_mode_edit_ui">Nova interface para editar notas</string>
 	<string name="dialog_import_csv">Importar CSV</string>
 	<string name="dialog_import_csv_msg">"Adicionar notas a partir de um ficheiro csv "</string>
+	<string name="mode_normal">Modo normal</string>
+	<string name="mode_selection">Modo seleção</string>
+    <string name="toast_import_csv_added">" nota(s) adicionada(s)"</string>
 
 
-	<!-- Not used ? -
-	<color name="note_color">#FEFEE2</color>
-	<string name="text_view"> </string>-->
+    <!-- Not used ? -
+    <color name="note_color">#FEFEE2</color>
+    <string name="text_view"> </string>-->
 
 </resources>

@@ -1,5 +1,6 @@
 package app.varlorg.unote;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.security.MessageDigest;
 
@@ -22,6 +23,8 @@ import android.text.Html;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.util.TypedValue;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.*;
 import android.widget.*;
@@ -43,6 +46,7 @@ public class NoteMain extends Activity
     public  static final double TOAST_TEXTSIZE_FACTOR    = 0.9;
 
     private static final String HEX = "0123456789ABCDEF";
+    private int colorBackground;
     private ArrayAdapter <Note> simpleAdpt;
     private EditText editsearch;
     private TextView searchCount;
@@ -141,6 +145,10 @@ public class NoteMain extends Activity
             setTheme(android.R.style.Theme_DeviceDefault_Light);
         }
 
+        TypedValue tv = new TypedValue();
+        getApplicationContext().getTheme().resolveAttribute(android.R.attr.colorBackground, tv, true);
+        colorBackground = tv.resourceId;
+
         setContentView(R.layout.activity_notemain);
 
         final NotesBDD noteBdd = new NotesBDD(this);
@@ -160,6 +168,13 @@ public class NoteMain extends Activity
 
                 Note n = this.getItem(position);
 
+                if (v != null) {
+                    if (n.isSelected()) {
+                        v.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+                    } else {
+                        v.setBackgroundColor(colorBackground);
+                    }
+                }
                 return(getViewCustom(position, v, viewGroup, n));
             }
         };
@@ -311,23 +326,7 @@ public class NoteMain extends Activity
             @Override
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
             {
-                String text = editsearch.getText().toString();
-                noteBdd.open();
-                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
-                noteBdd.close();
-                simpleAdpt = new ArrayAdapter <Note>     (NoteMain.this, R.layout.notelist, listeNotesRecherche)
-                {
-                    @Override
-                    public View getView(int position, View view, ViewGroup viewGroup)
-                    {
-                        view = super.getView(position, view, viewGroup);
-                        Note n = this.getItem(position);
-                        return(getViewCustom(position, view, viewGroup, n));
-                    }
-                };
-                lv.setAdapter(simpleAdpt);
-                if ( pref.getBoolean("pref_search_note_count", true))
-                    searchCount.setText("" + listeNotesRecherche.size());
+                updateSearch();
             }
         });
 
@@ -336,23 +335,7 @@ public class NoteMain extends Activity
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                String text = editsearch.getText().toString();
-                noteBdd.open();
-                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, isChecked, !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
-                noteBdd.close();
-                simpleAdpt = new ArrayAdapter <Note>(NoteMain.this, R.layout.notelist, listeNotesRecherche)
-                {
-                    @Override
-                    public View getView(int position, View view, ViewGroup viewGroup)
-                    {
-                        view = super.getView(position, view, viewGroup);
-                        Note n = this.getItem(position);
-                        return(getViewCustom(position, view, viewGroup, n));
-                    }
-                };
-                lv.setAdapter(simpleAdpt);
-                if ( pref.getBoolean("pref_search_note_count", true))
-                    searchCount.setText("" + listeNotesRecherche.size());
+                updateSearch();
             }
         });
 
@@ -362,23 +345,7 @@ public class NoteMain extends Activity
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                String text = editsearch.getText().toString();
-                noteBdd.open();
-                List <Note> listeNotesRecherche = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !isChecked, Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
-                noteBdd.close();
-                simpleAdpt = new ArrayAdapter <Note>(NoteMain.this, R.layout.notelist, listeNotesRecherche)
-                {
-                    @Override
-                    public View getView(int position, View view, ViewGroup viewGroup)
-                    {
-                        view = super.getView(position, view, viewGroup);
-                        Note n = this.getItem(position);
-                        return(getViewCustom(position, view, viewGroup, n));
-                    }
-                };
-                lv.setAdapter(simpleAdpt);
-                if ( pref.getBoolean("pref_search_note_count", true))
-                    searchCount.setText("" + listeNotesRecherche.size());
+                updateSearch();
             }
         });
 
@@ -481,6 +448,13 @@ public class NoteMain extends Activity
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        if (pref.getBoolean("pref_main_mode_menu_all", true))
+        {
+            menu.findItem(R.id.action_add).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            menu.findItem(R.id.action_search).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            menu.findItem(R.id.action_multi).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            menu.findItem(R.id.action_settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -507,6 +481,115 @@ public class NoteMain extends Activity
         }
         else if (id == R.id.action_search) {
             search(getWindow().getDecorView().getRootView());
+        }
+        else if ( id == R.id.action_multi) {
+            item.setIcon(R.drawable.baseline_dynamic_feed_24);
+
+            lv.getChoiceMode();
+            Log.d(BuildConfig.APPLICATION_ID, "ListView ChoiceMode " +  lv.getChoiceMode() );
+
+            if (lv.getChoiceMode() != AbsListView.CHOICE_MODE_MULTIPLE_MODAL) {
+                if ( pref.getBoolean("pref_notifications", true))
+                    customToast(this.getString(R.string.mode_selection));
+
+                item.setIcon(R.drawable.baseline_feed_24);
+                lv.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+                lv.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+                    @Override
+                    public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                        mode.setTitle(lv.getCheckedItemCount() + " " + getString(R.string.item_selected));
+                        final Note note = simpleAdpt.getItem(position);
+                        note.setSelected(checked);
+                        simpleAdpt.notifyDataSetChanged();
+                        Log.d(BuildConfig.APPLICATION_ID, "note clicked " + checked + " " + note.getId() + note.getTitre());
+                    }
+
+                    @Override
+                    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                        MenuInflater menuInflater = mode.getMenuInflater();
+                        menuInflater.inflate(R.menu.menu_contextual_actionbar, menu);
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                        //if (item.getTitle().equals(getString(R.string.menu_delete))) {
+                        if (item.getItemId() == R.id.menu_delete ) {
+                            SparseBooleanArray checkedItems = lv.getCheckedItemPositions();
+                            Log.d(BuildConfig.APPLICATION_ID, "checkedItems size " + checkedItems.size());
+                            Log.d(BuildConfig.APPLICATION_ID, "checkedItems ts " + checkedItems);
+                            Log.d(BuildConfig.APPLICATION_ID, "lv  size " + lv.getCount());
+                            Log.d(BuildConfig.APPLICATION_ID, "lv adpt  size " + lv.getAdapter().getCount());
+                            List<Note> notesToDelete = new ArrayList<>();
+                            for (int i = 0; i < checkedItems.size(); i++) {
+                                Log.d(BuildConfig.APPLICATION_ID, "checkedItems heyat " + checkedItems.keyAt(i));
+                                Log.d(BuildConfig.APPLICATION_ID, "checkedItems index " + i);
+                                Note n =  ((Note)lv.getAdapter().getItem(checkedItems.keyAt(i)));
+                                String it = n.getId() + "";
+                                Log.d(BuildConfig.APPLICATION_ID, "checkedItems " + it);
+                                if (checkedItems.valueAt(i) == true) {
+                                    n.setSelected(false);
+                                    notesToDelete.add(n);
+                                }
+                            }
+                            for(Note n: notesToDelete)
+                            {
+                                deleteNote(n, false);
+                            }
+                            lv.clearChoices();
+                            if (pref.getBoolean("pref_notifications", true))
+                            {
+                                customToast(notesToDelete.size() + " " + getString(R.string.selected_notes_deleted));
+                            }
+                            mode.finish();
+                        }
+                        else if (item.getItemId() == R.id.menu_all ) {
+                            if(lv.getCheckedItemCount() == lv.getCount()) {
+                                for (int i = 0; i < lv.getCount(); i++) {
+                                    lv.setItemChecked(i, false);
+                                }
+                            } else {
+                                for (int i = 0; i < lv.getCount(); i++) {
+                                    lv.setItemChecked(i, true);
+                                }
+                            }
+                         }
+                        return true;
+                    }
+
+                    @Override
+                    public void onDestroyActionMode(ActionMode mode) {
+                        if (lv.getChoiceMode() == AbsListView.CHOICE_MODE_MULTIPLE_MODAL) {
+                            SparseBooleanArray checkedItems = lv.getCheckedItemPositions();
+                            Log.d(BuildConfig.APPLICATION_ID, "checkedItems size " + checkedItems.size());
+                            Log.d(BuildConfig.APPLICATION_ID, "checkedItems ts" + checkedItems.toString());
+                            Log.d(BuildConfig.APPLICATION_ID, "lv  size " + lv.getCount());
+                            Log.d(BuildConfig.APPLICATION_ID, "lv adpt  size " + lv.getAdapter().getCount());
+                            if (lv.getCount() != 0) {
+                                for (int i = 0; i < checkedItems.size(); i++) {
+                                    String it = ((Note) lv.getAdapter().getItem(checkedItems.keyAt(i))).getId() + "";
+                                    if (checkedItems.valueAt(i)) {
+                                        final Note note = ((Note) lv.getAdapter().getItem(checkedItems.keyAt(i)));
+                                        note.setSelected(false);
+                                        simpleAdpt.notifyDataSetChanged();
+                                        Log.d(BuildConfig.APPLICATION_ID, "checkedItems reset" + it);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            else {
+                lv.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+                if ( pref.getBoolean("pref_notifications", true))
+                    customToast(this.getString(R.string.mode_normal));
+            }
         }
         //noinspection SimplifiableIfStatement
         return(super.onOptionsItemSelected(item));
@@ -588,18 +671,31 @@ public class NoteMain extends Activity
         }
         noteBdd.close();
     }
-    public void deleteNote(final Note note)
+
+    public void deleteNote(final Note note, boolean notification)
     {
         simpleAdpt.remove(note);
         NotesBDD noteBdd = new NotesBDD(NoteMain.this);
         noteBdd.open();
         noteBdd.removeNoteWithID(note.getId());
-        if ( pref.getBoolean("pref_notifications", true))
+        noteBdd.close();
+        if (editsearch.getVisibility() == View.VISIBLE){
+            updateSearch();
+        } else {
+            listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+            simpleAdpt.clear();
+            simpleAdpt.addAll(listeNotes);
+            simpleAdpt.notifyDataSetChanged();
+        }
+        if (notification)
         {
             customToast(NoteMain.this.getString(R.string.note_deleted));
         }
-        simpleAdpt.notifyDataSetChanged();
-        noteBdd.close();
+    }
+
+    public void deleteNote(final Note note)
+    {
+        deleteNote(note,pref.getBoolean("pref_notifications", true) );
     }
 
     public boolean launchMenu(MenuItem item, final Note note)
@@ -737,12 +833,16 @@ public class NoteMain extends Activity
             noteBdd.open();
             long rc= noteBdd.insertNote(new_note);
             noteBdd.close();
-            listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
-            simpleAdpt.clear();
-            simpleAdpt.addAll(listeNotes);
-            simpleAdpt.notifyDataSetChanged();
+            if (editsearch.getVisibility() == View.VISIBLE){
+                updateSearch();
+            } else {
+                listeNotes = noteBdd.getAllNotes(Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+                simpleAdpt.clear();
+                simpleAdpt.addAll(listeNotes);
+                simpleAdpt.notifyDataSetChanged();
+            }
             if(rc != -1 ){
-                customToast(this.getString(R.string.menu_duplicate));
+                customToast(this.getString(R.string.note_duplicated));
             }
         }
         else if (item.getTitle().equals(this.getString(R.string.menu_delete)))
@@ -930,6 +1030,22 @@ public class NoteMain extends Activity
         this.finish();
     }
 
+    public void updateSearch(){
+        NotesBDD noteBdd = new NotesBDD(this);
+        String text = editsearch.getText().toString();
+        noteBdd.open();
+        listeNotes = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+        // Clean selected note from old view (selection mode)
+        for (int i = 0; i < lv.getCount(); i++) {
+            lv.setItemChecked(i, false);
+        }
+        noteBdd.close();
+        simpleAdpt.clear();
+        simpleAdpt.addAll(listeNotes);
+        lv.setAdapter(simpleAdpt);
+        if ( pref.getBoolean("pref_search_note_count", true))
+            searchCount.setText("" + listeNotes.size());
+    }
     public void search(View v)
     {
         if (editsearch.getVisibility() == View.VISIBLE){

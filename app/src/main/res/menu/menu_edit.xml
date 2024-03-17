@@ -36,6 +36,7 @@
         android:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_copy"
+        android:icon="@drawable/baseline_content_copy_24"
         android:title="@android:string/copy"
         android:showAsAction="never" />
     <item
