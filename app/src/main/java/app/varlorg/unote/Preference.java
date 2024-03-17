@@ -305,6 +305,7 @@ public class Preference extends PreferenceActivity {
                 .setMessage(getString(R.string.dialog_import_csv_msg) + " " + backupFile)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        int nbNote = 0;
                         Log.d(BuildConfig.APPLICATION_ID, "confirmRestore  " + backupFile);
                         try {
                             boolean first = true;
@@ -324,6 +325,8 @@ public class Preference extends PreferenceActivity {
                                     if(rc == -1 ){
                                         Log.d(BuildConfig.APPLICATION_ID, "CSVUtils insert error  " + String.join("-", l));
                                         customToast("Error");
+                                    }else {
+                                        nbNote += 1;
                                     }
                                 }
                                 noteBdd.close();
@@ -331,6 +334,7 @@ public class Preference extends PreferenceActivity {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
+                        customToast(nbNote + getString(R.string.toast_import_csv_added)); // " note(s) added"
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, null)
