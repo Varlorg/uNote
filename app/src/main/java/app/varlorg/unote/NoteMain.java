@@ -145,6 +145,10 @@ public class NoteMain extends Activity
             setTheme(android.R.style.Theme_DeviceDefault_Light);
         }
 
+        TypedValue tv = new TypedValue();
+        getApplicationContext().getTheme().resolveAttribute(android.R.attr.colorBackground, tv, true);
+        colorBackground = tv.resourceId;
+
         setContentView(R.layout.activity_notemain);
 
         final NotesBDD noteBdd = new NotesBDD(this);
@@ -164,6 +168,13 @@ public class NoteMain extends Activity
 
                 Note n = this.getItem(position);
 
+                if (v != null) {
+                    if (n.isSelected()) {
+                        v.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+                    } else {
+                        v.setBackgroundColor(colorBackground);
+                    }
+                }
                 return(getViewCustom(position, v, viewGroup, n));
             }
         };
@@ -485,18 +496,8 @@ public class NoteMain extends Activity
                     public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
                         mode.setTitle(lv.getCheckedItemCount() + " " + getString(R.string.item_selected));
                         final Note note = simpleAdpt.getItem(position);
-                        View view = lv.getChildAt(position);
-                        TypedValue tv = new TypedValue();
-                        getApplicationContext().getTheme().resolveAttribute(android.R.attr.colorBackground, tv, true);
-                        colorBackground = tv.resourceId;
-                        if (checked){
-                            view.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
-                        }
-                        else {
-                            view.setBackgroundColor(colorBackground);
-                        }
-
-                        //lv.getAdapter().getView(position, view, lv);
+                        note.setSelected(checked);
+                        simpleAdpt.notifyDataSetChanged();
                         Log.d(BuildConfig.APPLICATION_ID, "note clicked " + checked + " " + note.getId() + note.getTitre());
                     }
 
@@ -525,12 +526,12 @@ public class NoteMain extends Activity
                             for (int i = 0; i < checkedItems.size(); i++) {
                                 Log.d(BuildConfig.APPLICATION_ID, "checkedItems heyat " + checkedItems.keyAt(i));
                                 Log.d(BuildConfig.APPLICATION_ID, "checkedItems index " + i);
-                                String it = ((Note)lv.getAdapter().getItem(checkedItems.keyAt(i))).getId() + "";
+                                Note n =  ((Note)lv.getAdapter().getItem(checkedItems.keyAt(i)));
+                                String it = n.getId() + "";
                                 Log.d(BuildConfig.APPLICATION_ID, "checkedItems " + it);
                                 if (checkedItems.valueAt(i) == true) {
-                                    notesToDelete.add(((Note)lv.getAdapter().getItem(checkedItems.keyAt(i))));
-                                    View view = lv.getChildAt(checkedItems.keyAt(i));
-                                    view.setBackgroundColor(colorBackground);
+                                    n.setSelected(false);
+                                    notesToDelete.add(n);
                                 }
                             }
                             for(Note n: notesToDelete)
@@ -571,8 +572,9 @@ public class NoteMain extends Activity
                                 for (int i = 0; i < checkedItems.size(); i++) {
                                     String it = ((Note) lv.getAdapter().getItem(checkedItems.keyAt(i))).getId() + "";
                                     if (checkedItems.valueAt(i)) {
-                                        View view = lv.getChildAt(checkedItems.keyAt(i));
-                                        view.setBackgroundColor(colorBackground);
+                                        final Note note = ((Note) lv.getAdapter().getItem(checkedItems.keyAt(i)));
+                                        note.setSelected(false);
+                                        simpleAdpt.notifyDataSetChanged();
                                         Log.d(BuildConfig.APPLICATION_ID, "checkedItems reset" + it);
                                     }
                                 }
