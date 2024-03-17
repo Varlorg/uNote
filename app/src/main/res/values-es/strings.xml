@@ -10,7 +10,7 @@
 	<string name="search">Buscar</string>
 	<string name="quit">Salir</string>
 	<string name="action_multi">Modo selección</string>
-	<string name="item_selected">notas seleccionadas</string>
+	<string name="item_selected">nota(s) seleccionada(s)</string>
 
 	<!-- Edit -->
 	<string name="returnB">Volver</string>
@@ -96,7 +96,7 @@
     <string name="note_duplicated">Nota duplicada</string>
     <string name="note_exported">Nota exportada</string>
     <string name="toast_pwd_error">Contraseña incorrecta</string>
-	<string name="selected_notes_deleted">notas seleccionadas borradas</string>
+	<string name="selected_notes_deleted">nota(s) seleccionada(s) borrada(s)</string>
 
 	<string name="menu_title">Menu de nota</string>
 	<string name="menu_edit">Editar</string>
@@ -160,9 +160,10 @@
 	<string name="dialog_import_csv_msg">"Añadir notas desde un archivo csv "</string>
 	<string name="mode_normal">Modo normal</string>
 	<string name="mode_selection">Modo selección</string>
+    <string name="toast_import_csv_added">" nota(s) añadida(s)"</string>
 
-	<!-- Not used ? -
-	<color name="note_color">#FEFEE2</color>
-	<string name="text_view"> </string>-->
+    <!-- Not used ? -
+    <color name="note_color">#FEFEE2</color>
+    <string name="text_view"> </string>-->
 
 </resources>

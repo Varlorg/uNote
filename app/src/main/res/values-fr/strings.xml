@@ -9,7 +9,7 @@
 	<string name="search">Chercher</string>
 	<string name="quit">Quitter</string>
 	<string name="action_multi">Mode sélection</string>
-	<string name="item_selected">notes sélectionnées</string>
+	<string name="item_selected">note(s) sélectionnée(s)</string>
 
 	<!-- Edit -->
 	<string name="returnB">Retour</string>
@@ -84,6 +84,7 @@
 	<string name="toast_import_db">Base de données importée depuis </string>
 	<string name="toast_import_no_db">Aucune base de données trouvées, exportez d\'abord.</string>
 	<string name="toast_export_all_notes">Notes exportées dans </string>
+	<string name="toast_import_csv_added"> note(s) ajoutée(s)</string>
 
 	<!-- Note Edition toasts' text"-->
 	<string name="toast_save">Sauvegardée</string>
@@ -101,7 +102,7 @@
 	<string name="note_copied">Note copiée</string>
 	<string name="note_duplicated">Note dupliquée</string>
 	<string name="toast_pwd_error">Mot de passe incorrect</string>
-	<string name="selected_notes_deleted">notes sélectionnées supprimées</string>
+	<string name="selected_notes_deleted">note(s) sélectionnée(s) supprimée(s)</string>
 
 	<string name="menu_title">Note Menu</string>
 	<string name="menu_edit">Éditer</string>
