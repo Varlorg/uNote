@@ -489,6 +489,9 @@ public class NoteMain extends Activity
             Log.d(BuildConfig.APPLICATION_ID, "ListView ChoiceMode " +  lv.getChoiceMode() );
 
             if (lv.getChoiceMode() != AbsListView.CHOICE_MODE_MULTIPLE_MODAL) {
+                if ( pref.getBoolean("pref_notifications", true))
+                    customToast(this.getString(R.string.mode_selection));
+
                 item.setIcon(R.drawable.baseline_feed_24);
                 lv.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
                 lv.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
@@ -585,6 +588,8 @@ public class NoteMain extends Activity
             }
             else {
                 lv.setChoiceMode(AbsListView.CHOICE_MODE_NONE);
+                if ( pref.getBoolean("pref_notifications", true))
+                    customToast(this.getString(R.string.mode_normal));
             }
         }
         //noinspection SimplifiableIfStatement

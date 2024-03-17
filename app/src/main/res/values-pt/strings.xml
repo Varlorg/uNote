@@ -158,6 +158,8 @@
 	<string name="pref_edit_mode_edit_ui">Nova interface para editar notas</string>
 	<string name="dialog_import_csv">Importar CSV</string>
 	<string name="dialog_import_csv_msg">"Adicionar notas a partir de um ficheiro csv "</string>
+	<string name="mode_normal">Modo normal</string>
+	<string name="mode_selection">Modo seleção</string>
 
 
 	<!-- Not used ? -

@@ -158,6 +158,8 @@
     <string name="pref_edit_mode_edit_ui">Neue Schnittstelle für die Bearbeitung von Notizen</string>
     <string name="dialog_import_csv">Import csv</string>
     <string name="dialog_import_csv_msg">"Notizen aus csv-Datei hinzufügen "</string>
+    <string name="mode_normal">Normaler Modus</string>
+    <string name="mode_selection">Auswahl-Modus</string>
 
     <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>
