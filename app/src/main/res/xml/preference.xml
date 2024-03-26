@@ -111,6 +111,7 @@
             android:defaultValue="#999999"
             android:inputType="textShortMessage"
             android:key="pref_note_text_color"
+            android:summary="hexa format color #000000"
             android:title="text color" />
         <ListPreference
             android:defaultValue="18"

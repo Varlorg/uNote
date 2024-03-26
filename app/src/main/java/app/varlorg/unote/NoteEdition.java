@@ -220,6 +220,8 @@ public class NoteEdition extends Activity
             textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "14" ));
         }
         titre.setTextSize(textSize);
+        titre.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        titre.getBackground().clearColorFilter();
         //titreNoteTV.setTextSize(textSize * (float) 1.3);
         titreNoteTV.setTextSize(textSize);
         note.setTextSize(textSize);
