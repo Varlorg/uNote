@@ -3,6 +3,7 @@ package app.varlorg.unote;
 import java.util.ArrayList;
 import java.util.List;
 import java.security.MessageDigest;
+import java.util.regex.*;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -403,7 +404,7 @@ public class NoteMain extends Activity
         String regex = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
         Pattern p = Pattern.compile(regex);
         if (color != null) {
-            Matcher m = p.matcher(str);
+            Matcher m = p.matcher(color);
             if(m.matches()){
                 ((TextView)view).setTextColor(Color.parseColor(color));
             }
