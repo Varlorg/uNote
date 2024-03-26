@@ -103,10 +103,15 @@
             android:defaultValue="18"
             android:inputType="number"
             android:key="pref_note_padding"
-            android:maxLength="2"
+            android:maxLength="4"
             android:title="Note padding" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_text_size">
+        <EditTextPreference
+            android:defaultValue="#999999"
+            android:inputType="textShortMessage"
+            android:key="pref_note_text_color"
+            android:title="text color" />
         <ListPreference
             android:defaultValue="18"
             android:entries="@array/textSize"
