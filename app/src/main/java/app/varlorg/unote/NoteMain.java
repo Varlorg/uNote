@@ -3,6 +3,7 @@ package app.varlorg.unote;
 import java.util.ArrayList;
 import java.util.List;
 import java.security.MessageDigest;
+import java.util.regex.*;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -31,6 +32,7 @@ import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.app.Instrumentation;
 import android.os.Parcelable;
+import android.graphics.Color;
 
 public class NoteMain extends Activity
 {
@@ -377,15 +379,60 @@ public class NoteMain extends Activity
 
     public View getViewCustom(int position, View view, ViewGroup viewGroup, Note n)
     {
-        String noteSummary;
+
+        String htmlTitleColorAttributeStart = "";
+        String htmlTitleColorAttributeEnd = "";
+        String htmlNoteColorAttributeStart = "";
+        String htmlNoteColorAttributeEnd = "";
+        String htmlDetailsColorAttributeStart = "";
+        String htmlDetailsColorAttributeEnd = "";
+
+        String colorTitle = pref.getString("pref_note_text_color_title", null);
+        String colorNote = pref.getString("pref_note_text_color_note", null);
+        String colorDetails = pref.getString("pref_note_text_color_details", null);
+
+        // Regex to check valid hexadecimal color code.
+        String regex = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
+        Pattern p = Pattern.compile(regex);
+
+        if (colorTitle != null) {
+            Log.d(BuildConfig.APPLICATION_ID, "colorTitle  " +  colorTitle );
+            Matcher m = p.matcher(colorTitle);
+            if(m.matches()){
+                htmlTitleColorAttributeStart = "<font color='" + colorTitle + "'>";
+                htmlTitleColorAttributeEnd = "</font>";
+            }
+        }
+        if (colorNote != null) {
+            Log.d(BuildConfig.APPLICATION_ID, "colorNote  " +  colorNote );
+            Matcher m = p.matcher(colorNote);
+            if(m.matches()){
+                htmlNoteColorAttributeStart = "<font color='" + colorNote + "'>";
+                htmlNoteColorAttributeEnd = "</font>";
+            }
+        }
+        if (colorDetails != null) {
+            Log.d(BuildConfig.APPLICATION_ID, "colorNote  " +  colorDetails );
+            Matcher m = p.matcher(colorDetails);
+            if(m.matches()){
+                htmlDetailsColorAttributeStart = "<font color='" + colorDetails + "'>";
+                htmlDetailsColorAttributeEnd = "</font>";
+            }
+        }
+
+        Log.d(BuildConfig.APPLICATION_ID, "htmlTitleColorAttribute  " +  htmlTitleColorAttributeStart);
+        String title = n.getTitre();
+        String noteSummary = htmlTitleColorAttributeStart + "<b>" + title + "</b> <br/>" + htmlTitleColorAttributeEnd;
 
         if (n.getPassword() != null)
         {
-            noteSummary = "<b>" + n.getTitre() + "</b> <br/>" + NoteMain.this.getString(R.string.pwd_protected);
+            noteSummary += NoteMain.this.getString(R.string.pwd_protected);
         }
         else
         {
-            noteSummary = "<b>" + n.getTitre() + "</b> <br/>" + n.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30")));
+            noteSummary += htmlNoteColorAttributeStart +
+                    n.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30"))) +
+                    htmlNoteColorAttributeEnd + htmlDetailsColorAttributeStart;
             if (pref.getBoolean("pref_date", false))
             {
                 noteSummary += "<br/>" + n.getDateCreationFormated();
@@ -395,10 +442,23 @@ public class NoteMain extends Activity
                 noteSummary += "<br/>modif: " + n.getDateModificationFormated();
             }
         }
+        noteSummary += htmlDetailsColorAttributeEnd;
+
+        Log.d(BuildConfig.APPLICATION_ID, "noteSummary  " +  noteSummary);
         ((TextView)view).setText(Html.fromHtml(noteSummary));
         ((TextView)view).setTextSize(textSize);
         
-        ((TextView)view).setPaddingRelative(Integer.parseInt(pref.getString("pref_note_padding", "18")),
+        String colorAll = pref.getString("pref_note_text_color", null);
+        if (colorAll != null) {
+            Matcher mAll = p.matcher(colorAll);
+            if(mAll.matches()){
+                Log.d(BuildConfig.APPLICATION_ID, "setTextColor  " +  colorAll);
+
+                ((TextView)view).setTextColor(Color.parseColor(colorAll));
+            }
+        }     
+
+        ((TextView)view).setPaddingRelative(Integer.parseInt(pref.getString("pref_note_padding", "16")),
             ((TextView)view).getPaddingTop(),
             ((TextView)view).getPaddingTop(),
             ((TextView)view).getPaddingTop());
