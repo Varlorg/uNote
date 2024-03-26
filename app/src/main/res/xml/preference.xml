@@ -86,6 +86,26 @@
             android:key="pref_edit_mode_edit_ui"
             android:title="@string/pref_edit_mode_edit_ui" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="editing">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_edit_cursor_end"
+            android:title="end" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_edit_capitalize_title"
+            android:title="capitalize title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_edit_capitalize_note"
+            android:title="capitalize note" />
+        <EditTextPreference
+            android:defaultValue="18"
+            android:inputType="number"
+            android:key="pref_note_padding"
+            android:maxLength="2"
+            android:title="Note padding" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_text_size">
         <ListPreference
             android:defaultValue="18"
