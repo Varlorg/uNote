@@ -32,6 +32,7 @@ import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.app.Instrumentation;
 import android.os.Parcelable;
+import android.graphics.Color;
 
 public class NoteMain extends Activity
 {
