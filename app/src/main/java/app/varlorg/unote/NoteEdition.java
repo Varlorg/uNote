@@ -320,6 +320,7 @@ public class NoteEdition extends Activity
             else {
                 titreNote.setTextSize(textSize);
             }
+            note.requestFocus();
         }
         return true;
     }
@@ -369,6 +370,7 @@ public class NoteEdition extends Activity
                 else {
                     titreNote.setTextSize(textSize);
                 }
+                note.requestFocus();
             }
             else {
                 item.setIcon(android.R.drawable.ic_menu_edit);
