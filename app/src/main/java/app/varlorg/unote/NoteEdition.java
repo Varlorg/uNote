@@ -321,6 +321,11 @@ public class NoteEdition extends Activity
                 titreNote.setTextSize(textSize);
             }
             note.requestFocus();
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(noteTV.getWindowToken(), 0);
+            this.getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+                );
         }
         return true;
     }
