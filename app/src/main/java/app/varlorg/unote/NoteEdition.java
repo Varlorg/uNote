@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -219,6 +220,7 @@ public class NoteEdition extends Activity
             textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "14" ));
         }
         titre.setTextSize(textSize);
+        titre.getBackground().clearColorFilter();
         //titreNoteTV.setTextSize(textSize * (float) 1.3);
         titreNoteTV.setTextSize(textSize);
         note.setTextSize(textSize);
@@ -321,6 +323,23 @@ public class NoteEdition extends Activity
                 titreNote.setTextSize(textSize);
             }
             note.requestFocus();
+            if (pref.getBoolean("pref_edit_cursor_end", false)) {
+                note.setSelection(note.getText().length());
+            } else {
+                note.setSelection(0);
+            }
+            if (pref.getBoolean("pref_edit_capitalize_note", false)) {
+                note.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+            }   
+            if (pref.getBoolean("pref_edit_capitalize_title", false)) {
+                titreNote.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+            }        
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(noteTV.getWindowToken(), 0);
+            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            imm.showSoftInput(note, InputMethodManager.SHOW_FORCED);
+            titre.setTag(null);
+            note.setTag(null);
         }
         return true;
     }
