@@ -335,10 +335,8 @@ public class NoteEdition extends Activity
             }        
             InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(noteTV.getWindowToken(), 0);
-            this.getWindow().setSoftInputMode(
-                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
-            );
-            imm.showSoftInput(note, InputMethodManager.SHOW_IMPLICIT);
+            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            imm.showSoftInput(note, InputMethodManager.SHOW_FORCED);
             titre.setTag(null);
             note.setTag(null);
         }
