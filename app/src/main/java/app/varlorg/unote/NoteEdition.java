@@ -262,9 +262,9 @@ public class NoteEdition extends Activity
         }
 
         if (colorNoteDesc != null) {
-            Matcher mN = p.matcher(colorNote);
+            Matcher mN = p.matcher(colorNoteDesc);
             if(mN.matches()){
-                noteT.setTextColor(Color.parseColor(colorNote));
+                noteT.setTextColor(Color.parseColor(colorNoteDesc));
             }
         }
         final Button buttonSave = (Button)findViewById(R.id.ButtonSave);
