@@ -231,6 +231,8 @@ public class NoteEdition extends Activity
 
         String colorTitle = pref.getString("pref_note_text_color_title_edit", "#999999");
         String colorNote = pref.getString("pref_note_text_color_note_edit", "#999999");
+        String colorTitleDesc = pref.getString("pref_note_text_color_title_edit_desc", "#999999");
+        String colorNoteDesc = pref.getString("pref_note_text_color_note_edit_desc", "#999999");
 
         // Regex to check valid hexadecimal color code.
         String regex = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
@@ -240,6 +242,7 @@ public class NoteEdition extends Activity
             Matcher mT = p.matcher(colorTitle);
             if(mT.matches()){
                 titre.setTextColor(Color.parseColor(colorTitle));
+                titreNoteTV.setTextColor(Color.parseColor(colorTitle));
             }
         }
 
@@ -247,9 +250,23 @@ public class NoteEdition extends Activity
             Matcher mN = p.matcher(colorNote);
             if(mN.matches()){
                 note.setTextColor(Color.parseColor(colorNote));
+                noteTV.setTextColor(Color.parseColor(colorNote));
             }
         }
 
+        if (colorTitleDesc != null) {
+            Matcher mN = p.matcher(colorTitleDesc);
+            if(mN.matches()){
+                titreT.setTextColor(Color.parseColor(colorTitleDesc));
+            }
+        }
+
+        if (colorNoteDesc != null) {
+            Matcher mN = p.matcher(colorNote);
+            if(mN.matches()){
+                noteT.setTextColor(Color.parseColor(colorNote));
+            }
+        }
         final Button buttonSave = (Button)findViewById(R.id.ButtonSave);
         final Button buttonQuit = (Button)findViewById(R.id.ButtonQuit);
         buttonSave.setTextSize(textSizeButton);
