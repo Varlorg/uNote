@@ -143,6 +143,18 @@
             android:key="pref_note_text_color_note_edit"
             android:summary="hexa format color #000000"
             android:title="text color edit note" />
+        <EditTextPreference
+            android:defaultValue="#999999"
+            android:inputType="textShortMessage"
+            android:key="pref_note_text_color_note_edit_desc"
+            android:summary="hexa format color #000000"
+            android:title="text color edit note desc" />
+        <EditTextPreference
+            android:defaultValue="#999999"
+            android:inputType="textShortMessage"
+            android:key="pref_note_text_color_title_edit_desc"
+            android:summary="hexa format color #000000"
+            android:title="text color edit title desc" />
         <ListPreference
             android:defaultValue="18"
             android:entries="@array/textSize"
