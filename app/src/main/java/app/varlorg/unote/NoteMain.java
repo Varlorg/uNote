@@ -22,6 +22,7 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -90,6 +91,44 @@ public class NoteMain extends Activity
         toast.setDuration(Toast.LENGTH_LONG);
 
         toast.show();
+    }
+
+    private LinearLayout passwordPopup(){
+        final EditText            input = new EditText(NoteMain.this);
+        ImageButton togglePasswordVisibilityButton = new ImageButton(NoteMain.this);
+        LinearLayout layout = new LinearLayout(NoteMain.this);
+
+        LinearLayout.LayoutParams lp    = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        input.setLayoutParams(lp);
+        input.setTextSize(textSize);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+        // Create an ImageButton for toggling password visibility
+
+        togglePasswordVisibilityButton.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        togglePasswordVisibilityButton.setImageResource(android.R.drawable.ic_menu_view); // Set your own image resource
+
+        // Add a click listener to toggle password visibility
+        togglePasswordVisibilityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (input.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                } else {
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
+
+        layout.setOrientation(LinearLayout.HORIZONTAL);
+        layout.addView(togglePasswordVisibilityButton);
+        layout.addView(input);
+        return layout;
     }
     @Override
     public void onPause()
@@ -191,18 +230,13 @@ public class NoteMain extends Activity
                 boolean canEdit = false;
                 if (n.getPassword() != null)
                 {
-                    final EditText input         = new EditText(NoteMain.this);
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                    input.setLayoutParams(lp);
-                    input.setTextSize(textSize);
-                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    LinearLayout layout = passwordPopup();
+                    EditText input = (EditText) layout.getChildAt(1);
                     AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
                     builder
                     .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
                     .setMessage(NoteMain.this.getString(R.string.dialog_pwd_msg))
-                    .setView(input)
+                    .setView(layout)
                     .setPositiveButton(NoteMain.this.getString(R.string.dialog_pwd_submit), new DialogInterface.OnClickListener()
                     {
                         @Override
@@ -778,16 +812,21 @@ public class NoteMain extends Activity
         else
         if (item.getTitle().equals(this.getString(R.string.menu_passwd)))
         {
+            /*
             final EditText            input = new EditText(NoteMain.this);
+            ImageButton togglePasswordVisibilityButton = new ImageButton(NoteMain.this);
+            LinearLayout layout = new LinearLayout(NoteMain.this);
+
             LinearLayout.LayoutParams lp    = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
+
             input.setLayoutParams(lp);
             input.setTextSize(textSize);
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
             // Create an ImageButton for toggling password visibility
-            ImageButton togglePasswordVisibilityButton = new ImageButton(NoteMain.this);
+
             togglePasswordVisibilityButton.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -805,12 +844,11 @@ public class NoteMain extends Activity
                 }
             });
 
-            // Create a layout to hold the EditText and ImageButton
-            LinearLayout layout = new LinearLayout(NoteMain.this);
             layout.setOrientation(LinearLayout.HORIZONTAL);
-            layout.addView(input);
             layout.addView(togglePasswordVisibilityButton);
-
+            layout.addView(input);*/
+            LinearLayout layout = passwordPopup();
+            EditText input = (EditText) layout.getChildAt(1);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
             .setTitle(NoteMain.this.getString(R.string.dialog_add_pwd_title))
@@ -1035,18 +1073,13 @@ public class NoteMain extends Activity
         final Note             note  = simpleAdpt.getItem(aInfo.position);
         if (note.getPassword() != null)
         {
-            final EditText            input = new EditText(NoteMain.this);
-            LinearLayout.LayoutParams lp    = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-            input.setLayoutParams(lp);
-            input.setTextSize(textSize);
-            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            LinearLayout layout = passwordPopup();
+            EditText input = (EditText) layout.getChildAt(1);
             AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
             builder
             .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
             .setMessage(NoteMain.this.getString(R.string.dialog_pwd_msg))
-            .setView(input)
+            .setView(layout)
             .setPositiveButton(NoteMain.this.getString(R.string.dialog_pwd_submit), new DialogInterface.OnClickListener()
             {
                 @Override
