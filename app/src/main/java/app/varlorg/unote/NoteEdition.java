@@ -48,6 +48,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.regex.*;
 
 public class NoteEdition extends Activity
 {
@@ -227,6 +228,28 @@ public class NoteEdition extends Activity
         noteTV.setTextSize(textSize);
         titreT.setTextSize(textSize);
         noteT.setTextSize(textSize);
+
+        String colorTitle = pref.getString("pref_note_text_color_title_edit", "#999999");
+        String colorNote = pref.getString("pref_note_text_color_note_edit", "#999999");
+
+        // Regex to check valid hexadecimal color code.
+        String regex = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
+        Pattern p = Pattern.compile(regex);
+
+        if (colorTitle != null) {
+            Matcher mT = p.matcher(colorTitle);
+            if(mT.matches()){
+                titre.setTextColor(Color.parseColor(colorTitle));
+            }
+        }
+
+        if (colorNote != null) {
+            Matcher mN = p.matcher(colorNote);
+            if(mN.matches()){
+                note.setTextColor(Color.parseColor(colorNote));
+            }
+        }
+
         final Button buttonSave = (Button)findViewById(R.id.ButtonSave);
         final Button buttonQuit = (Button)findViewById(R.id.ButtonQuit);
         buttonSave.setTextSize(textSizeButton);

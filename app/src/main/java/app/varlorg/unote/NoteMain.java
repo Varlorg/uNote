@@ -380,14 +380,29 @@ public class NoteMain extends Activity
     public View getViewCustom(int position, View view, ViewGroup viewGroup, Note n)
     {
         String noteSummary;
+        String title = n.getTitre();
+        String htmlTitleColorAttribute = ""; 
+        String colorTitle = pref.getString("pref_note_text_color_title", null);
+        // Regex to check valid hexadecimal color code.
+        String regex = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
+        Pattern p = Pattern.compile(regex);
+
+        if (colorTitle != null) {
+            Log.d(BuildConfig.APPLICATION_ID, "colorTitle  " +  colorTitle );
+            Matcher m = p.matcher(colorTitle);
+            if(m.matches()){
+                htmlTitleColorAttribute = "style=color:" + colorTitle + "; ";
+            }
+        }
+        Log.d(BuildConfig.APPLICATION_ID, "htmlTitleColorAttribute  " +  htmlTitleColorAttribute);
 
         if (n.getPassword() != null)
         {
-            noteSummary = "<b>" + n.getTitre() + "</b> <br/>" + NoteMain.this.getString(R.string.pwd_protected);
+            noteSummary = "<b " + htmlTitleColorAttribute + ">" + title + "</b> <br/>" + NoteMain.this.getString(R.string.pwd_protected);
         }
         else
         {
-            noteSummary = "<b>" + n.getTitre() + "</b> <br/>" + n.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30")));
+            noteSummary = "<b " + htmlTitleColorAttribute + ">" + title + "</b> <br/>" + n.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30")));
             if (pref.getBoolean("pref_date", false))
             {
                 noteSummary += "<br/>" + n.getDateCreationFormated();
@@ -397,17 +412,15 @@ public class NoteMain extends Activity
                 noteSummary += "<br/>modif: " + n.getDateModificationFormated();
             }
         }
+        Log.d(BuildConfig.APPLICATION_ID, "noteSummary  " +  noteSummary);
         ((TextView)view).setText(Html.fromHtml(noteSummary));
         ((TextView)view).setTextSize(textSize);
         
-        String color = pref.getString("pref_note_text_color", "#999999");
-        // Regex to check valid hexadecimal color code.
-        String regex = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
-        Pattern p = Pattern.compile(regex);
-        if (color != null) {
-            Matcher m = p.matcher(color);
-            if(m.matches()){
-                ((TextView)view).setTextColor(Color.parseColor(color));
+        String colorAll = pref.getString("pref_note_text_color", null);
+        if (colorAll != null) {
+            Matcher mAll = p.matcher(colorAll);
+            if(mAll.matches()){
+                ((TextView)view).setTextColor(Color.parseColor(colorAll));
             }
         }     
 

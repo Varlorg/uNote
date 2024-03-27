@@ -112,7 +112,37 @@
             android:inputType="textShortMessage"
             android:key="pref_note_text_color"
             android:summary="hexa format color #000000"
-            android:title="text color" />
+            android:title="text color main all" />
+        <EditTextPreference
+            android:defaultValue="#999999"
+            android:inputType="textShortMessage"
+            android:key="pref_note_text_color_title"
+            android:summary="hexa format color #000000"
+            android:title="text color main title" />
+        <EditTextPreference
+            android:defaultValue="#999999"
+            android:inputType="textShortMessage"
+            android:key="pref_note_text_color_note"
+            android:summary="hexa format color #000000"
+            android:title="text color main noe" />
+        <EditTextPreference
+            android:defaultValue="#999999"
+            android:inputType="textShortMessage"
+            android:key="pref_note_text_color_details"
+            android:summary="hexa format color #000000"
+            android:title="text color main details" />
+        <EditTextPreference
+            android:defaultValue="#999999"
+            android:inputType="textShortMessage"
+            android:key="pref_note_text_color_title_edit"
+            android:summary="hexa format color #000000"
+            android:title="text color edit title" />
+        <EditTextPreference
+            android:defaultValue="#999999"
+            android:inputType="textShortMessage"
+            android:key="pref_note_text_color_note_edit"
+            android:summary="hexa format color #000000"
+            android:title="text color edit note" />
         <ListPreference
             android:defaultValue="18"
             android:entries="@array/textSize"
