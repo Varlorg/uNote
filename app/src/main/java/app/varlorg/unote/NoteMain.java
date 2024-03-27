@@ -785,11 +785,37 @@ public class NoteMain extends Activity
             input.setLayoutParams(lp);
             input.setTextSize(textSize);
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+            // Create an ImageButton for toggling password visibility
+            ImageButton togglePasswordVisibilityButton = new ImageButton(NoteMain.this);
+            togglePasswordVisibilityButton.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+            togglePasswordVisibilityButton.setImageResource(android.R.drawable.ic_menu_view); // Set your own image resource
+
+            // Add a click listener to toggle password visibility
+            togglePasswordVisibilityButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (input.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    } else {
+                        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    }
+                }
+            });
+
+            // Create a layout to hold the EditText and ImageButton
+            LinearLayout layout = new LinearLayout(NoteMain.this);
+            layout.setOrientation(LinearLayout.HORIZONTAL);
+            layout.addView(input);
+            layout.addView(togglePasswordVisibilityButton);
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
             .setTitle(NoteMain.this.getString(R.string.dialog_add_pwd_title))
             .setMessage(NoteMain.this.getString(R.string.dialog_add_pwd_msg))
-            .setView(input)
+            .setView(layout)
             //.setView(menuPwdView)
             .setNegativeButton(NoteMain.this.getString(R.string.dialog_add_pwd_remove), new DialogInterface.OnClickListener()
             {
