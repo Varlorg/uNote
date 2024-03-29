@@ -287,6 +287,36 @@ public class NoteEdition extends Activity
                 }
             }
         });
+
+        note.requestFocus();
+        if (pref.getBoolean("pref_edit_cursor_end", false)) {
+            Log.d(BuildConfig.APPLICATION_ID, "setSelection  " +  note.getText().length() );
+            note.post(new Runnable() {
+                @Override
+                public void run() {
+                    note.setSelection(note.length());
+                }
+            });
+        } else {
+            note.post(new Runnable() {
+                @Override
+                public void run() {
+                    note.setSelection(0);
+                }
+            });
+        }
+        if (pref.getBoolean("pref_edit_capitalize_note", false)) {
+            note.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        }
+        if (pref.getBoolean("pref_edit_capitalize_title", false)) {
+            titreNote.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        }
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(noteTV.getWindowToken(), 0);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        imm.showSoftInput(note, InputMethodManager.SHOW_FORCED);
+        titre.setTag(null);
+        note.setTag(null);
     }
 
     @Override
@@ -363,21 +393,6 @@ public class NoteEdition extends Activity
                 titreNote.setTextSize(textSize);
             }
             note.requestFocus();
-            if (pref.getBoolean("pref_edit_cursor_end", false)) {
-                note.setSelection(note.getText().length());
-            } else {
-                note.setSelection(0);
-            }
-            if (pref.getBoolean("pref_edit_capitalize_note", false)) {
-                note.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-            }   
-            if (pref.getBoolean("pref_edit_capitalize_title", false)) {
-                titreNote.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-            }        
-            InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(noteTV.getWindowToken(), 0);
-            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-            imm.showSoftInput(note, InputMethodManager.SHOW_FORCED);
             titre.setTag(null);
             note.setTag(null);
         }
