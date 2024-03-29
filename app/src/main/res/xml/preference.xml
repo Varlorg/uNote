@@ -245,5 +245,10 @@
         android:key="exportDirSelect"
         android:title="@string/export_path_select"
         android:summary="@string/export_path_select_summary" />
+    <Preference
+        android:selectable="true"
+        android:enabled="true"
+        android:key="colorPicker"
+        android:title="Color picker" />
 
 </PreferenceScreen>	
