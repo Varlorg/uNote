@@ -124,7 +124,7 @@ public class NoteMain extends Activity
                 }
             }
         });
-
+        input.requestFocus();
         layout.setOrientation(LinearLayout.HORIZONTAL);
         layout.addView(togglePasswordVisibilityButton);
         layout.addView(input);
