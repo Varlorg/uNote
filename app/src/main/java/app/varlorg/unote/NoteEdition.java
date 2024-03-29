@@ -1,7 +1,5 @@
 package app.varlorg.unote;
 
-import static android.app.PendingIntent.getActivity;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -12,10 +10,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputType;
@@ -315,6 +316,33 @@ public class NoteEdition extends Activity
         imm.hideSoftInputFromWindow(noteTV.getWindowToken(), 0);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         imm.showSoftInput(note, InputMethodManager.SHOW_FORCED);
+        titre.addTextChangedListener(new TextWatcher()
+    {
+        @Override
+        public void afterTextChanged(Editable arg0)
+        {
+            // DO nothing
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence arg0, int arg1,
+                                      int arg2, int arg3)
+        {
+            // Do nothing
+        }
+
+        @Override
+        public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
+        {
+            if ( titre.getText().length() != 0) {
+                titre.getBackground().setColorFilter( new PorterDuffColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN));
+            }
+            else {
+                titre.getBackground().clearColorFilter();
+            }
+        }
+    });
+
         titre.setTag(null);
         note.setTag(null);
     }
