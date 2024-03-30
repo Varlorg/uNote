@@ -28,6 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import yuku.ambilwarna.AmbilWarnaDialog;
+
 public class Preference extends PreferenceActivity {
     private static final int REQUEST_CODE_OPEN_DIRECTORY = 2;
     private static Uri uri;
@@ -252,29 +254,6 @@ public class Preference extends PreferenceActivity {
             }
         });
         exportDirSelect.setSummary(this.getString(R.string.export_path_select_summary) + " " + outputDir);
-
-        android.preference.Preference colorPicker = findPreference("colorPicker");
-        colorPicker.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
-        {
-            @Override
-            public boolean onPreferenceClick(android.preference.Preference arg0)
-            {
-                ColorPickerDialog.OnColorChangedListener l = new ColorPickerDialog.OnColorChangedListener() {
-                    public void colorChanged(int color) {
-                        String hexColor = String.format("#%06X", (0xFFFFFF & color));
-                        Log.d(BuildConfig.APPLICATION_ID, "colot picked  " +  hexColor );
-                        setTitle(hexColor);
-                        SharedPreferences sp =  PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putString("color", hexColor);
-                    }
-                };
-                ColorPickerDialog a = new ColorPickerDialog(Preference.this , l, Color.GREEN);
-                a.show();
-
-                return true;
-            }
-        });
     }
     private void openDirectory() {
         //Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);

@@ -106,55 +106,54 @@
             android:maxLength="4"
             android:title="Note padding" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_text_size">
-        <EditTextPreference
-            android:defaultValue="#999999"
-            android:inputType="textShortMessage"
-            android:key="pref_note_text_color"
-            android:summary="hexa format color #000000"
+    <PreferenceCategory android:title="string/pref_text_color">
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:key="pref_note_text_color_main"
+            android:defaultValue="0xff999999"
             android:title="text color main all" />
-        <EditTextPreference
-            android:defaultValue="#999999"
-            android:inputType="textShortMessage"
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_note_text_color_main_bool"
+            android:title="text color edit all bool" />
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
             android:key="pref_note_text_color_title"
-            android:summary="hexa format color #000000"
             android:title="text color main title" />
-        <EditTextPreference
-            android:defaultValue="#999999"
-            android:inputType="textShortMessage"
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
             android:key="pref_note_text_color_note"
-            android:summary="hexa format color #000000"
             android:title="text color main noe" />
-        <EditTextPreference
-            android:defaultValue="#999999"
-            android:inputType="textShortMessage"
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
             android:key="pref_note_text_color_details"
-            android:summary="hexa format color #000000"
             android:title="text color main details" />
-        <EditTextPreference
-            android:defaultValue="#999999"
-            android:inputType="textShortMessage"
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
+            android:key="pref_note_text_color_edit_all"
+            android:title="text color edit all" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_note_text_color_edit_bool"
+            android:title="text color edit all bool" />
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
             android:key="pref_note_text_color_title_edit"
-            android:summary="hexa format color #000000"
             android:title="text color edit title" />
-        <EditTextPreference
-            android:defaultValue="#999999"
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
             android:inputType="textShortMessage"
             android:key="pref_note_text_color_note_edit"
-            android:summary="hexa format color #000000"
             android:title="text color edit note" />
-        <EditTextPreference
-            android:defaultValue="#999999"
-            android:inputType="textShortMessage"
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
             android:key="pref_note_text_color_note_edit_desc"
-            android:summary="hexa format color #000000"
             android:title="text color edit note desc" />
-        <EditTextPreference
-            android:defaultValue="#999999"
-            android:inputType="textShortMessage"
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
             android:key="pref_note_text_color_title_edit_desc"
-            android:summary="hexa format color #000000"
             android:title="text color edit title desc" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_text_size">
         <ListPreference
             android:defaultValue="18"
             android:entries="@array/textSize"
@@ -245,10 +244,4 @@
         android:key="exportDirSelect"
         android:title="@string/export_path_select"
         android:summary="@string/export_path_select_summary" />
-    <Preference
-        android:selectable="true"
-        android:enabled="true"
-        android:key="colorPicker"
-        android:title="Color picker" />
-
 </PreferenceScreen>	
