@@ -80,14 +80,15 @@
 	<string name="pref_edit_capitalize_title">Enable capitalization on title</string>
 	<string name="pref_edit_capitalize_note">Enable capitalization on note content</string>
 	<string name="pref_note_padding_main">Padding for notes in main screen</string>
-	<string name="pref_cat_text_color">Text Color</string>
+	<string name="pref_cat_text_color">Text Color in main screen</string>
+	<string name="pref_cat_text_color_edition">Text Color in edition</string>
 	<string name="pref_note_text_color_main">Global color on main screen</string>
 	<string name="pref_note_text_color_main_bool">Use specific colors on main screen</string>
 	<string name="pref_note_text_color_title">Title\'s color</string>
 	<string name="pref_note_text_color_note">Note header\'s color</string>
 	<string name="pref_note_text_color_details">Details color</string>
 	<string name="pref_note_text_color_edit_all">Text Color in edition screen</string>
-	<string name="pref_note_text_color_edit_bool">Use specific color on edition screen</string>
+	<string name="pref_note_text_color_edit_bool">Use specific colors on edition screen</string>
 	<string name="pref_note_text_color_title_edit">Title\'s color</string>
 	<string name="pref_note_text_color_note_edit">Note\'s color</string>
 	<string name="pref_note_text_color_note_edit_desc">Note description\'s color</string>

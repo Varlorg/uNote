@@ -77,15 +77,15 @@
 	<string name="pref_edit_cursor_end">Colocar o cursor no fim ao abrir a nota</string>
 	<string name="pref_edit_capitalize_title">Ativar a capitalização no título</string>
 	<string name="pref_edit_capitalize_note">Ativar a capitalização no conteúdo da nota</string>
-	<string name="pref_note_padding_main">Preenchimento de notas no ecrã principal</string>
-	<string name="pref_cat_text_color">Cor do texto</string>
+	<string name="pref_note_padding_main">Margem para notas no ecrã principal</string>
+	<string name="pref_cat_text_color">Cor do texto no ecrã principal</string>
 	<string name="pref_note_text_color_main">Cor do texto no ecrã principal</string>
 	<string name="pref_note_text_color_main_bool">Utilizar cores específicas no ecrã principal</string>
 	<string name="pref_note_text_color_title">Cor do título</string>
 	<string name="pref_note_text_color_note">Cor do cabeçalho da nota</string>
 	<string name="pref_note_text_color_details">Cor dos pormenores</string>
 	<string name="pref_note_text_color_edit_all">Cor do texto no ecrã de edição</string>
-	<string name="pref_note_text_color_edit_bool">Utilizar uma cor específica na edição</string>
+	<string name="pref_note_text_color_edit_bool">Utilizar cores específicas no ecrã de edição</string>
 	<string name="pref_note_text_color_title_edit">Cor do título</string>
 	<string name="pref_note_text_color_note_edit">Cor da nota</string>
 	<string name="pref_note_text_color_note_edit_desc">Cor da secção de notas</string>
@@ -178,9 +178,10 @@
 	<string name="mode_normal">Modo normal</string>
 	<string name="mode_selection">Modo seleção</string>
     <string name="toast_import_csv_added">" nota(s) adicionada(s)"</string>
+	<string name="pref_cat_text_color_edition">Cor do texto na edição</string>
 
 
-    <!-- Not used ? -
+	<!-- Not used ? -
     <color name="note_color">#FEFEE2</color>
     <string name="text_view"> </string>-->
 

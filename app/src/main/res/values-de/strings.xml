@@ -77,15 +77,15 @@
     <string name="pref_edit_cursor_end">Cursor beim Öffnen der Notiz an das Ende setzen</string>
     <string name="pref_edit_capitalize_title">Großschreibung im Titel aktivieren</string>
     <string name="pref_edit_capitalize_note">Großschreibung für Noteninhalte aktivieren</string>
-    <string name="pref_note_padding_main">Ausrichtungsbereiche für Notizen im Hauptbildschirm</string>
-    <string name="pref_cat_text_color">Textfarbe</string>
+    <string name="pref_note_padding_main">Rand für Notizen im Hauptbildschirm</string>
+    <string name="pref_cat_text_color">Textfarbe im Hauptbildschirm</string>
     <string name="pref_note_text_color_main">Globale Farbe auf dem Hauptbildschirm</string>
     <string name="pref_note_text_color_main_bool">Bestimmte Farben auf dem Hauptbildschirm verwenden</string>
     <string name="pref_note_text_color_title">Farbe des Titels</string>
     <string name="pref_note_text_color_note">Farbe der Kopfzeile beachten</string>
     <string name="pref_note_text_color_details">Details Farbe</string>
     <string name="pref_note_text_color_edit_all">Textfarbe im Ausgabebildschirm</string>
-    <string name="pref_note_text_color_edit_bool">Eine bestimmte Farbe in der Edition verwenden</string>
+    <string name="pref_note_text_color_edit_bool">Bestimmte Farben auf dem Ausgabebildschirm verwenden</string>
     <string name="pref_note_text_color_title_edit">Farbe des Titels</string>
     <string name="pref_note_text_color_note_edit">Farbe der Notiz</string>
     <string name="pref_note_text_color_note_edit_desc">Farbe des Abschnitts Note</string>
@@ -178,6 +178,7 @@
     <string name="mode_normal">Normaler Modus</string>
     <string name="mode_selection">Auswahl-Modus</string>
     <string name="toast_import_csv_added">" hinzugefügte Notiz(en)"</string>
+    <string name="pref_cat_text_color_edition">Textfarbe in edition</string>
 
     <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>

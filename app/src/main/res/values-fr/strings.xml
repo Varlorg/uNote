@@ -74,19 +74,19 @@
 	<string name="pref_edit_mode_menu_all">Afficher tous les menus en mode edition</string>
 	<string name="pref_edit_mode_view_ui">Nouvelle interface pour aperçu</string>
 	<string name="pref_edit_mode_edit_ui">Nouvelle interface pour l\'édition</string>
-	<string name="pref_cat_editing"></string>
+	<string name="pref_cat_editing">Edition</string>
 	<string name="pref_edit_cursor_end">Placer le curseur à la fin lors de l\'ouverture de la note</string>
 	<string name="pref_edit_capitalize_title">Activer les majuscules sur le titre</string>
 	<string name="pref_edit_capitalize_note">Activer les majuscules sur le contenu des notes</string>
-	<string name="pref_note_padding_main">Espaces d\'alignement pour les notes dans l\'écran principal</string>
-	<string name="pref_cat_text_color">Couleur du texte</string>
+	<string name="pref_note_padding_main">Marge pour les notes dans l\'écran principal</string>
+	<string name="pref_cat_text_color">Couleur du texte dans l\'écran principal</string>
 	<string name="pref_note_text_color_main">Couleur globale sur l\'écran principal</string>
 	<string name="pref_note_text_color_main_bool">Utiliser des couleurs spécifiques sur l\'écran principal</string>
 	<string name="pref_note_text_color_title">Couleur du titre</string>
 	<string name="pref_note_text_color_note">Couleur de l\'en-tête de la note</string>
 	<string name="pref_note_text_color_details">Couleur des détails</string>
 	<string name="pref_note_text_color_edit_all">Couleur du texte en édition</string>
-	<string name="pref_note_text_color_edit_bool">Utiliser une couleur spécifique en édition</string>
+	<string name="pref_note_text_color_edit_bool">Utiliser des couleurs spécifiques en édition</string>
 	<string name="pref_note_text_color_title_edit">Couleur du titre</string>
 	<string name="pref_note_text_color_note_edit">Couleur de la note</string>
 	<string name="pref_note_text_color_note_edit_desc">Couleur de la section note</string>
@@ -180,4 +180,5 @@
 	<string name="dialog_import_csv_msg">"Ajouter des notes à partir d'un fichier csv "</string>
 	<string name="mode_normal">Mode normal</string>
 	<string name="mode_selection">Mode sélection</string>
+	<string name="pref_cat_text_color_edition">Couleur du texte en edition</string>
 </resources>
