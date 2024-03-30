@@ -47,6 +47,7 @@ public class NoteMain extends Activity
     private static final String PREF_SORT_ORDER  = "pref_ordretri";
     public  static final double POPUP_TEXTSIZE_FACTOR    = 0.9;
     public  static final double TOAST_TEXTSIZE_FACTOR    = 0.9;
+    public  static final int COLOR_TEXT_DEFAULT    = 0xff999999;
 
     private static final String HEX = "0123456789ABCDEF";
     private int colorBackground;
@@ -421,37 +422,25 @@ public class NoteMain extends Activity
         String htmlDetailsColorAttributeStart = "";
         String htmlDetailsColorAttributeEnd = "";
 
-        String colorTitle = pref.getString("pref_note_text_color_title", null);
-        String colorNote = pref.getString("pref_note_text_color_note", null);
-        String colorDetails = pref.getString("pref_note_text_color_details", null);
+        int colorTitle = pref.getInt("pref_note_text_color_title", COLOR_TEXT_DEFAULT);
+        int colorNote = pref.getInt("pref_note_text_color_note", COLOR_TEXT_DEFAULT);
+        int colorDetails = pref.getInt("pref_note_text_color_details", COLOR_TEXT_DEFAULT);
+        boolean colorBool = pref.getBoolean("pref_note_text_color_main_bool", false);
 
         // Regex to check valid hexadecimal color code.
         String regex = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
         Pattern p = Pattern.compile(regex);
 
-        if (colorTitle != null) {
-            Log.d(BuildConfig.APPLICATION_ID, "colorTitle  " +  colorTitle );
-            Matcher m = p.matcher(colorTitle);
-            if(m.matches()){
+        if (colorBool) {
                 htmlTitleColorAttributeStart = "<font color='" + colorTitle + "'>";
                 htmlTitleColorAttributeEnd = "</font>";
-            }
-        }
-        if (colorNote != null) {
-            Log.d(BuildConfig.APPLICATION_ID, "colorNote  " +  colorNote );
-            Matcher m = p.matcher(colorNote);
-            if(m.matches()){
                 htmlNoteColorAttributeStart = "<font color='" + colorNote + "'>";
                 htmlNoteColorAttributeEnd = "</font>";
-            }
-        }
-        if (colorDetails != null) {
-            Log.d(BuildConfig.APPLICATION_ID, "colorNote  " +  colorDetails );
-            Matcher m = p.matcher(colorDetails);
-            if(m.matches()){
                 htmlDetailsColorAttributeStart = "<font color='" + colorDetails + "'>";
                 htmlDetailsColorAttributeEnd = "</font>";
-            }
+        } else {
+            int colorAll = pref.getInt("pref_note_text_color_main", COLOR_TEXT_DEFAULT);
+            ((TextView)view).setTextColor(colorAll);
         }
 
         Log.d(BuildConfig.APPLICATION_ID, "htmlTitleColorAttribute  " +  htmlTitleColorAttributeStart);
@@ -481,16 +470,7 @@ public class NoteMain extends Activity
         Log.d(BuildConfig.APPLICATION_ID, "noteSummary  " +  noteSummary);
         ((TextView)view).setText(Html.fromHtml(noteSummary));
         ((TextView)view).setTextSize(textSize);
-        
-        String colorAll = pref.getString("pref_note_text_color", null);
-        if (colorAll != null) {
-            Matcher mAll = p.matcher(colorAll);
-            if(mAll.matches()){
-                Log.d(BuildConfig.APPLICATION_ID, "setTextColor  " +  colorAll);
 
-                ((TextView)view).setTextColor(Color.parseColor(colorAll));
-            }
-        }     
 
         ((TextView)view).setPaddingRelative(Integer.parseInt(pref.getString("pref_note_padding", "16")),
             ((TextView)view).getPaddingTop(),

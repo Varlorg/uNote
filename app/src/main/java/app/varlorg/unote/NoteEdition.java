@@ -41,6 +41,7 @@ import android.util.Log;
 import android.text.method.ScrollingMovementMethod;
 import android.graphics.Typeface;
 
+import static app.varlorg.unote.NoteMain.COLOR_TEXT_DEFAULT;
 import static app.varlorg.unote.NoteMain.POPUP_TEXTSIZE_FACTOR;
 import static app.varlorg.unote.NoteMain.TOAST_TEXTSIZE_FACTOR;
 
@@ -230,44 +231,38 @@ public class NoteEdition extends Activity
         titreT.setTextSize(textSize);
         noteT.setTextSize(textSize);
 
-        String colorTitle = pref.getString("pref_note_text_color_title_edit", "#999999");
-        String colorNote = pref.getString("pref_note_text_color_note_edit", "#999999");
-        String colorTitleDesc = pref.getString("pref_note_text_color_title_edit_desc", "#999999");
-        String colorNoteDesc = pref.getString("pref_note_text_color_note_edit_desc", "#999999");
+        int colorTitle = pref.getInt("pref_note_text_color_title_edit",COLOR_TEXT_DEFAULT );
+        int colorNote = pref.getInt("pref_note_text_color_note_edit",COLOR_TEXT_DEFAULT );
+        int colorTitleDesc = pref.getInt("pref_note_text_color_title_edit_desc", COLOR_TEXT_DEFAULT);
+        int colorAll = pref.getInt("pref_note_text_color_edit_all", COLOR_TEXT_DEFAULT);
+        int colorNoteDesc = pref.getInt("pref_note_text_color_note_edit_desc", COLOR_TEXT_DEFAULT);
+        boolean colorBool = pref.getBoolean("pref_note_text_color_edit_bool", false);
 
-        // Regex to check valid hexadecimal color code.
-        String regex = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
-        Pattern p = Pattern.compile(regex);
+        if (colorBool) {
+            titreT.setTextColor(colorTitleDesc);
 
-        if (colorTitle != null) {
-            Matcher mT = p.matcher(colorTitle);
-            if(mT.matches()){
-                titre.setTextColor(Color.parseColor(colorTitle));
-                titreNoteTV.setTextColor(Color.parseColor(colorTitle));
-            }
+            titre.setTextColor(colorTitle);
+            titreNoteTV.setTextColor(colorTitle);
+
+            noteT.setTextColor(colorNoteDesc);
+
+            note.setTextColor(colorNote);
+            noteTV.setTextColor(colorNote);
+
+            Log.d(BuildConfig.APPLICATION_ID, String.format("colorTitleDesc x %08x",  colorTitleDesc) );
+            Log.d(BuildConfig.APPLICATION_ID, String.format("colorTitle x %08x",  colorTitle) );
+            Log.d(BuildConfig.APPLICATION_ID, String.format("colorNoteDesc x %08x",  colorNoteDesc) );
+            Log.d(BuildConfig.APPLICATION_ID, String.format("colorNote x %08x",  colorNote) );
+        } else {
+            titreT.setTextColor(colorAll);
+            titre.setTextColor(colorAll);
+            titreNoteTV.setTextColor(colorAll);
+            noteT.setTextColor(colorAll);
+            note.setTextColor(colorAll);
+            noteTV.setTextColor(colorAll);
+            Log.d(BuildConfig.APPLICATION_ID, String.format("colorAll x %08x",  colorAll) );
         }
 
-        if (colorNote != null) {
-            Matcher mN = p.matcher(colorNote);
-            if(mN.matches()){
-                note.setTextColor(Color.parseColor(colorNote));
-                noteTV.setTextColor(Color.parseColor(colorNote));
-            }
-        }
-
-        if (colorTitleDesc != null) {
-            Matcher mN = p.matcher(colorTitleDesc);
-            if(mN.matches()){
-                titreT.setTextColor(Color.parseColor(colorTitleDesc));
-            }
-        }
-
-        if (colorNoteDesc != null) {
-            Matcher mN = p.matcher(colorNoteDesc);
-            if(mN.matches()){
-                noteT.setTextColor(Color.parseColor(colorNoteDesc));
-            }
-        }
         final Button buttonSave = (Button)findViewById(R.id.ButtonSave);
         final Button buttonQuit = (Button)findViewById(R.id.ButtonQuit);
         buttonSave.setTextSize(textSizeButton);
