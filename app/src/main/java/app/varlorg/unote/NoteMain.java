@@ -472,7 +472,7 @@ public class NoteMain extends Activity
         ((TextView)view).setTextSize(textSize);
 
 
-        ((TextView)view).setPaddingRelative(Integer.parseInt(pref.getString("pref_note_padding", "16")),
+        ((TextView)view).setPaddingRelative(Integer.parseInt(pref.getString("pref_note_padding_main", "16")),
             ((TextView)view).getPaddingTop(),
             ((TextView)view).getPaddingTop(),
             ((TextView)view).getPaddingTop());
