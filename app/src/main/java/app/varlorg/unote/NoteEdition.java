@@ -308,9 +308,11 @@ public class NoteEdition extends Activity
             titreNote.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         }
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(noteTV.getWindowToken(), 0);
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        imm.showSoftInput(note, InputMethodManager.SHOW_FORCED);
+        //this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        imm.showSoftInput( note, InputMethodManager.SHOW_IMPLICIT);
+        //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+
         titre.addTextChangedListener(new TextWatcher()
     {
         @Override
@@ -468,6 +470,10 @@ public class NoteEdition extends Activity
                     titreNote.setTextSize(textSize);
                 }
                 note.requestFocus();
+                InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                //this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                imm.showSoftInput( note, InputMethodManager.SHOW_IMPLICIT);
             }
             else {
                 item.setIcon(android.R.drawable.ic_menu_edit);
