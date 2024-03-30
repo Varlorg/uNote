@@ -418,6 +418,10 @@ public class NoteEdition extends Activity
                 titreNote.setTextSize(textSize);
             }
             note.requestFocus();
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            //this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+            imm.showSoftInput( note, InputMethodManager.SHOW_IMPLICIT);
             titre.setTag(null);
             note.setTag(null);
         }
