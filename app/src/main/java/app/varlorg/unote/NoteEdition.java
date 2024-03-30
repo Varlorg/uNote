@@ -357,6 +357,16 @@ public class NoteEdition extends Activity
             optionsMenu.findItem(R.id.action_copy).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_return).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
+
+        int menuColor = pref.getInt("pref_edit_menu_color", COLOR_TEXT_DEFAULT);
+        for ( int i=0; i<menu.size(); i++ ) {
+            MenuItem item = menu.getItem(i);
+            Drawable icon = item.getIcon();
+            icon.mutate();
+            icon.setColorFilter(menuColor, PorterDuff.Mode.SRC_IN);
+            item.setIcon(icon);
+        }
+
         if (pref.getBoolean("pref_edit_mode_view", false) && (intent.getStringExtra(EXTRA_NOTE) != null ))
         {
             MenuItem item = optionsMenu.findItem(R.id.action_switch_mode);

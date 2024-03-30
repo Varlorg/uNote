@@ -15,6 +15,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -533,6 +535,15 @@ public class NoteMain extends Activity
             menu.findItem(R.id.action_search).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             menu.findItem(R.id.action_multi).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             menu.findItem(R.id.action_settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
+
+        int menuColor = pref.getInt("pref_main_menu_color", COLOR_TEXT_DEFAULT);
+        for ( int i=0; i<menu.size(); i++ ) {
+            MenuItem item = menu.getItem(i);
+            Drawable icon = item.getIcon();
+            icon.mutate();
+            icon.setColorFilter(menuColor, PorterDuff.Mode.SRC_IN);
+            item.setIcon(icon);
         }
         return super.onCreateOptionsMenu(menu);
     }
