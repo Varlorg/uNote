@@ -307,12 +307,70 @@ public class NoteEdition extends Activity
         if (pref.getBoolean("pref_edit_capitalize_title", false)) {
             titreNote.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         }
-        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        imm.showSoftInput( note, InputMethodManager.SHOW_IMPLICIT);
-        //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
 
+        if (pref.getBoolean("pref_edit_mode_view", false) && (intent.getStringExtra(EXTRA_NOTE) != null ))
+        {
+            titreNoteTV.setMovementMethod(new ScrollingMovementMethod());
+            titreNoteTV.setTypeface(null, Typeface.BOLD);
+
+            noteTV.setMovementMethod(new ScrollingMovementMethod());
+
+            titreNoteTV.setText(titreNote.getText());
+            noteTV.setText(note.getText());
+            noteTV.setVisibility(View.VISIBLE);
+            titreNoteTV.setVisibility(View.VISIBLE);
+            note.setVisibility(View.GONE);
+            titreNote.setVisibility(View.GONE);
+
+            note.setTextIsSelectable(false);
+            titreNote.setTextIsSelectable(false);
+
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(noteTV.getWindowToken(), 0);
+            this.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN
+            );
+
+            noteT.setText(getString(R.string.TexteEdition) + " \uD83D\uDC41"); // 👁
+            if (pref.getBoolean("pref_edit_mode_view_ui", true))
+            {
+                titreT.setVisibility(View.GONE);
+                titreL.setVisibility(View.GONE);
+                noteT.setVisibility(View.GONE);
+                titreNoteTV.setTextSize((float) (textSize * 1.2 ));
+            }
+            else {
+                titreNoteTV.setTextSize(textSize);
+            }
+
+        }
+        else
+        {
+            noteTV.setVisibility(View.GONE);
+            titreNoteTV.setVisibility(View.GONE);
+            note.setVisibility(View.VISIBLE);
+            titreNote.setVisibility(View.VISIBLE);
+            note.setTextIsSelectable(true);
+            titreNote.setTextIsSelectable(true);
+            noteT.setText( getString(R.string.TexteEdition) + " \u270d\ufe0e" ); //✍  ✏️ ?
+            if (pref.getBoolean("pref_edit_mode_edit_ui", false))
+            {
+                titreT.setVisibility(View.GONE);
+                titreL.setVisibility(View.GONE);
+                noteT.setVisibility(View.GONE);
+                titreNote.setTextSize((float) (textSize * 1.2 ));
+            }
+            else {
+                titreNote.setTextSize(textSize);
+            }
+            note.requestFocus();
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            imm.showSoftInput( note, InputMethodManager.SHOW_IMPLICIT);
+            titre.setTag(null);
+            note.setTag(null);
+        }
         titre.addTextChangedListener(new TextWatcher()
     {
         @Override
@@ -359,71 +417,9 @@ public class NoteEdition extends Activity
             optionsMenu.findItem(R.id.action_copy).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_return).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
-        if (pref.getBoolean("pref_edit_mode_view", false) && (intent.getStringExtra(EXTRA_NOTE) != null ))
-        {
+        if (pref.getBoolean("pref_edit_mode_view", false) && (intent.getStringExtra(EXTRA_NOTE) != null )) {
             MenuItem item = optionsMenu.findItem(R.id.action_switch_mode);
             item.setIcon(android.R.drawable.ic_menu_edit);
-
-            titreNoteTV.setMovementMethod(new ScrollingMovementMethod());
-            titreNoteTV.setTypeface(null, Typeface.BOLD);
-
-            noteTV.setMovementMethod(new ScrollingMovementMethod());
-
-            titreNoteTV.setText(titreNote.getText());
-            noteTV.setText(note.getText());
-            noteTV.setVisibility(View.VISIBLE);
-            titreNoteTV.setVisibility(View.VISIBLE);
-            note.setVisibility(View.GONE);
-            titreNote.setVisibility(View.GONE);
-
-            note.setTextIsSelectable(false);
-            titreNote.setTextIsSelectable(false);
-
-            InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(noteTV.getWindowToken(), 0);
-            this.getWindow().setSoftInputMode(
-                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-            );
-
-            noteT.setText(getString(R.string.TexteEdition) + " \uD83D\uDC41"); // 👁
-            if (pref.getBoolean("pref_edit_mode_view_ui", true))
-            {
-                titreT.setVisibility(View.GONE);
-                titreL.setVisibility(View.GONE);
-                noteT.setVisibility(View.GONE);
-                titreNoteTV.setTextSize((float) (textSize * 1.2 ));
-            }
-            else {
-                titreNoteTV.setTextSize(textSize);
-            }
-
-        }
-        else
-        {
-            noteTV.setVisibility(View.GONE);
-            titreNoteTV.setVisibility(View.GONE);
-            note.setVisibility(View.VISIBLE);
-            titreNote.setVisibility(View.VISIBLE);
-            note.setTextIsSelectable(true);
-            titreNote.setTextIsSelectable(true);
-            noteT.setText( getString(R.string.TexteEdition) + " \u270d\ufe0e" ); //✍  ✏️ ?
-            if (pref.getBoolean("pref_edit_mode_edit_ui", false))
-            {
-                titreT.setVisibility(View.GONE);
-                titreL.setVisibility(View.GONE);
-                noteT.setVisibility(View.GONE);
-                titreNote.setTextSize((float) (textSize * 1.2 ));
-            }
-            else {
-                titreNote.setTextSize(textSize);
-            }
-            note.requestFocus();
-            InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            //this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-            imm.showSoftInput( note, InputMethodManager.SHOW_IMPLICIT);
-            titre.setTag(null);
-            note.setTag(null);
         }
         return true;
     }
@@ -475,8 +471,8 @@ public class NoteEdition extends Activity
                 }
                 note.requestFocus();
                 InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                //this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                        WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
                 imm.showSoftInput( note, InputMethodManager.SHOW_IMPLICIT);
             }
             else {
