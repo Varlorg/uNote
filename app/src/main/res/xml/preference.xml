@@ -85,6 +85,74 @@
             android:defaultValue="false"
             android:key="pref_edit_mode_edit_ui"
             android:title="@string/pref_edit_mode_edit_ui" />
+        <EditTextPreference
+            android:defaultValue="10"
+            android:inputType="number"
+            android:key="pref_note_padding_main"
+            android:maxLength="4"
+            android:title="@string/pref_note_padding_main" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_editing">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_edit_cursor_end"
+            android:title="@string/pref_edit_cursor_end" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_edit_capitalize_title"
+            android:title="@string/pref_edit_capitalize_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_edit_capitalize_note"
+            android:title="@string/pref_edit_capitalize_note" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_text_color">
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:key="pref_note_text_color_main"
+            android:defaultValue="0xff999999"
+            android:title="@string/pref_note_text_color_main" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_note_text_color_main_bool"
+            android:title="@string/pref_note_text_color_main_bool" />
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
+            android:key="pref_note_text_color_title"
+            android:title="@string/pref_note_text_color_title" />
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
+            android:key="pref_note_text_color_note"
+            android:title="@string/pref_note_text_color_note" />
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
+            android:key="pref_note_text_color_details"
+            android:title="@string/pref_note_text_color_details" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_text_color">
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
+            android:key="pref_note_text_color_edit_all"
+            android:title="@string/pref_note_text_color_edit_all" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_note_text_color_edit_bool"
+            android:title="@string/pref_note_text_color_edit_bool" />
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
+            android:key="pref_note_text_color_title_edit"
+            android:title="@string/pref_note_text_color_title_edit" />
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
+            android:key="pref_note_text_color_note_edit"
+            android:title="@string/pref_note_text_color_note_edit" />
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
+            android:key="pref_note_text_color_note_edit_desc"
+            android:title="@string/pref_note_text_color_note_edit_desc" />
+        <yuku.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
+            android:key="pref_note_text_color_title_edit_desc"
+            android:title="@string/pref_note_text_color_title_edit_desc" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_text_size">
         <ListPreference
@@ -177,5 +245,4 @@
         android:key="exportDirSelect"
         android:title="@string/export_path_select"
         android:summary="@string/export_path_select_summary" />
-
 </PreferenceScreen>	

@@ -3,6 +3,7 @@ package app.varlorg.unote;
 import java.util.ArrayList;
 import java.util.List;
 import java.security.MessageDigest;
+import java.util.regex.*;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -21,6 +22,7 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -31,6 +33,7 @@ import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.app.Instrumentation;
 import android.os.Parcelable;
+import android.graphics.Color;
 
 public class NoteMain extends Activity
 {
@@ -44,6 +47,7 @@ public class NoteMain extends Activity
     private static final String PREF_SORT_ORDER  = "pref_ordretri";
     public  static final double POPUP_TEXTSIZE_FACTOR    = 0.9;
     public  static final double TOAST_TEXTSIZE_FACTOR    = 0.9;
+    public  static final int COLOR_TEXT_DEFAULT    = 0xff999999;
 
     private static final String HEX = "0123456789ABCDEF";
     private int colorBackground;
@@ -88,6 +92,44 @@ public class NoteMain extends Activity
         toast.setDuration(Toast.LENGTH_LONG);
 
         toast.show();
+    }
+
+    private LinearLayout passwordPopup(){
+        final EditText            input = new EditText(NoteMain.this);
+        ImageButton togglePasswordVisibilityButton = new ImageButton(NoteMain.this);
+        LinearLayout layout = new LinearLayout(NoteMain.this);
+
+        LinearLayout.LayoutParams lp    = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        input.setLayoutParams(lp);
+        input.setTextSize(textSize);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+        // Create an ImageButton for toggling password visibility
+
+        togglePasswordVisibilityButton.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        togglePasswordVisibilityButton.setImageResource(android.R.drawable.ic_menu_view); // Set your own image resource
+
+        // Add a click listener to toggle password visibility
+        togglePasswordVisibilityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (input.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                } else {
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
+        input.requestFocus();
+        layout.setOrientation(LinearLayout.HORIZONTAL);
+        layout.addView(togglePasswordVisibilityButton);
+        layout.addView(input);
+        return layout;
     }
     @Override
     public void onPause()
@@ -189,18 +231,13 @@ public class NoteMain extends Activity
                 boolean canEdit = false;
                 if (n.getPassword() != null)
                 {
-                    final EditText input         = new EditText(NoteMain.this);
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                    input.setLayoutParams(lp);
-                    input.setTextSize(textSize);
-                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    LinearLayout layout = passwordPopup();
+                    EditText input = (EditText) layout.getChildAt(1);
                     AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
                     builder
                     .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
                     .setMessage(NoteMain.this.getString(R.string.dialog_pwd_msg))
-                    .setView(input)
+                    .setView(layout)
                     .setPositiveButton(NoteMain.this.getString(R.string.dialog_pwd_submit), new DialogInterface.OnClickListener()
                     {
                         @Override
@@ -377,15 +414,48 @@ public class NoteMain extends Activity
 
     public View getViewCustom(int position, View view, ViewGroup viewGroup, Note n)
     {
-        String noteSummary;
+
+        String htmlTitleColorAttributeStart = "";
+        String htmlTitleColorAttributeEnd = "";
+        String htmlNoteColorAttributeStart = "";
+        String htmlNoteColorAttributeEnd = "";
+        String htmlDetailsColorAttributeStart = "";
+        String htmlDetailsColorAttributeEnd = "";
+
+        int colorTitle = pref.getInt("pref_note_text_color_title", COLOR_TEXT_DEFAULT);
+        int colorNote = pref.getInt("pref_note_text_color_note", COLOR_TEXT_DEFAULT);
+        int colorDetails = pref.getInt("pref_note_text_color_details", COLOR_TEXT_DEFAULT);
+        boolean colorBool = pref.getBoolean("pref_note_text_color_main_bool", false);
+
+        // Regex to check valid hexadecimal color code.
+        String regex = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
+        Pattern p = Pattern.compile(regex);
+
+        if (colorBool) {
+                htmlTitleColorAttributeStart = "<font color='" + colorTitle + "'>";
+                htmlTitleColorAttributeEnd = "</font>";
+                htmlNoteColorAttributeStart = "<font color='" + colorNote + "'>";
+                htmlNoteColorAttributeEnd = "</font>";
+                htmlDetailsColorAttributeStart = "<font color='" + colorDetails + "'>";
+                htmlDetailsColorAttributeEnd = "</font>";
+        } else {
+            int colorAll = pref.getInt("pref_note_text_color_main", COLOR_TEXT_DEFAULT);
+            ((TextView)view).setTextColor(colorAll);
+        }
+
+        Log.d(BuildConfig.APPLICATION_ID, "htmlTitleColorAttribute  " +  htmlTitleColorAttributeStart);
+        String title = n.getTitre();
+        String noteSummary = htmlTitleColorAttributeStart + "<b>" + title + "</b> <br/>" + htmlTitleColorAttributeEnd;
 
         if (n.getPassword() != null)
         {
-            noteSummary = "<b>" + n.getTitre() + "</b> <br/>" + NoteMain.this.getString(R.string.pwd_protected);
+            noteSummary += NoteMain.this.getString(R.string.pwd_protected);
         }
         else
         {
-            noteSummary = "<b>" + n.getTitre() + "</b> <br/>" + n.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30")));
+            noteSummary += htmlNoteColorAttributeStart +
+                    n.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30"))) +
+                    htmlNoteColorAttributeEnd + htmlDetailsColorAttributeStart;
             if (pref.getBoolean("pref_date", false))
             {
                 noteSummary += "<br/>" + n.getDateCreationFormated();
@@ -395,8 +465,17 @@ public class NoteMain extends Activity
                 noteSummary += "<br/>modif: " + n.getDateModificationFormated();
             }
         }
+        noteSummary += htmlDetailsColorAttributeEnd;
+
+        Log.d(BuildConfig.APPLICATION_ID, "noteSummary  " +  noteSummary);
         ((TextView)view).setText(Html.fromHtml(noteSummary));
         ((TextView)view).setTextSize(textSize);
+
+
+        ((TextView)view).setPaddingRelative(Integer.parseInt(pref.getString("pref_note_padding_main", "16")),
+            ((TextView)view).getPaddingTop(),
+            ((TextView)view).getPaddingTop(),
+            ((TextView)view).getPaddingTop());
         return(view);
     }
 
@@ -713,18 +792,48 @@ public class NoteMain extends Activity
         else
         if (item.getTitle().equals(this.getString(R.string.menu_passwd)))
         {
+            /*
             final EditText            input = new EditText(NoteMain.this);
+            ImageButton togglePasswordVisibilityButton = new ImageButton(NoteMain.this);
+            LinearLayout layout = new LinearLayout(NoteMain.this);
+
             LinearLayout.LayoutParams lp    = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
+
             input.setLayoutParams(lp);
             input.setTextSize(textSize);
             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+            // Create an ImageButton for toggling password visibility
+
+            togglePasswordVisibilityButton.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+            togglePasswordVisibilityButton.setImageResource(android.R.drawable.ic_menu_view); // Set your own image resource
+
+            // Add a click listener to toggle password visibility
+            togglePasswordVisibilityButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (input.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    } else {
+                        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    }
+                }
+            });
+
+            layout.setOrientation(LinearLayout.HORIZONTAL);
+            layout.addView(togglePasswordVisibilityButton);
+            layout.addView(input);*/
+            LinearLayout layout = passwordPopup();
+            EditText input = (EditText) layout.getChildAt(1);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
             .setTitle(NoteMain.this.getString(R.string.dialog_add_pwd_title))
             .setMessage(NoteMain.this.getString(R.string.dialog_add_pwd_msg))
-            .setView(input)
+            .setView(layout)
             //.setView(menuPwdView)
             .setNegativeButton(NoteMain.this.getString(R.string.dialog_add_pwd_remove), new DialogInterface.OnClickListener()
             {
@@ -944,18 +1053,13 @@ public class NoteMain extends Activity
         final Note             note  = simpleAdpt.getItem(aInfo.position);
         if (note.getPassword() != null)
         {
-            final EditText            input = new EditText(NoteMain.this);
-            LinearLayout.LayoutParams lp    = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-            input.setLayoutParams(lp);
-            input.setTextSize(textSize);
-            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            LinearLayout layout = passwordPopup();
+            EditText input = (EditText) layout.getChildAt(1);
             AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
             builder
             .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
             .setMessage(NoteMain.this.getString(R.string.dialog_pwd_msg))
-            .setView(input)
+            .setView(layout)
             .setPositiveButton(NoteMain.this.getString(R.string.dialog_pwd_submit), new DialogInterface.OnClickListener()
             {
                 @Override

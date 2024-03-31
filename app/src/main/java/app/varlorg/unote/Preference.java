@@ -3,6 +3,7 @@ package app.varlorg.unote;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -26,6 +27,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
+
+import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class Preference extends PreferenceActivity {
     private static final int REQUEST_CODE_OPEN_DIRECTORY = 2;
@@ -251,7 +254,6 @@ public class Preference extends PreferenceActivity {
             }
         });
         exportDirSelect.setSummary(this.getString(R.string.export_path_select_summary) + " " + outputDir);
-
     }
     private void openDirectory() {
         //Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);

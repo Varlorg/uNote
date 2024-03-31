@@ -1,0 +1,7 @@
+Changes:
+- new note opened with cursor on note content and keyboard displayed
+- add pref to configure notes padding on main screen
+- add prefs to choose text color for notes
+- remove underline title in editing mode when empty
+- add pref to capitalize sentences
+- focus note (start or end via pref) and Keyboard opens after touching existing note
