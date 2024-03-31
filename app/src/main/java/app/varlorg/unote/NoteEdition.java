@@ -368,6 +368,7 @@ public class NoteEdition extends Activity
             this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
             imm.showSoftInput( note, InputMethodManager.SHOW_IMPLICIT);
+            imm.toggleSoftInput( InputMethodManager.SHOW_IMPLICIT, 0);
             titre.setTag(null);
             note.setTag(null);
         }
