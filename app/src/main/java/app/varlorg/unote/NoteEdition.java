@@ -364,11 +364,16 @@ public class NoteEdition extends Activity
                 titreNote.setTextSize(textSize);
             }
             note.requestFocus();
-            InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
-                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-            imm.showSoftInput( note, InputMethodManager.SHOW_IMPLICIT);
-            imm.toggleSoftInput( InputMethodManager.SHOW_IMPLICIT, 0);
+            // Deplay keyboard show to let time the view to be served
+            note.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    InputMethodManager imm = (InputMethodManager) NoteEdition.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    NoteEdition.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                    imm.showSoftInput(note, InputMethodManager.SHOW_IMPLICIT);
+                }
+            },200);
             titre.setTag(null);
             note.setTag(null);
         }
