@@ -184,7 +184,7 @@ public class NotesBDD
         }
 
         SQLiteDatabase db = this.maBaseSQLite.getWritableDatabase();
-        return(fillListNote(db, selectQuery, noteList, null, false));
+        return(fillListNote(db, selectQuery, noteList, null, false, false));
     }
 
     public List <Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch, int tri, boolean ordre)
@@ -193,23 +193,24 @@ public class NotesBDD
         // Select All Query
         SQLiteDatabase db          = this.maBaseSQLite.getWritableDatabase();
         String         selectQuery = null;
+        String query_operator = "";
         if (sensitiveSearch)
         {
-            db.rawQuery("PRAGMA case_sensitive_like=ON;", null);
+            query_operator = " GLOB ";
         }
         else
         {
-            db.rawQuery("PRAGMA case_sensitive_like=OFF;", null);
+            query_operator = " LIKE ";
         }
-
-        selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE ";
+        selectQuery = "SELECT * FROM " + TABLE_NOTES + " WHERE ";
         if (!contentSearch)
         {
-            selectQuery += COL_TITRE + " LIKE ? ";
+            selectQuery += COL_TITRE + query_operator+" ? ";
         }
         else
         {
-            selectQuery += COL_TITRE + " LIKE ?" + " OR ( " + COL_NOTE + " LIKE ? AND " + COL_PASSWORD + " IS NULL) ";
+            selectQuery += COL_TITRE + query_operator + " ?" +
+                    " OR ( " + COL_NOTE + query_operator + " ? AND " + COL_PASSWORD + " IS NULL) ";
         }
         selectQuery += SQL_ORDER;
 
@@ -235,20 +236,30 @@ public class NotesBDD
             selectQuery += " DESC";
         }
 
-        return(fillListNote(db, selectQuery, noteList, str, contentSearch));
+        return(fillListNote(db, selectQuery, noteList, str, contentSearch, sensitiveSearch));
     }
 
-    public List <Note> fillListNote(SQLiteDatabase db, String selectQuery, List <Note> noteList, String s, boolean contentSearch)
+    public List <Note> fillListNote(SQLiteDatabase db, String selectQuery, List <Note> noteList, String s, boolean contentSearch, boolean sensitiveSearch)
     {
         Cursor c;
+        Log.d(BuildConfig.APPLICATION_ID, "fillListNote  selectQuery " +  selectQuery);
+        String query_operator = "";
+        if (sensitiveSearch)
+        {
+            query_operator = "*";
+        }
+        else
+        {
+            query_operator = "%";
+        }
 
         if (s != null&& contentSearch)
         {
-            c = db.rawQuery(selectQuery, new String[] { "%" + s + "%", "%" + s + "%" });
+            c = db.rawQuery(selectQuery, new String[] { query_operator + s + query_operator, query_operator + s + query_operator });
         }
         else if (s != null)
         {
-            c = db.rawQuery(selectQuery, new String[] { "%" + s + "%" });
+            c = db.rawQuery(selectQuery, new String[] { query_operator + s + query_operator });
         }
         else
         {
