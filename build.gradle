@@ -23,3 +23,10 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+ext {
+    propCompileSdkVersion = 27
+    propMinSdkVersion = 7
+    propTargetSdkVersion = propCompileSdkVersion
+    propVersionCode = 3
+    propVersionName = '2.0.1'
+}
