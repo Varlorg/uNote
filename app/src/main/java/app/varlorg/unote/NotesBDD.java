@@ -513,7 +513,7 @@ public class NotesBDD
             w.close();
             Log.d(BuildConfig.APPLICATION_ID, "exportNote " + file.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(BuildConfig.APPLICATION_ID, "Exception exportNoteTo", e);
         }
         return(file.toString());
     }
@@ -549,18 +549,20 @@ public class NotesBDD
             if (this.bdd == null )
                 return "null2";
             Cursor c = this.bdd.rawQuery(selectQuery, null);
-
+            int noteExportedNb = 0;
             // looping through all rows and adding to list
             if (c.moveToFirst())
             {
                 do
                 {
                     exportNoteTo(context, c.getInt(NUM_COL_ID), exportDate, exportTitle, destinationPath);
+                    noteExportedNb++;
                 } while (c.moveToNext());
             }
             c.close();
+            Log.d(BuildConfig.APPLICATION_ID, "noteExportedNb "+ noteExportedNb);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(BuildConfig.APPLICATION_ID, "Exception exportAllNotes", e);
         }
         return(destinationPath.toString());
     }
