@@ -287,19 +287,19 @@ public class NoteEdition extends Activity
         note.requestFocus();
         if (pref.getBoolean("pref_edit_cursor_end", false)) {
             Log.d(BuildConfig.APPLICATION_ID, "setSelection  " +  note.getText().length() );
-            note.post(new Runnable() {
+            note.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     note.setSelection(note.length());
                 }
-            });
+            }, 200);
         } else {
-            note.post(new Runnable() {
+            note.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     note.setSelection(0);
                 }
-            });
+            }, 200);
         }
         if (pref.getBoolean("pref_edit_capitalize_note", false)) {
             note.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
