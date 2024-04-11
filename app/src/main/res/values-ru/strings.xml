@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="ru"
+	tools:ignore="MissingTranslation">
+    <string name="app_name">uNote</string>
+    <string name="settings">Настройки</string>
+
+	<!-- Main -->
+	<string name="addNoteB">Добавить заметку</string>
+	<string name="searchText">Поисковой запрос</string>
+	<string name="search">Поиск</string>
+	<string name="quit">Выйти</string>
+	<string name="action_multi">Режим выбора</string>
+	<string name="item_selected">выбрана(ы)</string>
+
+	<!-- Edit -->
+	<string name="returnB">Вернуться</string>
+	<string name="save">Сохранить</string>
+	<string name="TexteEdition">Заметка</string>
+	<string name="TitreEdition">Заголовок</string>
+	<string name="editTitle_hint">Заголовок заметки</string>
+	<string name="editText_hint">Содержимое заметки</string>
+
+	<!-- Preferences text -->
+	<string name="preferences">Предпочтения</string>
+	<string name="pref_cat_search">Поиск</string>
+	<string name="pref_cat_display">Отображение</string>
+	<string name="pref_cat_confirmation">Поведение при удалении и отмене</string>
+	<string name="pref_search">Поиск по содержимому</string>
+	<string name="pref_search_sum">Искать также в содержимом заметках, кроме заметок, защищённых паролем</string>
+	<string name="pref_sensitive_search">Исследование с учётом регистра</string>
+	<string name="cb_sensitive_search">Игнорировать регистр</string>
+	<string name="pref_display_search_option">Отображать параметры поиска</string>
+	<string name="pref_search_option_orientation">Отображать параметры поиска вертикально</string>
+	<string name="pref_search_note_count">Отображение количества найденных при поиске внутри заметки</string>
+	<string name="pref_date">Дата создания</string>
+	<string name="pref_date_sum">Отображать дату создания</string>
+	<string name="pref_date_mod">Дата изменения</string>
+	<string name="pref_date_mod_sum">Отображать дату изменения</string>
+	<string name="pref_theme">Светлая тема</string>
+	<string name="pref_theme_sum">Светлая или тёмная тема</string>
+	<string name="pref_delete_confirmation">Подтверждение об удалении</string>
+	<string name="pref_cancel_confirmation">Отмена подтверждений</string>
+	<string name="pref_backButton_action">Действие кнопки "Назад"</string>
+	<string name="pref_backButton_action_summary">Определение поведения при нажатии кнопки "Назад"</string>
+	<string name="pref_sort">Сортировка по убыванию</string>
+	<string name="pref_sort_by">Сортировать по</string>
+	<string name="pref_notifications">Отображать уведомления</string>
+	<string name="pref_text_size">Размер текста</string>
+	<string name="pref_text_size_custom">Настраиваемый размер текста</string>
+	<string name="pref_text_size_custom_summary">Указать пользовательский размер текста</string>
+	<string name="pref_text_size_button_custom">Указать пользовательский размер текста для кнопок</string>
+	<string name="pref_main_button_orientation">Кнопки главного экрана горизонтальные</string>
+	<string name="pref_edition_button_orientation">Кнопки редактирования горизонтальные</string>
+	<string name="pref_export_note">Экспорт заметок</string>
+	<string name="pref_export_note_date">Добавить дату в имя файла заметки</string>
+	<string name="pref_export_note_title_short">Использовать заголовок вместо идентификатора в имени файла заметки</string>
+	<string name="pref_export_note_title">Использовать заголовок заметки в качестве имени файла экспорта вместо идентификатора</string>
+	<string name="pref_db">База данных</string>
+	<string name="pref_export_db">Экспортировать базу данных</string>
+	<string name="pref_import_db">Импортировать базу данных</string>
+	<string name="pref_import_csv">Импорт из CSV файла</string>
+	<string name="pref_import_csv_summary">Импортировать заметки из CSV файла (добавлять к существующим)</string>
+	<string name="pref_preview_limit">Ограничение предварительного просмотра</string>
+	<string name="pref_preview_limit_summary">Количество символов в предварительном просмотре заметки</string>
+	<string name="pref_keep_position_scroll">Сохранять положение прокрутки</string>
+	<string name="pref_export_csv_db">Экспорт в CSV файл</string>
+	<string name="pref_export_csv_db_summary">Экспортировать все заметки, не защищённые паролем, в файл формата CSV</string>
+	<string name="pref_export_all_notes_summary">Экспортировать все заметки, не защищённые паролем, в виде обычного текста в папку</string>
+	<string name="pref_export_all_notes">Экспортировать все заметки в виде обычного текста</string>
+	<string name="export_info_path">Путь для экспорта</string>
+	<string name="export_path_select">Изменить путь для экспорта</string>
+	<string name="export_path_select_summary">Текущий путь</string>
+	<string name="pref_main_mode_menu_all">Отображение всех меню в главном окне</string>
+	<string name="pref_edit_mode_view">Установить предварительный просмотр в качестве отображения по умолчанию для редактирования заметок</string>
+	<string name="pref_edit_mode_menu_all">Отображение всех меню в режиме редактирования</string>
+	<string name="pref_edit_mode_view_ui">Новый интерфейс для предварительного просмотра заметок</string>
+	<string name="pref_edit_mode_edit_ui">Новый интерфейс для редактирования заметок</string>
+	<string name="pref_cat_editing">Редактирование</string>
+	<string name="pref_edit_cursor_end">Установить курсор в конце заметки при открытии</string>
+	<string name="pref_edit_capitalize_title">Включить заглавные буквы в заголовке</string>
+	<string name="pref_edit_capitalize_note">Включить использование заглавных букв в содержимом заметки</string>
+	<string name="pref_note_padding_main">Отступ заметок слева на главном экране</string>
+	<string name="pref_cat_text_color">Цвет текста на главном экране</string>
+	<string name="pref_cat_text_color_edition">Цвет текста при редактировании</string>
+	<string name="pref_note_text_color_main">Глобальный цвет текста на главном экране</string>
+	<string name="pref_note_text_color_main_bool">Использовать определённые цвета на главном экране</string>
+	<string name="pref_note_text_color_title">Цвет заголовка</string>
+	<string name="pref_note_text_color_note">Цвет заголовка заметки</string>
+	<string name="pref_note_text_color_details">Цвет деталей</string>
+	<string name="pref_note_text_color_edit_all">Цвет текста на экране редактирования</string>
+	<string name="pref_note_text_color_edit_bool">Использовать определённые цвета на экране редактирования</string>
+	<string name="pref_note_text_color_title_edit">Цвет заголовка</string>
+	<string name="pref_note_text_color_note_edit">Цвет заметки</string>
+	<string name="pref_note_text_color_note_edit_desc">Цвет описания заметки</string>
+	<string name="pref_note_text_color_title_edit_desc">Цвет описания заголовка</string>
+	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
+
+	<!-- Preference toasts' text"-->
+	<string name="toast_export_db">База данных экспортирована в</string>
+	<string name="toast_import_db">База данных импортирована из</string>
+	<string name="toast_import_no_db">База данных не найдена. Сначала экспортируйте её.</string>
+	<string name="toast_export_all_notes">Все заметки экспортированы в</string>
+	<string name="toast_import_csv_added">добавлена(ы)</string>
+
+	<!-- Note Edition toasts' text"-->
+	<string name="toast_save">Сохранено</string>
+	<string name="toast_update">Заметка обновлена</string>
+	<string name="toast_fail">Неуспешно</string>
+	<string name="toast_titleCancel">Отменить изменение</string>
+	<string name="toast_msgCancel">Вы уверены?</string>
+	<string name="toast_positiveButton">Да</string>
+	<string name="toast_negativeButton">Нет</string>
+
+	<!-- Note Main toasts' text"-->
+	<string name="pwd_protected">Защищено паролем</string>
+	<string name="note_deleted">Заметка удалена!</string>
+	<string name="note_exported">Заметка экспортирована</string>
+	<string name="note_copied">Заметка скопирована</string>
+	<string name="note_duplicated">Заметка продублирована</string>
+	<string name="toast_pwd_error">Неверный пароль</string>
+	<string name="selected_notes_deleted">выбранная(ые) заметка(и) удалена(ы)</string>
+
+	<string name="menu_title">Меню заметок</string>
+	<string name="menu_edit">Редактировать</string>
+	<string name="menu_passwd">Пароль</string>
+	<string name="menu_export">Экспорт</string>
+	<string name="menu_delete">Удалить</string>
+	<string name="menu_share">Поделиться</string>
+	<string name="menu_detail">Подробности</string>
+	<string name="menu_copy">Скопировать содержимое</string>
+	<string name="menu_duplicate">Дублировать</string>
+
+	<string name="detail_title">Заголовок</string>
+	<string name="detail_nb_char">Количество символов</string>
+	<string name="detail_created">Создано</string>
+	<string name="detail_modified">Изменено</string>
+	<string name="detail_not_modified">Без изменений</string>
+	<string name="detail_number_notes">Количество заметок</string>
+
+
+	<string name="dialog_pwd_title">Запрос пароля</string>
+	<string name="dialog_pwd_msg">Введите пароль</string>
+	<string name="dialog_pwd_submit">Подтвердить</string>
+	<string name="dialog_pwd_cancel">Отменить</string>
+
+	<string name="dialog_delete_title">Удаление заметки</string>
+	<string name="dialog_delete_msg">Вы точно уверены?</string>
+	<string name="dialog_delete_yes">Да</string>
+	<string name="dialog_delete_no">Нет</string>
+
+	<string name="dialog_add_pwd_title">Добавление пароля</string>
+	<string name="dialog_add_pwd_msg">Введите пароль</string>
+	<string name="dialog_add_pwd_remove">Удалить</string>
+	<string name="dialog_add_pwd_add">Добавить</string>
+	<string name="dialog_add_pwd_cancel">Отменить</string>
+	<string name="toast_pwd_added">Пароль добавлен!</string>
+
+	<string name="restoreWarnTitle">Восстановить базу данных</string>
+	<string name="restoreWarnMessage">Это перезапишет все существующие заметки. Продолжить?</string>
+	<string name="restoreWarnPositive">Да</string>
+	<string name="restoreWarnNegative">Нет</string>
+	<string name="restoreToastInvalidDB">Эта база данных недействительна или повреждена, и не была восстановлена!</string>
+	<string name="restoreToastMountProblem">Носитель не установлен или доступен только для чтения</string>
+	<string name="restoreToastUnableToMove">Невозможно удалить старую базу данных.</string>
+	<string name="restoreToastCopyFailed">Не удалось восстановить базу данных на место. Ничего не восстановлено.</string>
+	<string name="restoreToastRestoreFinished">База данных восстановлена.</string>
+
+	<string name="dialog_backup_menu">Вариант резервного копирования</string>
+	<string name="dialog_backup_menu_deletion">Удалить эту резервную копию</string>
+	<string name="dialog_delete_backup">Удалить резервную копию</string>
+	<string name="dialog_backup_rename">Переименовать резервную копию</string>
+	<string name="dialog_backup_rename_msg">Введите новое имя резервной копии (префикс .db добавляется автоматически)</string>
+	<string name="dialog_backup_rename_valid">Переименовать</string>
+	<string name="toast_backup_deleted">Резервная копия удалена</string>
+	<string name="toast_backup_deleted_error">Удаление резервной копии не удалось</string>
+	<string name="toast_backup_rename_success">Резервная копия переименована</string>
+	<string name="toast_backup_rename_error">Не удалось переименовать резервную копию</string>
+	<string name="dialog_import_csv">Импортировать CSV файл</string>
+	<string name="dialog_import_csv_msg">Добавить заметки из CSV файла</string>
+	<string name="mode_normal">Обычный режим</string>
+	<string name="mode_selection">Режим выбора</string>
+
+	<!-- Not used ? -
+	<color name="note_color">#FEFEE2</color>
+	<string name="text_view"> </string>-->
+
+</resources>
