@@ -367,7 +367,15 @@ public class NotesBDD
                 Log.e(BuildConfig.APPLICATION_ID, "IOException importDB", e);
             }
             try {
-                bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
+                this.open();
+
+                // check if column passwd exists
+                Cursor cursor = bdd.rawQuery("SELECT * FROM " + TABLE_NOTES + " LIMIT 0", null);
+                int index = cursor.getColumnIndex(COL_PASSWORD);
+                if (index == -1) {
+                    bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
+                }
+                this.close();
             } catch (Exception e) {
                 Log.e(BuildConfig.APPLICATION_ID, "Exception importDB", e);
             }
