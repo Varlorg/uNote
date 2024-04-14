@@ -6,13 +6,20 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AmbilWarnaDialog {
 	public interface OnAmbilWarnaListener {
@@ -32,6 +39,7 @@ public class AmbilWarnaDialog {
 	final ImageView viewAlphaCursor;
 	final View viewOldColor;
 	final View viewNewColor;
+	final EditText viewNewColorHexa;
 	final View viewAlphaOverlay;
 	final ImageView viewTarget;
 	final ImageView viewAlphaCheckered;
@@ -75,6 +83,7 @@ public class AmbilWarnaDialog {
 		viewCursor = (ImageView) view.findViewById(R.id.ambilwarna_cursor);
 		viewOldColor = view.findViewById(R.id.ambilwarna_oldColor);
 		viewNewColor = view.findViewById(R.id.ambilwarna_newColor);
+		viewNewColorHexa = view.findViewById(R.id.ambilwarna_newColor_hexa);
 		viewTarget = (ImageView) view.findViewById(R.id.ambilwarna_target);
 		viewContainer = (ViewGroup) view.findViewById(R.id.ambilwarna_viewContainer);
 		viewAlphaOverlay = view.findViewById(R.id.ambilwarna_overlay);
@@ -90,7 +99,49 @@ public class AmbilWarnaDialog {
 		viewSatVal.setHue(getHue());
 		viewOldColor.setBackgroundColor(color);
 		viewNewColor.setBackgroundColor(color);
+		String hexColor = String.format("#%06X", (0xFFFFFF & color));
+		viewNewColorHexa.setText(hexColor);
+		viewNewColorHexa.setTextSize(viewNewColorHexa.getTextSize()/3);
 
+		viewNewColorHexa.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void afterTextChanged(Editable s) {}
+
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1,int arg2, int arg3) {}
+
+			@Override
+			public void onTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
+				// Regex to check valid hexadecimal color code.
+				String regex = "^#([A-Fa-f0-9]{6})$";
+				// The following names are also accepted by Color.parseColor:
+				// red, blue, green, black, white, gray, cyan, magenta, yellow,
+				// lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia,
+				// lime, maroon, navy, olive, purple, silver, and teal
+				Pattern p = Pattern.compile(regex);
+				String colorHexa = viewNewColorHexa.getText().toString();
+				if (colorHexa != null) {
+					Matcher m = p.matcher(colorHexa);
+					if(m.matches()){
+
+						int color = Color.parseColor(colorHexa);
+						Color.colorToHSV(color, currentColorHsv);
+						moveCursor();
+						if (AmbilWarnaDialog.this.supportsAlpha) moveAlphaCursor();
+						moveTarget();
+						if (AmbilWarnaDialog.this.supportsAlpha) updateAlphaView();
+						viewSatVal.setHue(getHue());
+						viewNewColor.setBackgroundColor(color);
+
+						Log.d("app.varlorg.unote.debug", "colorPicker int  " +  color);
+						Log.d("app.varlorg.unote.debug", "colorPicker hexa  " +  colorHexa);
+
+					}
+				}
+
+			}
+
+		});
 		viewHue.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -111,6 +162,8 @@ public class AmbilWarnaDialog {
 					viewSatVal.setHue(getHue());
 					moveCursor();
 					viewNewColor.setBackgroundColor(getColor());
+					String hexColor = String.format("#%06X", (0xFFFFFF & getColor()));
+					viewNewColorHexa.setText(hexColor);
 					updateAlphaView();
 					return true;
 				}
@@ -140,6 +193,8 @@ public class AmbilWarnaDialog {
 					int col = AmbilWarnaDialog.this.getColor();
 					int c = a << 24 | col & 0x00ffffff;
 					viewNewColor.setBackgroundColor(c);
+					String hexColor = String.format("#%06X", (0xFFFFFF & getColor()));
+					viewNewColorHexa.setText(hexColor);
 					return true;
 				}
 				return false;
@@ -166,7 +221,8 @@ public class AmbilWarnaDialog {
 					// update view
 					moveTarget();
 					viewNewColor.setBackgroundColor(getColor());
-
+					String hexColor = String.format("#%06X", (0xFFFFFF & getColor()));
+					viewNewColorHexa.setText(hexColor);
 					return true;
 				}
 				return false;
@@ -191,7 +247,7 @@ public class AmbilWarnaDialog {
 			}
 		})
 		//.setNeutralButton(android.R.string.copy, new DialogInterface.OnClickListener() {
-		.setNeutralButton("reset", new DialogInterface.OnClickListener() {
+		.setNeutralButton("Reset", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				if (AmbilWarnaDialog.this.listener != null) {
