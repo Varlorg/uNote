@@ -287,19 +287,19 @@ public class NoteEdition extends Activity
         note.requestFocus();
         if (pref.getBoolean("pref_edit_cursor_end", false)) {
             Log.d(BuildConfig.APPLICATION_ID, "setSelection  " +  note.getText().length() );
-            note.post(new Runnable() {
+            note.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     note.setSelection(note.length());
                 }
-            });
+            }, 200);
         } else {
-            note.post(new Runnable() {
+            note.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     note.setSelection(0);
                 }
-            });
+            }, 200);
         }
         if (pref.getBoolean("pref_edit_capitalize_note", false)) {
             note.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
@@ -364,11 +364,16 @@ public class NoteEdition extends Activity
                 titreNote.setTextSize(textSize);
             }
             note.requestFocus();
-            InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
-                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-            imm.showSoftInput( note, InputMethodManager.SHOW_IMPLICIT);
-            imm.toggleSoftInput( InputMethodManager.SHOW_IMPLICIT, 0);
+            // Deplay keyboard show to let time the view to be served
+            note.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    InputMethodManager imm = (InputMethodManager) NoteEdition.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    NoteEdition.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                    imm.showSoftInput(note, InputMethodManager.SHOW_IMPLICIT);
+                }
+            },200);
             titre.setTag(null);
             note.setTag(null);
         }

@@ -467,7 +467,7 @@ public class RestoreDbActivity extends ListActivity {
         try
         {
             // copy new file into place
-            NotesBDD noteBdd = new NotesBDD(null);
+            NotesBDD noteBdd = new NotesBDD(getApplicationContext());
             noteBdd.importDB(restoreFile.getFile());
 
             // delete backup

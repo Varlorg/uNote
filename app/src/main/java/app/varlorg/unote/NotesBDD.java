@@ -184,7 +184,7 @@ public class NotesBDD
         }
 
         SQLiteDatabase db = this.maBaseSQLite.getWritableDatabase();
-        return(fillListNote(db, selectQuery, noteList, null, false));
+        return(fillListNote(db, selectQuery, noteList, null, false, false));
     }
 
     public List <Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch, int tri, boolean ordre)
@@ -193,23 +193,24 @@ public class NotesBDD
         // Select All Query
         SQLiteDatabase db          = this.maBaseSQLite.getWritableDatabase();
         String         selectQuery = null;
+        String query_operator = "";
         if (sensitiveSearch)
         {
-            db.rawQuery("PRAGMA case_sensitive_like=ON;", null);
+            query_operator = " GLOB ";
         }
         else
         {
-            db.rawQuery("PRAGMA case_sensitive_like=OFF;", null);
+            query_operator = " LIKE ";
         }
-
-        selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE ";
+        selectQuery = "SELECT * FROM " + TABLE_NOTES + " WHERE ";
         if (!contentSearch)
         {
-            selectQuery += COL_TITRE + " LIKE ? ";
+            selectQuery += COL_TITRE + query_operator+" ? ";
         }
         else
         {
-            selectQuery += COL_TITRE + " LIKE ?" + " OR ( " + COL_NOTE + " LIKE ? AND " + COL_PASSWORD + " IS NULL) ";
+            selectQuery += COL_TITRE + query_operator + " ?" +
+                    " OR ( " + COL_NOTE + query_operator + " ? AND " + COL_PASSWORD + " IS NULL) ";
         }
         selectQuery += SQL_ORDER;
 
@@ -235,20 +236,30 @@ public class NotesBDD
             selectQuery += " DESC";
         }
 
-        return(fillListNote(db, selectQuery, noteList, str, contentSearch));
+        return(fillListNote(db, selectQuery, noteList, str, contentSearch, sensitiveSearch));
     }
 
-    public List <Note> fillListNote(SQLiteDatabase db, String selectQuery, List <Note> noteList, String s, boolean contentSearch)
+    public List <Note> fillListNote(SQLiteDatabase db, String selectQuery, List <Note> noteList, String s, boolean contentSearch, boolean sensitiveSearch)
     {
         Cursor c;
+        Log.d(BuildConfig.APPLICATION_ID, "fillListNote  selectQuery " +  selectQuery);
+        String query_operator = "";
+        if (sensitiveSearch)
+        {
+            query_operator = "*";
+        }
+        else
+        {
+            query_operator = "%";
+        }
 
         if (s != null&& contentSearch)
         {
-            c = db.rawQuery(selectQuery, new String[] { "%" + s + "%", "%" + s + "%" });
+            c = db.rawQuery(selectQuery, new String[] { query_operator + s + query_operator, query_operator + s + query_operator });
         }
         else if (s != null)
         {
-            c = db.rawQuery(selectQuery, new String[] { "%" + s + "%" });
+            c = db.rawQuery(selectQuery, new String[] { query_operator + s + query_operator });
         }
         else
         {
@@ -356,7 +367,15 @@ public class NotesBDD
                 Log.e(BuildConfig.APPLICATION_ID, "IOException importDB", e);
             }
             try {
-                bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
+                this.open();
+
+                // check if column passwd exists
+                Cursor cursor = bdd.rawQuery("SELECT * FROM " + TABLE_NOTES + " LIMIT 0", null);
+                int index = cursor.getColumnIndex(COL_PASSWORD);
+                if (index == -1) {
+                    bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
+                }
+                this.close();
             } catch (Exception e) {
                 Log.e(BuildConfig.APPLICATION_ID, "Exception importDB", e);
             }
@@ -420,49 +439,12 @@ public class NotesBDD
         return(file.toString());
     }
     public String exportNote(Context context, int id, boolean exportDate, boolean exportTitle)
-    { 
-        // name format TODO ? note_id ? title ?
-        Note n = this.getNoteWithId(id);
-        String t = n.getTitre();
-
-        String exportNoteFile = "unote_";
-        if (exportTitle)
-        {
-            exportNoteFile += t.replaceAll("[^a-zA-Z0-9.-]", "_");
-        }
-        else {
-            exportNoteFile += id ;
-        }
-
-        if (exportDate)
-        {
-            exportNoteFile += "_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime()) ;
-        }
-        exportNoteFile += ".txt";
+    {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         File externalFilesDir = context.getExternalFilesDir(null);
         String outputDir = pref.getString("output_backup_dir", externalFilesDir.toString());
-        File file = new File(outputDir, exportNoteFile);
-        try {
-            FileWriter w = new FileWriter(file,false);
-            if (this.maBaseSQLite == null )
-                return "null";
-
-            if (this.bdd == null )
-                    return "null2";
-
-            StringBuilder sb = new StringBuilder();
-
-            sb.append(t +"\n\n");
-            sb.append(n.getNote());
-            w.write(sb.toString());
-
-            w.close();
-            Log.d(BuildConfig.APPLICATION_ID, "exportNote " + file.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return(file.toString());
+        String filename = exportNoteTo(context, id,  exportDate,  exportTitle, new File(outputDir));
+        return filename;
     }
     public String exportNoteTo(Context context, int id, boolean exportDate, boolean exportTitle, File parentFolder)
     {
@@ -472,7 +454,7 @@ public class NotesBDD
         String exportNoteFile = "unote_";
         if (exportTitle)
         {
-            exportNoteFile += t.replaceAll("[^a-zA-Z0-9.-]", "_");
+            exportNoteFile += t.replaceAll("[\\\\/:*?\"<>|]", "_");
         }
         else {
             exportNoteFile += id ;
@@ -502,7 +484,7 @@ public class NotesBDD
             w.close();
             Log.d(BuildConfig.APPLICATION_ID, "exportNote " + file.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(BuildConfig.APPLICATION_ID, "Exception exportNoteTo", e);
         }
         return(file.toString());
     }
@@ -538,18 +520,20 @@ public class NotesBDD
             if (this.bdd == null )
                 return "null2";
             Cursor c = this.bdd.rawQuery(selectQuery, null);
-
+            int noteExportedNb = 0;
             // looping through all rows and adding to list
             if (c.moveToFirst())
             {
                 do
                 {
                     exportNoteTo(context, c.getInt(NUM_COL_ID), exportDate, exportTitle, destinationPath);
+                    noteExportedNb++;
                 } while (c.moveToNext());
             }
             c.close();
+            Log.d(BuildConfig.APPLICATION_ID, "noteExportedNb "+ noteExportedNb);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(BuildConfig.APPLICATION_ID, "Exception exportAllNotes", e);
         }
         return(destinationPath.toString());
     }
