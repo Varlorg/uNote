@@ -1,2 +1,3 @@
+include ':colopicker'
 include ':app'
 rootProject.name='uNote'

@@ -48,8 +48,10 @@ android {
 }
 
 dependencies {
+    implementation project(':colopicker')
+    //implementation project('mylibrary')
     testImplementation 'junit:junit:4.12'
-    implementation 'com.github.yukuku:ambilwarna:2.0.1'
+    //implementation 'com.github.yukuku:ambilwarna:2.0.1'
     //compile 'com.android.support:appcompat-v7:23.1.1'
 }
 
