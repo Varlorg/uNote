@@ -1,0 +1,6 @@
+Changes:
+- add russian translation
+- fix search for non latin script
+- fix keyboard graphic glitch during animation
+- fix category string in pref for text color in edition
+- ColorPicker: add hexa field and reset button
