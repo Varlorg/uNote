@@ -59,6 +59,21 @@
                     android:layout_height="fill_parent"
                     android:background="#aaf" />
         </FrameLayout>
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="50dp" >
+
+                <EditText
+                    android:id="@+id/ambilwarna_newColor_hexa"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:digits="#0123456789abcdefABCDEF"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:maxLength="7"
+                    android:text="#000000"
+                    android:layout_marginLeft="10sp" />
+        </FrameLayout>
 	</LinearLayout>
 	<app.varlorg.ambilwarna.AmbilWarnaSquare
 		android:id="@+id/ambilwarna_viewSatBri"
