@@ -46,14 +46,14 @@ Fork the project and modify files info the folder named "values-`<ISO_code>`" in
 
 # Icon
 
-The icon of the application has been taken for openclipart.org, made by enolynn [here the link] (https://openclipart.org/detail/190827/feuille-de-carnet-sheet-book)
+The icon of the application has been taken from [openclipart.org](https://openclipart.org/detail/190827/feuille-de-carnet-sheet-book), made by [enolynn](https://openclipart.org/artist/enolynn)
 
 # Donations
 
 In case you want to support the project and its developers you can do that on [Liberapay](https://liberapay.com/Varlorg) or [Ko-Fi](https://ko-fi.com/varlorg).
 
-<a href='https://ko-fi.com/varlorg' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
-<a href="https://liberapay.com/Varlorg/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
+* <a href='https://ko-fi.com/varlorg' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+* <a href="https://liberapay.com/Varlorg/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
 
 # License and Copyright
 
