@@ -112,33 +112,33 @@ public class AmbilWarnaDialog {
 
 			@Override
 			public void onTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
-				// Regex to check valid hexadecimal color code.
-				String regex = "^#([A-Fa-f0-9]{6})$";
-				// The following names are also accepted by Color.parseColor:
-				// red, blue, green, black, white, gray, cyan, magenta, yellow,
-				// lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia,
-				// lime, maroon, navy, olive, purple, silver, and teal
-				Pattern p = Pattern.compile(regex);
-				String colorHexa = viewNewColorHexa.getText().toString();
-				if (colorHexa != null) {
-					Matcher m = p.matcher(colorHexa);
-					if(m.matches()){
+				if (viewNewColorHexa.hasFocus()) {
+					// Regex to check valid hexadecimal color code.
+					String regex = "^#([A-Fa-f0-9]{6})$";
+					// The following names are also accepted by Color.parseColor:
+					// red, blue, green, black, white, gray, cyan, magenta, yellow,
+					// lightgray, darkgray, grey, lightgrey, darkgrey, aqua, fuchsia,
+					// lime, maroon, navy, olive, purple, silver, and teal
+					Pattern p = Pattern.compile(regex);
+					String colorHexa = viewNewColorHexa.getText().toString();
+					if (colorHexa != null) {
+						Matcher m = p.matcher(colorHexa);
+						if (m.matches()) {
+							int color = Color.parseColor(colorHexa);
+							Color.colorToHSV(color, currentColorHsv);
+							moveCursor();
+							if (AmbilWarnaDialog.this.supportsAlpha) moveAlphaCursor();
+							moveTarget();
+							if (AmbilWarnaDialog.this.supportsAlpha) updateAlphaView();
+							viewSatVal.setHue(getHue());
+							viewNewColor.setBackgroundColor(color);
 
-						int color = Color.parseColor(colorHexa);
-						Color.colorToHSV(color, currentColorHsv);
-						moveCursor();
-						if (AmbilWarnaDialog.this.supportsAlpha) moveAlphaCursor();
-						moveTarget();
-						if (AmbilWarnaDialog.this.supportsAlpha) updateAlphaView();
-						viewSatVal.setHue(getHue());
-						viewNewColor.setBackgroundColor(color);
+							Log.d("app.varlorg.unote.debug", "colorPicker int  " + color);
+							Log.d("app.varlorg.unote.debug", "colorPicker hexa  " + colorHexa);
 
-						Log.d("app.varlorg.unote.debug", "colorPicker int  " +  color);
-						Log.d("app.varlorg.unote.debug", "colorPicker hexa  " +  colorHexa);
-
+						}
 					}
 				}
-
 			}
 
 		});
@@ -162,9 +162,10 @@ public class AmbilWarnaDialog {
 					viewSatVal.setHue(getHue());
 					moveCursor();
 					viewNewColor.setBackgroundColor(getColor());
+					updateAlphaView();
 					String hexColor = String.format("#%06X", (0xFFFFFF & getColor()));
 					viewNewColorHexa.setText(hexColor);
-					updateAlphaView();
+
 					return true;
 				}
 				return false;
