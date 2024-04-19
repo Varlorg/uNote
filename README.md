@@ -63,6 +63,12 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 
+## Color Picker
+
+`colorpicker` library folder is on Apache License. 
+It has been forked from [yukuku/ambilwarna](https://github.com/yukuku/ambilwarna) and modified to add a Reset button and an hexa field.
+
+
 # Screenshots
 
 The main screen
