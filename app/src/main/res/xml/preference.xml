@@ -50,6 +50,10 @@
             android:title="@string/pref_preview_limit" />
         <CheckBoxPreference
             android:defaultValue="False"
+            android:key="pref_preview_newline"
+            android:title="\@string/pref_preview_newline" />
+        <CheckBoxPreference
+            android:defaultValue="False"
             android:key="pref_scroll"
             android:title="@string/pref_keep_position_scroll" />
         <ListPreference

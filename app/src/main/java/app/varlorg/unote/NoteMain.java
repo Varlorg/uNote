@@ -453,8 +453,10 @@ public class NoteMain extends Activity
         }
         else
         {
-            noteSummary += htmlNoteColorAttributeStart +
-                    n.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30"))) +
+            String noteHeader = n.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30")));
+            String noteToDisplay = (pref.getBoolean("pref_preview_newline", false)) ?
+                    noteHeader.replace("\n", "<br/>") : noteHeader;
+            noteSummary += htmlNoteColorAttributeStart + noteToDisplay  +
                     htmlNoteColorAttributeEnd + htmlDetailsColorAttributeStart;
             if (pref.getBoolean("pref_date", false))
             {

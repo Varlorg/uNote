@@ -61,6 +61,7 @@
 	<string name="pref_import_csv_summary">Importar notas de um ficheiro csv (adiciona às notas existentes)</string>
 	<string name="pref_preview_limit">Prever Limite</string>
 	<string name="pref_preview_limit_summary">Número de carateres de previsão por nota</string>
+	<string name="pref_preview_newline">Respeitar nova linha na pré-visualização</string>
 	<string name="pref_keep_position_scroll">Manter a posição de deslocamento</string>
 	<string name="pref_export_csv_db">Exportar csv</string>
 	<string name="pref_export_csv_db_summary">Exportar todas as notas não protegidas por senha para o formato de arquivo csv</string>
