@@ -62,7 +62,7 @@
 	<string name="pref_import_csv_summary">Импортировать заметки из CSV файла (добавлять к существующим)</string>
 	<string name="pref_preview_limit">Ограничение предварительного просмотра</string>
 	<string name="pref_preview_limit_summary">Количество символов в предварительном просмотре заметки</string>
-	<string name="pref_preview_newline">Учитывайте новую строку в предварительном просмотре</string>
+	<string name="pref_preview_formatting">Соблюдайте форматирование в предварительном просмотре</string>
 	<string name="pref_keep_position_scroll">Сохранять положение прокрутки</string>
 	<string name="pref_export_csv_db">Экспорт в CSV файл</string>
 	<string name="pref_export_csv_db_summary">Экспортировать все заметки, не защищённые паролем, в файл формата CSV</string>

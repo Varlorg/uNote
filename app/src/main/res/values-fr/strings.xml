@@ -61,7 +61,7 @@
 	<string name="pref_import_csv_summary">Importer des notes à partir d\'un fichier csv (ajoute aux notes existantes)</string>
 	<string name="pref_preview_limit">Limite de l\'aperçu</string>
 	<string name="pref_preview_limit_summary">Nombre de caractères lors de l\'aperçu</string>
-	<string name="pref_preview_newline">Respecter les sauts de ligne dans l\'aperç</string>
+	<string name="pref_preview_formatting">Respecter le formattage dans l\'aperçu</string>
 	<string name="pref_keep_position_scroll">Garder la position de défilement</string>
 	<string name="pref_export_csv_db">Exporter csv</string>
 	<string name="pref_export_csv_db_summary">Exporter toutes les notes non protégées par mot de passe dans un fichier au format csv</string>

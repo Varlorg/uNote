@@ -61,7 +61,7 @@
     <string name="pref_import_csv_summary">Notizen aus einer csv-Datei importieren (zu bestehenden Notizen hinzufügen)</string>
     <string name="pref_preview_limit">Vorschau Limit</string>
     <string name="pref_preview_limit_summary">Anzahl der Zeichen pro Notiz Vorschau</string>
-    <string name="pref_preview_newline">Neue Zeile in der Vorschau beachten</string>
+    <string name="pref_preview_formatting">Formatierung in der Vorschau respektieren</string>
     <string name="pref_keep_position_scroll">Halten Sie die Scrollposition</string>
     <string name="pref_export_csv_db">CSV exportieren</string>
     <string name="pref_export_csv_db_summary">Exportieren Sie alle nicht kennwortgeschützten Notizen in eine csv-Datei.</string>
