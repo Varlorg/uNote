@@ -1,0 +1,5 @@
+Changes:
+- add color preference for buttons
+- fix hue when opening with black and white color
+- add preference to respect formatting in preview
+- fix status bar when light theme
