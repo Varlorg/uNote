@@ -15,6 +15,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -62,6 +64,8 @@ public class NoteMain extends Activity
     private SharedPreferences pref;
     private Parcelable state;
     private int textSize;
+    private int themeID;
+    private int menuColor;
     void customToast(String msgToDisplay){
         LinearLayout linearLayout=new LinearLayout(getApplicationContext());
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -559,6 +563,37 @@ public class NoteMain extends Activity
             menu.findItem(R.id.action_multi).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             menu.findItem(R.id.action_settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
+
+        // Set black color to menu item when light theme
+        // render diff between svg and png resources when changing color ...
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            menu.findItem(R.id.action_add).getIcon().applyTheme(getTheme());
+            menu.findItem(R.id.action_search).getIcon().applyTheme(getTheme());
+            menu.findItem(R.id.action_multi).getIcon().applyTheme(getTheme());
+            menu.findItem(R.id.action_settings).getIcon().applyTheme(getTheme());
+        }*/
+        menuColor = pref.getInt("pref_note_button_main", 0xff8F8F8F);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            PorterDuffColorFilter menuColorFilter = new PorterDuffColorFilter(menuColor, PorterDuff.Mode.SRC_IN);
+            menu.findItem(R.id.action_add).getIcon()
+                    .setColorFilter(menuColorFilter);
+            menu.findItem(R.id.action_search).getIcon()
+                    .setColorFilter(menuColorFilter);
+            menu.findItem(R.id.action_multi).getIcon()
+                    .setColorFilter(menuColorFilter);
+            menu.findItem(R.id.action_settings).getIcon()
+                    .setColorFilter(menuColorFilter);
+            getResources().getDrawable(R.drawable.baseline_dynamic_feed_24).setColorFilter(menuColorFilter);
+            getResources().getDrawable(R.drawable.baseline_feed_24).setColorFilter(menuColorFilter);
+        }
+        else {
+            menu.findItem(R.id.action_add).getIcon().setTint(menuColor);
+            menu.findItem(R.id.action_search).getIcon().setTint(menuColor);
+            menu.findItem(R.id.action_multi).getIcon().setTint(menuColor);
+            menu.findItem(R.id.action_settings).getIcon().setTint(menuColor);
+            getResources().getDrawable(R.drawable.baseline_dynamic_feed_24).setTint(menuColor);
+            getResources().getDrawable(R.drawable.baseline_feed_24).setTint(menuColor);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -588,7 +623,13 @@ public class NoteMain extends Activity
         }
         else if ( id == R.id.action_multi) {
             item.setIcon(R.drawable.baseline_dynamic_feed_24);
-
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                PorterDuffColorFilter menuColorFilter = new PorterDuffColorFilter(menuColor, PorterDuff.Mode.SRC_IN);
+                item.getIcon().setColorFilter(menuColorFilter);
+            }
+            else {
+                item.getIcon().setTint(menuColor);
+            }
             lv.getChoiceMode();
             Log.d(BuildConfig.APPLICATION_ID, "ListView ChoiceMode " +  lv.getChoiceMode() );
 
@@ -597,6 +638,13 @@ public class NoteMain extends Activity
                     customToast(this.getString(R.string.mode_selection));
 
                 item.setIcon(R.drawable.baseline_feed_24);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    PorterDuffColorFilter menuColorFilter = new PorterDuffColorFilter(menuColor, PorterDuff.Mode.SRC_IN);
+                    item.getIcon().setColorFilter(menuColorFilter);
+                }
+                else {
+                    item.getIcon().setTint(menuColor);
+                }
                 lv.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
                 lv.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
                     @Override

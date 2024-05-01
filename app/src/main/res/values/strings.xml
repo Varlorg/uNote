@@ -81,8 +81,8 @@
 	<string name="pref_edit_capitalize_title">Enable capitalization on title</string>
 	<string name="pref_edit_capitalize_note">Enable capitalization on note content</string>
 	<string name="pref_note_padding_main">Padding for notes in main screen</string>
-	<string name="pref_cat_text_color">Text Color in main screen</string>
-	<string name="pref_cat_text_color_edition">Text Color in edition</string>
+	<string name="pref_cat_text_color">Color in main screen</string>
+	<string name="pref_cat_text_color_edition">Color in edition</string>
 	<string name="pref_note_text_color_main">Global color on main screen</string>
 	<string name="pref_note_text_color_main_bool">Use specific colors on main screen</string>
 	<string name="pref_note_text_color_title">Title\'s color</string>
@@ -180,6 +180,7 @@
 	<string name="dialog_import_csv_msg">Add notes from csv file </string>
 	<string name="mode_normal">Normal mode</string>
 	<string name="mode_selection">Selection mode</string>
+	<string name="pref_button_color">Buttons color</string>
 
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>

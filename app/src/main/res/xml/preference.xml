@@ -113,6 +113,11 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_cat_text_color">
         <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
+            android:key="pref_note_button_main"
+            android:defaultValue="0xff999999"
+            app:resetValue="0xff999999"
+            android:title="@string/pref_button_color" />
+        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
             android:key="pref_note_text_color_main"
             android:defaultValue="0xff999999"
             app:resetValue="0xff999999"
@@ -138,6 +143,11 @@
             android:title="@string/pref_note_text_color_details" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_cat_text_color_edition">
+        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
+            android:key="pref_note_button_edit"
+            android:defaultValue="0xff999999"
+            app:resetValue="0xff999999"
+            android:title="@string/pref_button_color" />
         <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
             android:defaultValue="0xff999999"
             app:resetValue="0xff999999"

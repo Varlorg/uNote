@@ -79,7 +79,7 @@
     <string name="pref_edit_capitalize_title">Großschreibung im Titel aktivieren</string>
     <string name="pref_edit_capitalize_note">Großschreibung für Noteninhalte aktivieren</string>
     <string name="pref_note_padding_main">Rand für Notizen im Hauptbildschirm</string>
-    <string name="pref_cat_text_color">Textfarbe im Hauptbildschirm</string>
+    <string name="pref_cat_text_color">Farbe im Hauptbildschirm</string>
     <string name="pref_note_text_color_main">Globale Farbe auf dem Hauptbildschirm</string>
     <string name="pref_note_text_color_main_bool">Bestimmte Farben auf dem Hauptbildschirm verwenden</string>
     <string name="pref_note_text_color_title">Farbe des Titels</string>
@@ -179,7 +179,8 @@
     <string name="mode_normal">Normaler Modus</string>
     <string name="mode_selection">Auswahl-Modus</string>
     <string name="toast_import_csv_added">" hinzugefügte Notiz(en)"</string>
-    <string name="pref_cat_text_color_edition">Textfarbe in edition</string>
+    <string name="pref_cat_text_color_edition">Farbe in edition</string>
+    <string name="pref_button_color">Farbe der Schaltflächen</string>
 
     <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>

@@ -81,8 +81,8 @@
 	<string name="pref_edit_capitalize_title">Включить заглавные буквы в заголовке</string>
 	<string name="pref_edit_capitalize_note">Включить использование заглавных букв в содержимом заметки</string>
 	<string name="pref_note_padding_main">Отступ заметок слева на главном экране</string>
-	<string name="pref_cat_text_color">Цвет текста на главном экране</string>
-	<string name="pref_cat_text_color_edition">Цвет текста при редактировании</string>
+	<string name="pref_cat_text_color">Цвет на главном экране</string>
+	<string name="pref_cat_text_color_edition">Цвет в издании</string>
 	<string name="pref_note_text_color_main">Глобальный цвет текста на главном экране</string>
 	<string name="pref_note_text_color_main_bool">Использовать определённые цвета на главном экране</string>
 	<string name="pref_note_text_color_title">Цвет заголовка</string>
@@ -180,6 +180,7 @@
 	<string name="dialog_import_csv_msg">Добавить заметки из CSV файла</string>
 	<string name="mode_normal">Обычный режим</string>
 	<string name="mode_selection">Режим выбора</string>
+	<string name="pref_button_color">Цвет кнопок</string>
 
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>

@@ -4,12 +4,12 @@
     tools:context="com.example.adrian.test.MainActivity">
     <item
         android:id="@+id/action_add"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/ic_action_add"
         android:title="@string/addNoteB"
         android:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_search"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_search"
         android:title="@android:string/search_go"
         android:showAsAction="ifRoom" />
     <item
@@ -20,7 +20,7 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:icon="@android:drawable/ic_menu_preferences"
+        android:icon="@drawable/ic_menu_preference"
         android:title="@string/settings"
         android:showAsAction="always" />
 </menu>

@@ -79,7 +79,7 @@
 	<string name="pref_edit_capitalize_title">Ativar a capitalização no título</string>
 	<string name="pref_edit_capitalize_note">Ativar a capitalização no conteúdo da nota</string>
 	<string name="pref_note_padding_main">Margem para notas no ecrã principal</string>
-	<string name="pref_cat_text_color">Cor do texto no ecrã principal</string>
+	<string name="pref_cat_text_color">Cor no ecrã principal</string>
 	<string name="pref_note_text_color_main">Cor do texto no ecrã principal</string>
 	<string name="pref_note_text_color_main_bool">Utilizar cores específicas no ecrã principal</string>
 	<string name="pref_note_text_color_title">Cor do título</string>
@@ -179,7 +179,8 @@
 	<string name="mode_normal">Modo normal</string>
 	<string name="mode_selection">Modo seleção</string>
     <string name="toast_import_csv_added">" nota(s) adicionada(s)"</string>
-	<string name="pref_cat_text_color_edition">Cor do texto na edição</string>
+	<string name="pref_cat_text_color_edition">Cor na edição</string>
+	<string name="pref_button_color">Cor dos botões</string>
 
 
 	<!-- Not used ? -

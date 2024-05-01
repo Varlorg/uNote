@@ -75,6 +75,7 @@ public class NoteEdition extends Activity
     private EditText titreNote;
     private TextView titreNoteTV;
     private Intent intent;
+    private int menuColor;
 
     void customToast(String msgToDisplay){
         LinearLayout linearLayout=new LinearLayout(getApplicationContext());
@@ -432,7 +433,31 @@ public class NoteEdition extends Activity
         }
         if (pref.getBoolean("pref_edit_mode_view", false) && (intent.getStringExtra(EXTRA_NOTE) != null )) {
             MenuItem item = optionsMenu.findItem(R.id.action_switch_mode);
-            item.setIcon(android.R.drawable.ic_menu_edit);
+            item.setIcon(R.drawable.mode_edit);
+        }
+        menuColor = pref.getInt("pref_note_button_edit", 0xff8F8F8F);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            PorterDuffColorFilter menuColorFilter = new PorterDuffColorFilter(menuColor, PorterDuff.Mode.SRC_IN);
+            optionsMenu.findItem(R.id.action_search).getIcon().setColorFilter(menuColorFilter);
+            optionsMenu.findItem(R.id.action_save).getIcon().setColorFilter(menuColorFilter);
+            optionsMenu.findItem(R.id.action_switch_mode).getIcon().setColorFilter(menuColorFilter);
+            optionsMenu.findItem(R.id.action_delete).getIcon().setColorFilter(menuColorFilter);
+            optionsMenu.findItem(R.id.action_export).getIcon().setColorFilter(menuColorFilter);
+            optionsMenu.findItem(R.id.action_share).getIcon().setColorFilter(menuColorFilter);
+            optionsMenu.findItem(R.id.action_copy).getIcon().setColorFilter(menuColorFilter);
+            optionsMenu.findItem(R.id.action_return).getIcon().setColorFilter(menuColorFilter);
+            getResources().getDrawable(R.drawable.mode_edit).setColorFilter(menuColorFilter);
+        }
+        else {
+            optionsMenu.findItem(R.id.action_search).getIcon().setTint(menuColor);
+            optionsMenu.findItem(R.id.action_save).getIcon().setTint(menuColor);
+            optionsMenu.findItem(R.id.action_switch_mode).getIcon().setTint(menuColor);
+            optionsMenu.findItem(R.id.action_delete).getIcon().setTint(menuColor);
+            optionsMenu.findItem(R.id.action_export).getIcon().setTint(menuColor);
+            optionsMenu.findItem(R.id.action_share).getIcon().setTint(menuColor);
+            optionsMenu.findItem(R.id.action_copy).getIcon().setTint(menuColor);
+            optionsMenu.findItem(R.id.action_return).getIcon().setTint(menuColor);
+            getResources().getDrawable(R.drawable.mode_edit).setTint(menuColor);
         }
         return true;
     }
@@ -457,8 +482,14 @@ public class NoteEdition extends Activity
             TextView noteT  = (TextView)findViewById(R.id.NoteEditionTitre);
 
             if ( noteTV.getVisibility() == View.VISIBLE){
-                item.setIcon(android.R.drawable.ic_menu_view);
-
+                item.setIcon(R.drawable.ic_menu_view);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    PorterDuffColorFilter menuColorFilter = new PorterDuffColorFilter(menuColor, PorterDuff.Mode.SRC_IN);
+                    item.getIcon().setColorFilter(menuColorFilter);
+                }
+                else {
+                    item.getIcon().setTint(menuColor);
+                }
                 titreNoteTV.setVisibility(View.GONE);
                 titreNote.setVisibility(View.VISIBLE);
                 titreNote.setTextIsSelectable(true);
@@ -489,7 +520,14 @@ public class NoteEdition extends Activity
                 imm.showSoftInput( note, InputMethodManager.SHOW_IMPLICIT);
             }
             else {
-                item.setIcon(android.R.drawable.ic_menu_edit);
+                item.setIcon(R.drawable.mode_edit);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    PorterDuffColorFilter menuColorFilter = new PorterDuffColorFilter(menuColor, PorterDuff.Mode.SRC_IN);
+                    item.getIcon().setColorFilter(menuColorFilter);
+                }
+                else {
+                    item.getIcon().setTint(menuColor);
+                }
                 titreNote.setVisibility(View.GONE);
                 titreNoteTV.setVisibility(View.VISIBLE);
                 titreNoteTV.setMovementMethod(new ScrollingMovementMethod());

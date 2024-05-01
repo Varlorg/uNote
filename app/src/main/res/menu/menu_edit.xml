@@ -3,35 +3,35 @@
 
     <item
         android:id="@+id/action_search"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_search"
         android:title="action_search"
         android:showAsAction="always" />
 
     <item
         android:id="@+id/action_save"
-        android:icon="@android:drawable/ic_menu_save"
+        android:icon="@drawable/ic_action_save"
         android:title="action_save"
         android:showAsAction="always" />
 
     <item
         android:id="@+id/action_switch_mode"
-        android:icon="@android:drawable/ic_menu_view"
+        android:icon="@drawable/ic_menu_view"
         android:title="action_edit"
         android:showAsAction="always" />
 
     <item
         android:id="@+id/action_delete"
-        android:icon="@android:drawable/ic_menu_delete"
+        android:icon="@drawable/ic_action_delete"
         android:title="@string/menu_delete"
         android:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_export"
-        android:icon="@android:drawable/ic_menu_upload"
+        android:icon="@drawable/file_upload"
         android:title="@string/menu_export"
         android:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_share"
-        android:icon="@android:drawable/ic_menu_share"
+        android:icon="@drawable/ic_action_share"
         android:title="@string/menu_share"
         android:showAsAction="ifRoom" />
     <item
@@ -41,7 +41,7 @@
         android:showAsAction="never" />
     <item
         android:id="@+id/action_return"
-        android:icon="@android:drawable/ic_menu_revert"
+        android:icon="@drawable/ic_menu_revert"
         android:title="@string/returnB"
         android:showAsAction="ifRoom" />
 
