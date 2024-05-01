@@ -181,10 +181,26 @@ public class NoteMain extends Activity
         if (!pref.getBoolean("pref_theme", false))
         {
             setTheme(android.R.style.Theme_DeviceDefault);
+            //themeID = android.R.style.Theme_DeviceDefault;
         }
         else
         {
             setTheme(android.R.style.Theme_DeviceDefault_Light);
+            //themeID = android.R.style.Theme_DeviceDefault_Light;
+            //if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                //window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                //window.setStatusBarColor(Color.BLACK);
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            //}
+            /*ActionBar actionBar = this.getActionBar();
+            if(actionBar != null) {
+                //actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+                actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+                Log.d(BuildConfig.APPLICATION_ID, " actionBar title " + actionBar.getTitle());
+
+                actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>uNote</font>"));
+            }*/
         }
 
         TypedValue tv = new TypedValue();

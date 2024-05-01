@@ -14,7 +14,7 @@
             android:name=".NoteEdition"
             android:exported="true"
             android:windowSoftInputMode="stateVisible|adjustResize"
-            android:configChanges="orientation|keyboardHidden|screenSize">
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />

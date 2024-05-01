@@ -14,6 +14,8 @@ import android.content.SharedPreferences;
 import android.content.Intent;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -86,6 +88,12 @@ public class Preference extends PreferenceActivity {
         else
         {
             setTheme(android.R.style.Theme_DeviceDefault_Light);
+            //if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                /*window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(Color.BLACK);
+            }*/
         }
         this.savedInstanceState = savedInstanceState;
         super.onCreate(savedInstanceState);
