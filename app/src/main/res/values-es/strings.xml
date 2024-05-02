@@ -181,8 +181,9 @@
     <string name="toast_import_csv_added">" nota(s) añadida(s)"</string>
 	<string name="pref_cat_text_color_edition">Color en la edición</string>
 	<string name="pref_button_color">Color de los botones</string>
+    <string name="pref_theme_system">Seguir el tema del sistema</string>
 
-	<!-- Not used ? -
+    <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>
     <string name="text_view"> </string>-->
 

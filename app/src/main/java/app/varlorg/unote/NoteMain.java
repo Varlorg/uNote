@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.GradientDrawable;
@@ -36,6 +37,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.app.Instrumentation;
 import android.os.Parcelable;
 import android.graphics.Color;
+import android.app.UiModeManager;
 
 public class NoteMain extends Activity
 {
@@ -176,36 +178,72 @@ public class NoteMain extends Activity
             lv.setAdapter(simpleAdpt);
         }
     }
+    static public boolean isNightThemeEnabled(Context context) {
+        UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
+        int nightMode = uiModeManager.getNightMode();
+        Log.d(BuildConfig.APPLICATION_ID, " uiModeManager " + nightMode);
+        switch (nightMode) {
+            case UiModeManager.MODE_NIGHT_YES:
+                return true;
+            case UiModeManager.MODE_NIGHT_NO:
+                return false;
+            case UiModeManager.MODE_NIGHT_CUSTOM:
+            case UiModeManager.MODE_NIGHT_AUTO:
+                int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                return currentNightMode == Configuration.UI_MODE_NIGHT_YES;
+            default:
+                return false;
+        }
+    }
 
+    static public void setUi(Activity a, SharedPreferences pref, Context c, Window window){
+        if (pref.getBoolean("pref_theme_system", false)) {
+            if (isNightThemeEnabled(c)) {
+                a.setTheme(android.R.style.Theme_DeviceDefault);
+            } else {
+                a.setTheme(android.R.style.Theme_DeviceDefault_Light);
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }else {
+            if (!pref.getBoolean("pref_theme", false))
+            {
+                a.setTheme(android.R.style.Theme_DeviceDefault);
+                //themeID = android.R.style.Theme_DeviceDefault;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    View view = window.getDecorView();
+                    view.setSystemUiVisibility(view.getSystemUiVisibility());
+                    a.getWindow().setStatusBarColor(Color.BLACK);
+                }
+            }
+            else
+            {
+                a.setTheme(android.R.style.Theme_DeviceDefault_Light);
+                //themeID = android.R.style.Theme_DeviceDefault_Light;
+                //if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                //window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                //window.setStatusBarColor(Color.BLACK);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    View view = window.getDecorView();
+                    view.setSystemUiVisibility(view.getSystemUiVisibility() |  View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                    a.getWindow().setStatusBarColor(Color.WHITE);
+                }
+                //}
+                /*ActionBar actionBar = this.getActionBar();
+                if(actionBar != null) {
+                    //actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+                    actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+                    Log.d(BuildConfig.APPLICATION_ID, " actionBar title " + actionBar.getTitle());
+                    actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>uNote</font>"));
+                }*/
+            }
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!pref.getBoolean("pref_theme", false))
-        {
-            setTheme(android.R.style.Theme_DeviceDefault);
-            //themeID = android.R.style.Theme_DeviceDefault;
-        }
-        else
-        {
-            setTheme(android.R.style.Theme_DeviceDefault_Light);
-            //themeID = android.R.style.Theme_DeviceDefault_Light;
-            //if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getWindow();
-                //window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                //window.setStatusBarColor(Color.BLACK);
-                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            //}
-            /*ActionBar actionBar = this.getActionBar();
-            if(actionBar != null) {
-                //actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
-                actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
-                Log.d(BuildConfig.APPLICATION_ID, " actionBar title " + actionBar.getTitle());
-
-                actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>uNote</font>"));
-            }*/
-        }
+        pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        setUi(this, pref, getApplicationContext(), getWindow());
 
         TypedValue tv = new TypedValue();
         getApplicationContext().getTheme().resolveAttribute(android.R.attr.colorBackground, tv, true);

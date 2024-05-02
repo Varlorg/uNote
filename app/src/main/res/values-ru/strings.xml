@@ -181,9 +181,10 @@
 	<string name="mode_normal">Обычный режим</string>
 	<string name="mode_selection">Режим выбора</string>
 	<string name="pref_button_color">Цвет кнопок</string>
+    <string name="pref_theme_system">Следуйте системной теме</string>
 
-	<!-- Not used ? -
-	<color name="note_color">#FEFEE2</color>
-	<string name="text_view"> </string>-->
+    <!-- Not used ? -
+    <color name="note_color">#FEFEE2</color>
+    <string name="text_view"> </string>-->
 
 </resources>

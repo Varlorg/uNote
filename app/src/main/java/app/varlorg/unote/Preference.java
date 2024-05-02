@@ -81,20 +81,8 @@ public class Preference extends PreferenceActivity {
             textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "18"));
         }
 
-        if (!pref.getBoolean("pref_theme", false))
-        {
-            setTheme(android.R.style.Theme_DeviceDefault);
-        }
-        else
-        {
-            setTheme(android.R.style.Theme_DeviceDefault_Light);
-            //if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getWindow();
-                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                /*window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(Color.BLACK);
-            }*/
-        }
+        NoteMain.setUi(this, pref, getApplicationContext(), getWindow());
+
         this.savedInstanceState = savedInstanceState;
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preference);

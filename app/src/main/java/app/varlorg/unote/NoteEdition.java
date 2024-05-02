@@ -113,20 +113,7 @@ public class NoteEdition extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!pref.getBoolean("pref_theme", false))
-        {
-            setTheme(android.R.style.Theme_DeviceDefault);
-        }
-        else
-        {
-            setTheme(android.R.style.Theme_DeviceDefault_Light);
-            //if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                /*window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(Color.BLACK);
-            }*/
-        }
+        NoteMain.setUi(this, pref, getApplicationContext(), getWindow());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noteedition);
 

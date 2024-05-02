@@ -183,4 +183,5 @@
 	<string name="mode_selection">Mode sélection</string>
 	<string name="pref_cat_text_color_edition">Couleur en edition</string>
 	<string name="pref_button_color">Couleur des boutons</string>
+    <string name="pref_theme_system">Suivre le thème du système</string>
 </resources>

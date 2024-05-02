@@ -36,6 +36,7 @@
 	<string name="pref_date_sum">Display creation date</string>
 	<string name="pref_date_mod">Modification Date</string>
 	<string name="pref_date_mod_sum">Display modification date</string>
+	<string name="pref_theme_system">Follow system theme</string>
 	<string name="pref_theme">Light theme</string>
 	<string name="pref_theme_sum">Light or dark theme</string>
 	<string name="pref_delete_confirmation">Delete confirmation</string>
