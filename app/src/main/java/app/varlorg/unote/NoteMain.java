@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -68,33 +69,33 @@ public class NoteMain extends Activity
     private ListView lv;
     private SharedPreferences pref;
     private Parcelable state;
-    private int textSize;
+    static private int textSize;
     private int themeID;
     private int menuColor;
-    void customToast(String msgToDisplay){
-        LinearLayout linearLayout=new LinearLayout(getApplicationContext());
+    static public void customToastGeneric(Context c, Resources r, String msgToDisplay){
+        LinearLayout linearLayout=new LinearLayout(c);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
 
         GradientDrawable shape=new GradientDrawable();
         shape.setShape(GradientDrawable.RECTANGLE);
         shape.setCornerRadius(50);
-        shape.setColor(getResources().getColor(android.R.color.background_light));
-        shape.setStroke(3,getResources().getColor(android.R.color.transparent));
+        shape.setColor(r.getColor(android.R.color.background_light));
+        shape.setStroke(3, r.getColor(android.R.color.transparent));
 
-        TextView textView=new TextView(getApplicationContext());
+        TextView textView=new TextView(c);
         textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT,1f));
-        textView.setMaxWidth((int)(getResources().getDisplayMetrics().widthPixels*0.9));
+        textView.setMaxWidth((int)(r.getDisplayMetrics().widthPixels*0.9));
         textView.setText(msgToDisplay);
         textView.setTextSize((int)(textSize*NoteMain.TOAST_TEXTSIZE_FACTOR));
-        textView.setTextColor(getResources().getColor(android.R.color.black));
+        textView.setTextColor(r.getColor(android.R.color.black));
         textView.setAlpha(1f);
         textView.setBackground(shape);
-        int pad_width=(int)(getResources().getDisplayMetrics().widthPixels*0.04);
-        int pad_height=(int)(getResources().getDisplayMetrics().heightPixels*0.02);
+        int pad_width=(int)(r.getDisplayMetrics().widthPixels*0.04);
+        int pad_height=(int)(r.getDisplayMetrics().heightPixels*0.02);
         textView.setPadding(pad_width,pad_height,pad_width,pad_height);
 
-        Toast toast=new Toast(getApplicationContext());
+        Toast toast=new Toast(c);
 
         linearLayout.addView(textView);
         toast.setView(linearLayout);
@@ -102,7 +103,9 @@ public class NoteMain extends Activity
 
         toast.show();
     }
-
+    void customToast(String s){
+        customToastGeneric(NoteMain.this, NoteMain.this.getResources(), s);
+    }
     private LinearLayout passwordPopup(){
         final EditText            input = new EditText(NoteMain.this);
         ImageButton togglePasswordVisibilityButton = new ImageButton(NoteMain.this);
@@ -338,7 +341,7 @@ public class NoteMain extends Activity
                             else
                             {
                                 if ( pref.getBoolean("pref_notifications", true)) {
-                                    customToast(NoteMain.this.getString(R.string.toast_pwd_error));
+                                    customToast( NoteMain.this.getString(R.string.toast_pwd_error));
                                 }
                             }
                         }
