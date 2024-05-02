@@ -16,9 +16,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.content.res.Configuration;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -278,6 +281,26 @@ public class NoteMain extends Activity
                 return(getViewCustom(position, v, viewGroup, n));
             }
         };
+
+        // Draw line separator between note
+        /* use xml ?
+        <?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+    <solid android:color="#FF0000" />
+    <size android:height="1dp" />
+</shape>
+         */
+        ShapeDrawable noteSeparator = new ShapeDrawable();
+        noteSeparator.setShape(new RectShape());
+        menuColor = pref.getInt("pref_note_button_main", 0xff8F8F8F);
+        int heightInPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
+        Paint paint = new Paint();
+        paint.setColor(menuColor);
+        paint.setStrokeWidth(heightInPx);
+        noteSeparator.getPaint().set(paint);
+        lv.setDivider(noteSeparator);
+        lv.setDividerHeight(heightInPx);
+
         lv.setAdapter(simpleAdpt);
         // React to user clicks on item
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
