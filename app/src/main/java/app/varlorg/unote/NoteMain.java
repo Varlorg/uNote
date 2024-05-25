@@ -15,9 +15,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -36,6 +41,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.app.Instrumentation;
 import android.os.Parcelable;
 import android.graphics.Color;
+import android.app.UiModeManager;
 
 public class NoteMain extends Activity
 {
@@ -63,33 +69,33 @@ public class NoteMain extends Activity
     private ListView lv;
     private SharedPreferences pref;
     private Parcelable state;
-    private int textSize;
+    static private int textSize;
     private int themeID;
     private int menuColor;
-    void customToast(String msgToDisplay){
-        LinearLayout linearLayout=new LinearLayout(getApplicationContext());
+    static public void customToastGeneric(Context c, Resources r, String msgToDisplay){
+        LinearLayout linearLayout=new LinearLayout(c);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
 
         GradientDrawable shape=new GradientDrawable();
         shape.setShape(GradientDrawable.RECTANGLE);
         shape.setCornerRadius(50);
-        shape.setColor(getResources().getColor(android.R.color.background_light));
-        shape.setStroke(3,getResources().getColor(android.R.color.transparent));
+        shape.setColor(r.getColor(android.R.color.background_light));
+        shape.setStroke(3, r.getColor(android.R.color.transparent));
 
-        TextView textView=new TextView(getApplicationContext());
+        TextView textView=new TextView(c);
         textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT,1f));
-        textView.setMaxWidth((int)(getResources().getDisplayMetrics().widthPixels*0.9));
+        textView.setMaxWidth((int)(r.getDisplayMetrics().widthPixels*0.9));
         textView.setText(msgToDisplay);
         textView.setTextSize((int)(textSize*NoteMain.TOAST_TEXTSIZE_FACTOR));
-        textView.setTextColor(getResources().getColor(android.R.color.black));
+        textView.setTextColor(r.getColor(android.R.color.black));
         textView.setAlpha(1f);
         textView.setBackground(shape);
-        int pad_width=(int)(getResources().getDisplayMetrics().widthPixels*0.04);
-        int pad_height=(int)(getResources().getDisplayMetrics().heightPixels*0.02);
+        int pad_width=(int)(r.getDisplayMetrics().widthPixels*0.04);
+        int pad_height=(int)(r.getDisplayMetrics().heightPixels*0.02);
         textView.setPadding(pad_width,pad_height,pad_width,pad_height);
 
-        Toast toast=new Toast(getApplicationContext());
+        Toast toast=new Toast(c);
 
         linearLayout.addView(textView);
         toast.setView(linearLayout);
@@ -97,7 +103,9 @@ public class NoteMain extends Activity
 
         toast.show();
     }
-
+    void customToast(String s){
+        customToastGeneric(NoteMain.this, NoteMain.this.getResources(), s);
+    }
     private LinearLayout passwordPopup(){
         final EditText            input = new EditText(NoteMain.this);
         ImageButton togglePasswordVisibilityButton = new ImageButton(NoteMain.this);
@@ -176,36 +184,72 @@ public class NoteMain extends Activity
             lv.setAdapter(simpleAdpt);
         }
     }
+    static public boolean isNightThemeEnabled(Context context) {
+        UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
+        int nightMode = uiModeManager.getNightMode();
+        Log.d(BuildConfig.APPLICATION_ID, " uiModeManager " + nightMode);
+        switch (nightMode) {
+            case UiModeManager.MODE_NIGHT_YES:
+                return true;
+            case UiModeManager.MODE_NIGHT_NO:
+                return false;
+            case UiModeManager.MODE_NIGHT_CUSTOM:
+            case UiModeManager.MODE_NIGHT_AUTO:
+                int currentNightMode = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                return currentNightMode == Configuration.UI_MODE_NIGHT_YES;
+            default:
+                return false;
+        }
+    }
 
+    static public void setUi(Activity a, SharedPreferences pref, Context c, Window window){
+        if (pref.getBoolean("pref_theme_system", false)) {
+            if (isNightThemeEnabled(c)) {
+                a.setTheme(android.R.style.Theme_DeviceDefault);
+            } else {
+                a.setTheme(android.R.style.Theme_DeviceDefault_Light);
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+        }else {
+            if (!pref.getBoolean("pref_theme", false))
+            {
+                a.setTheme(android.R.style.Theme_DeviceDefault);
+                //themeID = android.R.style.Theme_DeviceDefault;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    View view = window.getDecorView();
+                    view.setSystemUiVisibility(view.getSystemUiVisibility());
+                    a.getWindow().setStatusBarColor(Color.BLACK);
+                }
+            }
+            else
+            {
+                a.setTheme(android.R.style.Theme_DeviceDefault_Light);
+                //themeID = android.R.style.Theme_DeviceDefault_Light;
+                //if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                //window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                //window.setStatusBarColor(Color.BLACK);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    View view = window.getDecorView();
+                    view.setSystemUiVisibility(view.getSystemUiVisibility() |  View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                    a.getWindow().setStatusBarColor(Color.WHITE);
+                }
+                //}
+                /*ActionBar actionBar = this.getActionBar();
+                if(actionBar != null) {
+                    //actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+                    actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+                    Log.d(BuildConfig.APPLICATION_ID, " actionBar title " + actionBar.getTitle());
+                    actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>uNote</font>"));
+                }*/
+            }
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!pref.getBoolean("pref_theme", false))
-        {
-            setTheme(android.R.style.Theme_DeviceDefault);
-            //themeID = android.R.style.Theme_DeviceDefault;
-        }
-        else
-        {
-            setTheme(android.R.style.Theme_DeviceDefault_Light);
-            //themeID = android.R.style.Theme_DeviceDefault_Light;
-            //if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getWindow();
-                //window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                //window.setStatusBarColor(Color.BLACK);
-                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            //}
-            /*ActionBar actionBar = this.getActionBar();
-            if(actionBar != null) {
-                //actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
-                actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
-                Log.d(BuildConfig.APPLICATION_ID, " actionBar title " + actionBar.getTitle());
-
-                actionBar.setTitle(Html.fromHtml("<font color='#ffffff'>uNote</font>"));
-            }*/
-        }
+        pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        setUi(this, pref, getApplicationContext(), getWindow());
 
         TypedValue tv = new TypedValue();
         getApplicationContext().getTheme().resolveAttribute(android.R.attr.colorBackground, tv, true);
@@ -240,6 +284,26 @@ public class NoteMain extends Activity
                 return(getViewCustom(position, v, viewGroup, n));
             }
         };
+
+        // Draw line separator between note
+        /* use xml ?
+        <?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+    <solid android:color="#FF0000" />
+    <size android:height="1dp" />
+</shape>
+         */
+        ShapeDrawable noteSeparator = new ShapeDrawable();
+        noteSeparator.setShape(new RectShape());
+        menuColor = pref.getInt("pref_note_button_main", 0xff8F8F8F);
+        int heightInPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
+        Paint paint = new Paint();
+        paint.setColor(menuColor);
+        paint.setStrokeWidth(heightInPx);
+        noteSeparator.getPaint().set(paint);
+        lv.setDivider(noteSeparator);
+        lv.setDividerHeight(heightInPx);
+
         lv.setAdapter(simpleAdpt);
         // React to user clicks on item
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -277,7 +341,7 @@ public class NoteMain extends Activity
                             else
                             {
                                 if ( pref.getBoolean("pref_notifications", true)) {
-                                    customToast(NoteMain.this.getString(R.string.toast_pwd_error));
+                                    customToast( NoteMain.this.getString(R.string.toast_pwd_error));
                                 }
                             }
                         }

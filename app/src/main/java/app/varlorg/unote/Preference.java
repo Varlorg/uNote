@@ -1,5 +1,7 @@
 package app.varlorg.unote;
 
+import static app.varlorg.unote.NoteMain.customToastGeneric;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.drawable.GradientDrawable;
@@ -38,36 +40,8 @@ public class Preference extends PreferenceActivity {
     Bundle savedInstanceState;
 
     private int textSize;
-    void customToast(String msgToDisplay){
-        LinearLayout linearLayout=new LinearLayout(getApplicationContext());
-        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-
-        GradientDrawable shape=new GradientDrawable();
-        shape.setShape(GradientDrawable.RECTANGLE);
-        shape.setCornerRadius(50);
-        shape.setColor(getResources().getColor(android.R.color.background_light));
-        shape.setStroke(3,getResources().getColor(android.R.color.transparent));
-
-        TextView textView=new TextView(getApplicationContext());
-        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT,1f));
-        textView.setMaxWidth((int)(getResources().getDisplayMetrics().widthPixels*0.9));
-        textView.setText(msgToDisplay);
-        textView.setTextSize((int)(textSize*NoteMain.TOAST_TEXTSIZE_FACTOR));
-        textView.setTextColor(getResources().getColor(android.R.color.black));
-        textView.setAlpha(1f);
-        textView.setBackground(shape);
-        int pad_width=(int)(getResources().getDisplayMetrics().widthPixels*0.04);
-        int pad_height=(int)(getResources().getDisplayMetrics().heightPixels*0.02);
-        textView.setPadding(pad_width,pad_height,pad_width,pad_height);
-
-        Toast toast=new Toast(getApplicationContext());
-
-        linearLayout.addView(textView);
-        toast.setView(linearLayout);
-        toast.setDuration(Toast.LENGTH_LONG);
-
-        toast.show();
+    void customToast(String s){
+        customToastGeneric(Preference.this, Preference.this.getResources(), s);
     }
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -81,20 +55,8 @@ public class Preference extends PreferenceActivity {
             textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "18"));
         }
 
-        if (!pref.getBoolean("pref_theme", false))
-        {
-            setTheme(android.R.style.Theme_DeviceDefault);
-        }
-        else
-        {
-            setTheme(android.R.style.Theme_DeviceDefault_Light);
-            //if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getWindow();
-                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                /*window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(Color.BLACK);
-            }*/
-        }
+        NoteMain.setUi(this, pref, getApplicationContext(), getWindow());
+
         this.savedInstanceState = savedInstanceState;
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preference);

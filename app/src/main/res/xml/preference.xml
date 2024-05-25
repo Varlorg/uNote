@@ -38,6 +38,10 @@
             android:title="@string/pref_date_mod" />
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="pref_theme_system"
+            android:title="@string/pref_theme_system" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="pref_theme"
             android:summary="@string/pref_theme_sum"
             android:title="@string/pref_theme" />

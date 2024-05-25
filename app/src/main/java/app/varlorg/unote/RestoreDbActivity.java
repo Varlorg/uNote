@@ -5,6 +5,9 @@ package app.varlorg.unote;
  */
 
 import static app.varlorg.unote.NoteMain.POPUP_TEXTSIZE_FACTOR;
+import static app.varlorg.unote.NoteMain.customToastGeneric;
+import static app.varlorg.unote.NoteMain.setUi;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FilenameFilter;
@@ -51,36 +54,8 @@ public class RestoreDbActivity extends ListActivity {
     private SharedPreferences pref;
     int textSize;
     boolean toast_enabled;
-    void customToast(String msgToDisplay){
-        LinearLayout linearLayout=new LinearLayout(getApplicationContext());
-        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
-
-        GradientDrawable shape=new GradientDrawable();
-        shape.setShape(GradientDrawable.RECTANGLE);
-        shape.setCornerRadius(50);
-        shape.setColor(getResources().getColor(android.R.color.background_light));
-        shape.setStroke(3,getResources().getColor(android.R.color.transparent));
-
-        TextView textView=new TextView(getApplicationContext());
-        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT,1f));
-        textView.setMaxWidth((int)(getResources().getDisplayMetrics().widthPixels*0.9));
-        textView.setText(msgToDisplay);
-        textView.setTextSize((int)(textSize*NoteMain.TOAST_TEXTSIZE_FACTOR));
-        textView.setTextColor(getResources().getColor(android.R.color.black));
-        textView.setAlpha(1f);
-        textView.setBackground(shape);
-        int pad_width=(int)(getResources().getDisplayMetrics().widthPixels*0.04);
-        int pad_height=(int)(getResources().getDisplayMetrics().heightPixels*0.02);
-        textView.setPadding(pad_width,pad_height,pad_width,pad_height);
-
-        Toast toast=new Toast(getApplicationContext());
-
-        linearLayout.addView(textView);
-        toast.setView(linearLayout);
-        toast.setDuration(Toast.LENGTH_LONG);
-
-        toast.show();
+    void customToast(String s){
+        customToastGeneric(RestoreDbActivity.this, RestoreDbActivity.this.getResources(), s);
     }
     public RestoreDbActivity()
     {
@@ -102,21 +77,14 @@ public class RestoreDbActivity extends ListActivity {
             }
         };
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!pref.getBoolean("pref_theme", false))
-        {
-            setTheme(android.R.style.Theme_DeviceDefault);
-        }
-        else
-        {
-            setTheme(android.R.style.Theme_DeviceDefault_Light);
-        }
+        setUi(this, pref, getApplicationContext(), getWindow());
+
         textSize = Integer.parseInt(pref.getString("pref_sizeNote", "18"));
         if ( textSize == -1 )
         {
