@@ -1,0 +1,2 @@
+Fix:
+  - impossible newline in note (#38)
