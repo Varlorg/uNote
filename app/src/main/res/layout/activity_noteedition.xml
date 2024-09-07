@@ -105,7 +105,6 @@
         android:layout_weight="0.75"
         android:gravity="top|left"
         android:hint="@string/editText_hint"
-        android:imeOptions="actionSearch"
         android:inputType="textMultiLine"
         android:padding="11px"
         android:paddingBottom="0px"
