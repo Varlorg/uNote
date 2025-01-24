@@ -724,6 +724,7 @@ public class NoteEdition extends Activity
                 searchNote.setText("");
                 searchNoteCountTV.setText("");
                 note.setText(note.getText().toString());
+                noteTV.setText(note.getText().toString());
                 searchNote_lay.setVisibility(View.GONE);
                 searchNoteCountTV.setVisibility(View.GONE);
                 btnClear.setVisibility(View.GONE);
@@ -757,6 +758,7 @@ public class NoteEdition extends Activity
                             btnClear.setVisibility(View.GONE);
                             searchNoteCountTV.setVisibility(View.GONE);
                             note.setText(note.getText().toString());
+                            noteTV.setText(note.getText().toString());
                         }
                     }
                 });
