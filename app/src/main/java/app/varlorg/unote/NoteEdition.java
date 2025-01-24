@@ -252,22 +252,39 @@ public class NoteEdition extends Activity
             }
         });
 
-        note.requestFocus();
-        if (pref.getBoolean("pref_edit_cursor_end", false)) {
-            Log.d(BuildConfig.APPLICATION_ID, "setSelection  " +  note.getText().length() );
-            note.postDelayed(new Runnable() {
+        Log.d(BuildConfig.APPLICATION_ID, "pref_edit_cursor_title_new_note: " + 
+            pref.getBoolean("pref_edit_cursor_title_new_note", false) + 
+            " - " + titre.getText().length() + 
+            " - " + note.getText().length());
+
+        if (pref.getBoolean("pref_edit_cursor_title_new_note", false) && titre.getText().length() == 0 && note.getText().length() == 0) {
+            Log.d(BuildConfig.APPLICATION_ID, "pref_edit_cursor_title_new_note: enter if");
+            titre.requestFocus();
+            titre.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    note.setSelection(note.length());
+                    titre.setSelection(0);
                 }
             }, 200);
-        } else {
-            note.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    note.setSelection(0);
-                }
-            }, 200);
+        }
+        else {
+            note.requestFocus();
+            if (pref.getBoolean("pref_edit_cursor_end", false)) {
+                Log.d(BuildConfig.APPLICATION_ID, "setSelection  " +  note.getText().length() );
+                note.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        note.setSelection(note.length());
+                    }
+                }, 200);
+            } else {
+                note.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        note.setSelection(0);
+                    }
+                }, 200);
+            }
         }
         if (pref.getBoolean("pref_edit_capitalize_note", false)) {
             note.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
@@ -331,17 +348,34 @@ public class NoteEdition extends Activity
             else {
                 titreNote.setTextSize(textSize);
             }
-            note.requestFocus();
-            // Deplay keyboard show to let time the view to be served
-            note.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    InputMethodManager imm = (InputMethodManager) NoteEdition.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    NoteEdition.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
-                            WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                    imm.showSoftInput(note, InputMethodManager.SHOW_IMPLICIT);
-                }
-            },200);
+            
+            if (pref.getBoolean("pref_edit_cursor_title_new_note", false) && titre.getText().length() == 0 && note.getText().length() == 0) {
+                Log.d(BuildConfig.APPLICATION_ID, "pref_edit_cursor_title_new_note: enter if");
+                titre.requestFocus();
+                titre.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        titre.setSelection(0);
+                        InputMethodManager imm = (InputMethodManager) NoteEdition.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                        NoteEdition.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                        imm.showSoftInput(titre, InputMethodManager.SHOW_IMPLICIT);
+                    }
+                }, 200);
+            }
+            else {
+                note.requestFocus();
+                // Deplay keyboard show to let time the view to be served
+                note.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        InputMethodManager imm = (InputMethodManager) NoteEdition.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                        NoteEdition.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                        imm.showSoftInput(note, InputMethodManager.SHOW_IMPLICIT);
+                    }
+                },200);
+            }
             titre.setTag(null);
             note.setTag(null);
         }

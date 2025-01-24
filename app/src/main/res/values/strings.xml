@@ -78,6 +78,7 @@
 	<string name="pref_edit_mode_view_ui">New interface for preview note</string>
 	<string name="pref_edit_mode_edit_ui">New interface for editing note</string>
 	<string name="pref_cat_editing">Edition</string>
+	<string name="pref_edit_cursor_title_new_note">Set cursor on title when new note</string>
 	<string name="pref_edit_cursor_end">Set cursor at the end when opening note</string>
 	<string name="pref_edit_capitalize_title">Enable capitalization on title</string>
 	<string name="pref_edit_capitalize_note">Enable capitalization on note content</string>
