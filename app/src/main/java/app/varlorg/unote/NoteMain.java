@@ -529,7 +529,7 @@ public class NoteMain extends Activity
 
         Log.d(BuildConfig.APPLICATION_ID, "htmlTitleColorAttribute  " +  htmlTitleColorAttributeStart);
         String title = n.getTitre();
-        String noteSummary = htmlTitleColorAttributeStart + "<b>" + title + "</b> <br/>" + htmlTitleColorAttributeEnd;
+        String noteSummary = htmlTitleColorAttributeStart + "<b>" + title + "</b>" + htmlTitleColorAttributeEnd;
 
         if (n.getPassword() != null)
         {
@@ -539,16 +539,18 @@ public class NoteMain extends Activity
         {
             String noteHeader = n.getNoteHead(Integer.parseInt(pref.getString("pref_preview_char_limit", "30")));
             String noteToDisplay;
-            if (pref.getBoolean("pref_preview_formatting", false)) {
-                noteToDisplay = noteHeader.replace("\n", "<br/>");
-                noteToDisplay = noteToDisplay.replace("   ", "&nbsp;&nbsp;&nbsp;");
-                noteToDisplay = noteToDisplay.replace("  ", "&nbsp;&nbsp;");
-            }
-            else {
-                noteToDisplay = noteHeader;
-            }
-            noteSummary += htmlNoteColorAttributeStart + noteToDisplay  +
+            if (noteHeader != "") {
+                if (pref.getBoolean("pref_preview_formatting", false)) {
+                    noteToDisplay = noteHeader.replace("\n", "<br/>");
+                    noteToDisplay = noteToDisplay.replace("   ", "&nbsp;&nbsp;&nbsp;");
+                    noteToDisplay = noteToDisplay.replace("  ", "&nbsp;&nbsp;");
+                }
+                else {
+                    noteToDisplay = noteHeader;
+                }
+                noteSummary += "<br/>" + htmlNoteColorAttributeStart + noteToDisplay  +
                     htmlNoteColorAttributeEnd + htmlDetailsColorAttributeStart;
+            }
             if (pref.getBoolean("pref_date", false))
             {
                 noteSummary += "<br/>" + n.getDateCreationFormated();
