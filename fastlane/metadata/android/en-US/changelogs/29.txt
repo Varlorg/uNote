@@ -1,0 +1,6 @@
+Update:
+    - remove preview line when limit is set to 0
+    - add preference to set focus on title when new note
+
+Fix:
+    - search: fix highlight search in editing mode

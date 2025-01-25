@@ -64,7 +64,10 @@ public class Note
         int max = nbChar;
         int min = Math.min(max, this.noteContent.length());
 
-        if (max < this.noteContent.length())
+        if (max == 0){
+            return "";
+        }
+        else if (max < this.noteContent.length())
         {
             return(this.noteContent.substring(0, min) + "...");
         }
