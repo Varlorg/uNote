@@ -24,8 +24,8 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 ext {
-    propCompileSdkVersion = 27
-    propMinSdkVersion = 19
+    propCompileSdkVersion = 34
+    propMinSdkVersion = 26
     propTargetSdkVersion = propCompileSdkVersion
     propVersionCode = 29
     propVersionName = '1.7.5'
