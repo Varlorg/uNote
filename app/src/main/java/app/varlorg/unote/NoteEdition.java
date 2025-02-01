@@ -32,6 +32,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -51,7 +53,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.regex.*;
 
 public class NoteEdition extends Activity
@@ -78,6 +82,13 @@ public class NoteEdition extends Activity
     private Intent intent;
     private int menuColor;
 
+    private ImageButton previousButton;
+    private ImageButton nextButton;
+    private CheckBox searchCaseSensitiveButton;
+
+    private List<Integer> searchResults = new ArrayList<>();
+    private int currentIndex = -1;
+
     void customToast(String s){
         customToastGeneric(NoteEdition.this, NoteEdition.this.getResources(), s);
     }
@@ -98,6 +109,17 @@ public class NoteEdition extends Activity
         titreL = (TextView)findViewById(R.id.TitreNoteLine);
         titreNote  = (EditText)findViewById(R.id.TitreNoteEdition);
         titreNoteTV = (TextView)findViewById(R.id.TitreNoteEditionTV);
+
+        previousButton = findViewById(R.id.previousButton);
+        nextButton = findViewById(R.id.nextButton);
+        searchCaseSensitiveButton = findViewById(R.id.searchCaseSensitiveButton);
+        previousButton.setOnClickListener(v -> {
+            navigateToPrevious();
+        });
+
+        nextButton.setOnClickListener(v -> {
+            navigateToNext();
+        });
 
         intent = getIntent();
         if (intent != null)
@@ -721,6 +743,7 @@ public class NoteEdition extends Activity
 
             if (searchNote_lay.getVisibility() == View.VISIBLE)
             {
+                noteTV.setTextIsSelectable(false);
                 searchNote.setText("");
                 searchNoteCountTV.setText("");
                 note.setText(note.getText().toString());
@@ -730,6 +753,7 @@ public class NoteEdition extends Activity
                 btnClear.setVisibility(View.GONE);
             }
             else {
+                noteTV.setTextIsSelectable(true);
                 searchNote.requestFocus();
                 (findViewById(R.id.search_within_note)).setVisibility(View.VISIBLE);
                 searchNote.addTextChangedListener(new TextWatcher() {
@@ -762,6 +786,19 @@ public class NoteEdition extends Activity
                         }
                     }
                 });
+                searchCaseSensitiveButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                    {
+                        if (!searchNote.getText().toString().equals(""))   //if edittext include text
+                        {
+                            int patternFoundNb = highlightText(searchNote.getText().toString());
+                            if (pref.getBoolean("pref_search_note_count", true))
+                                searchNoteCountTV.setText("" + patternFoundNb);
+                        }
+                    }
+                });
             }
             //use "test" string for test
 
@@ -784,27 +821,66 @@ public class NoteEdition extends Activity
     }
 
     private int highlightText(String s) {
-        SpannableString spannableString = new SpannableString(note.getText());
+        SpannableString spannableString= new SpannableString(note.getText());
         BackgroundColorSpan[] backgroundColorSpan =
                 spannableString.getSpans(0, spannableString.length(), BackgroundColorSpan.class);
         for (BackgroundColorSpan bgSpan : backgroundColorSpan) {
             spannableString.removeSpan(bgSpan);
         }
-        int indexOfKeyWord = spannableString.toString().indexOf(s);
+        String noteContent = spannableString.toString();
+        if (searchCaseSensitiveButton.isChecked())
+        {
+            s = s.toLowerCase();
+            noteContent = spannableString.toString().toLowerCase();
+        }
+
+        int indexOfKeyWord = noteContent.indexOf(s);
         int count = 0;
+        searchResults.clear();
         while (indexOfKeyWord >= 0) {
+            searchResults.add(indexOfKeyWord);
             //spannableString.setSpan(new BackgroundColorSpan(Color.GRAY), indexOfKeyWord,
             //spannableString.setSpan(new BackgroundColorSpan(Color.rgb(32,196,32)), indexOfKeyWord,
             spannableString.setSpan(new BackgroundColorSpan(Color.rgb(64,148,255)), indexOfKeyWord,
                     indexOfKeyWord + s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            indexOfKeyWord = spannableString.toString().indexOf(s, indexOfKeyWord + s.length());
+            indexOfKeyWord = noteContent.indexOf(s, indexOfKeyWord + s.length());
             count++;
         }
         note.setText(spannableString);
         noteTV.setText(spannableString);
         return count;
     }
+    private void navigateToPrevious() {
+        Log.d(BuildConfig.APPLICATION_ID, "navigateToPrevious list " + searchResults);
+        if (searchResults.isEmpty()) {
+            return;
+        }
+        currentIndex = (currentIndex - 1 + searchResults.size()) % searchResults.size();
+        navigateToCurrent();
+    }
 
+    private void navigateToNext() {
+        Log.d(BuildConfig.APPLICATION_ID, "navigateToNext list " + searchResults);
+        if (searchResults.isEmpty()) {
+            return;
+        }
+        currentIndex = (currentIndex + 1) % searchResults.size();
+        navigateToCurrent();
+    }
+
+    private void navigateToCurrent() {
+        if (currentIndex == -1) {
+            return;
+        }
+        int matchIndex = searchResults.get(currentIndex);
+        Log.d(BuildConfig.APPLICATION_ID, "navigateToCurrent " +matchIndex+ " - "+searchNote.length() );
+        note.setSelection(matchIndex, matchIndex + searchNote.length());
+        note.requestFocus();
+        //int lastLine = noteTV.getLayout().getLineCount() - 1;
+        int line = noteTV.getLayout().getLineForOffset(matchIndex);
+        int lineTop = noteTV.getLayout().getLineTop(line);
+        noteTV.scrollTo(0, lineTop);
+    }
     public void save(View v)
     {
         EditText titreElt    = (EditText)findViewById(R.id.TitreNoteEdition);
