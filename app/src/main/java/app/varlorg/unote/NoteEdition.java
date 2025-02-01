@@ -12,14 +12,12 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.Layout;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -32,6 +30,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -51,8 +51,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.regex.*;
+import java.util.List;
+//import java.util.regex.*;
 
 public class NoteEdition extends Activity
 {
@@ -77,6 +79,14 @@ public class NoteEdition extends Activity
     private TextView titreNoteTV;
     private Intent intent;
     private int menuColor;
+
+    private TextView searchNoteCountTV;
+    private ImageButton previousButton;
+    private ImageButton nextButton;
+    private CheckBox searchCaseSensitiveButton;
+
+    private List<Integer> searchResults = new ArrayList<>();
+    private int currentIndex = -1;
 
     void customToast(String s){
         customToastGeneric(NoteEdition.this, NoteEdition.this.getResources(), s);
@@ -408,6 +418,23 @@ public class NoteEdition extends Activity
 
         titre.setTag(null);
         note.setTag(null);
+
+        previousButton = findViewById(R.id.previousButton);
+        nextButton = findViewById(R.id.nextButton);
+        searchCaseSensitiveButton = findViewById(R.id.searchCaseSensitiveButton);
+        previousButton.setOnClickListener(v -> {
+            int patternFoundNb = highlightText(searchNote.getText().toString());
+            if ( pref.getBoolean("pref_search_note_count", true))
+                searchNoteCountTV.setText("" + patternFoundNb);
+            navigateToPrevious();
+        });
+
+        nextButton.setOnClickListener(v -> {
+            int patternFoundNb = highlightText(searchNote.getText().toString());
+            if ( pref.getBoolean("pref_search_note_count", true))
+                searchNoteCountTV.setText("" + patternFoundNb);
+            navigateToNext();
+        });
     }
 
     @Override
@@ -707,7 +734,7 @@ public class NoteEdition extends Activity
 
             searchNote = findViewById(R.id.search_note);
             final FrameLayout searchNote_lay = findViewById(R.id.search_within_note);
-            final TextView searchNoteCountTV = (TextView)findViewById(R.id.search_note_count);
+            searchNoteCountTV = (TextView)findViewById(R.id.search_note_count);
             final ImageButton btnClear = (ImageButton)findViewById(R.id.btn_clear_edition);
             searchNote.setTextSize(textSize);
             searchNoteCountTV.setTextSize(textSize);
@@ -762,6 +789,19 @@ public class NoteEdition extends Activity
                         }
                     }
                 });
+                searchCaseSensitiveButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                    {
+                        if (!searchNote.getText().toString().equals(""))   //if edittext include text
+                        {
+                            int patternFoundNb = highlightText(searchNote.getText().toString());
+                            if (pref.getBoolean("pref_search_note_count", true))
+                                searchNoteCountTV.setText("" + patternFoundNb);
+                        }
+                    }
+                });
             }
             //use "test" string for test
 
@@ -784,27 +824,104 @@ public class NoteEdition extends Activity
     }
 
     private int highlightText(String s) {
-        SpannableString spannableString = new SpannableString(note.getText());
+        SpannableString spannableString= new SpannableString(note.getText());
         BackgroundColorSpan[] backgroundColorSpan =
                 spannableString.getSpans(0, spannableString.length(), BackgroundColorSpan.class);
         for (BackgroundColorSpan bgSpan : backgroundColorSpan) {
             spannableString.removeSpan(bgSpan);
         }
-        int indexOfKeyWord = spannableString.toString().indexOf(s);
+        String noteContent = spannableString.toString();
+        if (searchCaseSensitiveButton.isChecked())
+        {
+            s = s.toLowerCase();
+            noteContent = spannableString.toString().toLowerCase();
+        }
+
+        int indexOfKeyWord = noteContent.indexOf(s);
         int count = 0;
+        searchResults.clear();
         while (indexOfKeyWord >= 0) {
+            searchResults.add(indexOfKeyWord);
             //spannableString.setSpan(new BackgroundColorSpan(Color.GRAY), indexOfKeyWord,
             //spannableString.setSpan(new BackgroundColorSpan(Color.rgb(32,196,32)), indexOfKeyWord,
             spannableString.setSpan(new BackgroundColorSpan(Color.rgb(64,148,255)), indexOfKeyWord,
                     indexOfKeyWord + s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            indexOfKeyWord = spannableString.toString().indexOf(s, indexOfKeyWord + s.length());
+            indexOfKeyWord = noteContent.indexOf(s, indexOfKeyWord + s.length());
             count++;
         }
         note.setText(spannableString);
         noteTV.setText(spannableString);
         return count;
     }
+    private void navigateToPrevious() {
+        Log.d(BuildConfig.APPLICATION_ID, "navigateToPrevious list " + searchResults);
+        if (searchResults.isEmpty()) {
+            return;
+        }
+        currentIndex = (currentIndex - 1 + searchResults.size()) % searchResults.size();
+        navigateToCurrent();
+    }
 
+    private void navigateToNext() {
+        Log.d(BuildConfig.APPLICATION_ID, "navigateToNext list " + searchResults);
+        if (searchResults.isEmpty()) {
+            return;
+        }
+        currentIndex = (currentIndex + 1) % searchResults.size();
+        navigateToCurrent();
+    }
+
+    private void navigateToCurrent() {
+        if (currentIndex == -1) {
+            return;
+        }
+        int matchIndex = searchResults.get(currentIndex);
+        Log.d(BuildConfig.APPLICATION_ID, "navigateToCurrent " +matchIndex+ " - "+searchNote.length() );
+        //note.setSelection(matchIndex, matchIndex + searchNote.length());
+        note.setSelection(matchIndex + searchNote.length());
+        searchNoteCountTV.setText("" + (currentIndex + 1) + "/" + searchResults.size());
+        note.requestFocus();
+        //int lastLine = noteTV.getLayout().getLineCount() - 1;
+        Layout noteTVLayout = noteTV.getLayout();
+        if ( noteTVLayout != null ) {
+            int line = noteTV.getLayout().getLineForOffset(matchIndex);
+            if (!isLineVisible(noteTV, line))
+            {
+                Log.d(BuildConfig.APPLICATION_ID, "isLineVisible getLineBottom " + noteTV.getLayout().getLineBottom(line));
+                Log.d(BuildConfig.APPLICATION_ID, "isLineVisible getLineTop " + noteTV.getLayout().getLineTop(line));
+                Log.d(BuildConfig.APPLICATION_ID, "isLineVisible getHeight " + noteTV.getHeight());
+                Log.d(BuildConfig.APPLICATION_ID, "isLineVisible getTotalPaddingEnd() " + noteTV.getTotalPaddingEnd());
+
+                if(noteTV.getLayout().getLineTop(line)<noteTV.getHeight()) {
+                    noteTV.scrollTo(0, noteTV.getLayout().getLineTop(line));
+                } else {
+                    noteTV.scrollTo(0, noteTV.getLayout().getLineBottom(line)-noteTV.getHeight()+noteTV.getTotalPaddingEnd()*2);
+                //noteTV.scrollTo(0, noteTV.getLayout().getLineTop(line));
+                }
+
+            }
+        }
+    }
+    public static boolean isLineVisible(TextView textView, int lineNumber) {
+        Log.d(BuildConfig.APPLICATION_ID, "isLineVisible " + lineNumber);
+        Layout layout = textView.getLayout();
+        if (layout == null) {
+            return false; // Layout might be null
+        }
+        if (lineNumber < 0 || lineNumber >= layout.getLineCount()) {
+            return false; // Check if the line number is valid
+        }
+        int height    = textView.getHeight();
+        int scrollY   = textView.getScrollY();
+        //Layout layout = textView.getLayout();
+
+        int firstVisibleLineNumber = layout.getLineForVertical(scrollY);
+        int lastVisibleLineNumber  = layout.getLineForVertical(scrollY+height);
+        Log.d(BuildConfig.APPLICATION_ID, "isLineVisible firstVisibleLineNumber " + firstVisibleLineNumber);
+        Log.d(BuildConfig.APPLICATION_ID, "isLineVisible lastVisibleLineNumber " + lastVisibleLineNumber);
+
+        return lineNumber >= firstVisibleLineNumber && lineNumber <= lastVisibleLineNumber;
+    }
     public void save(View v)
     {
         EditText titreElt    = (EditText)findViewById(R.id.TitreNoteEdition);
