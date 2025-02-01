@@ -80,6 +80,9 @@ public class NoteEdition extends Activity
     private Intent intent;
     private int menuColor;
 
+    /***** Search
+     * Variables for search menu
+     *****/
     private TextView searchNoteCountTV;
     private ImageButton previousButton;
     private ImageButton nextButton;
