@@ -12,9 +12,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -57,7 +54,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.regex.*;
+//import java.util.regex.*;
 
 public class NoteEdition extends Activity
 {
@@ -751,7 +748,6 @@ public class NoteEdition extends Activity
 
             if (searchNote_lay.getVisibility() == View.VISIBLE)
             {
-                noteTV.setTextIsSelectable(false);
                 searchNote.setText("");
                 searchNoteCountTV.setText("");
                 note.setText(note.getText().toString());
@@ -761,7 +757,6 @@ public class NoteEdition extends Activity
                 btnClear.setVisibility(View.GONE);
             }
             else {
-                noteTV.setTextIsSelectable(true);
                 searchNote.requestFocus();
                 (findViewById(R.id.search_within_note)).setVisibility(View.VISIBLE);
                 searchNote.addTextChangedListener(new TextWatcher() {
@@ -890,10 +885,42 @@ public class NoteEdition extends Activity
         Layout noteTVLayout = noteTV.getLayout();
         if ( noteTVLayout != null ) {
             int line = noteTV.getLayout().getLineForOffset(matchIndex);
-            int lineTop = noteTV.getLayout().getLineTop(line);
-            noteTV.scrollTo(0, lineTop);
-        }
+            if (!isLineVisible(noteTV, line))
+            {
+                Log.d(BuildConfig.APPLICATION_ID, "isLineVisible getLineBottom " + noteTV.getLayout().getLineBottom(line));
+                Log.d(BuildConfig.APPLICATION_ID, "isLineVisible getLineTop " + noteTV.getLayout().getLineTop(line));
+                Log.d(BuildConfig.APPLICATION_ID, "isLineVisible getHeight " + noteTV.getHeight());
+                Log.d(BuildConfig.APPLICATION_ID, "isLineVisible getTotalPaddingEnd() " + noteTV.getTotalPaddingEnd());
 
+                if(noteTV.getLayout().getLineTop(line)<noteTV.getHeight()) {
+                    noteTV.scrollTo(0, noteTV.getLayout().getLineTop(line));
+                } else {
+                    noteTV.scrollTo(0, noteTV.getLayout().getLineBottom(line)-noteTV.getHeight()+noteTV.getTotalPaddingEnd()*2);
+                //noteTV.scrollTo(0, noteTV.getLayout().getLineTop(line));
+                }
+
+            }
+        }
+    }
+    public static boolean isLineVisible(TextView textView, int lineNumber) {
+        Log.d(BuildConfig.APPLICATION_ID, "isLineVisible " + lineNumber);
+        Layout layout = textView.getLayout();
+        if (layout == null) {
+            return false; // Layout might be null
+        }
+        if (lineNumber < 0 || lineNumber >= layout.getLineCount()) {
+            return false; // Check if the line number is valid
+        }
+        int height    = textView.getHeight();
+        int scrollY   = textView.getScrollY();
+        //Layout layout = textView.getLayout();
+
+        int firstVisibleLineNumber = layout.getLineForVertical(scrollY);
+        int lastVisibleLineNumber  = layout.getLineForVertical(scrollY+height);
+        Log.d(BuildConfig.APPLICATION_ID, "isLineVisible firstVisibleLineNumber " + firstVisibleLineNumber);
+        Log.d(BuildConfig.APPLICATION_ID, "isLineVisible lastVisibleLineNumber " + lastVisibleLineNumber);
+
+        return lineNumber >= firstVisibleLineNumber && lineNumber <= lastVisibleLineNumber;
     }
     public void save(View v)
     {
