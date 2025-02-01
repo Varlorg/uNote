@@ -118,6 +118,13 @@
             android:defaultValue="false"
             android:key="pref_edit_capitalize_note"
             android:title="@string/pref_edit_capitalize_note" />
+        <EditTextPreference
+            android:defaultValue="0"
+            android:inputType="number"
+            android:key="pref_autosave_interval"
+            android:maxLength="4"
+            android:summary="0 to disabled"
+            android:title="string/pref_autosave_interval (s)" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_cat_text_color">
         <app.varlorg.ambilwarna.widget.AmbilWarnaPreference

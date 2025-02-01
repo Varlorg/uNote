@@ -92,8 +92,7 @@ public class NoteEdition extends Activity
     /***** Autosave
      * Variables for autosave timer
      ****/
-    private static final long DEFAULT_AUTOSAVE_INTERVAL = 60000; // 60 seconds (1 minute)
-    private long autosaveInterval = DEFAULT_AUTOSAVE_INTERVAL;
+    private int autosaveInterval = 0;
     private Timer autosaveTimer;
     private TimerTask autosaveTask;
 
@@ -427,7 +426,6 @@ public class NoteEdition extends Activity
 
         titre.setTag(null);
         note.setTag(null);
-
         startAutosaveTimer();
 
         previousButton = findViewById(R.id.previousButton);
@@ -950,8 +948,13 @@ public class NoteEdition extends Activity
         }
     }
     private void startAutosaveTimer() {
+        /* Retrieve autosave pref and convert it in seconds  */
+        autosaveInterval = Integer.parseInt(pref.getString("pref_autosave_interval", "0")) * 1000;
+
         Log.d(BuildConfig.APPLICATION_ID, "startAutosaveTimer " + autosaveTimer);
-        if (autosaveTimer != null) {
+        Log.d(BuildConfig.APPLICATION_ID, "startAutosaveTimer autosaveInterval " + autosaveInterval);
+
+        if (autosaveTimer != null || ( autosaveInterval == 0)) {
             return;
         }
         autosaveTimer = new Timer();
