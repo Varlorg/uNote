@@ -1,279 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:title="@string/preferences">
-    <PreferenceCategory android:title="@string/pref_cat_search">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="contentSearch"
-            android:summary="@string/pref_search_sum"
-            android:title="@string/pref_search" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="sensitiveSearch"
-            android:title="@string/pref_sensitive_search" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="displaySearchOptions"
-            android:title="@string/pref_display_search_option" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_searchCheckboxV"
-            android:title="@string/pref_search_option_orientation" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="pref_search_note_count"
-            android:title="@string/pref_search_note_count" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_cat_display">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_date"
-            android:summary="@string/pref_date_sum"
-            android:title="@string/pref_date" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_date_mod"
-            android:summary="@string/pref_date_mod_sum"
-            android:title="@string/pref_date_mod" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_theme_system"
-            android:title="@string/pref_theme_system" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_theme"
-            android:summary="@string/pref_theme_sum"
-            android:title="@string/pref_theme" />
-        <EditTextPreference
-            android:defaultValue="30"
-            android:inputType="number"
-            android:key="pref_preview_char_limit"
-            android:maxLength="4"
-            android:summary="@string/pref_preview_limit_summary"
-            android:title="@string/pref_preview_limit" />
-        <CheckBoxPreference
-            android:defaultValue="False"
-            android:key="pref_preview_formatting"
-            android:title="@string/pref_preview_formatting" />
-        <CheckBoxPreference
-            android:defaultValue="False"
-            android:key="pref_scroll"
-            android:title="@string/pref_keep_position_scroll" />
-        <ListPreference
-            android:defaultValue="1"
-            android:entries="@array/tri"
-            android:entryValues="@array/triValeur"
-            android:key="pref_tri"
-            android:title="@string/pref_sort_by" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_ordretri"
-            android:title="@string/pref_sort" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="pref_notifications"
-            android:title="@string/pref_notifications" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="pref_main_mode_menu_all"
-            android:title="@string/pref_main_mode_menu_all" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_edit_mode_menu_all"
-            android:title="@string/pref_edit_mode_menu_all" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_edit_mode_view"
-            android:title="@string/pref_edit_mode_view" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="pref_edit_mode_view_ui"
-            android:title="@string/pref_edit_mode_view_ui" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_edit_mode_edit_ui"
-            android:title="@string/pref_edit_mode_edit_ui" />
-        <EditTextPreference
-            android:defaultValue="10"
-            android:inputType="number"
-            android:key="pref_note_padding_main"
-            android:maxLength="4"
-            android:title="@string/pref_note_padding_main" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_cat_editing">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_edit_cursor_title_new_note"
-            android:title="@string/pref_edit_cursor_title_new_note" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_edit_cursor_end"
-            android:title="@string/pref_edit_cursor_end" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_edit_capitalize_title"
-            android:title="@string/pref_edit_capitalize_title" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_edit_capitalize_note"
-            android:title="@string/pref_edit_capitalize_note" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_cat_text_color">
-        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
-            android:key="pref_note_button_main"
-            android:defaultValue="0xff999999"
-            app:resetValue="0xff999999"
-            android:title="@string/pref_button_color" />
-        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
-            android:key="pref_note_text_color_main"
-            android:defaultValue="0xff999999"
-            app:resetValue="0xff999999"
-            android:title="@string/pref_note_text_color_main" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_note_text_color_main_bool"
-            android:title="@string/pref_note_text_color_main_bool" />
-        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
-            android:defaultValue="0xff999999"
-            app:resetValue="0xff999999"
-            android:key="pref_note_text_color_title"
-            android:title="@string/pref_note_text_color_title" />
-        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
-            android:defaultValue="0xff999999"
-            app:resetValue="0xff999999"
-            android:key="pref_note_text_color_note"
-            android:title="@string/pref_note_text_color_note" />
-        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
-            android:defaultValue="0xff999999"
-            app:resetValue="0xff999999"
-            android:key="pref_note_text_color_details"
-            android:title="@string/pref_note_text_color_details" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_cat_text_color_edition">
-        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
-            android:key="pref_note_button_edit"
-            android:defaultValue="0xff999999"
-            app:resetValue="0xff999999"
-            android:title="@string/pref_button_color" />
-        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
-            android:defaultValue="0xff999999"
-            app:resetValue="0xff999999"
-            android:key="pref_note_text_color_edit_all"
-            android:title="@string/pref_note_text_color_edit_all" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_note_text_color_edit_bool"
-            android:title="@string/pref_note_text_color_edit_bool" />
-        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
-            android:defaultValue="0xff999999"
-            app:resetValue="0xff999999"
-            android:key="pref_note_text_color_title_edit"
-            android:title="@string/pref_note_text_color_title_edit" />
-        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
-            android:defaultValue="0xff999999"
-            android:key="pref_note_text_color_note_edit"
-            android:title="@string/pref_note_text_color_note_edit" />
-        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
-            android:defaultValue="0xff999999"
-            app:resetValue="0xff999999"
-            android:key="pref_note_text_color_note_edit_desc"
-            android:title="@string/pref_note_text_color_note_edit_desc" />
-        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
-            android:defaultValue="0xff999999"
-            app:resetValue="0xff999999"
-            android:key="pref_note_text_color_title_edit_desc"
-            android:title="@string/pref_note_text_color_title_edit_desc" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_text_size">
-        <ListPreference
-            android:defaultValue="18"
-            android:entries="@array/textSize"
-            android:entryValues="@array/textSizeValues"
-            android:key="pref_sizeNote"
-            android:title="@string/pref_text_size" />
-        <EditTextPreference
-            android:defaultValue="18"
-            android:inputType="number"
-            android:key="pref_sizeNote_custom"
-            android:maxLength="2"
-            android:summary="@string/pref_text_size_custom_summary"
-            android:title="@string/pref_text_size_custom" />
-        <EditTextPreference
-            android:defaultValue="14"
-            android:inputType="number"
-            android:key="pref_sizeNote_button"
-            android:maxLength="2"
-            android:title="@string/pref_text_size_button_custom" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_forceButtonsH"
-            android:title="@string/pref_main_button_orientation" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="pref_forceEditionButtonsH"
-            android:title="@string/pref_edition_button_orientation" />
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/pref_cat_confirmation">
-        <CheckBoxPreference
-            android:defaultValue="True"
-            android:key="pref_del"
-            android:title="@string/pref_delete_confirmation" />
-        <CheckBoxPreference
-            android:defaultValue="True"
-            android:key="pref_cancel"
-            android:title="@string/pref_cancel_confirmation" />
-        <ListPreference
-            android:defaultValue="2"
-            android:entries="@array/backButtonAction"
-            android:entryValues="@array/backButtonActionValue"
-            android:key="pref_back_action"
-            android:summary="@string/pref_backButton_action_summary"
-            android:title="@string/pref_backButton_action" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_export_note">
-        <CheckBoxPreference
-            android:defaultValue="True"
-            android:key="pref_export_note_date"
-            android:title="@string/pref_export_note_date" />
-        <CheckBoxPreference
-            android:defaultValue="False"
-            android:key="pref_export_note_title"
-            android:title="@string/pref_export_note_title_short"
-            android:summary="@string/pref_export_note_title" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_db">
-        <Preference
-            android:key="buttonExport"
-            android:title="@string/pref_export_db" />
-        <Preference
-            android:key="buttonImport"
-            android:title="@string/pref_import_db" />
-        <Preference
-            android:key="buttonExportCSV"
-            android:summary="@string/pref_export_csv_db_summary"
-            android:title="@string/pref_export_csv_db" />
-        <Preference
-            android:selectable="true"
-            android:enabled="true"
-            android:key="importFromCSV"
-            android:title="@string/pref_import_csv"
-            android:summary="@string/pref_import_csv_summary" />
-        <Preference
-            android:key="buttonExportAllNotes"
-            android:summary="@string/pref_export_all_notes_summary"
-            android:title="@string/pref_export_all_notes" />
-        <!--<Preference android:title="@string/pref_clean_db"
-            android:key="buttonDelete" />-->
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:key="exportInfo"
-        android:title="@string/export_info_path" />
     <Preference
-        android:selectable="true"
-        android:enabled="true"
-        android:key="exportDirSelect"
-        android:title="@string/export_path_select"
-        android:summary="@string/export_path_select_summary" />
+        android:key="pref_cat_search"
+        android:title="@string/pref_cat_search"
+        android:summary=""/>
+    <Preference
+        android:key="pref_cat_display"
+        android:title="@string/pref_cat_display"
+        />
+    <Preference
+        android:key="pref_cat_editing"
+        android:title="@string/pref_cat_editing"
+        />
+    <Preference
+        android:key="pref_cat_text_color"
+        android:title="@string/pref_cat_text_color"
+        />
+    <Preference
+        android:key="pref_cat_text_color_edition"
+        android:title="@string/pref_cat_text_color_edition"
+        />
+    <Preference
+        android:key="pref_text_size"
+        android:title="@string/pref_text_size"
+        />
+    <Preference
+        android:key="pref_cat_confirmation"
+        android:title="@string/pref_cat_confirmation"
+        />
+    <Preference
+        android:key="pref_export"
+        android:title="@string/pref_export_note"
+        />
 </PreferenceScreen>	

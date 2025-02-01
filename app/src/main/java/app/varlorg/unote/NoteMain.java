@@ -204,15 +204,20 @@ public class NoteMain extends Activity
 
     static public void setUi(Activity a, SharedPreferences pref, Context c, Window window){
         if (pref.getBoolean("pref_theme_system", false)) {
+            Log.d(BuildConfig.APPLICATION_ID, "pref_theme_system  " + true);
             if (isNightThemeEnabled(c)) {
                 a.setTheme(android.R.style.Theme_DeviceDefault);
+                Log.d(BuildConfig.APPLICATION_ID, "isNightThemeEnabled  " + true);
             } else {
+                Log.d(BuildConfig.APPLICATION_ID, "isNightThemeEnabled  " + false);
                 a.setTheme(android.R.style.Theme_DeviceDefault_Light);
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
         }else {
+            Log.d(BuildConfig.APPLICATION_ID, "No pref_theme_system  ");
             if (!pref.getBoolean("pref_theme", false))
             {
+                Log.d(BuildConfig.APPLICATION_ID, "pref_theme  " + false);
                 a.setTheme(android.R.style.Theme_DeviceDefault);
                 //themeID = android.R.style.Theme_DeviceDefault;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -223,6 +228,7 @@ public class NoteMain extends Activity
             }
             else
             {
+                Log.d(BuildConfig.APPLICATION_ID, "pref_theme  " + true);
                 a.setTheme(android.R.style.Theme_DeviceDefault_Light);
                 //themeID = android.R.style.Theme_DeviceDefault_Light;
                 //if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {

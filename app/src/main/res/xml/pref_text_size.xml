@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="18"
+        android:entries="@array/textSize"
+        android:entryValues="@array/textSizeValues"
+        android:key="pref_sizeNote"
+        android:title="@string/pref_text_size" />
+    <EditTextPreference
+        android:defaultValue="18"
+        android:inputType="number"
+        android:key="pref_sizeNote_custom"
+        android:maxLength="2"
+        android:summary="@string/pref_text_size_custom_summary"
+        android:title="@string/pref_text_size_custom" />
+    <EditTextPreference
+        android:defaultValue="14"
+        android:inputType="number"
+        android:key="pref_sizeNote_button"
+        android:maxLength="2"
+        android:title="@string/pref_text_size_button_custom" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_forceButtonsH"
+        android:title="@string/pref_main_button_orientation" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_forceEditionButtonsH"
+        android:title="@string/pref_edition_button_orientation" />
+</PreferenceScreen>

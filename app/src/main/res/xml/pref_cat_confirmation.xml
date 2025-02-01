@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="True"
+        android:key="pref_del"
+        android:title="@string/pref_delete_confirmation" />
+    <CheckBoxPreference
+        android:defaultValue="True"
+        android:key="pref_cancel"
+        android:title="@string/pref_cancel_confirmation" />
+    <ListPreference
+        android:defaultValue="2"
+        android:entries="@array/backButtonAction"
+        android:entryValues="@array/backButtonActionValue"
+        android:key="pref_back_action"
+        android:summary="@string/pref_backButton_action_summary"
+        android:title="@string/pref_backButton_action" />
+</PreferenceScreen>

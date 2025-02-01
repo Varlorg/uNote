@@ -2,25 +2,28 @@ package app.varlorg.unote;
 
 import static app.varlorg.unote.NoteMain.customToastGeneric;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
+import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.content.Intent;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.ViewGroup;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -36,27 +39,45 @@ public class Preference extends PreferenceActivity {
     private static Uri uri;
     private static PreferenceCategory exportDirCategory;
     private static String outputDir;
-    private android.preference.Preference exportDirSelect;
+    private static android.preference.Preference exportDirSelect;
     Bundle savedInstanceState;
+    static SharedPreferences pref;
 
-    private int textSize;
+    private static ExportPreferenceFragment exportFragment;
+    private static int textSize;
     void customToast(String s){
         customToastGeneric(Preference.this, Preference.this.getResources(), s);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Pass the result to the fragment
+        exportFragment.onActivityResult(requestCode, resultCode, data);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction()
+                    .replace(android.R.id.content, new Preference.MainPreferenceFragment())
+                    .commit();
+        }
+
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
         //String uri = Uri.parse("package:${BuildConfig.APPLICATION_ID}");
 
+        exportFragment = new ExportPreferenceFragment();
         textSize = Integer.parseInt(pref.getString("pref_sizeNote", "18"));
         if ( textSize == -1 )
         {
             textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "18"));
         }
 
-        NoteMain.setUi(this, pref, getApplicationContext(), getWindow());
-
+        NoteMain.setUi(this, pref, this.getApplicationContext(), this.getWindow());
+/*************
         this.savedInstanceState = savedInstanceState;
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preference);
@@ -221,7 +242,8 @@ public class Preference extends PreferenceActivity {
             }
         });
         exportDirSelect.setSummary(this.getString(R.string.export_path_select_summary) + " " + outputDir);
-    }
+         ************/
+     }
     private void openDirectory() {
         //Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         //Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE );
@@ -231,7 +253,7 @@ public class Preference extends PreferenceActivity {
     }
 
     //based on https://github.com/ltguillaume/droidshows/blob/main/src/nl/asymmetrics/droidshows/DroidShows.java
-    private static Comparator<File> filesComperator = new Comparator<File>() {
+    private Comparator<File> filesComperator = new Comparator<File>() {
         public int compare(File f1, File f2) {
             if (f1.isDirectory() && !f2.isDirectory())
                 return 1;
@@ -391,6 +413,13 @@ public class Preference extends PreferenceActivity {
     @Override
     public void onBackPressed()
     {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+        } else {
+            //super.onBackPressed();
+
+
         Intent intent = new Intent(this, NoteMain.class);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -398,5 +427,239 @@ public class Preference extends PreferenceActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
         finish();
+        }
+    }
+    @Override
+    public boolean isValidFragment(String fragmentName) {
+        return MainPreferenceFragment.class.getName().equals(fragmentName)
+                || GeneralPreferenceFragment.class.getName().equals(fragmentName)
+                || ConfirmationPreferenceFragment.class.getName().equals(fragmentName)
+                || DisplayPreferenceFragment.class.getName().equals(fragmentName)
+                || EditingPreferenceFragment.class.getName().equals(fragmentName)
+                || SearchPreferenceFragment.class.getName().equals(fragmentName)
+                || TextColorPreferenceFragment.class.getName().equals(fragmentName)
+                || TextColorEditionPreferenceFragment.class.getName().equals(fragmentName)
+                || ExportPreferenceFragment.class.getName().equals(fragmentName)
+                || TextSizePreferenceFragment.class.getName().equals(fragmentName);
+    }
+
+    public static class MainPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onResume( ) {
+            super.onResume();
+            ActionBar actionBar = ((Activity) getActivity()).getActionBar();
+            Log.d(BuildConfig.APPLICATION_ID, "actionBar "+ actionBar);
+            if (actionBar != null) {
+                actionBar.setTitle(getString(R.string.preferences));
+            }
+        }
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
+            NoteMain.setUi(getActivity(), Preference.pref, getContext(), getActivity().getWindow());
+            return super.onCreateView(inflater, container, savedInstanceState);
+        }
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.preference);
+            NoteMain.setUi(getActivity(), Preference.pref, getContext(), getActivity().getWindow());
+            android.preference.Preference confirmationPreference = findPreference("pref_cat_confirmation");
+            confirmationPreference.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(android.preference.Preference preference) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(android.R.id.content, new ConfirmationPreferenceFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    return true;
+                }
+            });
+
+            android.preference.Preference displayPreference = findPreference("pref_cat_display");
+            displayPreference.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(android.preference.Preference preference) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(android.R.id.content, new DisplayPreferenceFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    return true;
+                }
+            });
+
+            android.preference.Preference editingPreference = findPreference("pref_cat_editing");
+            editingPreference.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(android.preference.Preference preference) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(android.R.id.content, new EditingPreferenceFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    return true;
+                }
+            });
+
+            android.preference.Preference searchPreference = findPreference("pref_cat_search");
+            searchPreference.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(android.preference.Preference preference) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(android.R.id.content, new SearchPreferenceFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    return true;
+                }
+            });
+
+            android.preference.Preference textColorPreference = findPreference("pref_cat_text_color");
+            textColorPreference.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(android.preference.Preference preference) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(android.R.id.content, new TextColorPreferenceFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    return true;
+                }
+            });
+
+            android.preference.Preference textColorEditionPreference = findPreference("pref_cat_text_color_edition");
+            textColorEditionPreference.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(android.preference.Preference preference) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(android.R.id.content, new TextColorEditionPreferenceFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    return true;
+                }
+            });
+
+            android.preference.Preference exportPreference = findPreference("pref_export");
+            exportPreference.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(android.preference.Preference preference) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    fragmentTransaction.replace(android.R.id.content, exportFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    return true;
+                }
+            });
+
+            android.preference.Preference textSizePreference = findPreference("pref_text_size");
+            textSizePreference.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(android.preference.Preference preference) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(android.R.id.content, new TextSizePreferenceFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    return true;
+                }
+            });
+        }
+    }
+
+    public static class GeneralPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.preference);
+                ActionBar actionBar = ((Activity) getActivity()).getActionBar();
+                Log.d(BuildConfig.APPLICATION_ID, "actionBar "+ actionBar);
+                if (actionBar != null) {
+                    actionBar.setTitle(getString(R.string.preferences));
+                }
+        }
+        @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            if (context instanceof Activity) {
+                ActionBar actionBar = ((Activity) context).getActionBar();
+                if (actionBar != null) {
+                    actionBar.setTitle(getString(R.string.preferences));
+                }
+            }
+        }
+    }
+    public static class ConfirmationPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_cat_confirmation);
+        }
+    }
+    public static class DisplayPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_cat_display);
+        }
+    }
+    public static class EditingPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_cat_editing);
+        }
+        @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            if (context instanceof Activity) {
+                ActionBar actionBar = ((Activity) context).getActionBar();
+                if (actionBar != null) {
+                    actionBar.setTitle(getString(R.string.pref_cat_editing));
+                }
+            }
+        }
+    }
+    public static class SearchPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_cat_search);
+        }
+    }
+    public static class TextColorPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_cat_text_color);
+        }
+    }
+    public static class TextColorEditionPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_cat_text_color_edition);
+        }
+    }
+
+
+    public static class TextSizePreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_text_size);
+            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+            //String uri = Uri.parse("package:${BuildConfig.APPLICATION_ID}");
+
+            textSize = Integer.parseInt(pref.getString("pref_sizeNote", "18"));
+            if ( textSize == -1 )
+            {
+                textSize = Integer.parseInt(pref.getString("pref_sizeNote_custom", "18"));
+            }
+        }
     }
 }

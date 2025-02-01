@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_edit_cursor_title_new_note"
+        android:title="@string/pref_edit_cursor_title_new_note" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_edit_cursor_end"
+        android:title="@string/pref_edit_cursor_end" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_edit_capitalize_title"
+        android:title="@string/pref_edit_capitalize_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_edit_capitalize_note"
+        android:title="@string/pref_edit_capitalize_note" />
+</PreferenceScreen>

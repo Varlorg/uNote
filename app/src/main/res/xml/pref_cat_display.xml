@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_date"
+        android:summary="@string/pref_date_sum"
+        android:title="@string/pref_date" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_date_mod"
+        android:summary="@string/pref_date_mod_sum"
+        android:title="@string/pref_date_mod" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_theme_system"
+        android:title="@string/pref_theme_system" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_theme"
+        android:summary="@string/pref_theme_sum"
+        android:title="@string/pref_theme" />
+    <EditTextPreference
+        android:defaultValue="30"
+        android:inputType="number"
+        android:key="pref_preview_char_limit"
+        android:maxLength="4"
+        android:summary="@string/pref_preview_limit_summary"
+        android:title="@string/pref_preview_limit" />
+    <CheckBoxPreference
+        android:defaultValue="False"
+        android:key="pref_preview_formatting"
+        android:title="@string/pref_preview_formatting" />
+    <CheckBoxPreference
+        android:defaultValue="False"
+        android:key="pref_scroll"
+        android:title="@string/pref_keep_position_scroll" />
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/tri"
+        android:entryValues="@array/triValeur"
+        android:key="pref_tri"
+        android:title="@string/pref_sort_by" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_ordretri"
+        android:title="@string/pref_sort" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pref_notifications"
+        android:title="@string/pref_notifications" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pref_main_mode_menu_all"
+        android:title="@string/pref_main_mode_menu_all" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_edit_mode_menu_all"
+        android:title="@string/pref_edit_mode_menu_all" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_edit_mode_view"
+        android:title="@string/pref_edit_mode_view" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pref_edit_mode_view_ui"
+        android:title="@string/pref_edit_mode_view_ui" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_edit_mode_edit_ui"
+        android:title="@string/pref_edit_mode_edit_ui" />
+    <EditTextPreference
+        android:defaultValue="10"
+        android:inputType="number"
+        android:key="pref_note_padding_main"
+        android:maxLength="4"
+        android:title="@string/pref_note_padding_main" />
+</PreferenceScreen>
