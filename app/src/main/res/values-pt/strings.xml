@@ -75,6 +75,7 @@
 	<string name="pref_edit_mode_menu_all">Apresentar todos os menus no modo de edição</string>
 	<string name="pref_edit_mode_view_ui">Nova interface para a nota de pré-visualização</string>
 	<string name="pref_cat_editing">Edição</string>
+	<string name="pref_edit_cursor_title_new_note">Colocar o cursor no título quando a nova nota</string>
 	<string name="pref_edit_cursor_end">Colocar o cursor no fim ao abrir a nota</string>
 	<string name="pref_edit_capitalize_title">Ativar a capitalização no título</string>
 	<string name="pref_edit_capitalize_note">Ativar a capitalização no conteúdo da nota</string>
@@ -182,6 +183,8 @@
 	<string name="pref_cat_text_color_edition">Cor na edição</string>
 	<string name="pref_button_color">Cor dos botões</string>
     <string name="pref_theme_system">Seguir o tema do sistema</string>
+	<string name="pref_autosave_interval">Intervalo de gravação automática em segundos</string>
+	<string name="pref_autosave_interval_summary">0 para desativar</string>
 
 
     <!-- Not used ? -
