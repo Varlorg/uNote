@@ -46,8 +46,8 @@
             android:inputType="number"
             android:key="pref_autosave_interval"
             android:maxLength="4"
-            android:summary="0 to disabled"
-            android:title="string/pref_autosave_interval (s)" />
+            android:summary="@string/pref_autosave_interval_summary"
+            android:title="@string/pref_autosave_interval" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_cat_text_color_edition">
         <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
