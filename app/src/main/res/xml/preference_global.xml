@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/preferences">
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_theme_system"
+        android:title="@string/pref_theme_system" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_theme"
+        android:summary="@string/pref_theme_sum"
+        android:title="@string/pref_theme" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pref_notifications"
+        android:title="@string/pref_notifications" />
+    <PreferenceCategory android:title="@string/pref_text_size">
+        <ListPreference
+            android:defaultValue="18"
+            android:entries="@array/textSize"
+            android:entryValues="@array/textSizeValues"
+            android:key="pref_sizeNote"
+            android:title="@string/pref_text_size" />
+        <EditTextPreference
+            android:defaultValue="18"
+            android:inputType="number"
+            android:key="pref_sizeNote_custom"
+            android:maxLength="2"
+            android:summary="@string/pref_text_size_custom_summary"
+            android:title="@string/pref_text_size_custom" />
+        <EditTextPreference
+            android:defaultValue="14"
+            android:inputType="number"
+            android:key="pref_sizeNote_button"
+            android:maxLength="2"
+            android:title="@string/pref_text_size_button_custom" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_cat_confirmation">
+        <CheckBoxPreference
+            android:defaultValue="True"
+            android:key="pref_del"
+            android:title="@string/pref_delete_confirmation" />
+        <CheckBoxPreference
+            android:defaultValue="True"
+            android:key="pref_cancel"
+            android:title="@string/pref_cancel_confirmation" />
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/backButtonAction"
+            android:entryValues="@array/backButtonActionValue"
+            android:key="pref_back_action"
+            android:summary="@string/pref_backButton_action_summary"
+            android:title="@string/pref_backButton_action" />
+    </PreferenceCategory>
+</PreferenceScreen>	
