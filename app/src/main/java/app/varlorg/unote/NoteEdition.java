@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.Layout;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -82,6 +83,7 @@ public class NoteEdition extends Activity
     private Intent intent;
     private int menuColor;
 
+    private TextView searchNoteCountTV;
     private ImageButton previousButton;
     private ImageButton nextButton;
     private CheckBox searchCaseSensitiveButton;
@@ -109,17 +111,6 @@ public class NoteEdition extends Activity
         titreL = (TextView)findViewById(R.id.TitreNoteLine);
         titreNote  = (EditText)findViewById(R.id.TitreNoteEdition);
         titreNoteTV = (TextView)findViewById(R.id.TitreNoteEditionTV);
-
-        previousButton = findViewById(R.id.previousButton);
-        nextButton = findViewById(R.id.nextButton);
-        searchCaseSensitiveButton = findViewById(R.id.searchCaseSensitiveButton);
-        previousButton.setOnClickListener(v -> {
-            navigateToPrevious();
-        });
-
-        nextButton.setOnClickListener(v -> {
-            navigateToNext();
-        });
 
         intent = getIntent();
         if (intent != null)
@@ -430,6 +421,23 @@ public class NoteEdition extends Activity
 
         titre.setTag(null);
         note.setTag(null);
+
+        previousButton = findViewById(R.id.previousButton);
+        nextButton = findViewById(R.id.nextButton);
+        searchCaseSensitiveButton = findViewById(R.id.searchCaseSensitiveButton);
+        previousButton.setOnClickListener(v -> {
+            int patternFoundNb = highlightText(searchNote.getText().toString());
+            if ( pref.getBoolean("pref_search_note_count", true))
+                searchNoteCountTV.setText("" + patternFoundNb);
+            navigateToPrevious();
+        });
+
+        nextButton.setOnClickListener(v -> {
+            int patternFoundNb = highlightText(searchNote.getText().toString());
+            if ( pref.getBoolean("pref_search_note_count", true))
+                searchNoteCountTV.setText("" + patternFoundNb);
+            navigateToNext();
+        });
     }
 
     @Override
@@ -729,7 +737,7 @@ public class NoteEdition extends Activity
 
             searchNote = findViewById(R.id.search_note);
             final FrameLayout searchNote_lay = findViewById(R.id.search_within_note);
-            final TextView searchNoteCountTV = (TextView)findViewById(R.id.search_note_count);
+            searchNoteCountTV = (TextView)findViewById(R.id.search_note_count);
             final ImageButton btnClear = (ImageButton)findViewById(R.id.btn_clear_edition);
             searchNote.setTextSize(textSize);
             searchNoteCountTV.setTextSize(textSize);
@@ -874,12 +882,18 @@ public class NoteEdition extends Activity
         }
         int matchIndex = searchResults.get(currentIndex);
         Log.d(BuildConfig.APPLICATION_ID, "navigateToCurrent " +matchIndex+ " - "+searchNote.length() );
-        note.setSelection(matchIndex, matchIndex + searchNote.length());
+        //note.setSelection(matchIndex, matchIndex + searchNote.length());
+        note.setSelection(matchIndex + searchNote.length());
+        searchNoteCountTV.setText("" + (currentIndex + 1) + "/" + searchResults.size());
         note.requestFocus();
         //int lastLine = noteTV.getLayout().getLineCount() - 1;
-        int line = noteTV.getLayout().getLineForOffset(matchIndex);
-        int lineTop = noteTV.getLayout().getLineTop(line);
-        noteTV.scrollTo(0, lineTop);
+        Layout noteTVLayout = noteTV.getLayout();
+        if ( noteTVLayout != null ) {
+            int line = noteTV.getLayout().getLineForOffset(matchIndex);
+            int lineTop = noteTV.getLayout().getLineTop(line);
+            noteTV.scrollTo(0, lineTop);
+        }
+
     }
     public void save(View v)
     {
