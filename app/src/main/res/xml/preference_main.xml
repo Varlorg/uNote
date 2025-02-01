@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/preferences">
+    <PreferenceCategory android:title="@string/pref_cat_display">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_main_mode_menu_all"
+            android:title="@string/pref_main_mode_menu_all" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_date"
+            android:summary="@string/pref_date_sum"
+            android:title="@string/pref_date" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_date_mod"
+            android:summary="@string/pref_date_mod_sum"
+            android:title="@string/pref_date_mod" />
+        <EditTextPreference
+            android:defaultValue="30"
+            android:inputType="number"
+            android:key="pref_preview_char_limit"
+            android:maxLength="4"
+            android:summary="@string/pref_preview_limit_summary"
+            android:title="@string/pref_preview_limit" />
+        <CheckBoxPreference
+            android:defaultValue="False"
+            android:key="pref_preview_formatting"
+            android:title="@string/pref_preview_formatting" />
+        <CheckBoxPreference
+            android:defaultValue="False"
+            android:key="pref_scroll"
+            android:title="@string/pref_keep_position_scroll" />
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/tri"
+            android:entryValues="@array/triValeur"
+            android:key="pref_tri"
+            android:title="@string/pref_sort_by" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_ordretri"
+            android:title="@string/pref_sort" />
+        <EditTextPreference
+            android:defaultValue="10"
+            android:inputType="number"
+            android:key="pref_note_padding_main"
+            android:maxLength="4"
+            android:title="@string/pref_note_padding_main" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_forceButtonsH"
+            android:title="@string/pref_main_button_orientation" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_search">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="contentSearch"
+            android:summary="@string/pref_search_sum"
+            android:title="@string/pref_search" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="sensitiveSearch"
+            android:title="@string/pref_sensitive_search" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="displaySearchOptions"
+            android:title="@string/pref_display_search_option" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_searchCheckboxV"
+            android:title="@string/pref_search_option_orientation" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_search_note_count"
+            android:title="@string/pref_search_note_count" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_text_color">
+        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
+            android:key="pref_note_button_main"
+            android:defaultValue="0xff999999"
+            app:resetValue="0xff999999"
+            android:title="@string/pref_button_color" />
+        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
+            android:key="pref_note_text_color_main"
+            android:defaultValue="0xff999999"
+            app:resetValue="0xff999999"
+            android:title="@string/pref_note_text_color_main" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_note_text_color_main_bool"
+            android:title="@string/pref_note_text_color_main_bool" />
+        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
+            app:resetValue="0xff999999"
+            android:key="pref_note_text_color_title"
+            android:title="@string/pref_note_text_color_title" />
+        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
+            app:resetValue="0xff999999"
+            android:key="pref_note_text_color_note"
+            android:title="@string/pref_note_text_color_note" />
+        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
+            android:defaultValue="0xff999999"
+            app:resetValue="0xff999999"
+            android:key="pref_note_text_color_details"
+            android:title="@string/pref_note_text_color_details" />
+    </PreferenceCategory>
+</PreferenceScreen>	

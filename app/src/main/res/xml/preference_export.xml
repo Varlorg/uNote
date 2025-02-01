@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/pref_export_note">
+    <PreferenceCategory android:title="@string/pref_export_note">
+        <CheckBoxPreference
+            android:defaultValue="True"
+            android:key="pref_export_note_date"
+            android:title="@string/pref_export_note_date" />
+        <CheckBoxPreference
+            android:defaultValue="False"
+            android:key="pref_export_note_title"
+            android:title="@string/pref_export_note_title_short"
+            android:summary="@string/pref_export_note_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_db">
+        <Preference
+            android:key="buttonExport"
+            android:title="@string/pref_export_db" />
+        <Preference
+            android:key="buttonImport"
+            android:title="@string/pref_import_db" />
+        <Preference
+            android:key="buttonExportCSV"
+            android:summary="@string/pref_export_csv_db_summary"
+            android:title="@string/pref_export_csv_db" />
+        <Preference
+            android:selectable="true"
+            android:enabled="true"
+            android:key="importFromCSV"
+            android:title="@string/pref_import_csv"
+            android:summary="@string/pref_import_csv_summary" />
+        <Preference
+            android:key="buttonExportAllNotes"
+            android:summary="@string/pref_export_all_notes_summary"
+            android:title="@string/pref_export_all_notes" />
+        <!--<Preference android:title="@string/pref_clean_db"
+            android:key="buttonDelete" />-->
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="exportInfo"
+        android:title="@string/export_info_path" />
+    <Preference
+        android:selectable="true"
+        android:enabled="true"
+        android:key="exportDirSelect"
+        android:title="@string/export_path_select"
+        android:summary="@string/export_path_select_summary" />
+</PreferenceScreen>	
