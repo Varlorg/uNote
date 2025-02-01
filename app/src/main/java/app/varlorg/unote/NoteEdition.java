@@ -54,6 +54,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 //import java.util.regex.*;
 
 public class NoteEdition extends Activity
@@ -87,9 +89,16 @@ public class NoteEdition extends Activity
     private ImageButton previousButton;
     private ImageButton nextButton;
     private CheckBox searchCaseSensitiveButton;
-
     private List<Integer> searchResults = new ArrayList<>();
     private int currentIndex = -1;
+
+    /***** Autosave
+     * Variables for autosave timer
+     ****/
+    private static final long DEFAULT_AUTOSAVE_INTERVAL = 60000; // 60 seconds (1 minute)
+    private long autosaveInterval = DEFAULT_AUTOSAVE_INTERVAL;
+    private Timer autosaveTimer;
+    private TimerTask autosaveTask;
 
     void customToast(String s){
         customToastGeneric(NoteEdition.this, NoteEdition.this.getResources(), s);
@@ -421,6 +430,8 @@ public class NoteEdition extends Activity
 
         titre.setTag(null);
         note.setTag(null);
+
+        startAutosaveTimer();
 
         previousButton = findViewById(R.id.previousButton);
         nextButton = findViewById(R.id.nextButton);
@@ -925,7 +936,44 @@ public class NoteEdition extends Activity
 
         return lineNumber >= firstVisibleLineNumber && lineNumber <= lastVisibleLineNumber;
     }
-    public void save(View v)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startAutosaveTimer();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopAutosaveTimer();
+    }
+    private void stopAutosaveTimer() {
+        if (autosaveTimer != null) {
+            autosaveTimer.cancel();
+            autosaveTimer = null;
+        }
+    }
+    private void startAutosaveTimer() {
+        Log.d(BuildConfig.APPLICATION_ID, "startAutosaveTimer " + autosaveTimer);
+        if (autosaveTimer != null) {
+            return;
+        }
+        autosaveTimer = new Timer();
+        autosaveTask = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if ((note.getTag() != null || titre.getTag() != null)) {
+                            save(getWindow().getDecorView().getRootView(), false);
+                        }
+                    }
+                });
+            }
+        };
+        autosaveTimer.schedule(autosaveTask, autosaveInterval, autosaveInterval);
+    }
+    public void save(View v,boolean exit)
     {
         EditText titreElt    = (EditText)findViewById(R.id.TitreNoteEdition);
         String   titreEdited = titreElt.getText().toString();
@@ -981,8 +1029,14 @@ public class NoteEdition extends Activity
         }
 
         noteBdd.close();
-        this.finish();
-        returnMain();
+        titre.setTag(null);
+        note.setTag(null);
+        if(exit)
+            returnMain();
+    }
+
+    public void save(View v){
+        save(v, true);
     }
 
     public void returnMain()
