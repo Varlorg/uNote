@@ -48,6 +48,7 @@ public class NoteMain extends Activity
     private static final String EXTRA_TITLE      = "TitreNoteEdition";
     private static final String EXTRA_NOTE       = "NoteEdition";
     private static final String EXTRA_EDITION    = "edition";
+    private static final String EXTRA_PWD    = "pwd";
     private static final String EXTRA_ID         = "id";
     private static final String SEARCH_CONTENT   = "contentSearch";
     private static final String SEARCH_SENSITIVE = "sensitiveSearch";
@@ -335,6 +336,7 @@ public class NoteMain extends Activity
                                 intentTextEdition.putExtra(EXTRA_TITLE, n.getTitre());
                                 intentTextEdition.putExtra(EXTRA_NOTE, n.getNote());
                                 intentTextEdition.putExtra(EXTRA_EDITION, true);
+                                intentTextEdition.putExtra(EXTRA_PWD, n.getPassword()!=null);
                                 intentTextEdition.putExtra(EXTRA_ID, n.getId());
                                 NoteMain.this.startActivity(intentTextEdition);
                             }
@@ -372,6 +374,7 @@ public class NoteMain extends Activity
                     intentTextEdition.putExtra(EXTRA_TITLE, n.getTitre());
                     intentTextEdition.putExtra(EXTRA_NOTE, n.getNote());
                     intentTextEdition.putExtra(EXTRA_EDITION, true);
+                    intentTextEdition.putExtra(EXTRA_PWD, n.getPassword()!=null);
                     intentTextEdition.putExtra(EXTRA_ID, n.getId());
                     NoteMain.this.startActivity(intentTextEdition);
                 }
@@ -927,6 +930,7 @@ public class NoteMain extends Activity
             intentTextEdition.putExtra(EXTRA_TITLE, note.getTitre());
             intentTextEdition.putExtra(EXTRA_NOTE, note.getNote());
             intentTextEdition.putExtra(EXTRA_EDITION, true);
+            intentTextEdition.putExtra(EXTRA_PWD, note.getPassword()!= null);
             intentTextEdition.putExtra(EXTRA_ID, note.getId());
             NoteMain.this.startActivity(intentTextEdition);
         }

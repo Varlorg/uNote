@@ -80,6 +80,79 @@
 
         </LinearLayout>
     </FrameLayout>
+    <RelativeLayout
+        android:id="@+id/editionAlarm"
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:rowCount="4"
+        android:columnCount="1"
+        android:layout_marginTop="0px"
+        android:orientation="horizontal">
+
+        <DatePicker
+            android:id="@+id/alarmDatePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_centerHorizontal="true"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner" />
+
+        <TimePicker
+            android:id="@+id/alarmTimePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_below="@id/alarmDatePicker"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:timePickerMode="spinner" />
+        <LinearLayout
+            android:id="@+id/alarmButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_below="@id/alarmTimePicker"
+            android:layout_centerHorizontal="true">
+            <Button
+                android:id="@+id/setAlarmButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set Alarm"
+                android:layout_gravity="center"
+                android:layout_column="0"
+                android:layout_row="2"
+                android:layout_below="@id/alarmTimePicker"
+
+                android:layout_marginTop="16dp"/>
+            <Button
+                android:id="@+id/setCancelAlarmButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel Alarm"
+                android:layout_gravity="center"
+                android:layout_column="0"
+                android:layout_row="2"
+                android:layout_toRightOf="@id/setAlarmButton"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/alarmStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_column="0"
+            android:layout_row="3"
+            android:layout_below="@id/alarmButtons"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"/>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/TitreNote"
