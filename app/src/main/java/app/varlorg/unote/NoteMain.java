@@ -533,7 +533,9 @@ public class NoteMain extends Activity
 
         if (n.getPassword() != null)
         {
-            noteSummary += NoteMain.this.getString(R.string.pwd_protected);
+            if (Integer.parseInt(pref.getString("pref_preview_char_limit", "30")) != 0)
+                noteSummary += "<br/>" + NoteMain.this.getString(R.string.pwd_protected);
+            //noteSummary += "\uD83D\uDD12";
         }
         else
         {
