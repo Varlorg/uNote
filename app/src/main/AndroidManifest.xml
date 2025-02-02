@@ -4,6 +4,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -55,6 +57,8 @@
             android:name=".PreferenceMain"
             android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
+        <receiver android:name=".AlarmReceiver"
+            android:exported="false"/>
     </application>
 
 </manifest>
