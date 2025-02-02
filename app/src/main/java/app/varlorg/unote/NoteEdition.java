@@ -108,8 +108,9 @@ public class NoteEdition extends Activity
      ****/
     private TimePicker timePicker;
     private DatePicker datePicker;
-    private Button setAlarmButton;
-    private Button setCancelAlarmButton;
+    private ImageButton setAlarmButton;
+    private ImageButton setCancelAlarmButton;
+    private ImageButton setReturnAlarmButton;
     private TextView alarmStatus;
 
     void customToast(String s){
@@ -471,6 +472,9 @@ public class NoteEdition extends Activity
         setAlarmButton = findViewById(R.id.setAlarmButton);
         alarmStatus = findViewById(R.id.alarmStatus);
         setCancelAlarmButton = findViewById(R.id.setCancelAlarmButton);
+        setReturnAlarmButton = findViewById(R.id.setReturnAlarmButton);
+
+        alarmStatus.setTextSize(textSize);
 
         setAlarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -484,6 +488,13 @@ public class NoteEdition extends Activity
             public void onClick(View view) {
                 Log.d(BuildConfig.APPLICATION_ID, "setCancelAlarmButton onClick ");
                 cancelAlarm(id);
+            }
+        });
+        setReturnAlarmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(BuildConfig.APPLICATION_ID, "setReturnAlarmButton onClick ");
+                findViewById(R.id.editionAlarm).setVisibility(View.GONE);
             }
         });
     }
