@@ -43,7 +43,7 @@ public class ReminderBroadcastHandler extends BroadcastReceiver {
         Log.d(BuildConfig.APPLICATION_ID, "AlarmReceiver Extra: " + title
                 + "\nnote: " + note + "\nid: " +   id);
 
-        builder.setSmallIcon(R.drawable.ic_launcher) // Replace with your icon
+        builder.setSmallIcon(R.mipmap.ic_launcher) // Replace with your icon
                 .setContentTitle(title)
                 .setContentText(note)
                 .setPriority(Notification.PRIORITY_HIGH)
