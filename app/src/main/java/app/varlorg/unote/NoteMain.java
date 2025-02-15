@@ -29,7 +29,6 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
-import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -38,7 +37,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.app.Instrumentation;
 import android.os.Parcelable;
 import android.graphics.Color;
 import android.app.UiModeManager;
@@ -828,6 +826,7 @@ public class NoteMain extends Activity
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_export));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_delete));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_detail));
+        menu.add(0, v.getId(), 0, this.getString(R.string.action_set_alarm));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_share));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_copy));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_duplicate));
@@ -933,6 +932,7 @@ public class NoteMain extends Activity
             intentTextEdition.putExtra(EXTRA_PWD, note.getPassword()!= null);
             intentTextEdition.putExtra(EXTRA_ID, note.getId());
             NoteMain.this.startActivity(intentTextEdition);
+            Log.d("NoteMain", "id " +  note.getId());
         }
         else
         if (item.getTitle().equals(this.getString(R.string.menu_passwd)))
@@ -1046,6 +1046,17 @@ public class NoteMain extends Activity
             alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+        }
+        else if (item.getTitle().equals(this.getString(R.string.action_set_alarm))){
+            Intent intentAlarm = new Intent(NoteMain.this,
+                ReminderActivity.class);
+            intentAlarm.putExtra(EXTRA_TITLE, note.getTitre());
+            intentAlarm.putExtra(EXTRA_NOTE, note.getNote());
+            intentAlarm.putExtra(EXTRA_EDITION, true);
+            intentAlarm.putExtra(EXTRA_PWD, note.getPassword()!= null);
+            intentAlarm.putExtra(EXTRA_ID, note.getId());
+            Log.d(getClass().getSimpleName(),  "intentAlarm " + intentAlarm);
+            NoteMain.this.startActivity(intentAlarm);
         }
         else if (item.getTitle().equals(this.getString(R.string.menu_share)))
         {
