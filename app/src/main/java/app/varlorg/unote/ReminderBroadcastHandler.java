@@ -43,11 +43,11 @@ public class ReminderBroadcastHandler extends BroadcastReceiver {
         Log.d(BuildConfig.APPLICATION_ID, "AlarmReceiver Extra: " + title
                 + "\nnote: " + note + "\nid: " +   id);
 
-        builder.setSmallIcon(R.mipmap.ic_launcher) // Replace with your icon
-                .setContentTitle(title)
-                .setContentText(note)
-                .setPriority(Notification.PRIORITY_HIGH)
-                .setAutoCancel(true);
+        builder.setSmallIcon(R.drawable.ic_launcher) // Replace with your icon
+            .setContentTitle(title)
+            .setContentText(note)
+            .setAutoCancel(true);
+        //.setContentIntent(pendingIntent);
 
         // Create an Intent to open when the notification is clicked
         Intent notificationIntent = new Intent(context, NoteMain.class);
