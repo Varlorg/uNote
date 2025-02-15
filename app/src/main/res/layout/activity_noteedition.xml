@@ -108,7 +108,7 @@
         android:id="@+id/TitreNoteEdition"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="6px"
+        android:layout_margin="2dp"
         android:hint="@string/editTitle_hint"
         android:inputType="text"
         android:lines="1"
@@ -131,14 +131,13 @@
         android:id="@+id/NoteEdition"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_margin="6px"
-        android:layout_marginBottom="0px"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:layout_weight="0.75"
         android:gravity="top|left"
         android:hint="@string/editText_hint"
         android:inputType="textMultiLine"
-        android:padding="11px"
-        android:paddingBottom="0px"
+        android:scrollbars="vertical"
         android:visibility="gone"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -147,16 +146,12 @@
         android:id="@+id/NoteEditionTV"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_margin="6px"
-        android:layout_marginBottom="0px"
         android:layout_weight="0.75"
         android:gravity="top|left"
         android:imeOptions="actionSearch"
         android:inputType="textMultiLine"
         android:scrollbars="vertical"
         android:textIsSelectable="false"
-        android:padding="11px"
-        android:paddingBottom="0px"
         android:textAppearance="?android:attr/textAppearanceMedium" />
     <!--<TextView
       android:id="@+id/text_view"
@@ -168,7 +163,6 @@
         android:id="@+id/editionButtons"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0px"
         android:orientation="horizontal">
 
         <Button
