@@ -38,8 +38,9 @@
 
         <ImageButton
             android:id="@+id/setAlarmButton"
-            android:layout_width="48sp"
-            android:layout_height="48sp"
+            android:layout_width="64sp"
+            android:layout_height="64sp"
+            android:layout_margin="16dp"
             android:layout_gravity="center"
             android:background="@android:drawable/ic_lock_idle_alarm"
             android:scaleType="fitXY"
@@ -49,8 +50,9 @@
 
         <ImageButton
             android:id="@+id/setCancelAlarmButton"
-            android:layout_width="48sp"
-            android:layout_height="48sp"
+            android:layout_width="64sp"
+            android:layout_height="64sp"
+            android:layout_margin="16dp"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_toRightOf="@id/setAlarmButton"
@@ -62,8 +64,9 @@
 
         <ImageButton
             android:id="@+id/setReturnAlarmButton"
-            android:layout_width="48sp"
-            android:layout_height="48sp"
+            android:layout_width="64sp"
+            android:layout_height="64sp"
+            android:layout_margin="16dp"
             android:layout_centerHorizontal="true"
             android:layout_gravity="right"
             android:layout_toRightOf="@id/setCancelAlarmButton"
