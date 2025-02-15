@@ -23,7 +23,7 @@ android {
 
         buildConfigField "String", "applicationId", "\"app.varlorg.unote\""
         //resConfigs("mdpi", "hdpi", "xhdpi", "xxhdpi", "anydpi")
-        resConfigs("hdpi", "xhdpi", "xxhdpi", "anydpi")
+        resConfigs("mdpi","hdpi", "xhdpi", "xxhdpi", "anydpi")
     }
 
     namespace "app.varlorg.unote"
