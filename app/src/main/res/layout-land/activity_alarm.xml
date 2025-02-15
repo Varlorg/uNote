@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/alarmPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+    <DatePicker
+        android:id="@+id/alarmDatePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner" />
+
+    <TimePicker
+        android:id="@+id/alarmTimePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_gravity="end"
+        android:timePickerMode="spinner" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/alarmButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/setAlarmButton"
+            android:layout_width="48sp"
+            android:layout_height="48sp"
+            android:layout_gravity="center"
+            android:background="@android:drawable/ic_lock_idle_alarm"
+            android:scaleType="fitXY"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:text="Set Alarm" />
+
+        <ImageButton
+            android:id="@+id/setCancelAlarmButton"
+            android:layout_width="48sp"
+            android:layout_height="48sp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@id/setAlarmButton"
+            android:background="@drawable/ic_action_delete"
+            android:scaleType="fitXY"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:text="Cancel Alarm" />
+
+        <ImageButton
+            android:id="@+id/setReturnAlarmButton"
+            android:layout_width="48sp"
+            android:layout_height="48sp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="right"
+            android:layout_toRightOf="@id/setCancelAlarmButton"
+            android:background="@drawable/ic_menu_revert"
+            android:scaleType="fitXY"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:text="Return" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/alarmStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_above="@id/alarmButtons"
+        android:layout_marginBottom="24sp"
+
+        android:text="" />
+
+</RelativeLayout>

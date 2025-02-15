@@ -2,9 +2,7 @@ package app.varlorg.unote;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -23,33 +21,27 @@ import android.text.Layout;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
-import android.text.format.DateFormat;
 import android.text.style.BackgroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 import android.util.Log;
 import android.text.method.ScrollingMovementMethod;
 import android.graphics.Typeface;
 
 import static app.varlorg.unote.NoteMain.COLOR_TEXT_DEFAULT;
 import static app.varlorg.unote.NoteMain.POPUP_TEXTSIZE_FACTOR;
-import static app.varlorg.unote.NoteMain.TOAST_TEXTSIZE_FACTOR;
 import static app.varlorg.unote.NoteMain.customToastGeneric;
 
 import java.io.File;
@@ -102,16 +94,6 @@ public class NoteEdition extends Activity
     private int autosaveInterval = 0;
     private Timer autosaveTimer;
     private TimerTask autosaveTask;
-
-    /***** Autosave
-     * Variables for alarm
-     ****/
-    private TimePicker timePicker;
-    private DatePicker datePicker;
-    private ImageButton setAlarmButton;
-    private ImageButton setCancelAlarmButton;
-    private ImageButton setReturnAlarmButton;
-    private TextView alarmStatus;
 
     void customToast(String s){
         customToastGeneric(NoteEdition.this, NoteEdition.this.getResources(), s);
@@ -463,131 +445,8 @@ public class NoteEdition extends Activity
             navigateToNext();
         });
 
-
-        /*****
-         * Set Alarm
-         ****/
-        timePicker = findViewById(R.id.alarmTimePicker);
-        datePicker = findViewById(R.id.alarmDatePicker);
-        setAlarmButton = findViewById(R.id.setAlarmButton);
-        alarmStatus = findViewById(R.id.alarmStatus);
-        setCancelAlarmButton = findViewById(R.id.setCancelAlarmButton);
-        setReturnAlarmButton = findViewById(R.id.setReturnAlarmButton);
-
-        alarmStatus.setTextSize(textSize);
-
-        setAlarmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(BuildConfig.APPLICATION_ID, "setAlarmButton onClick ");
-                setAlarm();
-            }
-        });
-        setCancelAlarmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(BuildConfig.APPLICATION_ID, "setCancelAlarmButton onClick ");
-                cancelAlarm(id);
-            }
-        });
-        setReturnAlarmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(BuildConfig.APPLICATION_ID, "setReturnAlarmButton onClick ");
-                findViewById(R.id.editionAlarm).setVisibility(View.GONE);
-            }
-        });
-    }
-    private boolean isAlarmSet(int requestCode) {
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        // Use FLAG_NO_CREATE to check if a PendingIntent already exists without creating a new one.
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, requestCode, alarmIntent, PendingIntent.FLAG_NO_CREATE | PendingIntent.FLAG_IMMUTABLE);
-        return pendingIntent != null;
-    }
-    private void storeAlarmDetailsInPreferences(int requestCode, Calendar calendar) {
-        SharedPreferences prefs = getSharedPreferences("AlarmPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        // Store the alarm time as a long (milliseconds since epoch)
-        editor.putLong("alarm_time_" + requestCode, calendar.getTimeInMillis());
-        editor.apply();
-    }
-    private Calendar getAlarmDateFromPreferences(int requestCode) {
-        SharedPreferences prefs = getSharedPreferences("AlarmPrefs", MODE_PRIVATE);
-        long alarmTimeMillis = prefs.getLong("alarm_time_" + requestCode, -1); // -1 is a default value if not found
-
-        if (alarmTimeMillis != -1) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(alarmTimeMillis);
-            return calendar;
-        } else {
-            return null; // Alarm not found
-        }
-    }
-    private void cancelAlarm(int requestCode) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, requestCode, alarmIntent, PendingIntent.FLAG_IMMUTABLE);
-
-        if (pendingIntent != null) {
-            alarmManager.cancel(pendingIntent);
-            pendingIntent.cancel();
-            removeAlarmDetailsFromPreferences(requestCode);
-            Log.d(BuildConfig.APPLICATION_ID, "cancelAlarm");
-            alarmStatus.setText("/");
-        }
     }
 
-    private void removeAlarmDetailsFromPreferences(int requestCode) {
-        SharedPreferences prefs = getSharedPreferences("AlarmPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.remove("alarm_time_" + requestCode);
-        editor.apply();
-    }
-    private void setAlarm() {
-        int hour = timePicker.getCurrentHour();
-        int minute = timePicker.getCurrentMinute();
-        int day = datePicker.getDayOfMonth();
-        int month = datePicker.getMonth();
-        int year = datePicker.getYear();
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, day);
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, 0); // Set seconds to 0 for consistency
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        alarmIntent.putExtra(EXTRA_TITLE, titre.getText().toString());
-        if(!pwd) {
-            alarmIntent.putExtra(EXTRA_NOTE, note.getText().toString());
-        }else {
-           alarmIntent.putExtra(EXTRA_NOTE,"");
-           // alarmIntent.putExtra(EXTRA_NOTE, getString(R.string.pwd_protected));
-        }
-        alarmIntent.putExtra(EXTRA_ID, id);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id,
-                alarmIntent, PendingIntent.FLAG_IMMUTABLE |PendingIntent.FLAG_UPDATE_CURRENT);
-
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        Log.d(BuildConfig.APPLICATION_ID, "alarmManager " + alarmManager);
-        //alarmStatus.setText(hour + ":" + minute + " " + day + "/" + (month + 1) + "/" + year);
-        alarmStatus.setText(calendar.getTime() + "");
-
-        // Store alarm details in SharedPreferences
-        storeAlarmDetailsInPreferences(id, calendar);
-
-        Log.d(BuildConfig.APPLICATION_ID, "Extras sent: " +
-                "\n  " + EXTRA_TITLE + titre.getText().toString() +
-                "\n  " + EXTRA_NOTE + note.getText().toString()+
-                "\n  " + EXTRA_EDITION + ": true" +
-                "\n  " + EXTRA_ID + id);
-
-        Log.d(BuildConfig.APPLICATION_ID, "Alarm set for " + calendar.getTime());
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //ajoute les entrées de menu_test à l'ActionBar
@@ -881,26 +740,14 @@ public class NoteEdition extends Activity
             return true;
         }
         if (id_menu == R.id.action_set_alarm){
-            View editionAlarmLayout = findViewById(R.id.editionAlarm);
-
-            if (editionAlarmLayout.getVisibility() == View.VISIBLE) {
-                findViewById(R.id.editionAlarm).setVisibility(View.GONE);
-            }
-            else {
-                timePicker.setIs24HourView(DateFormat.is24HourFormat(this));
-                findViewById(R.id.editionAlarm).setVisibility(View.VISIBLE);
-                if (isAlarmSet(id)) {
-                    Log.d(BuildConfig.APPLICATION_ID, "Alarm is already set.");
-                    // Optionally, you can cancel the existing alarm here if you want to reset it.
-                    // You can use the following code to cancel the alarm:
-                    // PendingIntent pendingIntent = PendingIntent.getBroadcast(this, requestCode, alarmIntent, PendingIntent.FLAG_IMMUTABLE);
-                    // alarmManager.cancel(pendingIntent);
-                    alarmStatus.setText(getAlarmDateFromPreferences(id).getTime()+"");
-                } else {
-                    alarmStatus.setText("/");
-                }
-            }
-
+            Intent intentTextEdition = new Intent(NoteEdition.this,
+                    ReminderActivity.class);
+            intentTextEdition.putExtra(EXTRA_ID, id);
+            intentTextEdition.putExtra(EXTRA_TITLE, titre.getText().toString());
+            intentTextEdition.putExtra(EXTRA_NOTE, note.getText().toString());
+            intentTextEdition.putExtra(EXTRA_PWD, pwd);
+            Log.d("NoteEdition", "note.getId() " + id);
+            NoteEdition.this.startActivity(intentTextEdition);
         }
         if (id_menu == R.id.action_search){
             final String noteContent = ((EditText)findViewById(R.id.NoteEdition)).getText().toString();

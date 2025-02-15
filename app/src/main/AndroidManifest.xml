@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SET_ALARM" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.ALARM_SERVICE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application
         android:allowBackup="true"
@@ -57,7 +60,11 @@
             android:name=".PreferenceMain"
             android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
-        <receiver android:name=".AlarmReceiver"
+        <activity
+            android:name=".ReminderActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode">>
+        </activity>
+        <receiver android:name=".ReminderBroadcastHandler"
             android:exported="false"/>
     </application>
 

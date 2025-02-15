@@ -10,13 +10,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
-public class AlarmReceiver extends BroadcastReceiver {
+public class ReminderBroadcastHandler extends BroadcastReceiver {
 
     private static final String CHANNEL_ID = "alarm_channel";
     private static final int NOTIFICATION_ID = 1;
     private static final String EXTRA_TITLE   = "TitreNoteEdition";
     private static final String EXTRA_NOTE    = "NoteEdition";
-    private static final String EXTRA_EDITION = "edition";
     private static final String EXTRA_ID      = "id";
 
     @Override
@@ -43,7 +42,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Log.d(BuildConfig.APPLICATION_ID, "AlarmReceiver Extra: " + title
                 + "\nnote: " + note + "\nid: " +   id);
-        //Log.d(BuildConfig.APPLICATION_ID, intent.getStringExtra(Intent.EXTRA_TEXT) + intent.getStringExtra(Intent.EXTRA_TITLE) + intent.getStringExtra(Intent.EXTRA_SUBJECT));
 
         builder.setSmallIcon(R.drawable.ic_launcher) // Replace with your icon
                 .setContentTitle(title)
