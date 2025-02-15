@@ -17,9 +17,9 @@ android {
     defaultConfig {
         applicationId "app.varlorg.unote"
         minSdkVersion propMinSdkVersion
-        targetSdkVersion 34
-        versionCode 29
-        versionName "1.7.5"
+        targetSdkVersion propTargetSdkVersion
+        versionCode propVersionCode
+        versionName propVersionName
 
         buildConfigField "String", "applicationId", "\"app.varlorg.unote\""
     }
