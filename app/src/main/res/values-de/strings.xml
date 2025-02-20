@@ -185,6 +185,8 @@
     <string name="pref_theme_system">Dem Systemthema folgen</string>
     <string name="pref_autosave_interval">Intervall der automatischen Speicherung in Sekunden</string>
     <string name="pref_autosave_interval_summary">0 zum Deaktivieren</string>
+    <string name="pref_screen_main">Hauptbildschirm</string>
+    <string name="action_set_alarm">Erinnerung setzen</string>
 
     <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>
