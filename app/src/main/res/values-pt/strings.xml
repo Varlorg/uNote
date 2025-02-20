@@ -185,6 +185,8 @@
     <string name="pref_theme_system">Seguir o tema do sistema</string>
 	<string name="pref_autosave_interval">Intervalo de gravação automática em segundos</string>
 	<string name="pref_autosave_interval_summary">0 para desativar</string>
+	<string name="pref_screen_main">Ecrã principal</string>
+	<string name="action_set_alarm">Definir lembrete</string>
 
 
     <!-- Not used ? -

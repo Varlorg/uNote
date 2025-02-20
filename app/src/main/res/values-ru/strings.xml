@@ -185,6 +185,8 @@
     <string name="pref_theme_system">Следуйте системной теме</string>
 	<string name="pref_autosave_interval">Интервал автосохранения в секундах</string>
 	<string name="pref_autosave_interval_summary">0 для отключения</string>
+	<string name="pref_screen_main">Главный экран</string>
+	<string name="action_set_alarm">установить напоминание</string>
 
     <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>
