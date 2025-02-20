@@ -24,6 +24,7 @@ import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,6 +38,9 @@ public class ReminderActivity extends Activity {
     private static final String EXTRA_EDITION = "edition";
     private static final String EXTRA_PWD = "pwd";
     private static final String EXTRA_ID      = "id";
+
+    private static final int SET_ALARM_PERMISSION_REQUEST_CODE = 100;
+    private static final int POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE = 101;
 
     /*****
      * Variables for alarm
@@ -128,6 +132,8 @@ public class ReminderActivity extends Activity {
                 quit();
             }
         });
+        checkNotificationPermissions();
+        checkAlarmPermissions();
 
         if (!hasExactAlarmPermission(this)) {
             // Request the permission
@@ -251,6 +257,33 @@ public class ReminderActivity extends Activity {
 
         Log.d(LOG_TAG, "Alarm set for " + calendar.getTime());
     }
+    private void checkAlarmPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            // Android 12 (API 31) and above: Check for SCHEDULE_EXACT_ALARM
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            if (!alarmManager.canScheduleExactAlarms()) {
+                // Request SCHEDULE_EXACT_ALARM permission
+                showScheduleExactAlarmPermissionDialog();
+            } else {
+                // SCHEDULE_EXACT_ALARM permission is granted
+                Toast.makeText(this, "SCHEDULE_EXACT_ALARM permission granted", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            // Below Android 12: Check for SET_ALARM
+            if (checkSelfPermission(Manifest.permission.SET_ALARM) != PackageManager.PERMISSION_GRANTED) {
+                // Request SET_ALARM permission
+                requestSetAlarmPermission();
+            } else {
+                // SET_ALARM permission is granted
+                Toast.makeText(this, "SET_ALARM permission granted", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void requestSetAlarmPermission() {
+        // Request the SET_ALARM permission
+        requestPermissions(new String[]{Manifest.permission.SET_ALARM}, SET_ALARM_PERMISSION_REQUEST_CODE);
+    }
     public boolean hasExactAlarmPermission(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -312,5 +345,49 @@ public class ReminderActivity extends Activity {
         });
         builder.show();
     }
+    private void checkNotificationPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Android 13 (API 33) and above: Check for POST_NOTIFICATIONS
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                // Request POST_NOTIFICATIONS permission
+                requestPostNotificationsPermission();
+            } else {
+                // POST_NOTIFICATIONS permission is granted
+                Toast.makeText(this, "POST_NOTIFICATIONS permission granted", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            // Below Android 13: No need to check for POST_NOTIFICATIONS
+            // Notifications are allowed by default
+            Toast.makeText(this, "Notifications are allowed by default on this Android version", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    private void requestPostNotificationsPermission() {
+        // Request the POST_NOTIFICATIONS permission
+        requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == SET_ALARM_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted. Continue the action or workflow in your app.
+                Toast.makeText(this, "SET_ALARM permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                // Explain to the user that the feature is unavailable because the
+                // feature requires a permission that the user has denied.
+                Toast.makeText(this, "SET_ALARM permission denied", Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission is granted. Continue the action or workflow in your app.
+                Toast.makeText(this, "POST_NOTIFICATIONS permission granted", Toast.LENGTH_SHORT).show();
+            } else {
+                // Explain to the user that the feature is unavailable because the
+                // feature requires a permission that the user has denied.
+                Toast.makeText(this, "POST_NOTIFICATIONS permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }
