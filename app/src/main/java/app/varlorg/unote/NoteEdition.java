@@ -458,6 +458,7 @@ public class NoteEdition extends Activity
             this.setTitle("");
             optionsMenu.findItem(R.id.action_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_export).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            optionsMenu.findItem(R.id.action_set_alarm).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_share).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_copy).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_return).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -474,6 +475,7 @@ public class NoteEdition extends Activity
             optionsMenu.findItem(R.id.action_switch_mode).getIcon().setColorFilter(menuColorFilter);
             optionsMenu.findItem(R.id.action_delete).getIcon().setColorFilter(menuColorFilter);
             optionsMenu.findItem(R.id.action_export).getIcon().setColorFilter(menuColorFilter);
+            optionsMenu.findItem(R.id.action_set_alarm).getIcon().setColorFilter(menuColorFilter);
             optionsMenu.findItem(R.id.action_share).getIcon().setColorFilter(menuColorFilter);
             optionsMenu.findItem(R.id.action_copy).getIcon().setColorFilter(menuColorFilter);
             optionsMenu.findItem(R.id.action_return).getIcon().setColorFilter(menuColorFilter);
