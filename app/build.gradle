@@ -40,7 +40,7 @@ android {
                     //environment("GIT_COMMIT_SHORT_SHA", "$CI_COMMIT_SHORT_SHA")
                     environment System.getenv()
                     commandLine("git", "rev-parse", "--short", "HEAD")
-                    commandLine("echo", "$CI_COMMIT_SHORT_SHA")
+                    commandLine("echo", '$CI_COMMIT_SHORT_SHA')
                 } catch(Exception e) {
                 }
                 ignoreExitValue true
