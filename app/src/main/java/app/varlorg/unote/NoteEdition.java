@@ -70,6 +70,7 @@ public class NoteEdition extends Activity
     private EditText titre;
     private EditText note;
     private TextView noteTV;
+    private TextWatcher noteTW;
     private int textSize;
     private EditText searchNote;
     private Menu optionsMenu;
@@ -178,7 +179,7 @@ public class NoteEdition extends Activity
                     }
                 }
             });
-            note.addTextChangedListener(new TextWatcher()
+            noteTW = (new TextWatcher()
             {
                 @Override
                 public void afterTextChanged(Editable arg0)
@@ -204,6 +205,7 @@ public class NoteEdition extends Activity
                     }
                 }
             });
+            note.addTextChangedListener(noteTW);
         }
         textSize = Integer.parseInt(pref.getString("pref_sizeNote", "18"));
         int textSizeButton = textSize < 15 ? textSize - 1: textSize - 4;
@@ -443,7 +445,9 @@ public class NoteEdition extends Activity
         });
 
         nextButton.setOnClickListener(v -> {
+            Log.d(BuildConfig.APPLICATION_ID, "setOnClickListener start " );
             int patternFoundNb = highlightText(searchNote.getText().toString());
+            Log.d(BuildConfig.APPLICATION_ID, "setOnClickListener highlightText " );
             if ( pref.getBoolean("pref_search_note_count", true))
                 searchNoteCountTV.setText("" + patternFoundNb);
             navigateToNext();
@@ -875,7 +879,9 @@ public class NoteEdition extends Activity
             indexOfKeyWord = noteContent.indexOf(s, indexOfKeyWord + s.length());
             count++;
         }
+        note.removeTextChangedListener(noteTW);
         note.setText(spannableString);
+        note.addTextChangedListener(noteTW);
         noteTV.setText(spannableString);
         return count;
     }
@@ -904,9 +910,13 @@ public class NoteEdition extends Activity
         int matchIndex = searchResults.get(currentIndex);
         Log.d(BuildConfig.APPLICATION_ID, "navigateToCurrent " +matchIndex+ " - "+searchNote.length() );
         //note.setSelection(matchIndex, matchIndex + searchNote.length());
+        Log.d(BuildConfig.APPLICATION_ID, "note navigateToCurrent removeTextChangedListener");
+        note.removeTextChangedListener(noteTW);
         note.setSelection(matchIndex + searchNote.length());
         searchNoteCountTV.setText("" + (currentIndex + 1) + "/" + searchResults.size());
         note.requestFocus();
+        note.addTextChangedListener(noteTW);
+        Log.d(BuildConfig.APPLICATION_ID, "note navigateToCurrent addTextChangedListener");
         //int lastLine = noteTV.getLayout().getLineCount() - 1;
         Layout noteTVLayout = noteTV.getLayout();
         if ( noteTVLayout != null ) {
