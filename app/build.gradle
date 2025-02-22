@@ -37,14 +37,18 @@ android {
             def getGitVersion = providers.exec {
                 //commandLine("git","describe", "--tag")
                 try {
-                    //environment("GIT_COMMIT_SHORT_SHA", "$CI_COMMIT_SHORT_SHA")
-                    environment System.getenv()
-                    commandLine("git", "rev-parse", "--short", "HEAD")
-                    commandLine("echo", '$CI_COMMIT_SHORT_SHA')
+                    def GITLAB_CI_COMMIT_SHORT_SHA = System.getenv('CI_COMMIT_SHORT_SHA')
+                    if ( GITLAB_CI_COMMIT_SHORT_SHA == null) {
+                        commandLine("git", "rev-parse", "--short", "HEAD")
+                    } else {
+                        commandLine("echo", "$GITLAB_CI_COMMIT_SHORT_SHA")
+                    }
+                    ignoreExitValue true
                 } catch(Exception e) {
                 }
                 ignoreExitValue true
             }.standardOutput.asText.get().trim()
+            //}.standardOutput.asText.get().trim()
             debuggable true
             testCoverageEnabled = true
             applicationIdSuffix ".debug"
