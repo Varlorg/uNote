@@ -62,7 +62,7 @@
         </activity>
         <activity
             android:name=".ReminderActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|uiMode">>
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode">
         </activity>
         <receiver android:name=".ReminderBroadcastHandler"
             android:exported="false"/>
