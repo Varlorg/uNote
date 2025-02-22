@@ -134,15 +134,6 @@ public class ReminderActivity extends Activity {
         });
         checkNotificationPermissions();
         checkAlarmPermissions();
-
-        if (!hasExactAlarmPermission(this)) {
-            // Request the permission
-            showExactAlarmPermissionDialog();
-        }
-        if (!hasScheduleExactAlarmPermission(this)) {
-            // Request the permission
-            showScheduleExactAlarmPermissionDialog();
-        }
     }
     public void quit()
     {
@@ -226,20 +217,8 @@ public class ReminderActivity extends Activity {
                 alarmIntent, PendingIntent.FLAG_IMMUTABLE |PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        final int takeFlags = intent.getFlags()
-                & (Intent.FLAG_GRANT_READ_URI_PERMISSION
-                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
-        // hold android.permission.SCHEDULE_EXACT_ALARM or android.permission.USE_EXACT_ALARM to set exact alarms.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (hasExactAlarmPermission(this)) {
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-            } else {
-                showExactAlarmPermissionDialog();
-            }
-        } else {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        }
         Log.d(LOG_TAG, "alarmManager " + alarmManager);
         Log.d(LOG_TAG, "alarmManager " + id + " " + alarmIntent + " - " + pendingIntent);
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm", Locale.getDefault());
@@ -266,62 +245,22 @@ public class ReminderActivity extends Activity {
                 showScheduleExactAlarmPermissionDialog();
             } else {
                 // SCHEDULE_EXACT_ALARM permission is granted
-                Toast.makeText(this, "SCHEDULE_EXACT_ALARM permission granted", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "SCHEDULE_EXACT_ALARM permission granted", Toast.LENGTH_SHORT).show();
+                Log.d(LOG_TAG, "SCHEDULE_EXACT_ALARM permission granted");
             }
         } else {
             // Below Android 12: Check for SET_ALARM
             if (checkSelfPermission(Manifest.permission.SET_ALARM) != PackageManager.PERMISSION_GRANTED) {
                 // Request SET_ALARM permission
-                requestSetAlarmPermission();
+                requestPermissions(new String[]{Manifest.permission.SET_ALARM}, SET_ALARM_PERMISSION_REQUEST_CODE);
             } else {
                 // SET_ALARM permission is granted
-                Toast.makeText(this, "SET_ALARM permission granted", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "SET_ALARM permission granted", Toast.LENGTH_SHORT).show();
+                Log.d(LOG_TAG, "SET_ALARM permission granted");
             }
         }
     }
 
-    private void requestSetAlarmPermission() {
-        // Request the SET_ALARM permission
-        requestPermissions(new String[]{Manifest.permission.SET_ALARM}, SET_ALARM_PERMISSION_REQUEST_CODE);
-    }
-    public boolean hasExactAlarmPermission(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            return alarmManager.canScheduleExactAlarms();
-        }
-        return true; // On older versions, this permission is not needed
-    }
-    public boolean hasScheduleExactAlarmPermission(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            return context.checkSelfPermission(
-                    Manifest.permission.SCHEDULE_EXACT_ALARM
-            ) == PackageManager.PERMISSION_GRANTED;
-        }
-        return true; // On older versions, this permission is not needed
-    }
-    private void showExactAlarmPermissionDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Exact Alarm Permission Required");
-        builder.setMessage("This app needs the ability to set exact alarms to function properly. Please grant the permission in the settings.");
-        builder.setPositiveButton("Open Settings", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
-                    startActivity(intent);
-                }
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Handle the case where the user cancels
-                //Toast.makeText(Activity.this, "Exact alarm permission is required.", Toast.LENGTH_SHORT).show();
-                customToast("Exact alarm permission is required.");
-            }
-        });
-        builder.show();
-    }
     private void showScheduleExactAlarmPermissionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Schedule Exact Alarm Permission Required");
@@ -329,7 +268,7 @@ public class ReminderActivity extends Activity {
         builder.setPositiveButton("Open Settings", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
                 Uri uri = Uri.fromParts("package", getPackageName(), null);
                 intent.setData(uri);
                 startActivity(intent);
@@ -350,21 +289,18 @@ public class ReminderActivity extends Activity {
             // Android 13 (API 33) and above: Check for POST_NOTIFICATIONS
             if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 // Request POST_NOTIFICATIONS permission
-                requestPostNotificationsPermission();
+                requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE);
             } else {
                 // POST_NOTIFICATIONS permission is granted
-                Toast.makeText(this, "POST_NOTIFICATIONS permission granted", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "POST_NOTIFICATIONS permission granted", Toast.LENGTH_SHORT).show();
+                Log.d(LOG_TAG, "POST_NOTIFICATIONS permission granted");
             }
         } else {
             // Below Android 13: No need to check for POST_NOTIFICATIONS
             // Notifications are allowed by default
-            Toast.makeText(this, "Notifications are allowed by default on this Android version", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Notifications are allowed by default on this Android version", Toast.LENGTH_SHORT).show();
+            Log.d(LOG_TAG, "Notifications are allowed by default on this Android version");
         }
-    }
-
-    private void requestPostNotificationsPermission() {
-        // Request the POST_NOTIFICATIONS permission
-        requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE);
     }
 
     @Override
@@ -373,7 +309,8 @@ public class ReminderActivity extends Activity {
         if (requestCode == SET_ALARM_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission is granted. Continue the action or workflow in your app.
-                Toast.makeText(this, "SET_ALARM permission granted", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "SET_ALARM permission granted", Toast.LENGTH_SHORT).show();
+                Log.d(LOG_TAG, "SET_ALARM permission granted");
             } else {
                 // Explain to the user that the feature is unavailable because the
                 // feature requires a permission that the user has denied.
@@ -382,7 +319,8 @@ public class ReminderActivity extends Activity {
         } else if (requestCode == POST_NOTIFICATIONS_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission is granted. Continue the action or workflow in your app.
-                Toast.makeText(this, "POST_NOTIFICATIONS permission granted", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this,"POST_NOTIFICATIONS permission granted" , Toast.LENGTH_SHORT).show();
+                Log.d(LOG_TAG, "POST_NOTIFICATIONS permission granted");
             } else {
                 // Explain to the user that the feature is unavailable because the
                 // feature requires a permission that the user has denied.
