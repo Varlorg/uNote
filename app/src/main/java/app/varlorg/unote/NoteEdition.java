@@ -172,6 +172,8 @@ public class NoteEdition extends Activity
                 {
                     if (titre.hasFocus()) {
                         titre.setTag("modified");
+                        if (titreT.getText().toString().lastIndexOf("*") == -1)
+                            titreT.setText(titreT.getText() + "*");
                         Log.d(BuildConfig.APPLICATION_ID, "titre setTag");
                     }
                 }
@@ -196,6 +198,8 @@ public class NoteEdition extends Activity
                 {
                     if (note.hasFocus()) {
                         note.setTag("modified");
+                        if (noteT.getText().toString().lastIndexOf("*") == -1)
+                            noteT.setText(noteT.getText() + "*");
                         Log.d(BuildConfig.APPLICATION_ID, "note setTag " + note.getTag());
                     }
                 }
@@ -1042,6 +1046,10 @@ public class NoteEdition extends Activity
         }
 
         noteBdd.close();
+        if (titreT.getText().toString().lastIndexOf("*") != -1)
+            titreT.setText(titreT.getText().toString().replace( "*", ""));
+        if (noteT.getText().toString().lastIndexOf("*") != -1)
+            noteT.setText(noteT.getText().toString().replace( "*", ""));
         titre.setTag(null);
         note.setTag(null);
         if(exit)
