@@ -69,6 +69,7 @@ public class Preference extends PreferenceActivity {
             {
                 Intent globalActivity = new Intent(getBaseContext(), PreferenceGlobal.class);
                 startActivity(globalActivity);
+                finish();
                 return(false);
             }
         });
@@ -80,6 +81,7 @@ public class Preference extends PreferenceActivity {
             {
                 Intent globalActivity = new Intent(getBaseContext(), PreferenceEdition.class);
                 startActivity(globalActivity);
+                finish();
                 return(false);
             }
         });
@@ -91,6 +93,7 @@ public class Preference extends PreferenceActivity {
             {
                 Intent globalActivity = new Intent(getBaseContext(), PreferenceMain.class);
                 startActivity(globalActivity);
+                finish();
                 return(false);
             }
         });
@@ -102,6 +105,7 @@ public class Preference extends PreferenceActivity {
             {
                 Intent globalActivity = new Intent(getBaseContext(), PreferenceExport.class);
                 startActivity(globalActivity);
+                finish();
                 return(false);
             }
         });
