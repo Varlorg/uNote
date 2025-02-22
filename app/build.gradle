@@ -1,7 +1,6 @@
 plugins {
     id "org.sonarqube" version "2.5"
 }
-
 apply plugin: 'com.android.application'
 apply plugin: 'org.sonarqube'
 apply plugin: 'jacoco'
@@ -35,10 +34,38 @@ android {
             testCoverageEnabled false
         }
         debug {
+            def gitBranch =  providers.exec {
+                try {
+                    def GITLAB_CI_COMMIT_BRANCH = System.getenv('CI_COMMIT_BRANCH')
+                    if ( GITLAB_CI_COMMIT_BRANCH == null) {
+                        commandLine("git", "rev-parse", "--abbrev-ref", "HEAD")
+                    } else {
+                        commandLine("echo", "$GITLAB_CI_COMMIT_BRANCH")
+                    }
+                    ignoreExitValue true
+                } catch(Exception e) {
+                }
+                ignoreExitValue true
+            }.standardOutput.asText.get().trim()
+
+            def gitHash = providers.exec {
+                try {
+                    def GITLAB_CI_COMMIT_SHORT_SHA = System.getenv('CI_COMMIT_SHORT_SHA')
+                    if ( GITLAB_CI_COMMIT_SHORT_SHA == null) {
+                        commandLine("git", "rev-parse", "--short", "HEAD")
+                    } else {
+                        commandLine("echo", "$GITLAB_CI_COMMIT_SHORT_SHA")
+                    }
+                    ignoreExitValue true
+                } catch(Exception e) {
+                }
+                ignoreExitValue true
+            }.standardOutput.asText.get().trim()
+
             debuggable true
             testCoverageEnabled = true
             applicationIdSuffix ".debug"
-            versionNameSuffix "-debug"
+            versionNameSuffix "-debug-git-" + gitBranch + "-" + gitHash
         }
     }
 
