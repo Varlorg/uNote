@@ -758,16 +758,59 @@ public class NoteMain extends Activity
                                     notesToDelete.add(n);
                                 }
                             }
-                            for(Note n: notesToDelete)
+                            if (pref.getBoolean("pref_del", true))
                             {
-                                deleteNote(n, false);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
+                                builder
+                                        .setTitle(NoteMain.this.getString(R.string.pref_delete_confirmation) + " " +
+                                                checkedItems.size() + " " + NoteMain.this.getString(R.string.item_selected))
+                                        .setMessage(NoteMain.this.getString(R.string.dialog_delete_msg))
+                                        .setPositiveButton(NoteMain.this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener()
+                                        {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int id)
+                                            {
+                                                for(Note n: notesToDelete)
+                                                {
+                                                    deleteNote(n, false);
+                                                }
+                                                lv.clearChoices();
+                                                if (pref.getBoolean("pref_notifications", true))
+                                                {
+                                                    customToast(notesToDelete.size() + " " + getString(R.string.selected_notes_deleted));
+                                                }
+                                                mode.finish();
+                                            }
+                                        })
+                                        .setNegativeButton(NoteMain.this.getString(R.string.dialog_delete_no), new DialogInterface.OnClickListener()
+                                        {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int id)
+                                            {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                //.show();
+                                AlertDialog alertDialog = builder.create();
+                                alertDialog.show();
+                                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                                ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
                             }
-                            lv.clearChoices();
-                            if (pref.getBoolean("pref_notifications", true))
+                            else
                             {
-                                customToast(notesToDelete.size() + " " + getString(R.string.selected_notes_deleted));
+                                for(Note n: notesToDelete)
+                                {
+                                    deleteNote(n, false);
+                                }
+                                lv.clearChoices();
+                                if (pref.getBoolean("pref_notifications", true))
+                                {
+                                    customToast(notesToDelete.size() + " " + getString(R.string.selected_notes_deleted));
+                                }
+                                mode.finish();
                             }
-                            mode.finish();
+
                         }
                         else if (item.getItemId() == R.id.menu_all ) {
                             if(lv.getCheckedItemCount() == lv.getCount()) {
