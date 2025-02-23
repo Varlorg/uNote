@@ -1062,6 +1062,7 @@ public class NoteEdition extends Activity
             noteT.setText(noteT.getText().toString().replace( "*", ""));
         titre.setTag(null);
         note.setTag(null);
+        edit = true;
         if(exit)
             returnMain();
     }
