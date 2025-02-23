@@ -295,7 +295,7 @@ public class PreferenceExport extends PreferenceActivity {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        customToast(nbNote + getString(R.string.toast_import_csv_added)); // " note(s) added"
+                        customToast(nbNote + " " + getString(R.string.toast_import_csv_added)); // " note(s) added"
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, null)
