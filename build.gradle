@@ -23,10 +23,17 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+/*def getGitVersion = providers.exec {
+    //commandLine("git","describe", "--tag")
+    commandLine("git", "rev-parse", "--short", "HEAD")
+}.standardOutput.asText.get().trim()
+*/
+
 ext {
-    propCompileSdkVersion = 27
-    propMinSdkVersion = 7
+    propCompileSdkVersion = 34
+    propMinSdkVersion = 26
     propTargetSdkVersion = propCompileSdkVersion
-    propVersionCode = 3
-    propVersionName = '2.0.1'
+    propVersionCode = 29
+    propVersionName = '1.7.5'
+    //gitVersion = getGitVersion
 }

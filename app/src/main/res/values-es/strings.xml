@@ -50,7 +50,7 @@
 	<string name="pref_text_size_button_custom">Tamaño de texto personalizado para los botones</string>
 	<string name="pref_main_button_orientation">Botones de la pantalla principal horizontal</string>
 	<string name="pref_edition_button_orientation">Botones de edición horizontal</string>
-	<string name="pref_export_note">Exportación de notass</string>
+	<string name="pref_export_note">Exportación de notas</string>
 	<string name="pref_export_note_date">Añadir fecha al nombre del archivo</string>
 	<string name="pref_export_note_title_short">Utilizar título en lugar de id</string>
 	<string name="pref_export_note_title">Utilice el título de la nota para el nombre del archivo de exportación en lugar del id</string>
@@ -75,6 +75,7 @@
 	<string name="pref_edit_mode_menu_all">Mostrar todos los menús en modo edición</string>
 	<string name="pref_edit_mode_view_ui">Nueva interfaz para la nota de previsualización</string>
 	<string name="pref_cat_editing">Edición</string>
+	<string name="pref_edit_cursor_title_new_note">Colocar el cursor en el título cuando nueva nota</string>
 	<string name="pref_edit_cursor_end">Colocar el cursor al final al abrir la nota</string>
 	<string name="pref_edit_capitalize_title">Enable capitalization on title</string>
 	<string name="pref_edit_capitalize_note">Enable capitalization on note content</string>
@@ -182,6 +183,10 @@
 	<string name="pref_cat_text_color_edition">Color en la edición</string>
 	<string name="pref_button_color">Color de los botones</string>
     <string name="pref_theme_system">Seguir el tema del sistema</string>
+	<string name="pref_autosave_interval">Intervalo de autoguardado en segundos</string>
+	<string name="pref_autosave_interval_summary">0 para desactivar</string>
+	<string name="pref_screen_main">Pantalla principal</string>
+	<string name="action_set_alarm">Configurar recordatorio</string>
 
     <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>

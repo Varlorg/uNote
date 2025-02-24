@@ -26,7 +26,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -37,14 +36,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.util.Log;
 import android.text.method.ScrollingMovementMethod;
 import android.graphics.Typeface;
 
 import static app.varlorg.unote.NoteMain.COLOR_TEXT_DEFAULT;
 import static app.varlorg.unote.NoteMain.POPUP_TEXTSIZE_FACTOR;
-import static app.varlorg.unote.NoteMain.TOAST_TEXTSIZE_FACTOR;
 import static app.varlorg.unote.NoteMain.customToastGeneric;
 
 import java.io.File;
@@ -54,6 +51,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 //import java.util.regex.*;
 
 public class NoteEdition extends Activity
@@ -61,14 +60,17 @@ public class NoteEdition extends Activity
     private static final String EXTRA_TITLE   = "TitreNoteEdition";
     private static final String EXTRA_NOTE    = "NoteEdition";
     private static final String EXTRA_EDITION = "edition";
+    private static final String EXTRA_PWD = "pwd";
     private static final String EXTRA_ID      = "id";
     private static final String EXTRA_SIZE    = "pref_sizeNote";
     private boolean edit = false;
+    private boolean pwd = false;
     private int id       = 0;
     private SharedPreferences pref;
     private EditText titre;
     private EditText note;
     private TextView noteTV;
+    private TextWatcher noteTW;
     private int textSize;
     private EditText searchNote;
     private Menu optionsMenu;
@@ -84,9 +86,15 @@ public class NoteEdition extends Activity
     private ImageButton previousButton;
     private ImageButton nextButton;
     private CheckBox searchCaseSensitiveButton;
-
     private List<Integer> searchResults = new ArrayList<>();
     private int currentIndex = -1;
+
+    /***** Autosave
+     * Variables for autosave timer
+     ****/
+    private int autosaveInterval = 0;
+    private Timer autosaveTimer;
+    private TimerTask autosaveTask;
 
     void customToast(String s){
         customToastGeneric(NoteEdition.this, NoteEdition.this.getResources(), s);
@@ -140,6 +148,7 @@ public class NoteEdition extends Activity
                 note.setText(intent.getStringExtra(EXTRA_NOTE));
                 noteTV.setText(intent.getStringExtra(EXTRA_NOTE));
                 edit = intent.getBooleanExtra(EXTRA_EDITION, false);
+                pwd = intent.getBooleanExtra(EXTRA_PWD, false);
                 id = intent.getIntExtra(EXTRA_ID, 0);
             }
             titre.setTag(null);
@@ -164,11 +173,13 @@ public class NoteEdition extends Activity
                 {
                     if (titre.hasFocus()) {
                         titre.setTag("modified");
+                        if (titreT.getText().toString().lastIndexOf("*") == -1)
+                            titreT.setText(titreT.getText() + "*");
                         Log.d(BuildConfig.APPLICATION_ID, "titre setTag");
                     }
                 }
             });
-            note.addTextChangedListener(new TextWatcher()
+            noteTW = (new TextWatcher()
             {
                 @Override
                 public void afterTextChanged(Editable arg0)
@@ -188,10 +199,13 @@ public class NoteEdition extends Activity
                 {
                     if (note.hasFocus()) {
                         note.setTag("modified");
+                        if (noteT.getText().toString().lastIndexOf("*") == -1)
+                            noteT.setText(noteT.getText() + "*");
                         Log.d(BuildConfig.APPLICATION_ID, "note setTag " + note.getTag());
                     }
                 }
             });
+            note.addTextChangedListener(noteTW);
         }
         textSize = Integer.parseInt(pref.getString("pref_sizeNote", "18"));
         int textSizeButton = textSize < 15 ? textSize - 1: textSize - 4;
@@ -418,6 +432,7 @@ public class NoteEdition extends Activity
 
         titre.setTag(null);
         note.setTag(null);
+        startAutosaveTimer();
 
         previousButton = findViewById(R.id.previousButton);
         nextButton = findViewById(R.id.nextButton);
@@ -430,11 +445,14 @@ public class NoteEdition extends Activity
         });
 
         nextButton.setOnClickListener(v -> {
+            Log.d(BuildConfig.APPLICATION_ID, "setOnClickListener start " );
             int patternFoundNb = highlightText(searchNote.getText().toString());
+            Log.d(BuildConfig.APPLICATION_ID, "setOnClickListener highlightText " );
             if ( pref.getBoolean("pref_search_note_count", true))
                 searchNoteCountTV.setText("" + patternFoundNb);
             navigateToNext();
         });
+
     }
 
     @Override
@@ -448,6 +466,7 @@ public class NoteEdition extends Activity
             this.setTitle("");
             optionsMenu.findItem(R.id.action_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_export).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            optionsMenu.findItem(R.id.action_set_alarm).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_share).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_copy).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             optionsMenu.findItem(R.id.action_return).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -464,6 +483,7 @@ public class NoteEdition extends Activity
             optionsMenu.findItem(R.id.action_switch_mode).getIcon().setColorFilter(menuColorFilter);
             optionsMenu.findItem(R.id.action_delete).getIcon().setColorFilter(menuColorFilter);
             optionsMenu.findItem(R.id.action_export).getIcon().setColorFilter(menuColorFilter);
+            optionsMenu.findItem(R.id.action_set_alarm).getIcon().setColorFilter(menuColorFilter);
             optionsMenu.findItem(R.id.action_share).getIcon().setColorFilter(menuColorFilter);
             optionsMenu.findItem(R.id.action_copy).getIcon().setColorFilter(menuColorFilter);
             optionsMenu.findItem(R.id.action_return).getIcon().setColorFilter(menuColorFilter);
@@ -729,6 +749,16 @@ public class NoteEdition extends Activity
             //returnMain();
             return true;
         }
+        if (id_menu == R.id.action_set_alarm){
+            Intent intentTextEdition = new Intent(NoteEdition.this,
+                    ReminderActivity.class);
+            intentTextEdition.putExtra(EXTRA_ID, id);
+            intentTextEdition.putExtra(EXTRA_TITLE, titre.getText().toString());
+            intentTextEdition.putExtra(EXTRA_NOTE, note.getText().toString());
+            intentTextEdition.putExtra(EXTRA_PWD, pwd);
+            Log.d("NoteEdition", "note.getId() " + id);
+            NoteEdition.this.startActivity(intentTextEdition);
+        }
         if (id_menu == R.id.action_search){
             final String noteContent = ((EditText)findViewById(R.id.NoteEdition)).getText().toString();
 
@@ -849,7 +879,9 @@ public class NoteEdition extends Activity
             indexOfKeyWord = noteContent.indexOf(s, indexOfKeyWord + s.length());
             count++;
         }
+        note.removeTextChangedListener(noteTW);
         note.setText(spannableString);
+        note.addTextChangedListener(noteTW);
         noteTV.setText(spannableString);
         return count;
     }
@@ -878,9 +910,13 @@ public class NoteEdition extends Activity
         int matchIndex = searchResults.get(currentIndex);
         Log.d(BuildConfig.APPLICATION_ID, "navigateToCurrent " +matchIndex+ " - "+searchNote.length() );
         //note.setSelection(matchIndex, matchIndex + searchNote.length());
+        Log.d(BuildConfig.APPLICATION_ID, "note navigateToCurrent removeTextChangedListener");
+        note.removeTextChangedListener(noteTW);
         note.setSelection(matchIndex + searchNote.length());
         searchNoteCountTV.setText("" + (currentIndex + 1) + "/" + searchResults.size());
         note.requestFocus();
+        note.addTextChangedListener(noteTW);
+        Log.d(BuildConfig.APPLICATION_ID, "note navigateToCurrent addTextChangedListener");
         //int lastLine = noteTV.getLayout().getLineCount() - 1;
         Layout noteTVLayout = noteTV.getLayout();
         if ( noteTVLayout != null ) {
@@ -922,7 +958,49 @@ public class NoteEdition extends Activity
 
         return lineNumber >= firstVisibleLineNumber && lineNumber <= lastVisibleLineNumber;
     }
-    public void save(View v)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startAutosaveTimer();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopAutosaveTimer();
+    }
+    private void stopAutosaveTimer() {
+        if (autosaveTimer != null) {
+            autosaveTimer.cancel();
+            autosaveTimer = null;
+        }
+    }
+    private void startAutosaveTimer() {
+        /* Retrieve autosave pref and convert it in seconds  */
+        autosaveInterval = Integer.parseInt(pref.getString("pref_autosave_interval", "0")) * 1000;
+
+        Log.d(BuildConfig.APPLICATION_ID, "startAutosaveTimer " + autosaveTimer);
+        Log.d(BuildConfig.APPLICATION_ID, "startAutosaveTimer autosaveInterval " + autosaveInterval);
+
+        if (autosaveTimer != null || ( autosaveInterval == 0)) {
+            return;
+        }
+        autosaveTimer = new Timer();
+        autosaveTask = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if ((note.getTag() != null || titre.getTag() != null)) {
+                            save(getWindow().getDecorView().getRootView(), false);
+                        }
+                    }
+                });
+            }
+        };
+        autosaveTimer.schedule(autosaveTask, autosaveInterval, autosaveInterval);
+    }
+    public void save(View v,boolean exit)
     {
         EditText titreElt    = (EditText)findViewById(R.id.TitreNoteEdition);
         String   titreEdited = titreElt.getText().toString();
@@ -978,8 +1056,19 @@ public class NoteEdition extends Activity
         }
 
         noteBdd.close();
-        this.finish();
-        returnMain();
+        if (titreT.getText().toString().lastIndexOf("*") != -1)
+            titreT.setText(titreT.getText().toString().replace( "*", ""));
+        if (noteT.getText().toString().lastIndexOf("*") != -1)
+            noteT.setText(noteT.getText().toString().replace( "*", ""));
+        titre.setTag(null);
+        note.setTag(null);
+        edit = true;
+        if(exit)
+            returnMain();
+    }
+
+    public void save(View v){
+        save(v, true);
     }
 
     public void returnMain()

@@ -183,6 +183,11 @@
 	<string name="mode_normal">Normal mode</string>
 	<string name="mode_selection">Selection mode</string>
 	<string name="pref_button_color">Buttons color</string>
+	<string name="pref_autosave_interval">Autosave interval in second</string>
+	<string name="pref_autosave_interval_summary">0 to disable</string>
+	<string name="pref_screen_global">Global</string>
+	<string name="pref_screen_main">Main screen</string>
+	<string name="action_set_alarm">Set reminder</string>
 
 	<!-- Not used ? -
 	<color name="note_color">#FEFEE2</color>

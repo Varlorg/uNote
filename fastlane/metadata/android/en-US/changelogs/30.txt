@@ -1,0 +1,13 @@
+New features
+    - autosave note
+    - set alarm reminders
+    - add monochrome icon
+    - increase min android version to 8 (API 26)
+
+Update:
+    - Preferences split into several screens
+    - add navigation button in the search in Edition mode
+
+Fix
+    - password protected display when preview limit is 0
+    - Text below the padding in edition

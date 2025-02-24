@@ -77,6 +77,7 @@
 	<string name="pref_edit_mode_view_ui">Новый интерфейс для предварительного просмотра заметок</string>
 	<string name="pref_edit_mode_edit_ui">Новый интерфейс для редактирования заметок</string>
 	<string name="pref_cat_editing">Редактирование</string>
+	<string name="pref_edit_cursor_title_new_note">Установите курсор на заголовок при появлении новой заметки</string>
 	<string name="pref_edit_cursor_end">Установить курсор в конце заметки при открытии</string>
 	<string name="pref_edit_capitalize_title">Включить заглавные буквы в заголовке</string>
 	<string name="pref_edit_capitalize_note">Включить использование заглавных букв в содержимом заметки</string>
@@ -182,6 +183,10 @@
 	<string name="mode_selection">Режим выбора</string>
 	<string name="pref_button_color">Цвет кнопок</string>
     <string name="pref_theme_system">Следуйте системной теме</string>
+	<string name="pref_autosave_interval">Интервал автосохранения в секундах</string>
+	<string name="pref_autosave_interval_summary">0 для отключения</string>
+	<string name="pref_screen_main">Главный экран</string>
+	<string name="action_set_alarm">установить напоминание</string>
 
     <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>

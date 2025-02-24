@@ -75,6 +75,7 @@
     <string name="pref_edit_mode_menu_all">Alle Menüs im Bearbeitungsmodus anzeigen</string>
     <string name="pref_edit_mode_view_ui">Neue Schnittstelle für Vorschaunotizen</string>
     <string name="pref_cat_editing">Edition</string>
+    <string name="pref_edit_cursor_title_new_note">Cursor bei neuer Notiz auf Titel setzen</string>
     <string name="pref_edit_cursor_end">Cursor beim Öffnen der Notiz an das Ende setzen</string>
     <string name="pref_edit_capitalize_title">Großschreibung im Titel aktivieren</string>
     <string name="pref_edit_capitalize_note">Großschreibung für Noteninhalte aktivieren</string>
@@ -182,6 +183,10 @@
     <string name="pref_cat_text_color_edition">Farbe in edition</string>
     <string name="pref_button_color">Farbe der Schaltflächen</string>
     <string name="pref_theme_system">Dem Systemthema folgen</string>
+    <string name="pref_autosave_interval">Intervall der automatischen Speicherung in Sekunden</string>
+    <string name="pref_autosave_interval_summary">0 zum Deaktivieren</string>
+    <string name="pref_screen_main">Hauptbildschirm</string>
+    <string name="action_set_alarm">Erinnerung setzen</string>
 
     <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>

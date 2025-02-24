@@ -29,7 +29,6 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
-import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -38,7 +37,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.app.Instrumentation;
 import android.os.Parcelable;
 import android.graphics.Color;
 import android.app.UiModeManager;
@@ -48,6 +46,7 @@ public class NoteMain extends Activity
     private static final String EXTRA_TITLE      = "TitreNoteEdition";
     private static final String EXTRA_NOTE       = "NoteEdition";
     private static final String EXTRA_EDITION    = "edition";
+    private static final String EXTRA_PWD    = "pwd";
     private static final String EXTRA_ID         = "id";
     private static final String SEARCH_CONTENT   = "contentSearch";
     private static final String SEARCH_SENSITIVE = "sensitiveSearch";
@@ -335,6 +334,7 @@ public class NoteMain extends Activity
                                 intentTextEdition.putExtra(EXTRA_TITLE, n.getTitre());
                                 intentTextEdition.putExtra(EXTRA_NOTE, n.getNote());
                                 intentTextEdition.putExtra(EXTRA_EDITION, true);
+                                intentTextEdition.putExtra(EXTRA_PWD, n.getPassword()!=null);
                                 intentTextEdition.putExtra(EXTRA_ID, n.getId());
                                 NoteMain.this.startActivity(intentTextEdition);
                             }
@@ -372,6 +372,7 @@ public class NoteMain extends Activity
                     intentTextEdition.putExtra(EXTRA_TITLE, n.getTitre());
                     intentTextEdition.putExtra(EXTRA_NOTE, n.getNote());
                     intentTextEdition.putExtra(EXTRA_EDITION, true);
+                    intentTextEdition.putExtra(EXTRA_PWD, n.getPassword()!=null);
                     intentTextEdition.putExtra(EXTRA_ID, n.getId());
                     NoteMain.this.startActivity(intentTextEdition);
                 }
@@ -533,7 +534,9 @@ public class NoteMain extends Activity
 
         if (n.getPassword() != null)
         {
-            noteSummary += NoteMain.this.getString(R.string.pwd_protected);
+            if (Integer.parseInt(pref.getString("pref_preview_char_limit", "30")) != 0)
+                noteSummary += "<br/>" + NoteMain.this.getString(R.string.pwd_protected);
+            //noteSummary += "\uD83D\uDD12";
         }
         else
         {
@@ -755,16 +758,59 @@ public class NoteMain extends Activity
                                     notesToDelete.add(n);
                                 }
                             }
-                            for(Note n: notesToDelete)
+                            if (pref.getBoolean("pref_del", true))
                             {
-                                deleteNote(n, false);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
+                                builder
+                                        .setTitle(NoteMain.this.getString(R.string.pref_delete_confirmation) + " " +
+                                                checkedItems.size() + " " + NoteMain.this.getString(R.string.item_selected))
+                                        .setMessage(NoteMain.this.getString(R.string.dialog_delete_msg))
+                                        .setPositiveButton(NoteMain.this.getString(R.string.dialog_delete_yes), new DialogInterface.OnClickListener()
+                                        {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int id)
+                                            {
+                                                for(Note n: notesToDelete)
+                                                {
+                                                    deleteNote(n, false);
+                                                }
+                                                lv.clearChoices();
+                                                if (pref.getBoolean("pref_notifications", true))
+                                                {
+                                                    customToast(notesToDelete.size() + " " + getString(R.string.selected_notes_deleted));
+                                                }
+                                                mode.finish();
+                                            }
+                                        })
+                                        .setNegativeButton(NoteMain.this.getString(R.string.dialog_delete_no), new DialogInterface.OnClickListener()
+                                        {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int id)
+                                            {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                //.show();
+                                AlertDialog alertDialog = builder.create();
+                                alertDialog.show();
+                                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                                ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
                             }
-                            lv.clearChoices();
-                            if (pref.getBoolean("pref_notifications", true))
+                            else
                             {
-                                customToast(notesToDelete.size() + " " + getString(R.string.selected_notes_deleted));
+                                for(Note n: notesToDelete)
+                                {
+                                    deleteNote(n, false);
+                                }
+                                lv.clearChoices();
+                                if (pref.getBoolean("pref_notifications", true))
+                                {
+                                    customToast(notesToDelete.size() + " " + getString(R.string.selected_notes_deleted));
+                                }
+                                mode.finish();
                             }
-                            mode.finish();
+
                         }
                         else if (item.getItemId() == R.id.menu_all ) {
                             if(lv.getCheckedItemCount() == lv.getCount()) {
@@ -823,6 +869,7 @@ public class NoteMain extends Activity
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_export));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_delete));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_detail));
+        menu.add(0, v.getId(), 0, this.getString(R.string.action_set_alarm));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_share));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_copy));
         menu.add(0, v.getId(), 0, this.getString(R.string.menu_duplicate));
@@ -925,8 +972,10 @@ public class NoteMain extends Activity
             intentTextEdition.putExtra(EXTRA_TITLE, note.getTitre());
             intentTextEdition.putExtra(EXTRA_NOTE, note.getNote());
             intentTextEdition.putExtra(EXTRA_EDITION, true);
+            intentTextEdition.putExtra(EXTRA_PWD, note.getPassword()!= null);
             intentTextEdition.putExtra(EXTRA_ID, note.getId());
             NoteMain.this.startActivity(intentTextEdition);
+            Log.d("NoteMain", "id " +  note.getId());
         }
         else
         if (item.getTitle().equals(this.getString(R.string.menu_passwd)))
@@ -1040,6 +1089,17 @@ public class NoteMain extends Activity
             alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+        }
+        else if (item.getTitle().equals(this.getString(R.string.action_set_alarm))){
+            Intent intentAlarm = new Intent(NoteMain.this,
+                ReminderActivity.class);
+            intentAlarm.putExtra(EXTRA_TITLE, note.getTitre());
+            intentAlarm.putExtra(EXTRA_NOTE, note.getNote());
+            intentAlarm.putExtra(EXTRA_EDITION, true);
+            intentAlarm.putExtra(EXTRA_PWD, note.getPassword()!= null);
+            intentAlarm.putExtra(EXTRA_ID, note.getId());
+            Log.d(getClass().getSimpleName(),  "intentAlarm " + intentAlarm);
+            NoteMain.this.startActivity(intentAlarm);
         }
         else if (item.getTitle().equals(this.getString(R.string.menu_share)))
         {
