@@ -33,7 +33,7 @@ ext {
     propCompileSdkVersion = 34
     propMinSdkVersion = 26
     propTargetSdkVersion = propCompileSdkVersion
-    propVersionCode = 29
-    propVersionName = '1.7.5'
+    propVersionCode = 30
+    propVersionName = '1.8.0'
     //gitVersion = getGitVersion
 }
