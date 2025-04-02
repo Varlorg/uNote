@@ -2,7 +2,7 @@ New features
     - autosave note
     - set alarm reminders
     - add monochrome icon
-    - increase min android version to 8 (API 26)
+    - increase min android version to 5 (API 21)
 
 Update:
     - Preferences split into several screens
