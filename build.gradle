@@ -31,7 +31,7 @@ task clean(type: Delete) {
 /*
 ext {
     propCompileSdkVersion = 34
-    propMinSdkVersion = 21
+    propMinSdkVersion = 26
     propTargetSdkVersion = propCompileSdkVersion
     propVersionCode = 30
     propVersionName = '1.8.0'
