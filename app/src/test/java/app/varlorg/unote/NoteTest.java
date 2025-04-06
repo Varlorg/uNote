@@ -1,7 +1,6 @@
 package app.varlorg.unote;
 
 import org.junit.Test;
-import java.util.concurrent.TimeUnit;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,7 +19,7 @@ public class NoteTest {
         String           date = df.format(Calendar.getInstance().getTime());
         assertEquals("", n.getTitre());
         assertEquals("", n.getNote());
-        assertEquals(null, n.getPassword());
+        assertEquals(null, n.getHashPassword());
         assertEquals(date, n.getDateCreation());
         assertEquals(date, n.getDateModification());
     }
@@ -31,7 +30,7 @@ public class NoteTest {
         String           date = df.format(Calendar.getInstance().getTime());
         assertEquals("titre", n.getTitre());
         assertEquals("note", n.getNote());
-        assertEquals(null, n.getPassword());
+        assertEquals(null, n.getHashPassword());
         assertEquals(date, n.getDateCreation());
         assertEquals(date, n.getDateModification());
     }
@@ -96,13 +95,13 @@ public class NoteTest {
     }
 
     @Test
-    public void testSetPassword() throws Exception {
+    public void testSetHashPassword() throws Exception {
         Note n = new Note();
-        assertEquals(null, n.getPassword());
-        n.setPassword("Test");
-        assertEquals("Test", n.getPassword());
-        n.setPassword(null);
-        assertEquals(null, n.getPassword());
+        assertEquals(null, n.getHashPassword());
+        n.setHashPassword("Test");
+        assertEquals("Test", n.getHashPassword());
+        n.setHashPassword(null);
+        assertEquals(null, n.getHashPassword());
     }
 
     @Test

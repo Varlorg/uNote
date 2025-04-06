@@ -98,6 +98,7 @@
 	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
 
 	<!-- Preference toasts' text"-->
+	<string name="cb_cipher_note">Зашифруйте записку</string>
 	<string name="toast_export_db">База данных экспортирована в</string>
 	<string name="toast_import_db">База данных импортирована из</string>
 	<string name="toast_import_no_db">База данных не найдена. Сначала экспортируйте её.</string>
@@ -187,8 +188,11 @@
 	<string name="pref_autosave_interval_summary">0 для отключения</string>
 	<string name="pref_screen_main">Главный экран</string>
 	<string name="action_set_alarm">установить напоминание</string>
+    <string name="pref_cat_cipher">Шифрование</string>
+	<string name="pref_cipher_notes">Шифрованные заметки по умолчанию</string>
+	<string name="pref_cipher_notes_summary">при добавлении пароля</string>
 
-    <!-- Not used ? -
+	<!-- Not used ? -
     <color name="note_color">#FEFEE2</color>
     <string name="text_view"> </string>-->
 

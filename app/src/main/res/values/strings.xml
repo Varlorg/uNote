@@ -96,6 +96,10 @@
 	<string name="pref_note_text_color_note_edit">Note\'s color</string>
 	<string name="pref_note_text_color_note_edit_desc">Note description\'s color</string>
 	<string name="pref_note_text_color_title_edit_desc">Title description\'s color</string>
+	<string name="pref_cat_cipher">Encryption</string>
+	<string name="pref_cipher_notes">Cipher notes by default</string>
+	<string name="pref_cipher_notes_summary">when adding a password</string>
+	<string name="cb_cipher_note">Cipher the note</string>
 	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
 
 	<!-- Preference toasts' text"-->
