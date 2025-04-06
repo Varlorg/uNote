@@ -64,7 +64,7 @@ public class NoteEdition extends Activity
     private static final String EXTRA_ID      = "id";
     private static final String EXTRA_SIZE    = "pref_sizeNote";
     private boolean edit = false;
-    private boolean pwd = false;
+    private String pwd = null;
     private int id       = 0;
     private SharedPreferences pref;
     private EditText titre;
@@ -148,7 +148,7 @@ public class NoteEdition extends Activity
                 note.setText(intent.getStringExtra(EXTRA_NOTE));
                 noteTV.setText(intent.getStringExtra(EXTRA_NOTE));
                 edit = intent.getBooleanExtra(EXTRA_EDITION, false);
-                pwd = intent.getBooleanExtra(EXTRA_PWD, false);
+                pwd = intent.getStringExtra(EXTRA_PWD);
                 id = intent.getIntExtra(EXTRA_ID, 0);
             }
             titre.setTag(null);
@@ -755,7 +755,6 @@ public class NoteEdition extends Activity
             intentTextEdition.putExtra(EXTRA_ID, id);
             intentTextEdition.putExtra(EXTRA_TITLE, titre.getText().toString());
             intentTextEdition.putExtra(EXTRA_NOTE, note.getText().toString());
-            intentTextEdition.putExtra(EXTRA_PWD, pwd);
             Log.d("NoteEdition", "note.getId() " + id);
             NoteEdition.this.startActivity(intentTextEdition);
         }
@@ -1000,8 +999,7 @@ public class NoteEdition extends Activity
         };
         autosaveTimer.schedule(autosaveTask, autosaveInterval, autosaveInterval);
     }
-    public void save(View v,boolean exit)
-    {
+    public void save(View v,boolean exit) {
         EditText titreElt    = (EditText)findViewById(R.id.TitreNoteEdition);
         String   titreEdited = titreElt.getText().toString();
         EditText noteEdited  = (EditText)findViewById(R.id.NoteEdition);
@@ -1022,6 +1020,15 @@ public class NoteEdition extends Activity
         }
         else
         {
+            if(n.isCiphered()) {
+                try {
+                    Log.d("ciphering", "n.getPassword() " + pwd);
+                    n.setNote(AES.encrypt(n.getNote(), pwd));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                ;
+            }
             ret_update = noteBdd.updateNote(id, n);
             Log.d(BuildConfig.APPLICATION_ID, "updateNote  rc " + ret_update);
         }

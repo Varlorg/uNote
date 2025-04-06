@@ -55,4 +55,11 @@
             android:summary="@string/pref_backButton_action_summary"
             android:title="@string/pref_backButton_action" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_cipher">
+        <CheckBoxPreference
+            android:defaultValue="False"
+            android:key="pref_cipher_notes"
+            android:summary="@string/pref_cipher_notes_summary"
+            android:title="@string/pref_cipher_notes" />
+    </PreferenceCategory>
 </PreferenceScreen>	

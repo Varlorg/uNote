@@ -99,6 +99,8 @@
 	<string name="text_view"> </string>-->
 
 	<!-- Preference toasts' text"-->
+	<string name="pref_cipher_notes_summary">lors de l\'ajout du mot de passe</string>
+	<string name="cb_cipher_note">Chiffrer la note</string>
 	<string name="toast_export_db">Base de données exportée dans </string>
 	<string name="toast_import_db">Base de données importée depuis </string>
 	<string name="toast_import_no_db">Aucune base de données trouvées, exportez d\'abord.</string>
@@ -189,4 +191,6 @@
 	<string name="pref_autosave_interval_summary">0 pour désactiver</string>
 	<string name="pref_screen_main">Ecran principal</string>
 	<string name="action_set_alarm">Définir un rappel</string>
+    <string name="pref_cat_cipher">Chiffrement</string>
+	<string name="pref_cipher_notes">Chiffrer les notes par défaut</string>
 </resources>

@@ -1,6 +1,5 @@
 package app.varlorg.unote;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,7 +23,7 @@ import android.util.Log;
 
 public class NotesBDD
 {
-    private static final int VERSION_BDD = 2;
+    private static final int VERSION_BDD = 3;
     private static final String NOM_BDD  = "notes.db";
 
     private static final String TABLE_NOTES           = "table_notes";
@@ -40,6 +39,8 @@ public class NotesBDD
     private static final int NUM_COL_DATEMODIFICATION = 4;
     private static final String COL_PASSWORD          = "password";
     private static final int NUM_COL_PASSWORD         = 5;
+    private static final String COL_CIPHER          = "ciphered";
+    private static final int NUM_COL_CIPHER         = 6;
     private static final String SQL_ORDER             = " ORDER BY ";
     private static final String DATA_PATH             = "/data/";
     private static final String DATABASE_FOLDER       = "/databases/";
@@ -96,6 +97,11 @@ public class NotesBDD
 
         values.put(COL_NOTE, note.getNote());
         values.put(COL_TITRE, note.getTitre());
+        if (note.isCiphered()) {
+            values.put(COL_CIPHER, 1);
+        } else {
+            values.put(COL_CIPHER, 0);
+        }
         values.put(COL_DATEMODIFICATION, note.getDateModification());
         return(bdd.update(TABLE_NOTES, values, COL_ID + " = " + id, null));
     }
@@ -125,7 +131,7 @@ public class NotesBDD
     public Note getNoteWithId(int id)
     {
         //Récupère dans un Cursor les valeur correspondant à un livre contenu dans la BDD (ici on sélectionne le livre grâce à son titre)
-        Cursor c = bdd.query(TABLE_NOTES, new String[] { COL_ID, COL_NOTE, COL_TITRE, COL_DATECREATION, COL_DATEMODIFICATION }, COL_ID + " LIKE " + id + "", null, null, null, null);
+        Cursor c = bdd.query(TABLE_NOTES, new String[] { COL_ID, COL_NOTE, COL_TITRE, COL_DATECREATION, COL_DATEMODIFICATION, COL_PASSWORD, COL_CIPHER }, COL_ID + " LIKE " + id + "", null, null, null, null);
 
         return(cursorToNote(c));
     }
@@ -149,6 +155,7 @@ public class NotesBDD
         note.setTitre(c.getString(NUM_COL_TITRE));
         note.setDateCreation(c.getString(NUM_COL_DATECREATION));
         note.setDateModification(c.getString(NUM_COL_DATEMODIFICATION));
+        note.setCiphered(c.getInt(NUM_COL_CIPHER)==1);
         //On ferme le cursor
         c.close();
 
@@ -279,7 +286,8 @@ public class NotesBDD
                 note.setDateModification(c.getString(NUM_COL_DATEMODIFICATION));
                 if (c.getString(NUM_COL_PASSWORD) != null)
                 {
-                    note.setPassword(c.getString(NUM_COL_PASSWORD));
+                    note.setHashPassword(c.getString(NUM_COL_PASSWORD));
+                    note.setCiphered(c.getInt(NUM_COL_CIPHER)==1);
                 }
                 // Adding contact to list
                 noteList.add(note);

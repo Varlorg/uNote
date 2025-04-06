@@ -95,6 +95,7 @@
 	<!--<string name="pref_clean_db">Limpar Base de Dados (Apagar todas as notas)</string>-->
 
 	<!-- Preference toasts' text"-->
+	<string name="cb_cipher_note">Cifrar a nota</string>
 	<string name="toast_export_db">Base de Dados exportada em </string>
 	<string name="toast_import_db">Base de Dados importada de </string>
 	<string name="toast_import_no_db">Base de Dados não encontrada, exporte primeiro por favor.</string>
@@ -187,9 +188,12 @@
 	<string name="pref_autosave_interval_summary">0 para desativar</string>
 	<string name="pref_screen_main">Ecrã principal</string>
 	<string name="action_set_alarm">Definir lembrete</string>
+    <string name="pref_cat_cipher">Encriptação</string>
+	<string name="pref_cipher_notes">Notas de cifra por defeito</string>
+	<string name="pref_cipher_notes_summary">ao adicionar uma palavra-passe</string>
 
 
-    <!-- Not used ? -
+	<!-- Not used ? -
     <color name="note_color">#FEFEE2</color>
     <string name="text_view"> </string>-->
 
