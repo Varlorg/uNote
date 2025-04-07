@@ -28,7 +28,7 @@ task clean(type: Delete) {
     commandLine("git", "rev-parse", "--short", "HEAD")
 }.standardOutput.asText.get().trim()
 */
-
+/*
 ext {
     propCompileSdkVersion = 34
     propMinSdkVersion = 21
@@ -36,4 +36,4 @@ ext {
     propVersionCode = 30
     propVersionName = '1.8.0'
     //gitVersion = getGitVersion
-}
+}*/
