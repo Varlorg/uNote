@@ -29,6 +29,7 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -1158,6 +1159,45 @@ public class NoteMain extends Activity
             alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+            isNoteCiphered_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                        if(isChecked && input.getText().length() == 0){
+                            ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                        }
+                        else {
+                            ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                        }
+                    }
+                }
+            );
+            input.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    // Check if edittext is empty
+                    if (TextUtils.isEmpty(s) && isNoteCiphered_cb.isChecked()) {
+                        // Disable ok button
+                        ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                    } else {
+                        // Something into edit text. Enable the button.
+                        ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                    }
+                }
+            });
+            if(isNoteCiphered_cb.isChecked() && input.getText().length() == 0){
+                ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+            }
+            else {
+                ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+            }
+
         }
         else if (item.getTitle().equals(this.getString(R.string.action_set_alarm))){
             Intent intentAlarm = new Intent(NoteMain.this,
