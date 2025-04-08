@@ -16,7 +16,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AES {
 
-    private static final String SALT = "app.varlorg.unote"; // Replace with a strong, unique salt
+    private static final String SALT = "app.varlorg.unote";
     private static final int ITERATION_COUNT = 1024;
     private static final int KEY_LENGTH = 256; // For AES-256
 
@@ -31,7 +31,7 @@ public class AES {
         byte[] iv = new byte[12]; // For GCM, 12 bytes (96 bits) is recommended
         new SecureRandom().nextBytes(iv);
 
-        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding"); // Or your specific AEAD cipher
+        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         GCMParameterSpec spec = new GCMParameterSpec(128, iv); // 128-bit authentication tag length
         cipher.init(Cipher.ENCRYPT_MODE, key, spec);
 
