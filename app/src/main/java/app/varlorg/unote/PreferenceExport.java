@@ -59,7 +59,8 @@ public class PreferenceExport extends PreferenceActivity {
             public boolean onPreferenceClick(android.preference.Preference arg0)
             {
                 NotesBDD noteBdd = new NotesBDD(null);
-                String path      = noteBdd.exportDB(PreferenceExport.this);
+                //String path      = noteBdd.exportDB(PreferenceExport.this);
+                String path      = noteBdd.exportDBwithPwd(PreferenceExport.this, "test");
                 if (path != null)
                 {
                     if ( pref.getBoolean("pref_notifications", true)) {
