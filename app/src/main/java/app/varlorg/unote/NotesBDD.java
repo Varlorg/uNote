@@ -21,6 +21,14 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.model.enums.AesKeyStrength;
+import net.lingala.zip4j.model.enums.EncryptionMethod;
+//import java.util.ZipUtil;
+
 public class NotesBDD
 {
     private static final int VERSION_BDD = 3;
@@ -352,6 +360,28 @@ public class NotesBDD
         return(backupDB.toString());
     }
 
+    public String exportDBwithPwd(Context context, String pwd)
+    {
+        String dbPath = exportDB( context);
+        ZipParameters zipParameters = new ZipParameters();
+        zipParameters.setEncryptFiles(true);
+        zipParameters.setEncryptionMethod(EncryptionMethod.AES);
+// Below line is optional. AES 256 is used by default. You can override it to use AES 128. AES 192 is supported only for extracting.
+        zipParameters.setAesKeyStrength(AesKeyStrength.KEY_STRENGTH_256);
+
+        List<File> filesToAdd = Arrays.asList(
+            new File(dbPath)
+        );
+
+        ZipFile zipFile = new ZipFile(dbPath + ".zip", pwd.toCharArray());
+        try {
+            zipFile.addFiles(filesToAdd, zipParameters);
+            zipFile.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return dbPath + ".zip";
+    }
     public String importDB(File dbToImport)
     {
         File        data          = Environment.getDataDirectory();
