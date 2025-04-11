@@ -52,6 +52,7 @@ public class PreferenceExport extends PreferenceActivity {
         this.savedInstanceState = savedInstanceState;
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preference_export);
+
         android.preference.Preference button = findPreference("buttonExport");
         button.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
@@ -76,6 +77,7 @@ public class PreferenceExport extends PreferenceActivity {
                 return(false);
             }
         });
+
         android.preference.Preference buttonImport = findPreference("buttonImport");
         buttonImport.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
@@ -87,8 +89,9 @@ public class PreferenceExport extends PreferenceActivity {
                 return(false);
             }
         });
-        android.preference.Preference button = findPreference("buttonExportPwd");
-        button.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
+
+        android.preference.Preference buttonPwd = findPreference("buttonExportPwd");
+        buttonPwd.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
             @Override
             public boolean onPreferenceClick(android.preference.Preference arg0)
@@ -136,8 +139,9 @@ public class PreferenceExport extends PreferenceActivity {
                 return(false);
             }
         });
-        android.preference.Preference buttonImport = findPreference("buttonImportPwd");
-        buttonImport.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
+
+        android.preference.Preference buttonImportPwd = findPreference("buttonImportPwd");
+        buttonImportPwd.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
             @Override
             public boolean onPreferenceClick(android.preference.Preference arg0)
@@ -147,6 +151,7 @@ public class PreferenceExport extends PreferenceActivity {
                 return(false);
             }
         });
+
         android.preference.Preference buttonExportCSV = findPreference("buttonExportCSV");
         buttonExportCSV.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
