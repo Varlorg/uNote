@@ -151,7 +151,7 @@ public class PreferenceExport extends PreferenceActivity {
                 //String path      = noteBdd.exportDB(PreferenceExport.this);
 
                 String exportPwd = null;
-                AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder
                 .setTitle(PreferenceExport.this.getString(R.string.dialog_add_pwd_title))
                 .setMessage(PreferenceExport.this.getString(R.string.dialog_add_pwd_msg))
