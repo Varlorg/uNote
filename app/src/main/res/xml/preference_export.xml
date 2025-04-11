@@ -18,7 +18,13 @@
             android:key="buttonExport"
             android:title="@string/pref_export_db" />
         <Preference
+            android:key="buttonExportPwd"
+            android:title="@string/pref_export_db" />
+        <Preference
             android:key="buttonImport"
+            android:title="@string/pref_import_db" />
+        <Preference
+            android:key="buttonImportPwd"
             android:title="@string/pref_import_db" />
         <Preference
             android:key="buttonExportCSV"

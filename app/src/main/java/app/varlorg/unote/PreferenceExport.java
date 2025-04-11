@@ -15,6 +15,9 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.*;
+import android.text.InputType;
+import android.view.*;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -35,6 +38,51 @@ public class PreferenceExport extends PreferenceActivity {
     void customToast(String s){
         customToastGeneric(PreferenceExport.this, PreferenceExport.this.getResources(), s);
     }
+    private LinearLayout passwordPopup(boolean management){
+        final EditText            input = new EditText(PreferenceExport.this);
+        ImageButton togglePasswordVisibilityButton = new ImageButton(PreferenceExport.this);
+        LinearLayout layoutPwd = new LinearLayout(PreferenceExport.this);
+        LinearLayout layout = new LinearLayout(PreferenceExport.this);
+
+        LinearLayout.LayoutParams lp    = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        input.setLayoutParams(lp);
+        input.setTextSize(textSize);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+        // Create an ImageButton for toggling password visibility
+
+        togglePasswordVisibilityButton.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        togglePasswordVisibilityButton.setImageResource(android.R.drawable.ic_menu_view); // Set your own image resource
+
+        // Add a click listener to toggle password visibility
+        togglePasswordVisibilityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (input.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                } else {
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
+        input.requestFocus();
+
+        layoutPwd.setOrientation(LinearLayout.HORIZONTAL);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        
+        layoutPwd.addView(togglePasswordVisibilityButton);
+        layoutPwd.addView(input);
+
+        layout.addView(layoutPwd);
+
+        return layout;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -52,6 +100,7 @@ public class PreferenceExport extends PreferenceActivity {
         this.savedInstanceState = savedInstanceState;
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preference_export);
+
         android.preference.Preference button = findPreference("buttonExport");
         button.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
@@ -60,7 +109,7 @@ public class PreferenceExport extends PreferenceActivity {
             {
                 NotesBDD noteBdd = new NotesBDD(null);
                 //String path      = noteBdd.exportDB(PreferenceExport.this);
-                String path      = noteBdd.exportDBwithPwd(PreferenceExport.this, "test");
+                String path      = noteBdd.exportDB(PreferenceExport.this);
                 if (path != null)
                 {
                     if ( pref.getBoolean("pref_notifications", true)) {
@@ -76,6 +125,7 @@ public class PreferenceExport extends PreferenceActivity {
                 return(false);
             }
         });
+
         android.preference.Preference buttonImport = findPreference("buttonImport");
         buttonImport.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
@@ -87,6 +137,75 @@ public class PreferenceExport extends PreferenceActivity {
                 return(false);
             }
         });
+
+        LinearLayout layout = passwordPopup(false);
+        EditText input = (EditText) ((LinearLayout)layout.getChildAt(0)).getChildAt(1);
+        CheckBox isNoteCiphered_cb = (CheckBox) layout.getChildAt(1);
+        android.preference.Preference buttonPwd = findPreference("buttonExportPwd");
+        buttonPwd.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(android.preference.Preference arg0)
+            {
+                NotesBDD noteBdd = new NotesBDD(null);
+                //String path      = noteBdd.exportDB(PreferenceExport.this);
+
+                String exportPwd = null;
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder
+                .setTitle(PreferenceExport.this.getString(R.string.dialog_add_pwd_title))
+                .setMessage(PreferenceExport.this.getString(R.string.dialog_add_pwd_msg))
+                .setView(layout)
+                .setPositiveButton(PreferenceExport.this.getString(R.string.dialog_add_pwd_add), new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        String password = input.getText().toString();
+
+                    }
+                })
+                .setNeutralButton(PreferenceExport.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                //alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                //alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                String path      = noteBdd.exportDBwithPwd(PreferenceExport.this, exportPwd);
+                if (path != null)
+                {
+                    if ( pref.getBoolean("pref_notifications", true)) {
+                        customToast(PreferenceExport.this.getString(R.string.toast_export_db) + " " + path + " ! ");
+                    }
+                }
+                else
+                {
+                    if ( pref.getBoolean("pref_notifications", true)) {
+                        customToast(" Error " + path + " ! ");
+                    }
+                }
+                return(false);
+            }
+        });
+
+        android.preference.Preference buttonImportPwd = findPreference("buttonImportPwd");
+        buttonImportPwd.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(android.preference.Preference arg0)
+            {
+                Intent restoreActivity = new Intent(getBaseContext(), RestoreDbActivity.class);
+                startActivity(restoreActivity);
+                return(false);
+            }
+        });
+
         android.preference.Preference buttonExportCSV = findPreference("buttonExportCSV");
         buttonExportCSV.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
