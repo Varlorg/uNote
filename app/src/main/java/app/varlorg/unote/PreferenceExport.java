@@ -35,6 +35,61 @@ public class PreferenceExport extends PreferenceActivity {
     void customToast(String s){
         customToastGeneric(PreferenceExport.this, PreferenceExport.this.getResources(), s);
     }
+        private LinearLayout passwordPopup(boolean management){
+        final EditText            input = new EditText(PreferenceExport.this);
+        ImageButton togglePasswordVisibilityButton = new ImageButton(PreferenceExport.this);
+        LinearLayout layoutPwd = new LinearLayout(NotePreferenceExportMain.this);
+        LinearLayout layout = new LinearLayout(PreferenceExport.this);
+
+        LinearLayout.LayoutParams lp    = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        input.setLayoutParams(lp);
+        input.setTextSize(textSize);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+        // Create an ImageButton for toggling password visibility
+
+        togglePasswordVisibilityButton.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        togglePasswordVisibilityButton.setImageResource(android.R.drawable.ic_menu_view); // Set your own image resource
+
+        // Add a click listener to toggle password visibility
+        togglePasswordVisibilityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (input.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                } else {
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
+        input.requestFocus();
+
+        CheckBox cb_cipher = new CheckBox(PreferenceExport.this);
+        cb_cipher.setText(this.getString(R.string.cb_cipher_note));
+        cb_cipher.setTextSize(textSize);
+        if (pref.getBoolean("pref_cipher_notes", false)) {
+            cb_cipher.setChecked(true);
+        }
+
+        layoutPwd.setOrientation(LinearLayout.HORIZONTAL);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        
+        layoutPwd.addView(togglePasswordVisibilityButton);
+        layoutPwd.addView(input);
+
+        layout.addView(layoutPwd);
+        if (management) {
+            layout.addView(cb_cipher);
+        }
+
+        return layout;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -90,6 +145,9 @@ public class PreferenceExport extends PreferenceActivity {
             }
         });
 
+        LinearLayout layout = passwordPopup(false);
+        EditText input = (EditText) ((LinearLayout)layout.getChildAt(0)).getChildAt(1);
+        CheckBox isNoteCiphered_cb = (CheckBox) layout.getChildAt(1);
         android.preference.Preference buttonPwd = findPreference("buttonExportPwd");
         buttonPwd.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
@@ -100,7 +158,7 @@ public class PreferenceExport extends PreferenceActivity {
                 //String path      = noteBdd.exportDB(PreferenceExport.this);
 
                 String exportPwd = null;
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
                 builder
                 .setTitle(NoteMain.this.getString(R.string.dialog_add_pwd_title))
                 .setMessage(NoteMain.this.getString(R.string.dialog_add_pwd_msg))
