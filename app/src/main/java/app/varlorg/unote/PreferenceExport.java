@@ -173,7 +173,10 @@ public class PreferenceExport extends PreferenceActivity {
                         dialog.cancel();
                     }
                 });
-
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
                 String path      = noteBdd.exportDBwithPwd(PreferenceExport.this, exportPwd);
                 if (path != null)
                 {
