@@ -60,7 +60,7 @@ public class PreferenceExport extends PreferenceActivity {
             {
                 NotesBDD noteBdd = new NotesBDD(null);
                 //String path      = noteBdd.exportDB(PreferenceExport.this);
-                String path      = noteBdd.exportDBwithPwd(PreferenceExport.this, "test");
+                String path      = noteBdd.exportDB(PreferenceExport.this);
                 if (path != null)
                 {
                     if ( pref.getBoolean("pref_notifications", true)) {
@@ -77,6 +77,66 @@ public class PreferenceExport extends PreferenceActivity {
             }
         });
         android.preference.Preference buttonImport = findPreference("buttonImport");
+        buttonImport.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(android.preference.Preference arg0)
+            {
+                Intent restoreActivity = new Intent(getBaseContext(), RestoreDbActivity.class);
+                startActivity(restoreActivity);
+                return(false);
+            }
+        });
+        android.preference.Preference button = findPreference("buttonExportPwd");
+        button.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(android.preference.Preference arg0)
+            {
+                NotesBDD noteBdd = new NotesBDD(null);
+                //String path      = noteBdd.exportDB(PreferenceExport.this);
+
+                String exportPwd = null;
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder
+                .setTitle(NoteMain.this.getString(R.string.dialog_add_pwd_title))
+                .setMessage(NoteMain.this.getString(R.string.dialog_add_pwd_msg))
+                .setView(layout)
+                .setPositiveButton(NoteMain.this.getString(R.string.dialog_add_pwd_add), new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        String password = input.getText().toString();
+
+                    }
+                })
+                .setNeutralButton(NoteMain.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        dialog.cancel();
+                    }
+                });
+
+                String path      = noteBdd.exportDBwithPwd(PreferenceExport.this, exportPwd);
+                if (path != null)
+                {
+                    if ( pref.getBoolean("pref_notifications", true)) {
+                        customToast(PreferenceExport.this.getString(R.string.toast_export_db) + " " + path + " ! ");
+                    }
+                }
+                else
+                {
+                    if ( pref.getBoolean("pref_notifications", true)) {
+                        customToast(" Error " + path + " ! ");
+                    }
+                }
+                return(false);
+            }
+        });
+        android.preference.Preference buttonImport = findPreference("buttonImportPwd");
         buttonImport.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
             @Override
