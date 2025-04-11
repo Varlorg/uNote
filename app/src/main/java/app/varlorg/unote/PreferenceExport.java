@@ -17,6 +17,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.widget.*;
 import android.text.InputType;
+import android.view.*;
 
 import java.io.File;
 import java.io.FilenameFilter;
