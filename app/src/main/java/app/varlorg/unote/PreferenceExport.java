@@ -36,10 +36,10 @@ public class PreferenceExport extends PreferenceActivity {
     void customToast(String s){
         customToastGeneric(PreferenceExport.this, PreferenceExport.this.getResources(), s);
     }
-        private LinearLayout passwordPopup(boolean management){
+    private LinearLayout passwordPopup(boolean management){
         final EditText            input = new EditText(PreferenceExport.this);
         ImageButton togglePasswordVisibilityButton = new ImageButton(PreferenceExport.this);
-        LinearLayout layoutPwd = new LinearLayout(NotePreferenceExportMain.this);
+        LinearLayout layoutPwd = new LinearLayout(PreferenceExport.this);
         LinearLayout layout = new LinearLayout(PreferenceExport.this);
 
         LinearLayout.LayoutParams lp    = new LinearLayout.LayoutParams(
@@ -161,10 +161,10 @@ public class PreferenceExport extends PreferenceActivity {
                 String exportPwd = null;
                 AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
                 builder
-                .setTitle(NoteMain.this.getString(R.string.dialog_add_pwd_title))
-                .setMessage(NoteMain.this.getString(R.string.dialog_add_pwd_msg))
+                .setTitle(PreferenceExport.this.getString(R.string.dialog_add_pwd_title))
+                .setMessage(PreferenceExport.this.getString(R.string.dialog_add_pwd_msg))
                 .setView(layout)
-                .setPositiveButton(NoteMain.this.getString(R.string.dialog_add_pwd_add), new DialogInterface.OnClickListener()
+                .setPositiveButton(PreferenceExport.this.getString(R.string.dialog_add_pwd_add), new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int id)
@@ -173,7 +173,7 @@ public class PreferenceExport extends PreferenceActivity {
 
                     }
                 })
-                .setNeutralButton(NoteMain.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener()
+                .setNeutralButton(PreferenceExport.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int id)
