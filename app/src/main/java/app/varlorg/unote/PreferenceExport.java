@@ -15,6 +15,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.*;
 
 import java.io.File;
 import java.io.FilenameFilter;
