@@ -72,13 +72,6 @@ public class PreferenceExport extends PreferenceActivity {
         });
         input.requestFocus();
 
-        CheckBox cb_cipher = new CheckBox(PreferenceExport.this);
-        cb_cipher.setText(this.getString(R.string.cb_cipher_note));
-        cb_cipher.setTextSize(textSize);
-        if (pref.getBoolean("pref_cipher_notes", false)) {
-            cb_cipher.setChecked(true);
-        }
-
         layoutPwd.setOrientation(LinearLayout.HORIZONTAL);
         layout.setOrientation(LinearLayout.VERTICAL);
         
@@ -86,9 +79,6 @@ public class PreferenceExport extends PreferenceActivity {
         layoutPwd.addView(input);
 
         layout.addView(layoutPwd);
-        if (management) {
-            layout.addView(cb_cipher);
-        }
 
         return layout;
     }
