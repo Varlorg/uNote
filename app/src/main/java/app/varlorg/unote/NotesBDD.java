@@ -540,7 +540,11 @@ public class NotesBDD
         {
             exportTitle = true;
         }
-        String      destFolder  = "unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime());
+        String destFolder = "unote";
+        if ( pref.getBoolean("pref_export_note_folder_timestamped", false))
+        {
+            destFolder += "_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime());
+        }
         File externalFilesDir = context.getExternalFilesDir(null);
         String outputDir = pref.getString("output_backup_dir", externalFilesDir.toString());
         File destinationPath = new File(outputDir, destFolder);

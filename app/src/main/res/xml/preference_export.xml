@@ -40,6 +40,11 @@
             android:key="buttonExportAllNotes"
             android:summary="@string/pref_export_all_notes_summary"
             android:title="@string/pref_export_all_notes" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_export_note_folder_timestamped"
+            android:title="string/pref_export_note_folder_timestamped"
+            android:summary="string/pref_export_note_folder_timestamped_summary" />
         <!--<Preference android:title="@string/pref_clean_db"
             android:key="buttonDelete" />-->
     </PreferenceCategory>
