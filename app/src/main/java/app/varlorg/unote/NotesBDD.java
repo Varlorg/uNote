@@ -360,27 +360,66 @@ public class NotesBDD
         return(backupDB.toString());
     }
 
-    public String exportDBwithPwd(Context context, String pwd)
+    public String exportDBZipFile(Context context, String pwd)
     {
         String dbPath = exportDB( context);
-        ZipParameters zipParameters = new ZipParameters();
-        zipParameters.setEncryptFiles(true);
-        zipParameters.setEncryptionMethod(EncryptionMethod.AES);
-// Below line is optional. AES 256 is used by default. You can override it to use AES 128. AES 192 is supported only for extracting.
-        zipParameters.setAesKeyStrength(AesKeyStrength.KEY_STRENGTH_256);
-
+        File dbFile = new File(dbPath);
+        File dbFileNew = new File(dbFile.getParent() , "unote.db");
+        dbFile.renameTo(dbFileNew);
+        Log.e("getPath", dbFile.getParent() + "unote.db");
         List<File> filesToAdd = Arrays.asList(
-            new File(dbPath)
+            new File(dbFile.getParent() , "unote.db")
         );
 
-        ZipFile zipFile = new ZipFile(dbPath + ".zip", pwd.toCharArray());
+        ZipFile zipFile = null;
+        ZipParameters zipParameters = new ZipParameters();
+        if ( pwd != null && !pwd.isEmpty()) {
+            zipParameters.setEncryptFiles(true);
+            zipParameters.setEncryptionMethod(EncryptionMethod.AES);
+// Below line is optional. AES 256 is used by default. You can override it to use AES 128. AES 192 is supported only for extracting.
+            zipParameters.setAesKeyStrength(AesKeyStrength.KEY_STRENGTH_256);
+
+            zipFile = new ZipFile(dbPath + ".zip", pwd.toCharArray());
+        } else {
+            zipParameters.setEncryptFiles(false);
+            zipFile = new ZipFile(dbPath + ".zip");
+        }
+
         try {
             zipFile.addFiles(filesToAdd, zipParameters);
             zipFile.close();
+            dbFile.delete();
+            dbFileNew.delete();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return dbPath + ".zip";
+    }
+
+    public String importDBZipFile(Context context, File zipToImport, String pwd)
+    {
+
+        ZipFile zipFile = null;
+        String ret = null;
+        if ( pwd != null && !pwd.isEmpty()) {
+            zipFile = new ZipFile(zipToImport, pwd.toCharArray());
+        } else {
+            zipFile = new ZipFile(zipToImport);
+        }
+        String dbExtractedPath = zipToImport.getParent() + "/unoteExtracted";
+        try {
+
+            zipFile.extractFile("unote.db", dbExtractedPath);
+            ret = importDB(new File(dbExtractedPath, "unote.db"));
+        } catch (ZipException e) {
+            new File(dbExtractedPath,"unote.db").delete();
+            new File(dbExtractedPath).delete();
+            throw new RuntimeException(e);
+        }
+        Log.d("dbExtractedPath ", dbExtractedPath);
+        new File(dbExtractedPath,"unote.db").delete();
+        new File(dbExtractedPath).delete();
+        return ret;
     }
     public String importDB(File dbToImport)
     {

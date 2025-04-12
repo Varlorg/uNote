@@ -19,6 +19,9 @@ import android.widget.*;
 import android.text.InputType;
 import android.view.*;
 
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -31,8 +34,10 @@ public class PreferenceExport extends PreferenceActivity {
     private static Uri uri;
     private static PreferenceCategory exportDirCategory;
     private static String outputDir;
+    String exportPwd = null;
     private android.preference.Preference exportDirSelect;
     Bundle savedInstanceState;
+    SharedPreferences pref;
 
     private int textSize;
     void customToast(String s){
@@ -86,7 +91,7 @@ public class PreferenceExport extends PreferenceActivity {
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
         //String uri = Uri.parse("package:${BuildConfig.APPLICATION_ID}");
 
         textSize = Integer.parseInt(pref.getString("pref_sizeNote", "18"));
@@ -138,9 +143,7 @@ public class PreferenceExport extends PreferenceActivity {
             }
         });
 
-        LinearLayout layout = passwordPopup(false);
-        EditText input = (EditText) ((LinearLayout)layout.getChildAt(0)).getChildAt(1);
-        CheckBox isNoteCiphered_cb = (CheckBox) layout.getChildAt(1);
+
         android.preference.Preference buttonPwd = findPreference("buttonExportPwd");
         buttonPwd.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
@@ -149,47 +152,11 @@ public class PreferenceExport extends PreferenceActivity {
             {
                 NotesBDD noteBdd = new NotesBDD(null);
                 //String path      = noteBdd.exportDB(PreferenceExport.this);
+                Log.d(BuildConfig.APPLICATION_ID, "exportZipPopup ");
+                exportZipPopup();
+                Log.d(BuildConfig.APPLICATION_ID, "exportZipPopup  end");
 
-                String exportPwd = null;
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder
-                .setTitle(PreferenceExport.this.getString(R.string.dialog_add_pwd_title))
-                .setMessage(PreferenceExport.this.getString(R.string.dialog_add_pwd_msg))
-                .setView(layout)
-                .setPositiveButton(PreferenceExport.this.getString(R.string.dialog_add_pwd_add), new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        String password = input.getText().toString();
 
-                    }
-                })
-                .setNeutralButton(PreferenceExport.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-                //alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
-                //alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
-                String path      = noteBdd.exportDBwithPwd(PreferenceExport.this, exportPwd);
-                if (path != null)
-                {
-                    if ( pref.getBoolean("pref_notifications", true)) {
-                        customToast(PreferenceExport.this.getString(R.string.toast_export_db) + " " + path + " ! ");
-                    }
-                }
-                else
-                {
-                    if ( pref.getBoolean("pref_notifications", true)) {
-                        customToast(" Error " + path + " ! ");
-                    }
-                }
                 return(false);
             }
         });
@@ -381,6 +348,16 @@ public class PreferenceExport extends PreferenceActivity {
         }
     }
     private void confirmRestore(final String backupFile) {
+        Log.d(BuildConfig.APPLICATION_ID, "getFileExtension  " + getFileExtension(backupFile));
+        if ( getFileExtension(backupFile).equals("csv")){
+            confirmRestoreCSV(backupFile);
+        }else if ( new ZipFile(backupFile).isValidZipFile()){
+                confirmRestoreZip(backupFile);
+        } else {
+            customToast("unknown extension");
+        }
+    }
+    private void confirmRestoreCSV(final String backupFile) {
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.dialog_import_csv))
                 .setMessage(getString(R.string.dialog_import_csv_msg) + " " + backupFile)
@@ -416,6 +393,19 @@ public class PreferenceExport extends PreferenceActivity {
                             throw new RuntimeException(e);
                         }
                         customToast(nbNote + " " + getString(R.string.toast_import_csv_added)); // " note(s) added"
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+    private void confirmRestoreZip(final String backupFile) {
+        new AlertDialog.Builder(this)
+                .setTitle("getString(R.string.dialog_import_zip)")
+                .setMessage("getString(R.string.dialog_import_zip_msg)" + " " + backupFile)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Log.d(BuildConfig.APPLICATION_ID, "confirmRestoreZip  " + backupFile);
+                        importZipPopup(backupFile);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, null)
@@ -499,7 +489,118 @@ public class PreferenceExport extends PreferenceActivity {
 //            }
 //        }
 //    }
+    private void exportZipPopup() {
+        LinearLayout layout = passwordPopup(false);
+        EditText input = (EditText) ((LinearLayout)layout.getChildAt(0)).getChildAt(1);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(PreferenceExport.this);
+        builder
+                .setTitle(PreferenceExport.this.getString(R.string.dialog_add_pwd_title))
+                .setMessage(PreferenceExport.this.getString(R.string.dialog_add_pwd_msg))
+                .setView(layout)
+                .setPositiveButton(PreferenceExport.this.getString(R.string.dialog_add_pwd_add), new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        exportPwd = input.getText().toString();
+                        //alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                        //alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+                        Log.d(BuildConfig.APPLICATION_ID, "exportPwd " + exportPwd);
+                        NotesBDD noteBdd = new NotesBDD(PreferenceExport.this);
+                        noteBdd.open();
+                        String path      = noteBdd.exportDBZipFile(PreferenceExport.this, exportPwd);
+                        noteBdd.close();
+                        Log.d(BuildConfig.APPLICATION_ID, "exportPwd path" + path);
+                        if (path != null)
+                        {
+                            /*if ( pref.getBoolean("pref_notifications", true)) {
+                                customToast(PreferenceExport.this.getString(R.string.toast_export_db) + " " + path + " ! ");
+                            }*/
+                        }
+                        else
+                        {
+                            /*if ( pref.getBoolean("pref_notifications", true)) {
+                                customToast(" Error " + path + " ! ");
+                            }*/
+                        }
+                    }
+                })
+                .setNegativeButton(PreferenceExport.this.getString(R.string.dialog_add_pwd_remove), new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        NotesBDD noteBdd = new NotesBDD(PreferenceExport.this);
+                        noteBdd.open();
+                        String path      = noteBdd.exportDBZipFile(PreferenceExport.this, null);
+                        noteBdd.close();
+                        Log.d(BuildConfig.APPLICATION_ID, "exportPwd path" + path);
+                        if (path != null)
+                        {
+                            Log.d(BuildConfig.APPLICATION_ID, "pref_notifications " + pref.getBoolean("pref_notifications", true));
+                            if ( pref.getBoolean("pref_notifications", true)) {
+                                customToast(PreferenceExport.this.getString(R.string.toast_export_db) + " " + path + " ! ");
+                            }
+                        }
+                        else
+                        {
+                            if ( pref.getBoolean("pref_notifications", true)) {
+                                customToast(" Error " + path + " ! ");
+                            }
+                        }
+                    }
+                })
+                .setNeutralButton(PreferenceExport.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+                        dialog.cancel();
+                    }
+                });
+        builder.show();
+    }
+    private void importZipPopup(final String zipFile) {
+        try {
+            ZipFile dbZip = new ZipFile(zipFile);
+            if (dbZip.isEncrypted()) {
+                LinearLayout layout = passwordPopup(false);
+                EditText input = (EditText) ((LinearLayout)layout.getChildAt(0)).getChildAt(1);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(PreferenceExport.this);
+                builder
+                        .setTitle(PreferenceExport.this.getString(R.string.dialog_add_pwd_title))
+                        .setMessage(PreferenceExport.this.getString(R.string.dialog_add_pwd_msg))
+                        .setView(layout)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Log.d(BuildConfig.APPLICATION_ID, "confirmRestore  " + zipFile);
+
+
+                            }
+                        })
+                        .setNeutralButton(PreferenceExport.this.getString(R.string.dialog_add_pwd_cancel), new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id)
+                            {
+                                dialog.cancel();
+                            }
+                        });
+                builder.show();
+            } else {
+                NotesBDD noteBdd = new NotesBDD(PreferenceExport.this);
+                noteBdd.open();
+                String path      = noteBdd.importDBZipFile(PreferenceExport.this,new File(zipFile) ,null);
+                noteBdd.close();
+            }
+
+        } catch (ZipException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
     @Override
     public void onBackPressed()
     {
@@ -510,5 +611,15 @@ public class PreferenceExport extends PreferenceActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
         finish();
+    }
+    String getFileExtension(String filename) {
+        if (filename == null) {
+            return null;
+        }
+        int dotIndex = filename.lastIndexOf(".");
+        if (dotIndex >= 0) {
+            return filename.substring(dotIndex + 1);
+        }
+        return "";
     }
 }
