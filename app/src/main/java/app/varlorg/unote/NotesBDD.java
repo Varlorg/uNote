@@ -413,6 +413,10 @@ public class NotesBDD
                 if (index == -1) {
                     bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
                 }
+                index = cursor.getColumnIndex(COL_CIPHER);
+                if (index == -1) {
+                    bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_CIPHER + " INTEGER DEFAULT 0;");
+                }
                 this.close();
             } catch (Exception e) {
                 Log.e(BuildConfig.APPLICATION_ID, "Exception importDB", e);
