@@ -521,10 +521,10 @@ public class PreferenceExport extends PreferenceActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(PreferenceExport.this);
         builder
-                .setTitle(PreferenceExport.this.getString(R.string.dialog_add_pwd_title))
-                .setMessage(PreferenceExport.this.getString(R.string.dialog_add_pwd_msg))
+                .setTitle(PreferenceExport.this.getString(R.string.dialog_zip_title))
+                .setMessage(PreferenceExport.this.getString(R.string.dialog_zip_msg))
                 .setView(layout)
-                .setPositiveButton(PreferenceExport.this.getString(R.string.dialog_add_pwd_add), new DialogInterface.OnClickListener()
+                .setPositiveButton(PreferenceExport.this.getString(R.string.dialog_zip_export_action), new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int id)
@@ -540,31 +540,6 @@ public class PreferenceExport extends PreferenceActivity {
                         Log.d(BuildConfig.APPLICATION_ID, "exportPwd path" + path);
                         if (path != null)
                         {
-                            /*if ( pref.getBoolean("pref_notifications", true)) {
-                                customToast(PreferenceExport.this.getString(R.string.toast_export_db) + " " + path + " ! ");
-                            }*/
-                        }
-                        else
-                        {
-                            /*if ( pref.getBoolean("pref_notifications", true)) {
-                                customToast(" Error " + path + " ! ");
-                            }*/
-                        }
-                    }
-                })
-                .setNegativeButton(PreferenceExport.this.getString(R.string.dialog_add_pwd_remove), new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-                        NotesBDD noteBdd = new NotesBDD(PreferenceExport.this);
-                        noteBdd.open();
-                        String path      = noteBdd.exportDBZipFile(PreferenceExport.this, null);
-                        noteBdd.close();
-                        Log.d(BuildConfig.APPLICATION_ID, "exportPwd path" + path);
-                        if (path != null)
-                        {
-                            Log.d(BuildConfig.APPLICATION_ID, "pref_notifications " + pref.getBoolean("pref_notifications", true));
                             if ( pref.getBoolean("pref_notifications", true)) {
                                 customToast(PreferenceExport.this.getString(R.string.toast_export_db) + " " + path + " ! ");
                             }

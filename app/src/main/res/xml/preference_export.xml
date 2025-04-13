@@ -19,13 +19,14 @@
             android:title="@string/pref_export_db" />
         <Preference
             android:key="buttonExportPwd"
-            android:title="string/pref_export_db_zip" />
+            android:title="@string/pref_export_db_zip"
+            android:summary="@string/pref_export_db_zip_summary" />
         <Preference
             android:key="buttonImport"
             android:title="@string/pref_import_db" />
         <Preference
             android:key="buttonImportPwd"
-            android:title="string/pref_import_db_zip" />
+            android:title="@string/pref_import_db_zip" />
         <Preference
             android:key="buttonExportCSV"
             android:summary="@string/pref_export_csv_db_summary"
@@ -43,8 +44,8 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="pref_export_note_folder_timestamped"
-            android:title="string/pref_export_note_folder_timestamped"
-            android:summary="string/pref_export_note_folder_timestamped_summary" />
+            android:title="@string/pref_export_note_folder_timestamped"
+            android:summary="@string/pref_export_note_folder_timestamped_summary" />
         <!--<Preference android:title="@string/pref_clean_db"
             android:key="buttonDelete" />-->
     </PreferenceCategory>
