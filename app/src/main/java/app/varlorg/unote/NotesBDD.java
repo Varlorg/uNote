@@ -364,7 +364,8 @@ public class NotesBDD
     {
         String dbPath = exportDB( context);
         File dbFile = new File(dbPath);
-        dbFile.renameTo(new File(dbFile.getParent() , "unote.db"));
+        File dbFileNew = new File(dbFile.getParent() , "unote.db");
+        dbFile.renameTo(dbFileNew);
         Log.e("getPath", dbFile.getParent() + "unote.db");
         List<File> filesToAdd = Arrays.asList(
             new File(dbFile.getParent() , "unote.db")
@@ -387,7 +388,8 @@ public class NotesBDD
         try {
             zipFile.addFiles(filesToAdd, zipParameters);
             zipFile.close();
-            new File(dbPath).delete();
+            dbFile.delete();
+            dbFileNew.delete();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
