@@ -577,6 +577,13 @@ public class PreferenceExport extends PreferenceActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 Log.d(BuildConfig.APPLICATION_ID, "confirmRestore  " + zipFile);
 
+                                NotesBDD noteBdd = new NotesBDD(PreferenceExport.this);
+                                noteBdd.open();
+                                String path      = noteBdd.importDBZipFile(PreferenceExport.this,new File(zipFile) ,input.getText().toString());
+                                noteBdd.close();
+                                if ( pref.getBoolean("pref_notifications", true)) {
+                                    customToast(PreferenceExport.this.getString(R.string.toast_import_db) + " " + zipFile + " ! ");
+                                }
 
                             }
                         })
@@ -594,6 +601,9 @@ public class PreferenceExport extends PreferenceActivity {
                 noteBdd.open();
                 String path      = noteBdd.importDBZipFile(PreferenceExport.this,new File(zipFile) ,null);
                 noteBdd.close();
+                if ( pref.getBoolean("pref_notifications", true)) {
+                    customToast(PreferenceExport.this.getString(R.string.toast_import_db) + " " + zipFile + " ! ");
+                }
             }
 
         } catch (ZipException e) {
