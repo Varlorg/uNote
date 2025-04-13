@@ -162,15 +162,32 @@ public class PreferenceExport extends PreferenceActivity {
         });
 
         android.preference.Preference buttonImportPwd = findPreference("buttonImportPwd");
-        buttonImportPwd.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
-        {
-            @Override
-            public boolean onPreferenceClick(android.preference.Preference arg0)
-            {
-                Intent restoreActivity = new Intent(getBaseContext(), RestoreDbActivity.class);
-                startActivity(restoreActivity);
-                return(false);
+        buttonImportPwd.setOnPreferenceClickListener(arg0 -> {
+            Uri uri;
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+                if(!Environment.isExternalStorageManager()){
+                    try {
+                        //uri = Environment.getExternalStoragePublicDirectory();
+                        uri = Uri.parse("package:" + BuildConfig.APPLICATION_ID);
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri);
+                        intent.addCategory("android.intent.category.DEFAULT");
+                        intent.setData(Uri.parse(String.format("package:%s", getApplicationContext().getPackageName())));
+                        startActivity(intent);
+                        final int takeFlags = intent.getFlags()
+                                & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        getContentResolver().takePersistableUriPermission(uri, takeFlags);
+                    } catch (Exception ex){
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                        startActivity(intent);
+                    }
+                }
             }
+            String outputDir = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("output_backup_dir", getApplicationContext().getExternalFilesDir(null).toString());
+            filePicker(outputDir, true, "zip");
+            return true;
         });
 
         android.preference.Preference buttonExportCSV = findPreference("buttonExportCSV");
@@ -252,7 +269,7 @@ public class PreferenceExport extends PreferenceActivity {
                 }
             }
             String outputDir = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("output_backup_dir", getApplicationContext().getExternalFilesDir(null).toString());
-            filePicker(outputDir, true);
+            filePicker(outputDir, true, "csv");
             return true;
         });
 
@@ -320,16 +337,22 @@ public class PreferenceExport extends PreferenceActivity {
         }
     };
     private File[] dirContents(File folder, final boolean showFiles)  {
+        return dirContents(folder, showFiles, null);
+    }
+    private File[] dirContents(File folder, final boolean showFiles, String extension)  {
         if (folder.exists()) {
-            FilenameFilter filter = new FilenameFilter() {
-                public boolean accept(File dir, String filename) {
-                    File file = new File(dir.getAbsolutePath() + File.separator + filename);
-                    if (showFiles)
+            FilenameFilter filter = (dir, filename) -> {
+                File file = new File(dir.getAbsolutePath() + File.separator + filename);
+                if (showFiles)
+                    if (extension != null) {
                         return file.isDirectory()
-                                || file.isFile() ;//&& file.getName().toLowerCase().indexOf("droidshows.db") == 0;
-                    else
-                        return file.isDirectory();
-                }
+                                || file.isFile() && getFileExtension(file.toString()).equals(extension);
+                    }else {
+                        return file.isDirectory()
+                                || file.isFile();
+                    }
+                else
+                    return file.isDirectory();
             };
             File[] list = folder.listFiles(filter);
             Log.d(BuildConfig.APPLICATION_ID, "showFiles " + showFiles);
@@ -412,9 +435,12 @@ public class PreferenceExport extends PreferenceActivity {
                 .show();
     }
     private void filePicker(final String folderString, final boolean restoring) {
+        filePicker(folderString, restoring, null);
+    }
+    private void filePicker(final String folderString, final boolean restoring, String extension) {
         File folder = new File(folderString);
         //File[] tempDirList = dirContents(folder, false);
-        File[] tempDirList = dirContents(folder, restoring);
+        File[] tempDirList = dirContents(folder, restoring, extension);
         int showParent = (folderString.equals(Environment.getExternalStorageDirectory().getPath()) ? 0 : 1);
         File[] dirList = new File[tempDirList.length + showParent];
         String[] dirNamesList = new String[tempDirList.length + showParent];
