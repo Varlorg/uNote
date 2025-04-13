@@ -58,7 +58,7 @@
 	<string name="pref_export_db">Exporter la base de donnée</string>
 	<string name="pref_export_db_zip_summary">L\'archive zip peut être protégé par mot de passe</string>
 	<string name="pref_import_db">Importer une base de donnée</string>
-	<string name="pref_import_db_zip">Importer la base de donnée dans une archive</string>
+	<string name="pref_import_db_zip">Importer une sauvegarde zip</string>
 	<string name="pref_import_csv">Importer csv</string>
 	<string name="pref_import_csv_summary">Importer des notes à partir d\'un fichier csv (ajoute aux notes existantes)</string>
 	<string name="pref_preview_limit">Limite de l\'aperçu</string>
@@ -200,5 +200,5 @@
     <string name="pref_export_note_folder_timestamped">Dossier horodaté</string>
 	<string name="dialog_zip_title">Exporter la base de donnée en Zip</string>
 	<string name="dialog_zip_msg">Laisser vide pour exporter sans mot de passe</string>
-	<string name="pref_export_db_zip">Exporter la base de donnée dans une archive</string>
+	<string name="pref_export_db_zip">Sauvegarder dans une archive</string>
 </resources>
