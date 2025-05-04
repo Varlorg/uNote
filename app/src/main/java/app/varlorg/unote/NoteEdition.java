@@ -822,6 +822,7 @@ public class NoteEdition extends Activity
                         }
                     }
                 });
+                searchCaseSensitiveButton.setChecked(pref.getBoolean("pref_edit_mode_search_sensitive", false));
                 searchCaseSensitiveButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
                 {
                     @Override
@@ -835,6 +836,8 @@ public class NoteEdition extends Activity
                         }
                     }
                 });
+
+                searchWordButton.setChecked(pref.getBoolean("pref_edit_mode_search_word", false));
                 searchWordButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
                 {
                     @Override
@@ -896,13 +899,6 @@ public class NoteEdition extends Activity
                 searchResults.add(indexOfKeyWord);
                 spannableString.setSpan(new BackgroundColorSpan(Color.rgb(64, 148, 255)), indexOfKeyWord,
                         indexOfKeyWord + s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            if (searchResults.isEmpty()) {
-                Log.d(BuildConfig.APPLICATION_ID,"searchWord: The word \"" + s + "\" is found using regex.");
-                Log.d(BuildConfig.APPLICATION_ID,"searchWord: Start index: " + matcher.start());
-                Log.d(BuildConfig.APPLICATION_ID,"searchWord: End index: " + matcher.end());
-            } else {
-                Log.d(BuildConfig.APPLICATION_ID,"searchWord: The word \"" + s + "\" is NOT found using regex.");
             }
 
             count =  searchResults.size();
