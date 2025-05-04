@@ -78,6 +78,12 @@
                 android:layout_height="match_parent"
                 android:text="@string/cb_sensitive_search" />
 
+            <CheckBox
+                android:id="@+id/searchWordButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="string/cb_word_search" />
+
         </LinearLayout>
     </FrameLayout>
 

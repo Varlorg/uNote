@@ -53,6 +53,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 //import java.util.regex.*;
 
 public class NoteEdition extends Activity
@@ -86,6 +88,7 @@ public class NoteEdition extends Activity
     private ImageButton previousButton;
     private ImageButton nextButton;
     private CheckBox searchCaseSensitiveButton;
+    private CheckBox searchWordButton;
     private List<Integer> searchResults = new ArrayList<>();
     private int currentIndex = -1;
 
@@ -437,6 +440,7 @@ public class NoteEdition extends Activity
         previousButton = findViewById(R.id.previousButton);
         nextButton = findViewById(R.id.nextButton);
         searchCaseSensitiveButton = findViewById(R.id.searchCaseSensitiveButton);
+        searchWordButton = findViewById(R.id.searchWordButton);
         previousButton.setOnClickListener(v -> {
             int patternFoundNb = highlightText(searchNote.getText().toString());
             if ( pref.getBoolean("pref_search_note_count", true))
@@ -831,6 +835,19 @@ public class NoteEdition extends Activity
                         }
                     }
                 });
+                searchWordButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                    {
+                        if (!searchNote.getText().toString().equals(""))   //if edittext include text
+                        {
+                            int patternFoundNb = highlightText(searchNote.getText().toString());
+                            if (pref.getBoolean("pref_search_note_count", true))
+                                searchNoteCountTV.setText("" + patternFoundNb);
+                        }
+                    }
+                });
             }
             //use "test" string for test
 
@@ -860,23 +877,48 @@ public class NoteEdition extends Activity
             spannableString.removeSpan(bgSpan);
         }
         String noteContent = spannableString.toString();
+        searchResults.clear();
+        int count = 0;
+
         if (searchCaseSensitiveButton.isChecked())
         {
             s = s.toLowerCase();
             noteContent = spannableString.toString().toLowerCase();
         }
 
-        int indexOfKeyWord = noteContent.indexOf(s);
-        int count = 0;
-        searchResults.clear();
-        while (indexOfKeyWord >= 0) {
-            searchResults.add(indexOfKeyWord);
-            //spannableString.setSpan(new BackgroundColorSpan(Color.GRAY), indexOfKeyWord,
-            //spannableString.setSpan(new BackgroundColorSpan(Color.rgb(32,196,32)), indexOfKeyWord,
-            spannableString.setSpan(new BackgroundColorSpan(Color.rgb(64,148,255)), indexOfKeyWord,
-                    indexOfKeyWord + s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            indexOfKeyWord = noteContent.indexOf(s, indexOfKeyWord + s.length());
-            count++;
+        if (searchWordButton.isChecked()) {
+            // MUsing regular expressions for more complex patterns
+            String regex = "\\b" + s + "\\b"; // \b matches word boundaries
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(noteContent);
+            while (matcher.find()) {
+                int indexOfKeyWord = matcher.start();
+                searchResults.add(indexOfKeyWord);
+                spannableString.setSpan(new BackgroundColorSpan(Color.rgb(64, 148, 255)), indexOfKeyWord,
+                        indexOfKeyWord + s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            if (searchResults.isEmpty()) {
+                Log.d(BuildConfig.APPLICATION_ID,"searchWord: The word \"" + s + "\" is found using regex.");
+                Log.d(BuildConfig.APPLICATION_ID,"searchWord: Start index: " + matcher.start());
+                Log.d(BuildConfig.APPLICATION_ID,"searchWord: End index: " + matcher.end());
+            } else {
+                Log.d(BuildConfig.APPLICATION_ID,"searchWord: The word \"" + s + "\" is NOT found using regex.");
+            }
+
+            count =  searchResults.size();
+        } else {
+
+            int indexOfKeyWord = noteContent.indexOf(s);
+
+            while (indexOfKeyWord >= 0) {
+                searchResults.add(indexOfKeyWord);
+                //spannableString.setSpan(new BackgroundColorSpan(Color.GRAY), indexOfKeyWord,
+                //spannableString.setSpan(new BackgroundColorSpan(Color.rgb(32,196,32)), indexOfKeyWord,
+                spannableString.setSpan(new BackgroundColorSpan(Color.rgb(64, 148, 255)), indexOfKeyWord,
+                        indexOfKeyWord + s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                indexOfKeyWord = noteContent.indexOf(s, indexOfKeyWord + s.length());
+                count++;
+            }
         }
         note.removeTextChangedListener(noteTW);
         note.setText(spannableString);
