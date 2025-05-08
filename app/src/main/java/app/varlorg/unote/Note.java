@@ -20,7 +20,7 @@ public class Note
     private boolean ciphered = false;
     private boolean selected = false;
 
-    public Note(String t, String c)
+    public Note(String t, String c, String passwordHash, boolean ciphered)
     {
         SimpleDateFormat df   = new SimpleDateFormat("yyyy/MM/dd/HH:mm:ss");
         String           date = df.format(Calendar.getInstance().getTime());
@@ -29,8 +29,14 @@ public class Note
         this.dateModification = date;
         this.titre            = t;
         this.noteContent      = c;
-        this.passwordHash = null;
+        this.passwordHash = passwordHash;
         this.password = null;
+        this.ciphered = ciphered;
+    }
+
+    public Note(String t, String c)
+    {
+        this( t,  c, null, false);
     }
 
     public Note()

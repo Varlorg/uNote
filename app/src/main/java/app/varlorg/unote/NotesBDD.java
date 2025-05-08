@@ -98,6 +98,10 @@ public class NotesBDD
         values.put(COL_TITRE, note.getTitre());
         values.put(COL_DATECREATION, note.getDateCreation());
         values.put(COL_DATEMODIFICATION, note.getDateModification());
+        if(note.getHashPassword() != null)
+            values.put(COL_PASSWORD, note.getHashPassword());
+        if (note.isCiphered())
+            values.put(COL_CIPHER, 1);
         //on insère l'objet dans la BDD via le ContentValues
         return(bdd.insert(TABLE_NOTES, null, values));
     }
@@ -502,6 +506,11 @@ public class NotesBDD
 
     public String exportCSV(Context context)
     {
+        return exportCSV(context, false);
+    }
+
+    public String exportCSV(Context context, boolean exportProtectedNote)
+    {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         File externalFilesDir = context.getExternalFilesDir(null);
         String outputDir = pref.getString("output_backup_dir", externalFilesDir.toString());
@@ -511,7 +520,11 @@ public class NotesBDD
         File file = new File(outputDir, exportCSVFile);
         try {
             FileWriter csvWrite = new FileWriter(file,true);
-            String      selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE " + COL_PASSWORD + " IS NULL ";
+            String      suffixQuery = "";
+            if(!exportProtectedNote){
+                suffixQuery = " WHERE " + COL_PASSWORD + " IS NULL ";
+            }
+            String      selectQuery = "SELECT  * FROM " + TABLE_NOTES + suffixQuery;
             if (this.maBaseSQLite == null )
                 return "null";
 
@@ -525,21 +538,53 @@ public class NotesBDD
             // looping through all rows and adding to list
             if (c.moveToFirst())
             {
-                CSVUtils.writeLine(csvWrite, Arrays.asList("TITLE",
-                                "DATE_CREATION",
-                                "DATE_MODIFICATION",
-                                "NOTE"),
-                        ',',
-                        '"');
-                do
-                {
-                    CSVUtils.writeLine(csvWrite, Arrays.asList(c.getString(NUM_COL_TITRE),
-                                    c.getString(NUM_COL_DATECREATION),
-                                    c.getString(NUM_COL_DATEMODIFICATION),
-                                    c.getString(NUM_COL_ISBN)),
+                if(exportProtectedNote) {
+                    CSVUtils.writeLine(csvWrite, Arrays.asList("TITLE",
+                                    "DATE_CREATION", "DATE_MODIFICATION",
+                                    "CIPHERED", "PWDHASH",
+                                    "NOTE"),
                             ',',
                             '"');
+                } else {
+                    CSVUtils.writeLine(csvWrite, Arrays.asList("TITLE",
+                                    "DATE_CREATION", "DATE_MODIFICATION",
+                                    "NOTE"),
+                            ',',
+                            '"');
+                }
+                do
+                {
 
+                    Log.d(BuildConfig.APPLICATION_ID, "CSVUtils.writeLine " + c.getString(NUM_COL_TITRE));
+                    String[] cols = c.getColumnNames();
+                    int length = cols.length;
+                    for (int i = 0; i < length; i++) {
+                        String value;
+                        try {
+                            value = c.getString(i);
+                        } catch (Exception e) {
+                            value = "<unprintable>";
+                        }
+                        Log.d(BuildConfig.APPLICATION_ID, "CSVUtils.writeLine " + cols[i] + '=' + value);
+                    }
+                    if(exportProtectedNote){
+                        String pwdHashed = c.getString(NUM_COL_PASSWORD);
+                        CSVUtils.writeLine(csvWrite, Arrays.asList(c.getString(NUM_COL_TITRE),
+                                c.getString(NUM_COL_DATECREATION),
+                                c.getString(NUM_COL_DATEMODIFICATION),
+                                Integer.toString(c.getInt(NUM_COL_CIPHER)),
+                                pwdHashed == null ? "" : pwdHashed,
+                                c.getString(NUM_COL_ISBN)),
+                                ',',
+                                '"');
+                    } else {
+                        CSVUtils.writeLine(csvWrite, Arrays.asList(c.getString(NUM_COL_TITRE),
+                                        c.getString(NUM_COL_DATECREATION),
+                                        c.getString(NUM_COL_DATEMODIFICATION),
+                                        c.getString(NUM_COL_ISBN)),
+                                ',',
+                                '"');
+                    }
                 } while (c.moveToNext());
             }
 

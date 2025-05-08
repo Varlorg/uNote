@@ -218,6 +218,34 @@ public class PreferenceExport extends PreferenceActivity {
             }
         });
 
+        android.preference.Preference buttonExportCSVAll = findPreference("buttonExportCSVAll");
+        buttonExportCSVAll.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(android.preference.Preference arg0)
+            {
+                //openDirectory();
+                //return(true);
+                NotesBDD noteBdd = new NotesBDD(PreferenceExport.this);
+                noteBdd.open();
+                String path      = noteBdd.exportCSV(PreferenceExport.this, true);
+                noteBdd.close();
+                if (path != null)
+                {
+                    if ( pref.getBoolean("pref_notifications", true)) {
+                        customToast(PreferenceExport.this.getString(R.string.toast_export_db) + " " + path + " ! ");
+                    }
+                }
+                else
+                {
+                    if ( pref.getBoolean("pref_notifications", true)) {
+                        customToast(" Error " + path + " ! ");
+                    }
+                }
+                return(false);
+            }
+        });
+
         android.preference.Preference buttonExportAllNotes = findPreference("buttonExportAllNotes");
         buttonExportAllNotes.setOnPreferenceClickListener(new android.preference.Preference.OnPreferenceClickListener()
         {
@@ -390,19 +418,38 @@ public class PreferenceExport extends PreferenceActivity {
                         Log.d(BuildConfig.APPLICATION_ID, "confirmRestore  " + backupFile);
                         try {
                             boolean first = true;
+                            boolean export_with_cipher = false;
+                            NotesBDD noteBdd = new NotesBDD(getApplicationContext());
+                            noteBdd.open();
                             for( String[] l : CSVUtils.read(backupFile,',', '"'))
                             {
-                                Log.d(BuildConfig.APPLICATION_ID, "CSVUtils read  " + l.length);
+                                Log.d(BuildConfig.APPLICATION_ID, "CSVUtils import read  " + l.length);
                                 for(String elt: l ){
-                                    Log.d(BuildConfig.APPLICATION_ID, "CSVUtils read  " + elt);
+                                    Log.d(BuildConfig.APPLICATION_ID, "CSVUtils import read  " + elt);
                                 }
-                                NotesBDD noteBdd = new NotesBDD(getApplicationContext());
-                                noteBdd.open();
-                                if(first) { // 1st line is "TITLE","DATE_CREATION","DATE_MODIFICATION", "NOTE"
+
+                                // 1st line is "TITLE","DATE_CREATION","DATE_MODIFICATION", "NOTE"
+                                // or "TITLE","DATE_CREATION","DATE_MODIFICATION", "CIPHERED", "PWDHASH", "NOTE"
+
+                                if(first && l[0].equals("TITLE")) {
+                                    if (l[3].equals("CIPHERED")) {
+                                        export_with_cipher = true;
+                                    }
+                                    Log.d(BuildConfig.APPLICATION_ID, "CSVUtils import read first line ");
                                     first = false;
                                 }
                                 else {
-                                    long rc = noteBdd.insertNote(new Note(l[0], l[l.length - 1]));
+                                    Note n = null;
+                                    if(export_with_cipher && l[3].equals("1")){
+                                        Log.d(BuildConfig.APPLICATION_ID, "CSVUtils import ciphered note");
+                                        n = new Note(l[0], l[l.length - 1], l[l.length - 2], true);
+                                    }else if(export_with_cipher && l[3].equals("0") && !l[l.length - 2].equals("")){
+                                        Log.d(BuildConfig.APPLICATION_ID, "CSVUtils import pwd note");
+                                        n = new Note(l[0], l[l.length - 1], l[l.length - 2], false);
+                                    }else {
+                                        n = new Note(l[0], l[l.length - 1]);
+                                    }
+                                    long rc = noteBdd.insertNote(n);
                                     if(rc == -1 ){
                                         Log.d(BuildConfig.APPLICATION_ID, "CSVUtils insert error  " + String.join("-", l));
                                         customToast("Error");
@@ -410,8 +457,8 @@ public class PreferenceExport extends PreferenceActivity {
                                         nbNote += 1;
                                     }
                                 }
-                                noteBdd.close();
                             }
+                            noteBdd.close();
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
