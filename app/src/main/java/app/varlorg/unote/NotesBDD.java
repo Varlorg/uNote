@@ -429,7 +429,7 @@ public class NotesBDD
         return dbPath + ".zip";
     }
 
-    public String importDBZipFile(Context context, File zipToImport, String pwd)
+    public String importDBZipFile(Context context, File zipToImport, String pwd) throws IOException
     {
 
         ZipFile zipFile = null;
@@ -439,9 +439,9 @@ public class NotesBDD
         } else {
             zipFile = new ZipFile(zipToImport);
         }
-        String dbExtractedPath = zipToImport.getParent() + "/unoteExtracted";
+        String dbExtractedPath = context.getCacheDir() + "/unoteExtracted";
+        Log.d("dbExtractedPath", dbExtractedPath);
         try {
-
             zipFile.extractFile("unote.db", dbExtractedPath);
             ret = importDB(new File(dbExtractedPath, "unote.db"));
         } catch (ZipException e) {
@@ -449,7 +449,6 @@ public class NotesBDD
             new File(dbExtractedPath).delete();
             throw new RuntimeException(e);
         }
-        Log.d("dbExtractedPath ", dbExtractedPath);
         new File(dbExtractedPath,"unote.db").delete();
         new File(dbExtractedPath).delete();
         return ret;
