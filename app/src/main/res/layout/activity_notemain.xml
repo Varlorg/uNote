@@ -89,7 +89,7 @@
             android:id="@+id/search_options"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <CheckBox
                 android:id="@+id/search_case_cb"
@@ -105,6 +105,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="50"
                 android:text="@string/pref_search"
+                android:visibility="gone" />
+            <CheckBox
+                android:id="@+id/search_word_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="string/pref_search_word"
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>

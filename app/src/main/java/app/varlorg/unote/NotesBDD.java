@@ -11,14 +11,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 
 
@@ -199,10 +204,10 @@ public class NotesBDD
         }
 
         SQLiteDatabase db = this.maBaseSQLite.getWritableDatabase();
-        return(fillListNote(db, selectQuery, noteList, null, false, false));
+        return(fillListNote(db, selectQuery, noteList, null, false, false, false));
     }
 
-    public List <Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch, int tri, boolean ordre)
+    public List <Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch, Boolean wordSearch, int tri, boolean ordre)
     {
         List <Note> noteList = new ArrayList <>();
         // Select All Query
@@ -251,10 +256,15 @@ public class NotesBDD
             selectQuery += " DESC";
         }
 
-        return(fillListNote(db, selectQuery, noteList, str, contentSearch, sensitiveSearch));
+        return(fillListNote(db, selectQuery, noteList, str, contentSearch, sensitiveSearch, wordSearch));
     }
 
-    public List <Note> fillListNote(SQLiteDatabase db, String selectQuery, List <Note> noteList, String s, boolean contentSearch, boolean sensitiveSearch)
+    public List <Note> fillListNote(SQLiteDatabase db,
+                                    String selectQuery,
+                                    List <Note> noteList, String s,
+                                    boolean contentSearch,
+                                    boolean sensitiveSearch,
+                                    boolean wordSearch)
     {
         Cursor c;
         Log.d(BuildConfig.APPLICATION_ID, "fillListNote  selectQuery " +  selectQuery);
@@ -298,7 +308,30 @@ public class NotesBDD
                     note.setCiphered(c.getInt(NUM_COL_CIPHER)==1);
                 }
                 // Adding contact to list
-                noteList.add(note);
+                if(wordSearch && s != null){
+                    String nTitle = note.getTitre();
+                    String nContent = note.getNote();
+                    if (!sensitiveSearch)
+                    {
+                        s = s.toLowerCase();
+                        nTitle = nTitle.toLowerCase();
+                        nContent = nContent.toLowerCase();
+                    }
+                    String regex = "\\b" + s + "\\b"; // \b matches word boundaries
+                    Pattern pattern = Pattern.compile(regex);
+
+                    Matcher matcherTitle = pattern.matcher(nTitle);
+                    if (matcherTitle.find()) {
+                        noteList.add(note);
+                    }
+                    Matcher matcherContent = pattern.matcher(nContent);
+                    if (contentSearch && matcherContent.find()) {
+                        noteList.add(note);
+                    }
+                }else {
+                    noteList.add(note);
+                }
+
             } while (c.moveToNext());
         }
 

@@ -51,6 +51,7 @@ public class NoteMain extends Activity
     private static final String EXTRA_ID         = "id";
     private static final String SEARCH_CONTENT   = "contentSearch";
     private static final String SEARCH_SENSITIVE = "sensitiveSearch";
+    private static final String SEARCH_WORD = "wordSearch";
     private static final String PREF_SORT        = "pref_tri";
     private static final String PREF_SORT_ORDER  = "pref_ordretri";
     public  static final double POPUP_TEXTSIZE_FACTOR    = 0.9;
@@ -66,6 +67,7 @@ public class NoteMain extends Activity
     private List <Note> listeNotes;
     private CheckBox cbSearchContent;
     private CheckBox cbSearchCase;
+    private CheckBox cbSearchWord;
     private ListView lv;
     private SharedPreferences pref;
     private Parcelable state;
@@ -183,7 +185,11 @@ public class NoteMain extends Activity
         }
         else
         {
-            listeNotes = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+            listeNotes = noteBdd.getSearchedNotes(text,
+                    cbSearchContent.isChecked(),
+                    !cbSearchCase.isChecked(),
+                    false,
+                    Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
 
             if ( pref.getBoolean("pref_search_note_count", true))
                 searchCount.setText("" + listeNotes.size());
@@ -418,8 +424,10 @@ public class NoteMain extends Activity
 
         cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
         cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
+        cbSearchWord    = (CheckBox)findViewById(R.id.search_word_cb);
         cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
         cbSearchCase.setChecked(pref.getBoolean(SEARCH_SENSITIVE, false));
+        cbSearchWord.setChecked(pref.getBoolean(SEARCH_WORD, false));
 
         final Button buttonAddNote = (Button)findViewById(R.id.addNoteButton);
         final Button buttonSearch  = (Button)findViewById(R.id.returnSearch);
@@ -434,6 +442,7 @@ public class NoteMain extends Activity
         }
         cbSearchContent.setTextSize((int)(POPUP_TEXTSIZE_FACTOR * textSize));
         cbSearchCase.setTextSize((int)(POPUP_TEXTSIZE_FACTOR * textSize));
+        cbSearchWord.setTextSize((int)(POPUP_TEXTSIZE_FACTOR * textSize));
         buttonAddNote.setTextSize(textSizeButton);
         buttonSearch.setTextSize(textSizeButton);
         buttonReturn.setTextSize(textSizeButton);
@@ -505,6 +514,14 @@ public class NoteMain extends Activity
             }
         });
 
+        cbSearchWord.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                updateSearch();
+            }
+        });
         btnClear = (ImageButton)findViewById(R.id.btn_clear);
 
         EditText ee = (EditText)findViewById(R.id.search);
@@ -528,6 +545,7 @@ public class NoteMain extends Activity
             searchOptBar.setOrientation(LinearLayout.VERTICAL);
             cbSearchContent.getLayoutParams().width = ActionBar.LayoutParams.MATCH_PARENT;
             cbSearchCase.getLayoutParams().width  = ActionBar.LayoutParams.MATCH_PARENT;
+            cbSearchWord.getLayoutParams().width  = ActionBar.LayoutParams.MATCH_PARENT;
         }
     }
 
@@ -1455,7 +1473,12 @@ public class NoteMain extends Activity
         NotesBDD noteBdd = new NotesBDD(this);
         String text = editsearch.getText().toString();
         noteBdd.open();
-        listeNotes = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+        listeNotes = noteBdd.getSearchedNotes(text,
+                cbSearchContent.isChecked(),
+                !cbSearchCase.isChecked(),
+                cbSearchWord.isChecked(),
+                Integer.parseInt(pref.getString(PREF_SORT, "1")),
+                pref.getBoolean(PREF_SORT_ORDER, false));
         // Clean selected note from old view (selection mode)
         for (int i = 0; i < lv.getCount(); i++) {
             lv.setItemChecked(i, false);
@@ -1477,8 +1500,10 @@ public class NoteMain extends Activity
             searchCount.setVisibility(View.GONE);
             cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
             cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
+            cbSearchWord = (CheckBox)findViewById(R.id.search_word_cb);
             cbSearchCase.setVisibility(View.GONE);
             cbSearchContent.setVisibility(View.GONE);
+            cbSearchWord.setVisibility(View.GONE);
             btnClear.setVisibility(View.GONE);
         } else {
             editsearch.setVisibility(View.VISIBLE);
@@ -1488,10 +1513,13 @@ public class NoteMain extends Activity
             {
                 cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
                 cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
+                cbSearchWord = (CheckBox)findViewById(R.id.search_word_cb);
                 cbSearchCase.setVisibility(View.VISIBLE);
+                cbSearchWord.setVisibility(View.VISIBLE);
                 cbSearchContent.setVisibility(View.VISIBLE);
                 cbSearchCase.setChecked(!pref.getBoolean(SEARCH_SENSITIVE, false));
                 cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
+                cbSearchWord.setChecked(pref.getBoolean(SEARCH_WORD, false));
             }
             // Button btn_clear is display only when text is typed
 
