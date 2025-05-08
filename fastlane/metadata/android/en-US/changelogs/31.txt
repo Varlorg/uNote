@@ -1,2 +1,7 @@
-New feature
-    - note ciphering
+New features
+    - add note ciphering
+    - add "Match word" Option in Search Functionality
+    - increase minimal api to 26 (Android 8.0)
+    - add monochrome icon
+    - add zip archive export with password protection possible
+    - add pref to disable timestamped folder for note export as text
