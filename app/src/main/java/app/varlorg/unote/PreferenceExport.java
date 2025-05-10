@@ -470,8 +470,8 @@ public class PreferenceExport extends PreferenceActivity {
     }
     private void confirmRestoreZip(final String backupFile) {
         new AlertDialog.Builder(this)
-                .setTitle("getString(R.string.dialog_import_zip)")
-                .setMessage("getString(R.string.dialog_import_zip_msg)" + " " + backupFile)
+                .setTitle(getString(R.string.dialog_import_zip))
+                .setMessage(getString(R.string.dialog_import_zip_msg) + " " + backupFile)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Log.d(BuildConfig.APPLICATION_ID, "confirmRestoreZip  " + backupFile);

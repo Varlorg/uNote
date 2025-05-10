@@ -192,6 +192,8 @@
 	<string name="toast_backup_rename_error">Renaming backup failed</string>
 	<string name="dialog_import_csv">Import csv</string>
 	<string name="dialog_import_csv_msg">Add notes from csv file </string>
+	<string name="dialog_import_zip">Import Zip archive</string>
+	<string name="dialog_import_zip_msg">Restore backup from the zip archive</string>
 	<string name="mode_normal">Normal mode</string>
 	<string name="mode_selection">Selection mode</string>
 	<string name="pref_button_color">Buttons color</string>

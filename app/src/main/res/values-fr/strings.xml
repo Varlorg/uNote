@@ -186,6 +186,7 @@
 	<string name="toast_backup_rename_error">Échec du renommage de la sauvegarde</string>
 	<string name="dialog_import_csv">Importer csv</string>
 	<string name="dialog_import_csv_msg">"Ajouter des notes à partir d'un fichier csv "</string>
+	<string name="dialog_import_zip_msg">Restaurer une sauvegarde depuis l\'archive zip</string>
 	<string name="mode_normal">Mode normal</string>
 	<string name="mode_selection">Mode sélection</string>
 	<string name="pref_cat_text_color_edition">Couleur en edition</string>
@@ -201,4 +202,5 @@
 	<string name="dialog_zip_title">Exporter la base de donnée en Zip</string>
 	<string name="dialog_zip_msg">Laisser vide pour exporter sans mot de passe</string>
 	<string name="pref_export_db_zip">Sauvegarder dans une archive</string>
+    <string name="dialog_import_zip">Importer une archive Zip</string>
 </resources>
