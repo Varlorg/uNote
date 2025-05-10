@@ -15,10 +15,10 @@ android {
 
     defaultConfig {
         applicationId "app.varlorg.unote"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 34
-        versionCode 30
-        versionName '1.8.0'
+        versionCode 31
+        versionName '1.9.0'
 
         buildConfigField "String", "applicationId", "\"app.varlorg.unote\""
     }
@@ -76,6 +76,7 @@ android {
 
 dependencies {
     implementation project(':colopicker')
+    implementation("net.lingala.zip4j:zip4j:2.11.5")
     //implementation project('mylibrary')
     testImplementation 'junit:junit:4.12'
     //implementation 'com.github.yukuku:ambilwarna:2.0.1'

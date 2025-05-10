@@ -29,6 +29,7 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -50,6 +51,7 @@ public class NoteMain extends Activity
     private static final String EXTRA_ID         = "id";
     private static final String SEARCH_CONTENT   = "contentSearch";
     private static final String SEARCH_SENSITIVE = "sensitiveSearch";
+    private static final String SEARCH_WORD = "wordSearch";
     private static final String PREF_SORT        = "pref_tri";
     private static final String PREF_SORT_ORDER  = "pref_ordretri";
     public  static final double POPUP_TEXTSIZE_FACTOR    = 0.9;
@@ -65,6 +67,7 @@ public class NoteMain extends Activity
     private List <Note> listeNotes;
     private CheckBox cbSearchContent;
     private CheckBox cbSearchCase;
+    private CheckBox cbSearchWord;
     private ListView lv;
     private SharedPreferences pref;
     private Parcelable state;
@@ -105,9 +108,10 @@ public class NoteMain extends Activity
     void customToast(String s){
         customToastGeneric(NoteMain.this, NoteMain.this.getResources(), s);
     }
-    private LinearLayout passwordPopup(){
+    private LinearLayout passwordPopup(boolean management){
         final EditText            input = new EditText(NoteMain.this);
         ImageButton togglePasswordVisibilityButton = new ImageButton(NoteMain.this);
+        LinearLayout layoutPwd = new LinearLayout(NoteMain.this);
         LinearLayout layout = new LinearLayout(NoteMain.this);
 
         LinearLayout.LayoutParams lp    = new LinearLayout.LayoutParams(
@@ -137,9 +141,25 @@ public class NoteMain extends Activity
             }
         });
         input.requestFocus();
-        layout.setOrientation(LinearLayout.HORIZONTAL);
-        layout.addView(togglePasswordVisibilityButton);
-        layout.addView(input);
+
+        CheckBox cb_cipher = new CheckBox(NoteMain.this);
+        cb_cipher.setText(this.getString(R.string.cb_cipher_note));
+        cb_cipher.setTextSize(textSize);
+        if (pref.getBoolean("pref_cipher_notes", false)) {
+            cb_cipher.setChecked(true);
+        }
+
+        layoutPwd.setOrientation(LinearLayout.HORIZONTAL);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        
+        layoutPwd.addView(togglePasswordVisibilityButton);
+        layoutPwd.addView(input);
+
+        layout.addView(layoutPwd);
+        if (management) {
+            layout.addView(cb_cipher);
+        }
+
         return layout;
     }
     @Override
@@ -165,7 +185,11 @@ public class NoteMain extends Activity
         }
         else
         {
-            listeNotes = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+            listeNotes = noteBdd.getSearchedNotes(text,
+                    cbSearchContent.isChecked(),
+                    !cbSearchCase.isChecked(),
+                    false,
+                    Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
 
             if ( pref.getBoolean("pref_search_note_count", true))
                 searchCount.setText("" + listeNotes.size());
@@ -312,10 +336,10 @@ public class NoteMain extends Activity
             {
                 final Note n    = (Note)parentAdapter.getItemAtPosition(position);
                 boolean canEdit = false;
-                if (n.getPassword() != null)
+                if (n.getHashPassword() != null)
                 {
-                    LinearLayout layout = passwordPopup();
-                    EditText input = (EditText) layout.getChildAt(1);
+                    LinearLayout layout = passwordPopup(false);
+                    EditText input = (EditText) ((LinearLayout)layout.getChildAt(0)).getChildAt(1);
                     AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
                     builder
                     .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
@@ -327,14 +351,30 @@ public class NoteMain extends Activity
                         public void onClick(DialogInterface dialog, int id)
                         {
                             String password = input.getText().toString();
-                            if (n.getPassword().equals(SHA1(password)))
+                            if (n.getHashPassword().equals(SHA1(password)))
                             {
                                 Intent intentTextEdition = new Intent(NoteMain.this,
                                                                       NoteEdition.class);
                                 intentTextEdition.putExtra(EXTRA_TITLE, n.getTitre());
-                                intentTextEdition.putExtra(EXTRA_NOTE, n.getNote());
+                                Log.d("ciphering", "note.getNote() " + n.getNote());
+                                Log.d("ciphering", "note.pwd() " + password);
+                                Log.d("ciphering", "n.getHashPassword() " +  n.getHashPassword());
+                                Log.d("ciphering", "note.isCiphered() " + n.isCiphered());
+                                Log.d("ciphering", "note.sha() " + SHA1(password));
+                                if (n.isCiphered()) {
+                                    try {
+                                        Log.d("ciphering", "decrypt " + AES.decrypt(n.getNote(), password));
+                                        intentTextEdition.putExtra(EXTRA_NOTE, AES.decrypt(n.getNote(), password));
+                                        intentTextEdition.putExtra(EXTRA_PWD, password);
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+                                else {
+                                    intentTextEdition.putExtra(EXTRA_NOTE, n.getNote());
+                                }
                                 intentTextEdition.putExtra(EXTRA_EDITION, true);
-                                intentTextEdition.putExtra(EXTRA_PWD, n.getPassword()!=null);
+
                                 intentTextEdition.putExtra(EXTRA_ID, n.getId());
                                 NoteMain.this.startActivity(intentTextEdition);
                             }
@@ -372,7 +412,7 @@ public class NoteMain extends Activity
                     intentTextEdition.putExtra(EXTRA_TITLE, n.getTitre());
                     intentTextEdition.putExtra(EXTRA_NOTE, n.getNote());
                     intentTextEdition.putExtra(EXTRA_EDITION, true);
-                    intentTextEdition.putExtra(EXTRA_PWD, n.getPassword()!=null);
+                    intentTextEdition.putExtra(EXTRA_PWD, n.getHashPassword()!=null);
                     intentTextEdition.putExtra(EXTRA_ID, n.getId());
                     NoteMain.this.startActivity(intentTextEdition);
                 }
@@ -384,8 +424,10 @@ public class NoteMain extends Activity
 
         cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
         cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
+        cbSearchWord    = (CheckBox)findViewById(R.id.search_word_cb);
         cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
         cbSearchCase.setChecked(pref.getBoolean(SEARCH_SENSITIVE, false));
+        cbSearchWord.setChecked(pref.getBoolean(SEARCH_WORD, false));
 
         final Button buttonAddNote = (Button)findViewById(R.id.addNoteButton);
         final Button buttonSearch  = (Button)findViewById(R.id.returnSearch);
@@ -400,6 +442,7 @@ public class NoteMain extends Activity
         }
         cbSearchContent.setTextSize((int)(POPUP_TEXTSIZE_FACTOR * textSize));
         cbSearchCase.setTextSize((int)(POPUP_TEXTSIZE_FACTOR * textSize));
+        cbSearchWord.setTextSize((int)(POPUP_TEXTSIZE_FACTOR * textSize));
         buttonAddNote.setTextSize(textSizeButton);
         buttonSearch.setTextSize(textSizeButton);
         buttonReturn.setTextSize(textSizeButton);
@@ -471,6 +514,14 @@ public class NoteMain extends Activity
             }
         });
 
+        cbSearchWord.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                updateSearch();
+            }
+        });
         btnClear = (ImageButton)findViewById(R.id.btn_clear);
 
         EditText ee = (EditText)findViewById(R.id.search);
@@ -494,6 +545,7 @@ public class NoteMain extends Activity
             searchOptBar.setOrientation(LinearLayout.VERTICAL);
             cbSearchContent.getLayoutParams().width = ActionBar.LayoutParams.MATCH_PARENT;
             cbSearchCase.getLayoutParams().width  = ActionBar.LayoutParams.MATCH_PARENT;
+            cbSearchWord.getLayoutParams().width  = ActionBar.LayoutParams.MATCH_PARENT;
         }
     }
 
@@ -532,7 +584,7 @@ public class NoteMain extends Activity
         String title = n.getTitre();
         String noteSummary = htmlTitleColorAttributeStart + "<b>" + title + "</b>" + htmlTitleColorAttributeEnd;
 
-        if (n.getPassword() != null)
+        if (n.getHashPassword() != null)
         {
             if (Integer.parseInt(pref.getString("pref_preview_char_limit", "30")) != 0)
                 noteSummary += "<br/>" + NoteMain.this.getString(R.string.pwd_protected);
@@ -972,7 +1024,7 @@ public class NoteMain extends Activity
             intentTextEdition.putExtra(EXTRA_TITLE, note.getTitre());
             intentTextEdition.putExtra(EXTRA_NOTE, note.getNote());
             intentTextEdition.putExtra(EXTRA_EDITION, true);
-            intentTextEdition.putExtra(EXTRA_PWD, note.getPassword()!= null);
+            intentTextEdition.putExtra(EXTRA_PWD, note.getPassword());
             intentTextEdition.putExtra(EXTRA_ID, note.getId());
             NoteMain.this.startActivity(intentTextEdition);
             Log.d("NoteMain", "id " +  note.getId());
@@ -1015,8 +1067,10 @@ public class NoteMain extends Activity
             layout.setOrientation(LinearLayout.HORIZONTAL);
             layout.addView(togglePasswordVisibilityButton);
             layout.addView(input);*/
-            LinearLayout layout = passwordPopup();
-            EditText input = (EditText) layout.getChildAt(1);
+            LinearLayout layout = passwordPopup(true);
+            EditText input = (EditText) ((LinearLayout)layout.getChildAt(0)).getChildAt(1);
+            CheckBox isNoteCiphered_cb = (CheckBox) layout.getChildAt(1);
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
             .setTitle(NoteMain.this.getString(R.string.dialog_add_pwd_title))
@@ -1030,8 +1084,19 @@ public class NoteMain extends Activity
                 {
                     NotesBDD noteBdd = new NotesBDD(NoteMain.this);
                     noteBdd.open();
-                    note.setPassword(null);
+                    note.setHashPassword(null);
                     noteBdd.updatePassword(note.getId(), null);
+                    if(note.isCiphered()){
+                        try {
+                            //String noteDecrypted = AES.decrypt(note.getNote(), note.getPassword());
+                            //note.setNote(noteDecrypted);
+                            note.setPassword(null);
+                            note.setCiphered(false);
+                            noteBdd.updateNote(note.getId(), note);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
                     noteBdd.close();
                     simpleAdpt.notifyDataSetChanged();
                 }
@@ -1042,12 +1107,35 @@ public class NoteMain extends Activity
                 public void onClick(DialogInterface dialog, int id)
                 {
                     String password = input.getText().toString();
+                    boolean isNoteCiphered = isNoteCiphered_cb.isChecked();
 
+                    note.setHashPassword(SHA1(password));
+                    note.setCiphered(isNoteCiphered);
+
+                    Log.d("ciphering", "isNoteCiphered " + isNoteCiphered);
+                    if(isNoteCiphered){
+                        Log.d("ciphering", "note.getNote() " + note.getNote());
+                        Log.d("ciphering", "pwd() " + password);
+                        Log.d("ciphering", "sha() " + SHA1(password));
+                        try {
+                            note.setCiphered(true);
+                            String noteEncrypted = AES.encrypt(note.getNote(), password);
+                            Log.d("ciphering", "note encrypted " +  noteEncrypted);
+                            Log.d("ciphering", "note decrypt " +  AES.decrypt(noteEncrypted, password));
+
+                            note.setNote(noteEncrypted);
+                            note.setCiphered(true);
+
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
                     NotesBDD noteBdd = new NotesBDD(NoteMain.this);
                     noteBdd.open();
                     noteBdd.updatePassword(note.getId(), SHA1(password));
+                    noteBdd.updateNote(note.getId(), note);
                     noteBdd.close();
-                    note.setPassword(SHA1(password));
+
                     simpleAdpt.notifyDataSetChanged();
                     if ( pref.getBoolean("pref_notifications", true))
                     {
@@ -1089,6 +1177,45 @@ public class NoteMain extends Activity
             alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextSize(Math.min(36,(int)(textSize * POPUP_TEXTSIZE_FACTOR)));
             ((TextView)alertDialog.findViewById(android.R.id.message)).setTextSize((int)(textSize * POPUP_TEXTSIZE_FACTOR));
+            isNoteCiphered_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                        if(isChecked && input.getText().length() == 0){
+                            ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                        }
+                        else {
+                            ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                        }
+                    }
+                }
+            );
+            input.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    // Check if edittext is empty
+                    if (TextUtils.isEmpty(s) && isNoteCiphered_cb.isChecked()) {
+                        // Disable ok button
+                        ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                    } else {
+                        // Something into edit text. Enable the button.
+                        ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                    }
+                }
+            });
+            if(isNoteCiphered_cb.isChecked() && input.getText().length() == 0){
+                ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+            }
+            else {
+                ((AlertDialog) alertDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+            }
+
         }
         else if (item.getTitle().equals(this.getString(R.string.action_set_alarm))){
             Intent intentAlarm = new Intent(NoteMain.this,
@@ -1096,7 +1223,7 @@ public class NoteMain extends Activity
             intentAlarm.putExtra(EXTRA_TITLE, note.getTitre());
             intentAlarm.putExtra(EXTRA_NOTE, note.getNote());
             intentAlarm.putExtra(EXTRA_EDITION, true);
-            intentAlarm.putExtra(EXTRA_PWD, note.getPassword()!= null);
+            intentAlarm.putExtra(EXTRA_PWD, note.getHashPassword()!= null);
             intentAlarm.putExtra(EXTRA_ID, note.getId());
             Log.d(getClass().getSimpleName(),  "intentAlarm " + intentAlarm);
             NoteMain.this.startActivity(intentAlarm);
@@ -1250,10 +1377,10 @@ public class NoteMain extends Activity
         final MenuItem         itemf = item;
         AdapterContextMenuInfo aInfo = (AdapterContextMenuInfo)item.getMenuInfo();
         final Note             note  = simpleAdpt.getItem(aInfo.position);
-        if (note.getPassword() != null)
+        if (note.getHashPassword() != null)
         {
-            LinearLayout layout = passwordPopup();
-            EditText input = (EditText) layout.getChildAt(1);
+            LinearLayout layout = passwordPopup(false);
+            EditText input = (EditText) ((LinearLayout) layout.getChildAt(0)).getChildAt(1);
             AlertDialog.Builder builder = new AlertDialog.Builder(NoteMain.this);
             builder
             .setTitle(NoteMain.this.getString(R.string.dialog_pwd_title))
@@ -1265,8 +1392,17 @@ public class NoteMain extends Activity
                 public void onClick(DialogInterface dialog, int id)
                 {
                     String password = input.getText().toString();
-                    if (note.getPassword().equals(SHA1(password)))
+                    if (note.getHashPassword().equals(SHA1(password)))
                     {
+                        if(note.isCiphered())
+                        {
+                            try {
+                                note.setNote(AES.decrypt(note.getNote(), password));
+                                note.setPassword(password);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
                         launchMenu(itemf, note);
                     }
                     else
@@ -1337,7 +1473,12 @@ public class NoteMain extends Activity
         NotesBDD noteBdd = new NotesBDD(this);
         String text = editsearch.getText().toString();
         noteBdd.open();
-        listeNotes = noteBdd.getSearchedNotes(text, cbSearchContent.isChecked(), !cbSearchCase.isChecked(), Integer.parseInt(pref.getString(PREF_SORT, "1")), pref.getBoolean(PREF_SORT_ORDER, false));
+        listeNotes = noteBdd.getSearchedNotes(text,
+                cbSearchContent.isChecked(),
+                !cbSearchCase.isChecked(),
+                cbSearchWord.isChecked(),
+                Integer.parseInt(pref.getString(PREF_SORT, "1")),
+                pref.getBoolean(PREF_SORT_ORDER, false));
         // Clean selected note from old view (selection mode)
         for (int i = 0; i < lv.getCount(); i++) {
             lv.setItemChecked(i, false);
@@ -1359,8 +1500,10 @@ public class NoteMain extends Activity
             searchCount.setVisibility(View.GONE);
             cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
             cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
+            cbSearchWord = (CheckBox)findViewById(R.id.search_word_cb);
             cbSearchCase.setVisibility(View.GONE);
             cbSearchContent.setVisibility(View.GONE);
+            cbSearchWord.setVisibility(View.GONE);
             btnClear.setVisibility(View.GONE);
         } else {
             editsearch.setVisibility(View.VISIBLE);
@@ -1370,10 +1513,13 @@ public class NoteMain extends Activity
             {
                 cbSearchCase    = (CheckBox)findViewById(R.id.search_case_cb);
                 cbSearchContent = (CheckBox)findViewById(R.id.search_content_cb);
+                cbSearchWord = (CheckBox)findViewById(R.id.search_word_cb);
                 cbSearchCase.setVisibility(View.VISIBLE);
+                cbSearchWord.setVisibility(View.VISIBLE);
                 cbSearchContent.setVisibility(View.VISIBLE);
                 cbSearchCase.setChecked(!pref.getBoolean(SEARCH_SENSITIVE, false));
                 cbSearchContent.setChecked(pref.getBoolean(SEARCH_CONTENT, false));
+                cbSearchWord.setChecked(pref.getBoolean(SEARCH_WORD, false));
             }
             // Button btn_clear is display only when text is typed
 

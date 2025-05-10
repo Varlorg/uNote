@@ -58,7 +58,10 @@
 	<string name="pref_export_note_title">Use note\'s title for the export filename instead of id</string>
 	<string name="pref_db">Database</string>
 	<string name="pref_export_db">Export database</string>
+	<string name="pref_export_db_zip">Export database in a zip archive</string>
+	<string name="pref_export_db_zip_summary">Zip file can be protected with password</string>
 	<string name="pref_import_db">Import database</string>
+	<string name="pref_import_db_zip">Import database from a zip archive</string>
 	<string name="pref_import_csv">Import from csv</string>
 	<string name="pref_import_csv_summary">Import notes from csv file (add to existing ones)</string>
 	<string name="pref_preview_limit">Preview limit</string>
@@ -69,6 +72,8 @@
 	<string name="pref_export_csv_db_summary">Export all non-password protected notes into csv format file</string>
 	<string name="pref_export_all_notes_summary">Export all non-password protected notes in plain text in a folder</string>
 	<string name="pref_export_all_notes">Export all notes in plain text</string>
+	<string name="pref_export_note_folder_timestamped">Timestamped folder</string>
+	<string name="pref_export_note_folder_timestamped_summary">Export all notes in a timestamped folder</string>
 	<string name="export_info_path">Export path </string>
 	<string name="export_path_select">Change export path </string>
 	<string name="export_path_select_summary">Current path </string>
@@ -96,6 +101,10 @@
 	<string name="pref_note_text_color_note_edit">Note\'s color</string>
 	<string name="pref_note_text_color_note_edit_desc">Note description\'s color</string>
 	<string name="pref_note_text_color_title_edit_desc">Title description\'s color</string>
+	<string name="pref_cat_cipher">Encryption</string>
+	<string name="pref_cipher_notes">Cipher notes by default</string>
+	<string name="pref_cipher_notes_summary">when adding a password</string>
+	<string name="cb_cipher_note">Cipher the note</string>
 	<!--<string name="pref_clean_db">Clean database (Delete all notes)</string>-->
 
 	<!-- Preference toasts' text"-->
@@ -157,6 +166,9 @@
 	<string name="dialog_add_pwd_add">Add</string>
 	<string name="dialog_add_pwd_cancel">Cancel</string>
 	<string name="toast_pwd_added">Password added !</string>
+	<string name="dialog_zip_title">Export database as Zip archive</string>
+	<string name="dialog_zip_msg">Keep empty to not cipher the zip archive or enter password to protect</string>
+	<string name="dialog_zip_export_action">Export</string>
 
 	<string name="restoreWarnTitle">Restore database</string>
 	<string name="restoreWarnMessage">This will overwrite all the existing notes. Continue?</string>

@@ -56,7 +56,9 @@
 	<string name="pref_export_note_title">Utilise le titre de la note pour le nom du fichier d\'export au lieu de l\'id</string>
 	<string name="pref_db">Base de donnée</string>
 	<string name="pref_export_db">Exporter la base de donnée</string>
+	<string name="pref_export_db_zip_summary">L\'archive zip peut être protégé par mot de passe</string>
 	<string name="pref_import_db">Importer une base de donnée</string>
+	<string name="pref_import_db_zip">Importer une sauvegarde zip</string>
 	<string name="pref_import_csv">Importer csv</string>
 	<string name="pref_import_csv_summary">Importer des notes à partir d\'un fichier csv (ajoute aux notes existantes)</string>
 	<string name="pref_preview_limit">Limite de l\'aperçu</string>
@@ -67,6 +69,7 @@
 	<string name="pref_export_csv_db_summary">Exporter toutes les notes non protégées par mot de passe dans un fichier au format csv</string>
 	<string name="pref_export_all_notes_summary">Exporter toutes les notes non protégées par mot de passe au format texte dans un dossier</string>
 	<string name="pref_export_all_notes">Exporter les notes au format texte</string>
+	<string name="pref_export_note_folder_timestamped_summary">Exporter toutes les notes dans un fichier hotodaté</string>
 	<string name="export_info_path">Chemin d\'export </string>
 	<string name="export_path_select">Changer le chemin d\'export </string>
 	<string name="export_path_select_summary">Chemin actuel </string>
@@ -99,6 +102,8 @@
 	<string name="text_view"> </string>-->
 
 	<!-- Preference toasts' text"-->
+	<string name="pref_cipher_notes_summary">lors de l\'ajout du mot de passe</string>
+	<string name="cb_cipher_note">Chiffrer la note</string>
 	<string name="toast_export_db">Base de données exportée dans </string>
 	<string name="toast_import_db">Base de données importée depuis </string>
 	<string name="toast_import_no_db">Aucune base de données trouvées, exportez d\'abord.</string>
@@ -158,6 +163,7 @@
 	<string name="dialog_add_pwd_cancel">Annuler</string>
 	<string name="toast_pwd_added">Mot de passe ajouté/changé !</string>
 
+	<string name="dialog_zip_export_action">Exporter</string>
 	<string name="restoreWarnTitle">Restaure la base de données</string>
 	<string name="restoreWarnMessage">Cette opération écrasera toutes les notes existantes. Continuer ?</string>
 	<string name="restoreWarnPositive">Oui</string>
@@ -189,4 +195,10 @@
 	<string name="pref_autosave_interval_summary">0 pour désactiver</string>
 	<string name="pref_screen_main">Ecran principal</string>
 	<string name="action_set_alarm">Définir un rappel</string>
+    <string name="pref_cat_cipher">Chiffrement</string>
+	<string name="pref_cipher_notes">Chiffrer les notes par défaut</string>
+    <string name="pref_export_note_folder_timestamped">Dossier horodaté</string>
+	<string name="dialog_zip_title">Exporter la base de donnée en Zip</string>
+	<string name="dialog_zip_msg">Laisser vide pour exporter sans mot de passe</string>
+	<string name="pref_export_db_zip">Sauvegarder dans une archive</string>
 </resources>

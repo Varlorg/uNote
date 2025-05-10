@@ -1,6 +1,5 @@
 package app.varlorg.unote;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -12,19 +11,32 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
 import android.util.Log;
+
+
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.model.enums.AesKeyStrength;
+import net.lingala.zip4j.model.enums.EncryptionMethod;
+//import java.util.ZipUtil;
 
 public class NotesBDD
 {
-    private static final int VERSION_BDD = 2;
+    private static final int VERSION_BDD = 3;
     private static final String NOM_BDD  = "notes.db";
 
     private static final String TABLE_NOTES           = "table_notes";
@@ -40,6 +52,8 @@ public class NotesBDD
     private static final int NUM_COL_DATEMODIFICATION = 4;
     private static final String COL_PASSWORD          = "password";
     private static final int NUM_COL_PASSWORD         = 5;
+    private static final String COL_CIPHER          = "ciphered";
+    private static final int NUM_COL_CIPHER         = 6;
     private static final String SQL_ORDER             = " ORDER BY ";
     private static final String DATA_PATH             = "/data/";
     private static final String DATABASE_FOLDER       = "/databases/";
@@ -84,6 +98,10 @@ public class NotesBDD
         values.put(COL_TITRE, note.getTitre());
         values.put(COL_DATECREATION, note.getDateCreation());
         values.put(COL_DATEMODIFICATION, note.getDateModification());
+        if(note.getHashPassword() != null)
+            values.put(COL_PASSWORD, note.getHashPassword());
+        if (note.isCiphered())
+            values.put(COL_CIPHER, 1);
         //on insère l'objet dans la BDD via le ContentValues
         return(bdd.insert(TABLE_NOTES, null, values));
     }
@@ -96,6 +114,11 @@ public class NotesBDD
 
         values.put(COL_NOTE, note.getNote());
         values.put(COL_TITRE, note.getTitre());
+        if (note.isCiphered()) {
+            values.put(COL_CIPHER, 1);
+        } else {
+            values.put(COL_CIPHER, 0);
+        }
         values.put(COL_DATEMODIFICATION, note.getDateModification());
         return(bdd.update(TABLE_NOTES, values, COL_ID + " = " + id, null));
     }
@@ -125,7 +148,7 @@ public class NotesBDD
     public Note getNoteWithId(int id)
     {
         //Récupère dans un Cursor les valeur correspondant à un livre contenu dans la BDD (ici on sélectionne le livre grâce à son titre)
-        Cursor c = bdd.query(TABLE_NOTES, new String[] { COL_ID, COL_NOTE, COL_TITRE, COL_DATECREATION, COL_DATEMODIFICATION }, COL_ID + " LIKE " + id + "", null, null, null, null);
+        Cursor c = bdd.query(TABLE_NOTES, new String[] { COL_ID, COL_NOTE, COL_TITRE, COL_DATECREATION, COL_DATEMODIFICATION, COL_PASSWORD, COL_CIPHER }, COL_ID + " LIKE " + id + "", null, null, null, null);
 
         return(cursorToNote(c));
     }
@@ -149,6 +172,7 @@ public class NotesBDD
         note.setTitre(c.getString(NUM_COL_TITRE));
         note.setDateCreation(c.getString(NUM_COL_DATECREATION));
         note.setDateModification(c.getString(NUM_COL_DATEMODIFICATION));
+        note.setCiphered(c.getInt(NUM_COL_CIPHER)==1);
         //On ferme le cursor
         c.close();
 
@@ -184,10 +208,10 @@ public class NotesBDD
         }
 
         SQLiteDatabase db = this.maBaseSQLite.getWritableDatabase();
-        return(fillListNote(db, selectQuery, noteList, null, false, false));
+        return(fillListNote(db, selectQuery, noteList, null, false, false, false));
     }
 
-    public List <Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch, int tri, boolean ordre)
+    public List <Note> getSearchedNotes(String str, Boolean contentSearch, Boolean sensitiveSearch, Boolean wordSearch, int tri, boolean ordre)
     {
         List <Note> noteList = new ArrayList <>();
         // Select All Query
@@ -236,10 +260,15 @@ public class NotesBDD
             selectQuery += " DESC";
         }
 
-        return(fillListNote(db, selectQuery, noteList, str, contentSearch, sensitiveSearch));
+        return(fillListNote(db, selectQuery, noteList, str, contentSearch, sensitiveSearch, wordSearch));
     }
 
-    public List <Note> fillListNote(SQLiteDatabase db, String selectQuery, List <Note> noteList, String s, boolean contentSearch, boolean sensitiveSearch)
+    public List <Note> fillListNote(SQLiteDatabase db,
+                                    String selectQuery,
+                                    List <Note> noteList, String s,
+                                    boolean contentSearch,
+                                    boolean sensitiveSearch,
+                                    boolean wordSearch)
     {
         Cursor c;
         Log.d(BuildConfig.APPLICATION_ID, "fillListNote  selectQuery " +  selectQuery);
@@ -279,10 +308,34 @@ public class NotesBDD
                 note.setDateModification(c.getString(NUM_COL_DATEMODIFICATION));
                 if (c.getString(NUM_COL_PASSWORD) != null)
                 {
-                    note.setPassword(c.getString(NUM_COL_PASSWORD));
+                    note.setHashPassword(c.getString(NUM_COL_PASSWORD));
+                    note.setCiphered(c.getInt(NUM_COL_CIPHER)==1);
                 }
                 // Adding contact to list
-                noteList.add(note);
+                if(wordSearch && s != null){
+                    String nTitle = note.getTitre();
+                    String nContent = note.getNote();
+                    if (!sensitiveSearch)
+                    {
+                        s = s.toLowerCase();
+                        nTitle = nTitle.toLowerCase();
+                        nContent = nContent.toLowerCase();
+                    }
+                    String regex = "\\b" + s + "\\b"; // \b matches word boundaries
+                    Pattern pattern = Pattern.compile(regex);
+
+                    Matcher matcherTitle = pattern.matcher(nTitle);
+                    if (matcherTitle.find()) {
+                        noteList.add(note);
+                    }
+                    Matcher matcherContent = pattern.matcher(nContent);
+                    if (contentSearch && matcherContent.find()) {
+                        noteList.add(note);
+                    }
+                }else {
+                    noteList.add(note);
+                }
+
             } while (c.moveToNext());
         }
 
@@ -344,6 +397,66 @@ public class NotesBDD
         return(backupDB.toString());
     }
 
+    public String exportDBZipFile(Context context, String pwd)
+    {
+        String dbPath = exportDB( context);
+        File dbFile = new File(dbPath);
+        File dbFileNew = new File(dbFile.getParent() , "unote.db");
+        dbFile.renameTo(dbFileNew);
+        Log.e("getPath", dbFile.getParent() + "unote.db");
+        List<File> filesToAdd = Arrays.asList(
+            new File(dbFile.getParent() , "unote.db")
+        );
+
+        ZipFile zipFile = null;
+        ZipParameters zipParameters = new ZipParameters();
+        if ( pwd != null && !pwd.isEmpty()) {
+            zipParameters.setEncryptFiles(true);
+            zipParameters.setEncryptionMethod(EncryptionMethod.AES);
+// Below line is optional. AES 256 is used by default. You can override it to use AES 128. AES 192 is supported only for extracting.
+            zipParameters.setAesKeyStrength(AesKeyStrength.KEY_STRENGTH_256);
+
+            zipFile = new ZipFile(dbPath + ".zip", pwd.toCharArray());
+        } else {
+            zipParameters.setEncryptFiles(false);
+            zipFile = new ZipFile(dbPath + ".zip");
+        }
+
+        try {
+            zipFile.addFiles(filesToAdd, zipParameters);
+            zipFile.close();
+            dbFile.delete();
+            dbFileNew.delete();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return dbPath + ".zip";
+    }
+
+    public String importDBZipFile(Context context, File zipToImport, String pwd) throws IOException
+    {
+
+        ZipFile zipFile = null;
+        String ret = null;
+        if ( pwd != null && !pwd.isEmpty()) {
+            zipFile = new ZipFile(zipToImport, pwd.toCharArray());
+        } else {
+            zipFile = new ZipFile(zipToImport);
+        }
+        String dbExtractedPath = context.getCacheDir() + "/unoteExtracted";
+        Log.d("dbExtractedPath", dbExtractedPath);
+        try {
+            zipFile.extractFile("unote.db", dbExtractedPath);
+            ret = importDB(new File(dbExtractedPath, "unote.db"));
+        } catch (ZipException e) {
+            new File(dbExtractedPath,"unote.db").delete();
+            new File(dbExtractedPath).delete();
+            throw new RuntimeException(e);
+        }
+        new File(dbExtractedPath,"unote.db").delete();
+        new File(dbExtractedPath).delete();
+        return ret;
+    }
     public String importDB(File dbToImport)
     {
         File        data          = Environment.getDataDirectory();
@@ -375,6 +488,10 @@ public class NotesBDD
                 if (index == -1) {
                     bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_PASSWORD + " VARCHAR(41);");
                 }
+                index = cursor.getColumnIndex(COL_CIPHER);
+                if (index == -1) {
+                    bdd.execSQL("ALTER TABLE " + TABLE_NOTES + " ADD COLUMN " + COL_CIPHER + " INTEGER DEFAULT 0;");
+                }
                 this.close();
             } catch (Exception e) {
                 Log.e(BuildConfig.APPLICATION_ID, "Exception importDB", e);
@@ -389,6 +506,11 @@ public class NotesBDD
 
     public String exportCSV(Context context)
     {
+        return exportCSV(context, false);
+    }
+
+    public String exportCSV(Context context, boolean exportProtectedNote)
+    {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         File externalFilesDir = context.getExternalFilesDir(null);
         String outputDir = pref.getString("output_backup_dir", externalFilesDir.toString());
@@ -398,7 +520,11 @@ public class NotesBDD
         File file = new File(outputDir, exportCSVFile);
         try {
             FileWriter csvWrite = new FileWriter(file,true);
-            String      selectQuery = "SELECT  * FROM " + TABLE_NOTES + " WHERE " + COL_PASSWORD + " IS NULL ";
+            String      suffixQuery = "";
+            if(!exportProtectedNote){
+                suffixQuery = " WHERE " + COL_PASSWORD + " IS NULL ";
+            }
+            String      selectQuery = "SELECT  * FROM " + TABLE_NOTES + suffixQuery;
             if (this.maBaseSQLite == null )
                 return "null";
 
@@ -412,21 +538,53 @@ public class NotesBDD
             // looping through all rows and adding to list
             if (c.moveToFirst())
             {
-                CSVUtils.writeLine(csvWrite, Arrays.asList("TITLE",
-                                "DATE_CREATION",
-                                "DATE_MODIFICATION",
-                                "NOTE"),
-                        ',',
-                        '"');
-                do
-                {
-                    CSVUtils.writeLine(csvWrite, Arrays.asList(c.getString(NUM_COL_TITRE),
-                                    c.getString(NUM_COL_DATECREATION),
-                                    c.getString(NUM_COL_DATEMODIFICATION),
-                                    c.getString(NUM_COL_ISBN)),
+                if(exportProtectedNote) {
+                    CSVUtils.writeLine(csvWrite, Arrays.asList("TITLE",
+                                    "DATE_CREATION", "DATE_MODIFICATION",
+                                    "CIPHERED", "PWDHASH",
+                                    "NOTE"),
                             ',',
                             '"');
+                } else {
+                    CSVUtils.writeLine(csvWrite, Arrays.asList("TITLE",
+                                    "DATE_CREATION", "DATE_MODIFICATION",
+                                    "NOTE"),
+                            ',',
+                            '"');
+                }
+                do
+                {
 
+                    Log.d(BuildConfig.APPLICATION_ID, "CSVUtils.writeLine " + c.getString(NUM_COL_TITRE));
+                    String[] cols = c.getColumnNames();
+                    int length = cols.length;
+                    for (int i = 0; i < length; i++) {
+                        String value;
+                        try {
+                            value = c.getString(i);
+                        } catch (Exception e) {
+                            value = "<unprintable>";
+                        }
+                        Log.d(BuildConfig.APPLICATION_ID, "CSVUtils.writeLine " + cols[i] + '=' + value);
+                    }
+                    if(exportProtectedNote){
+                        String pwdHashed = c.getString(NUM_COL_PASSWORD);
+                        CSVUtils.writeLine(csvWrite, Arrays.asList(c.getString(NUM_COL_TITRE),
+                                c.getString(NUM_COL_DATECREATION),
+                                c.getString(NUM_COL_DATEMODIFICATION),
+                                Integer.toString(c.getInt(NUM_COL_CIPHER)),
+                                pwdHashed == null ? "" : pwdHashed,
+                                c.getString(NUM_COL_ISBN)),
+                                ',',
+                                '"');
+                    } else {
+                        CSVUtils.writeLine(csvWrite, Arrays.asList(c.getString(NUM_COL_TITRE),
+                                        c.getString(NUM_COL_DATECREATION),
+                                        c.getString(NUM_COL_DATEMODIFICATION),
+                                        c.getString(NUM_COL_ISBN)),
+                                ',',
+                                '"');
+                    }
                 } while (c.moveToNext());
             }
 
@@ -502,7 +660,11 @@ public class NotesBDD
         {
             exportTitle = true;
         }
-        String      destFolder  = "unote_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime());
+        String destFolder = "unote";
+        if ( pref.getBoolean("pref_export_note_folder_timestamped", false))
+        {
+            destFolder += "_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(Calendar.getInstance().getTime());
+        }
         File externalFilesDir = context.getExternalFilesDir(null);
         String outputDir = pref.getString("output_backup_dir", externalFilesDir.toString());
         File destinationPath = new File(outputDir, destFolder);

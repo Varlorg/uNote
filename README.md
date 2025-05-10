@@ -9,19 +9,27 @@ It is available on f-droid repo:
       alt="Get it on F-Droid"
       height="80">](https://f-droid.org/app/app.varlorg.unote)
 
+[[_TOC_]]
 
 # Functionality
 
 It focuses on simplicity and gives only basic features:
 
 * add/delete note,
-* secure a note with password (since version 1.1.0)
+* secure a note with password (since version 1.1.0, ciphering possible since 1.9.0)
 * sort notes by create date, modification date or title
 * Search notes (only title or also in content except the ones password protected)
-* Export/Import database to sdcard
+* Export/Import database (db, archive or CSV)
 * Preview mode (to detect url links and email addresses )
 
-Warning: the database may be cleaned if you update from 1.0.X to 1.1.X
+# Preferences
+
+Check for more details available preferences :
+
+- [Global](doc/preference_global_doc.md)
+- [Export](doc/preference_export_doc.md)
+- [Edition](doc/preference_edition_doc.md)
+- [Main](doc/preference_main_doc.md)
 
 # Translations
 

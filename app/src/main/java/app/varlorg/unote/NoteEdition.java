@@ -53,6 +53,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 //import java.util.regex.*;
 
 public class NoteEdition extends Activity
@@ -64,7 +66,7 @@ public class NoteEdition extends Activity
     private static final String EXTRA_ID      = "id";
     private static final String EXTRA_SIZE    = "pref_sizeNote";
     private boolean edit = false;
-    private boolean pwd = false;
+    private String pwd = null;
     private int id       = 0;
     private SharedPreferences pref;
     private EditText titre;
@@ -86,6 +88,7 @@ public class NoteEdition extends Activity
     private ImageButton previousButton;
     private ImageButton nextButton;
     private CheckBox searchCaseSensitiveButton;
+    private CheckBox searchWordButton;
     private List<Integer> searchResults = new ArrayList<>();
     private int currentIndex = -1;
 
@@ -148,7 +151,7 @@ public class NoteEdition extends Activity
                 note.setText(intent.getStringExtra(EXTRA_NOTE));
                 noteTV.setText(intent.getStringExtra(EXTRA_NOTE));
                 edit = intent.getBooleanExtra(EXTRA_EDITION, false);
-                pwd = intent.getBooleanExtra(EXTRA_PWD, false);
+                pwd = intent.getStringExtra(EXTRA_PWD);
                 id = intent.getIntExtra(EXTRA_ID, 0);
             }
             titre.setTag(null);
@@ -437,6 +440,7 @@ public class NoteEdition extends Activity
         previousButton = findViewById(R.id.previousButton);
         nextButton = findViewById(R.id.nextButton);
         searchCaseSensitiveButton = findViewById(R.id.searchCaseSensitiveButton);
+        searchWordButton = findViewById(R.id.searchWordButton);
         previousButton.setOnClickListener(v -> {
             int patternFoundNb = highlightText(searchNote.getText().toString());
             if ( pref.getBoolean("pref_search_note_count", true))
@@ -755,7 +759,6 @@ public class NoteEdition extends Activity
             intentTextEdition.putExtra(EXTRA_ID, id);
             intentTextEdition.putExtra(EXTRA_TITLE, titre.getText().toString());
             intentTextEdition.putExtra(EXTRA_NOTE, note.getText().toString());
-            intentTextEdition.putExtra(EXTRA_PWD, pwd);
             Log.d("NoteEdition", "note.getId() " + id);
             NoteEdition.this.startActivity(intentTextEdition);
         }
@@ -819,7 +822,23 @@ public class NoteEdition extends Activity
                         }
                     }
                 });
+                searchCaseSensitiveButton.setChecked(pref.getBoolean("pref_edit_mode_search_sensitive", false));
                 searchCaseSensitiveButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                    {
+                        if (!searchNote.getText().toString().equals(""))   //if edittext include text
+                        {
+                            int patternFoundNb = highlightText(searchNote.getText().toString());
+                            if (pref.getBoolean("pref_search_note_count", true))
+                                searchNoteCountTV.setText("" + patternFoundNb);
+                        }
+                    }
+                });
+
+                searchWordButton.setChecked(pref.getBoolean("pref_edit_mode_search_word", false));
+                searchWordButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
                 {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
@@ -861,23 +880,41 @@ public class NoteEdition extends Activity
             spannableString.removeSpan(bgSpan);
         }
         String noteContent = spannableString.toString();
+        searchResults.clear();
+        int count = 0;
+
         if (searchCaseSensitiveButton.isChecked())
         {
             s = s.toLowerCase();
             noteContent = spannableString.toString().toLowerCase();
         }
 
-        int indexOfKeyWord = noteContent.indexOf(s);
-        int count = 0;
-        searchResults.clear();
-        while (indexOfKeyWord >= 0) {
-            searchResults.add(indexOfKeyWord);
-            //spannableString.setSpan(new BackgroundColorSpan(Color.GRAY), indexOfKeyWord,
-            //spannableString.setSpan(new BackgroundColorSpan(Color.rgb(32,196,32)), indexOfKeyWord,
-            spannableString.setSpan(new BackgroundColorSpan(Color.rgb(64,148,255)), indexOfKeyWord,
-                    indexOfKeyWord + s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            indexOfKeyWord = noteContent.indexOf(s, indexOfKeyWord + s.length());
-            count++;
+        if (searchWordButton.isChecked()) {
+            // MUsing regular expressions for more complex patterns
+            String regex = "\\b" + s + "\\b"; // \b matches word boundaries
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(noteContent);
+            while (matcher.find()) {
+                int indexOfKeyWord = matcher.start();
+                searchResults.add(indexOfKeyWord);
+                spannableString.setSpan(new BackgroundColorSpan(Color.rgb(64, 148, 255)), indexOfKeyWord,
+                        indexOfKeyWord + s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
+            count =  searchResults.size();
+        } else {
+
+            int indexOfKeyWord = noteContent.indexOf(s);
+
+            while (indexOfKeyWord >= 0) {
+                searchResults.add(indexOfKeyWord);
+                //spannableString.setSpan(new BackgroundColorSpan(Color.GRAY), indexOfKeyWord,
+                //spannableString.setSpan(new BackgroundColorSpan(Color.rgb(32,196,32)), indexOfKeyWord,
+                spannableString.setSpan(new BackgroundColorSpan(Color.rgb(64, 148, 255)), indexOfKeyWord,
+                        indexOfKeyWord + s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                indexOfKeyWord = noteContent.indexOf(s, indexOfKeyWord + s.length());
+                count++;
+            }
         }
         note.removeTextChangedListener(noteTW);
         note.setText(spannableString);
@@ -1000,8 +1037,7 @@ public class NoteEdition extends Activity
         };
         autosaveTimer.schedule(autosaveTask, autosaveInterval, autosaveInterval);
     }
-    public void save(View v,boolean exit)
-    {
+    public void save(View v,boolean exit) {
         EditText titreElt    = (EditText)findViewById(R.id.TitreNoteEdition);
         String   titreEdited = titreElt.getText().toString();
         EditText noteEdited  = (EditText)findViewById(R.id.NoteEdition);
@@ -1022,6 +1058,15 @@ public class NoteEdition extends Activity
         }
         else
         {
+            if(n.isCiphered()) {
+                try {
+                    Log.d("ciphering", "n.getPassword() " + pwd);
+                    n.setNote(AES.encrypt(n.getNote(), pwd));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                ;
+            }
             ret_update = noteBdd.updateNote(id, n);
             Log.d(BuildConfig.APPLICATION_ID, "updateNote  rc " + ret_update);
         }

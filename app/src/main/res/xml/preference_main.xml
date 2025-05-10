@@ -64,6 +64,10 @@
             android:key="sensitiveSearch"
             android:title="@string/pref_sensitive_search" />
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="wordSearch"
+            android:title="string/pref_word_search" />
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="displaySearchOptions"
             android:title="@string/pref_display_search_option" />
