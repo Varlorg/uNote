@@ -9,6 +9,7 @@ It is available on f-droid repo:
       alt="Get it on F-Droid"
       height="80">](https://f-droid.org/app/app.varlorg.unote)
 
+[[_TOC_]]
 
 # Functionality
 
