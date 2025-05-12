@@ -111,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="50"
-                android:text="string/pref_search_word"
+                android:text="@string/cb_word_search"
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>

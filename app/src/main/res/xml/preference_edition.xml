@@ -53,11 +53,11 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_edit_mode_search_sensitive"
-            android:title="string/pref_edit_mode_search_sensitive" />
+            android:title="@string/pref_sensitive_search" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_edit_mode_search_word"
-            android:title="string/pref_edit_mode_search_word" />
+            android:title="@string/pref_word_search" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_cat_text_color_edition">
         <app.varlorg.ambilwarna.widget.AmbilWarnaPreference

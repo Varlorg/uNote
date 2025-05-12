@@ -178,6 +178,7 @@
 	<string name="pref_edit_mode_edit_ui">Nova interface para editar notas</string>
 	<string name="dialog_import_csv">Importar CSV</string>
 	<string name="dialog_import_csv_msg">"Adicionar notas a partir de um ficheiro csv "</string>
+	<string name="dialog_import_zip_msg">Restaurar a cópia de segurança a partir do arquivo zip</string>
 	<string name="mode_normal">Modo normal</string>
 	<string name="mode_selection">Modo seleção</string>
     <string name="toast_import_csv_added">" nota(s) adicionada(s)"</string>
@@ -191,9 +192,10 @@
     <string name="pref_cat_cipher">Encriptação</string>
 	<string name="pref_cipher_notes">Notas de cifra por defeito</string>
 	<string name="pref_cipher_notes_summary">ao adicionar uma palavra-passe</string>
+    <string name="pref_export_note_folder_timestamped">Pasta com carimbo temporal</string>
 
 
-	<!-- Not used ? -
+    <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>
     <string name="text_view"> </string>-->
 

@@ -28,6 +28,8 @@
 	<string name="pref_search">Search in content</string>
 	<string name="pref_search_sum">Search also in the notes\' content but not in note protected by password</string>
 	<string name="pref_sensitive_search">Case sensitive research </string>
+	<string name="pref_word_search">Match exact word </string>
+	<string name="cb_word_search">Match word</string>
 	<string name="cb_sensitive_search">Ignore case</string>
 	<string name="pref_display_search_option">Display search options</string>
 	<string name="pref_search_option_orientation">Vertical search options</string>
