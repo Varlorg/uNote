@@ -227,6 +227,21 @@ public class NoteEdition extends Activity
         titreT.setTextSize(textSize);
         noteT.setTextSize(textSize);
 
+        note.setPadding(
+                Integer.parseInt(pref.getString("pref_edit_note_padding_left", "10")),
+                Integer.parseInt(pref.getString("pref_edit_note_padding_top", "10")),
+                Integer.parseInt(pref.getString("pref_edit_note_padding_right", "10")),
+                Integer.parseInt(pref.getString("pref_edit_note_padding_bottom", "10"))
+        );
+        noteTV.setPadding(
+                Integer.parseInt(pref.getString("pref_edit_note_padding_left", "10")),
+                Integer.parseInt(pref.getString("pref_edit_note_padding_top", "10")),
+                Integer.parseInt(pref.getString("pref_edit_note_padding_right", "10")),
+                Integer.parseInt(pref.getString("pref_edit_note_padding_bottom", "10"))
+        );
+
+        Log.d(BuildConfig.APPLICATION_ID, "getPaddingLeft: " + noteTV.getPaddingLeft());
+
         int colorTitle = pref.getInt("pref_note_text_color_title_edit",COLOR_TEXT_DEFAULT );
         int colorNote = pref.getInt("pref_note_text_color_note_edit",COLOR_TEXT_DEFAULT );
         int colorTitleDesc = pref.getInt("pref_note_text_color_title_edit_desc", COLOR_TEXT_DEFAULT);
@@ -425,11 +440,14 @@ public class NoteEdition extends Activity
         @Override
         public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
         {
+            if(titre.getBackground() == null)
+                return;
+
             if ( titre.getText().length() != 0) {
-                titre.getBackground().setColorFilter( new PorterDuffColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN));
+                    titre.getBackground().setColorFilter( new PorterDuffColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN));
             }
             else {
-                titre.getBackground().clearColorFilter();
+                    titre.getBackground().clearColorFilter();
             }
         }
     });

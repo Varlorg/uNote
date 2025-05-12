@@ -23,6 +23,30 @@
             android:defaultValue="false"
             android:key="pref_forceEditionButtonsH"
             android:title="@string/pref_edition_button_orientation" />
+        <EditTextPreference
+            android:defaultValue="10"
+            android:inputType="number"
+            android:key="pref_edit_note_padding_top"
+            android:maxLength="4"
+            android:title="string/pref_edit_note_padding_top" />
+        <EditTextPreference
+            android:defaultValue="10"
+            android:inputType="number"
+            android:key="pref_edit_note_padding_bottom"
+            android:maxLength="4"
+            android:title="string/pref_edit_note_padding_bottom" />
+        <EditTextPreference
+            android:defaultValue="10"
+            android:inputType="number"
+            android:key="pref_edit_note_padding_left"
+            android:maxLength="4"
+            android:title="string/pref_edit_note_padding_left" />
+        <EditTextPreference
+            android:defaultValue="10"
+            android:inputType="number"
+            android:key="pref_edit_note_padding_right"
+            android:maxLength="4"
+            android:title="string/pref_edit_note_padding_right" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_cat_editing">
         <CheckBoxPreference
