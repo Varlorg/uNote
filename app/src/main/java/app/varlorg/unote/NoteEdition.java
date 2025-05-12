@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -272,6 +273,23 @@ public class NoteEdition extends Activity
             note.setTextColor(colorAll);
             noteTV.setTextColor(colorAll);
             Log.d(BuildConfig.APPLICATION_ID, String.format("colorAll x %08x",  colorAll) );
+        }
+
+        int pref_color_edit_bg = pref.getInt("pref_color_edit_bg", 0xff000001);
+        // Change Background color if preference is different from 0xff000001
+        if(pref_color_edit_bg != 0xff000001){
+            Log.d(BuildConfig.APPLICATION_ID, "changing bg pref_color_main_bg " + pref_color_edit_bg);
+            findViewById(R.id.activity_noteedition).setBackgroundColor(pref_color_edit_bg);
+            /*this.getWindow().setStatusBarColor(pref.getInt("pref_color_main_status", Color.WHITE));
+            //lv.setDivider(new ColorDrawable(Color.CYAN));
+            lv.setDividerHeight(10);*/
+        }
+
+        int pref_color_edit_bar = pref.getInt("pref_color_edit_bar", 0xff000001);
+        // Change Action bar color if preference is different from 0xff000001
+        if(pref_color_edit_bar != 0xff000001){
+            ActionBar bar = getActionBar();
+            bar.setBackgroundDrawable(new ColorDrawable(pref_color_edit_bar));
         }
 
         final Button buttonSave = (Button)findViewById(R.id.ButtonSave);

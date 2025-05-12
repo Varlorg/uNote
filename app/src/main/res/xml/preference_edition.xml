@@ -94,6 +94,16 @@
             app:resetValue="0xff999999"
             android:key="pref_note_text_color_edit_all"
             android:title="@string/pref_note_text_color_edit_all" />
+        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
+            android:key="pref_color_edit_bg"
+            android:defaultValue="0xff000001"
+            app:resetValue="0xff000001"
+            android:title="@string/pref_color_bg" />
+        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
+            android:key="pref_color_edit_bar"
+            android:defaultValue="0xff000001"
+            app:resetValue="0xff000001"
+            android:title="@string/pref_color_bar" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pref_note_text_color_edit_bool"
