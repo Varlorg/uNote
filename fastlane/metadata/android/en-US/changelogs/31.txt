@@ -5,3 +5,8 @@ New features
     - add monochrome icon
     - add zip archive export with password protection possible
     - add pref to disable timestamped folder for note export as text
+    - add preferences for text padding in edit mode (#55)
+    - add pref for bg and action bar color
+
+Fix
+    - remove underline note title in the New Interface (#53)
