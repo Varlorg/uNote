@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Paint;
@@ -466,6 +467,12 @@ public class NoteMain extends Activity
         buttonAddNote.setTextSize(textSizeButton);
         buttonSearch.setTextSize(textSizeButton);
         buttonReturn.setTextSize(textSizeButton);
+
+        int buttonColor = pref.getInt("pref_note_button_bottom_main", 0xff8F8F8F);
+        buttonAddNote.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        buttonSearch.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        buttonReturn.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+
         ((TextView)findViewById(R.id.search_count)).setTextSize(textSizeButton);
 
         final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.buttons);

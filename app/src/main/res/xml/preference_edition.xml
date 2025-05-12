@@ -90,6 +90,11 @@
             app:resetValue="0xff999999"
             android:title="@string/pref_button_color" />
         <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
+            android:key="pref_note_button_bottom_edit"
+            android:defaultValue="0xff999999"
+            app:resetValue="0xff999999"
+            android:title="string/pref_note_button_bottom_edit" />
+        <app.varlorg.ambilwarna.widget.AmbilWarnaPreference
             android:defaultValue="0xff999999"
             app:resetValue="0xff999999"
             android:key="pref_note_text_color_edit_all"

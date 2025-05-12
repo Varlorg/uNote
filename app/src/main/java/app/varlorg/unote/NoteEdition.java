@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -296,6 +297,9 @@ public class NoteEdition extends Activity
         final Button buttonQuit = (Button)findViewById(R.id.ButtonQuit);
         buttonSave.setTextSize(textSizeButton);
         buttonQuit.setTextSize(textSizeButton);
+        int buttonColor = pref.getInt("pref_note_button_bottom_edit", 0xff8F8F8F);
+        buttonSave.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        buttonQuit.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
 
         final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.editionButtons);
         buttonsBar.post(new Runnable()
