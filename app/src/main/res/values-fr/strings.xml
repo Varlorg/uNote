@@ -87,7 +87,7 @@
 	<string name="pref_edit_capitalize_note">Activer les majuscules sur le contenu des notes</string>
 	<string name="pref_note_padding_main">Marge pour les notes dans l\'écran principal</string>
 	<string name="pref_cat_text_color">Couleur dans l\'écran principal</string>
-	<string name="pref_note_text_color_main">Couleur globale sur l\'écran principal</string>
+	<string name="pref_note_text_color_main">Couleur du texte sur l\'écran principal</string>
 	<string name="pref_note_text_color_main_bool">Utiliser des couleurs spécifiques sur l\'écran principal</string>
 	<string name="pref_note_text_color_title">Couleur du titre</string>
 	<string name="pref_note_text_color_note">Couleur de l\'en-tête de la note</string>
