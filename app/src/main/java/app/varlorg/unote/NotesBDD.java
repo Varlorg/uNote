@@ -311,8 +311,8 @@ public class NotesBDD
                     note.setHashPassword(c.getString(NUM_COL_PASSWORD));
                     note.setCiphered(c.getInt(NUM_COL_CIPHER)==1);
                 }
-                // Adding contact to list
-                if(wordSearch && s != null){
+                // Adding note to list
+                if(wordSearch && s != null && ! s.equals("")){
                     String nTitle = note.getTitre();
                     String nContent = note.getNote();
                     if (!sensitiveSearch)
@@ -325,11 +325,8 @@ public class NotesBDD
                     Pattern pattern = Pattern.compile(regex);
 
                     Matcher matcherTitle = pattern.matcher(nTitle);
-                    if (matcherTitle.find()) {
-                        noteList.add(note);
-                    }
                     Matcher matcherContent = pattern.matcher(nContent);
-                    if (contentSearch && matcherContent.find()) {
+                    if (matcherTitle.find() || (contentSearch && matcherContent.find())) {
                         noteList.add(note);
                     }
                 }else {
