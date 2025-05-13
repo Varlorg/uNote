@@ -220,8 +220,7 @@ public class NoteEdition extends Activity
             textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "14" ));
         }
         titre.setTextSize(textSize);
-        if(titre.getBackground() != null)
-            titre.getBackground().clearColorFilter();
+
         //titreNoteTV.setTextSize(textSize * (float) 1.3);
         titreNoteTV.setTextSize(textSize);
         note.setTextSize(textSize);
@@ -388,6 +387,10 @@ public class NoteEdition extends Activity
                 titreL.setVisibility(View.GONE);
                 noteT.setVisibility(View.GONE);
                 titreNoteTV.setTextSize((float) (textSize * 1.2 ));
+                if(titre.getBackground() != null) {
+                    titre.getBackground().clearColorFilter();
+                    titre.getBackground().setColorFilter( new PorterDuffColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN));
+                }
             }
             else {
                 titreNoteTV.setTextSize(textSize);
@@ -409,6 +412,10 @@ public class NoteEdition extends Activity
                 titreL.setVisibility(View.GONE);
                 noteT.setVisibility(View.GONE);
                 titreNote.setTextSize((float) (textSize * 1.2 ));
+                if(titre.getBackground() != null) {
+                    titre.getBackground().clearColorFilter();
+                    titre.getBackground().setColorFilter( new PorterDuffColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN));
+                }
             }
             else {
                 titreNote.setTextSize(textSize);
