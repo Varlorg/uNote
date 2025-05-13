@@ -27,11 +27,12 @@
         <TextView
             android:id="@+id/search_note_count"
             android:layout_width="wrap_content"
-            android:minWidth="20sp"
+            android:minWidth="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end|top"
             android:layout_marginEnd="50sp"
-            android:padding="10dp"
+            android:paddingTop="8dp"
+            android:paddingStart="5dp"
             android:text=""
             android:textStyle="italic" />
 
