@@ -296,9 +296,11 @@ public class NoteEdition extends Activity
         final Button buttonQuit = (Button)findViewById(R.id.ButtonQuit);
         buttonSave.setTextSize(textSizeButton);
         buttonQuit.setTextSize(textSizeButton);
-        int buttonColor = pref.getInt("pref_note_button_bottom_edit", 0xff8F8F8F);
-        buttonSave.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
-        buttonQuit.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        int buttonColor = pref.getInt("pref_note_button_bottom_edit", 0xff000001);
+        if ( buttonColor != 0xff000001) {
+            buttonSave.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+            buttonQuit.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        }
 
         final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.editionButtons);
         buttonsBar.post(new Runnable()

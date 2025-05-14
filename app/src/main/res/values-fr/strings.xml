@@ -69,9 +69,10 @@
 	<string name="pref_keep_position_scroll">Garder la position de défilement</string>
 	<string name="pref_export_csv_db">Exporter csv</string>
 	<string name="pref_export_csv_db_summary">Exporter toutes les notes non protégées par mot de passe dans un fichier au format csv</string>
-	<string name="pref_export_all_notes_summary">Exporter toutes les notes non protégées par mot de passe au format texte dans un dossier</string>
+    <string name="pref_export_csv_db_summary_all">Exporter toutes les notes dans un fichier csv</string>
+    <string name="pref_export_all_notes_summary">Exporter toutes les notes non protégées par mot de passe au format texte dans un dossier</string>
 	<string name="pref_export_all_notes">Exporter les notes au format texte</string>
-	<string name="pref_export_note_folder_timestamped_summary">Exporter toutes les notes dans un fichier hotodaté</string>
+	<string name="pref_export_note_folder_timestamped_summary">Exporter toutes les notes dans un dossier horodaté</string>
 	<string name="export_info_path">Chemin d\'export </string>
 	<string name="export_path_select">Changer le chemin d\'export </string>
 	<string name="export_path_select_summary">Chemin actuel </string>
@@ -85,13 +86,12 @@
 	<string name="pref_edit_cursor_end">Placer le curseur à la fin lors de l\'ouverture de la note</string>
 	<string name="pref_edit_capitalize_title">Activer les majuscules sur le titre</string>
 	<string name="pref_edit_capitalize_note">Activer les majuscules sur le contenu des notes</string>
-	<string name="pref_edit_note_padding_left">Marge gauche du contenu de la note dans l\'écran d\'édition</string>
-	<string name="pref_edit_note_padding_right">Marge droite du contenu de la note dans l\'écran d\'édition</string>
+	<string name="pref_edit_note_padding_left">Marge gauche de la note dans l\'écran d\'édition</string>
+	<string name="pref_edit_note_padding_right">Marge droite de la note dans l\'écran d\'édition</string>
 	<string name="pref_edit_note_padding_top">Marge supérieur du contenu de la note dans l\'écran d\'édition</string>
 	<string name="pref_edit_note_padding_bottom">Marge inférieur du contenu de la note dans l\'écran d\'édition</string>
 	<string name="pref_note_padding_main">Marge pour les notes dans l\'écran principal</string>
 	<string name="pref_cat_text_color">Couleur dans l\'écran principal</string>
-	<string name="pref_note_button_bottom_edit">Couleur des boutons du bas de l\'écran d\'édition</string>
 	<string name="pref_note_text_color_main">Couleur du texte sur l\'écran principal</string>
 	<string name="pref_note_text_color_main_bool">Utiliser des couleurs spécifiques sur l\'écran principal</string>
 	<string name="pref_note_text_color_title">Couleur du titre</string>
@@ -212,5 +212,5 @@
     <string name="dialog_import_zip">Importer une archive Zip</string>
 	<string name="pref_color_bg">Couleur d\'arrière plan</string>
 	<string name="pref_color_bar">Couleur de la barre d\'action</string>
-	<string name="pref_note_button_bottom_main">Couleur des boutons du bas de l\'écran principal</string>
+	<string name="pref_note_button_bottom">Couleur des boutons</string>
 </resources>

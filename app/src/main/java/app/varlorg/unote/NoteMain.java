@@ -468,10 +468,12 @@ public class NoteMain extends Activity
         buttonSearch.setTextSize(textSizeButton);
         buttonReturn.setTextSize(textSizeButton);
 
-        int buttonColor = pref.getInt("pref_note_button_bottom_main", 0xff8F8F8F);
-        buttonAddNote.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
-        buttonSearch.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
-        buttonReturn.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        int buttonColor = pref.getInt("pref_note_button_bottom_main", 0xff000001);
+        if ( buttonColor != 0xff000001) {
+            buttonAddNote.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+            buttonSearch.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+            buttonReturn.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        }
 
         ((TextView)findViewById(R.id.search_count)).setTextSize(textSizeButton);
 
