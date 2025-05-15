@@ -10,3 +10,5 @@ New features
 
 Fix
     - remove underline note title in the New Interface (#53)
+
+Warning: Backup your database before updating!
