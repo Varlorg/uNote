@@ -28,6 +28,8 @@
 	<string name="pref_search">Search in content</string>
 	<string name="pref_search_sum">Search also in the notes\' content but not in note protected by password</string>
 	<string name="pref_sensitive_search">Case sensitive research </string>
+	<string name="pref_word_search">Match exact word </string>
+	<string name="cb_word_search">Match word</string>
 	<string name="cb_sensitive_search">Ignore case</string>
 	<string name="pref_display_search_option">Display search options</string>
 	<string name="pref_search_option_orientation">Vertical search options</string>
@@ -70,6 +72,7 @@
 	<string name="pref_keep_position_scroll">Keep scrolling position</string>
 	<string name="pref_export_csv_db">Export csv</string>
 	<string name="pref_export_csv_db_summary">Export all non-password protected notes into csv format file</string>
+	<string name="pref_export_csv_db_summary_all">Export all notes into csv format file</string>
 	<string name="pref_export_all_notes_summary">Export all non-password protected notes in plain text in a folder</string>
 	<string name="pref_export_all_notes">Export all notes in plain text</string>
 	<string name="pref_export_note_folder_timestamped">Timestamped folder</string>
@@ -87,10 +90,17 @@
 	<string name="pref_edit_cursor_end">Set cursor at the end when opening note</string>
 	<string name="pref_edit_capitalize_title">Enable capitalization on title</string>
 	<string name="pref_edit_capitalize_note">Enable capitalization on note content</string>
+	<string name="pref_edit_note_padding_left">Left padding for note\'s content</string>
+	<string name="pref_edit_note_padding_right">Right padding for note\'s content</string>
+	<string name="pref_edit_note_padding_top">Top padding for note\'s content</string>
+	<string name="pref_edit_note_padding_bottom">Bottom padding for note\'s content</string>
 	<string name="pref_note_padding_main">Padding for notes in main screen</string>
 	<string name="pref_cat_text_color">Color in main screen</string>
 	<string name="pref_cat_text_color_edition">Color in edition</string>
-	<string name="pref_note_text_color_main">Global color on main screen</string>
+	<string name="pref_color_bg">Background color</string>
+	<string name="pref_color_bar">Action bar color</string>
+	<string name="pref_note_button_bottom">Color of bottom buttons</string>
+	<string name="pref_note_text_color_main">Global text color on main screen</string>
 	<string name="pref_note_text_color_main_bool">Use specific colors on main screen</string>
 	<string name="pref_note_text_color_title">Title\'s color</string>
 	<string name="pref_note_text_color_note">Note header\'s color</string>

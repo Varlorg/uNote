@@ -28,6 +28,8 @@
 	<string name="pref_search">Buscar en el contenido</string>
 	<string name="pref_search_sum">Buscar en el contenido de las notas a menos que estén protegidas por contraseña</string>
 	<string name="pref_sensitive_search">Búsqueda sensible al caso </string>
+	<string name="pref_word_search">Coincidir palabra exacta</string>
+	<string name="cb_word_search">Coincidir palabra</string>
 	<string name="cb_sensitive_search">Insensible al caso</string>
 	<string name="pref_display_search_option">Mostrar opciones de búsqueda</string>
 	<string name="pref_search_option_orientation">Opciones de búsqueda vertical</string>
@@ -56,7 +58,9 @@
 	<string name="pref_export_note_title">Utilice el título de la nota para el nombre del archivo de exportación en lugar del id</string>
 	<string name="pref_db">Base de datos</string>
 	<string name="pref_export_db">Exportar base de datos</string>
+	<string name="pref_export_db_zip_summary">El archivo Zip puede protegerse con contraseña</string>
 	<string name="pref_import_db">Importar base de datos</string>
+	<string name="pref_import_db_zip">Importar base de datos desde un archivo zip</string>
 	<string name="pref_import_csv">Importar desde csv</string>
 	<string name="pref_import_csv_summary">Importar notas desde un archivo csv (se añaden a las notas existentes)</string>
 	<string name="pref_preview_limit">Límite de vista previa</string>
@@ -65,10 +69,12 @@
 	<string name="pref_keep_position_scroll">Guadar la posición de desplazándose</string>
 	<string name="pref_export_csv_db">Exportar csv</string>
 	<string name="pref_export_csv_db_summary">Exportar todas las notas no protegidas por contraseña a un archivo en formato csv</string>
+	<string name="pref_export_csv_db_summary_all">Exportar todas las notas a un archivo con formato csv</string>
 	<string name="pref_export_all_notes_summary">Exportar todas las notas no protegidas por contraseña en texto plano en una carpeta</string>
 	<string name="pref_export_all_notes">Exportar todas las notas en texto plano</string>
 	<string name="note_copied">Nota copiada</string>
 	<string name="pref_search_note_count">Mostrar el número de encontrados dentro de la búsqueda de notas</string>
+	<string name="pref_export_note_folder_timestamped_summary">Exportar todas las notas en una carpeta con fecha y hora</string>
 	<string name="export_info_path">Ruta de exportación  </string>
 	<string name="pref_main_mode_menu_all">Mostrar todos los menús en la ventana principal</string>
 	<string name="pref_edit_mode_view">Establecer la vista previa como visualización por defecto de la edición de notas</string>
@@ -79,8 +85,13 @@
 	<string name="pref_edit_cursor_end">Colocar el cursor al final al abrir la nota</string>
 	<string name="pref_edit_capitalize_title">Enable capitalization on title</string>
 	<string name="pref_edit_capitalize_note">Enable capitalization on note content</string>
+	<string name="pref_edit_note_padding_top">Margen superior de la nota</string>
+	<string name="pref_edit_note_padding_bottom">Margen inferior de la nota</string>
 	<string name="pref_note_padding_main">Margen para notas en la pantalla principal</string>
 	<string name="pref_cat_text_color">Color en la pantalla principal</string>
+	<string name="pref_color_bg">Color de fondo</string>
+	<string name="pref_color_bar">Pantalla en color de la barra de acciones</string>
+	<string name="pref_note_button_bottom">Color de los botones</string>
 	<string name="pref_note_text_color_main">Color del texto en la pantalla principal</string>
 	<string name="pref_note_text_color_main_bool">Utilizar colores específicos en la pantalla principal</string>
 	<string name="pref_note_text_color_title">Color del título</string>
@@ -153,6 +164,7 @@
 	<string name="dialog_add_pwd_cancel">Cancelar</string>
 	<string name="toast_pwd_added">¡Contraseña añadida!</string>
 
+	<string name="dialog_zip_export_action">Exportar</string>
 	<string name="restoreWarnTitle">Restaurar dase de datos</string>
 	<string name="restoreWarnMessage">Esta acción va sobrescribir todas las notas. Continuar?</string>
 	<string name="restoreWarnPositive">Si</string>
@@ -178,11 +190,12 @@
 	<string name="pref_edit_mode_edit_ui">Nueva interfaz de edición de notas</string>
 	<string name="dialog_import_csv">Importar CSV</string>
 	<string name="dialog_import_csv_msg">"Añadir notas desde un archivo csv "</string>
+	<string name="dialog_import_zip_msg">Restaurar copia de seguridad del archivo zip</string>
 	<string name="mode_normal">Modo normal</string>
 	<string name="mode_selection">Modo selección</string>
     <string name="toast_import_csv_added">" nota(s) añadida(s)"</string>
 	<string name="pref_cat_text_color_edition">Color en la edición</string>
-	<string name="pref_button_color">Color de los botones</string>
+	<string name="pref_button_color">Color de los menús</string>
     <string name="pref_theme_system">Seguir el tema del sistema</string>
 	<string name="pref_autosave_interval">Intervalo de autoguardado en segundos</string>
 	<string name="pref_autosave_interval_summary">0 para desactivar</string>
@@ -191,6 +204,13 @@
     <string name="pref_cat_cipher">Cifrado</string>
 	<string name="pref_cipher_notes">Notas cifradas por defecto</string>
 	<string name="pref_cipher_notes_summary">al añadir una contraseña</string>
+	<string name="pref_export_note_folder_timestamped">Carpeta con sello de tiempo</string>
+	<string name="pref_export_db_zip">Exportar la base de datos en un archivo zip</string>
+	<string name="dialog_zip_title">Exportar base de datos como archivo Zip</string>
+	<string name="dialog_zip_msg">Manténgalo vacío para no cifrar el archivo zip o introduzca una contraseña para protegerlo.</string>
+	<string name="dialog_import_zip">Importar archivo Zip</string>
+	<string name="pref_edit_note_padding_left">Margen izquierdo de la nota</string>
+	<string name="pref_edit_note_padding_right">Margen derecho de la nota</string>
 
 	<!-- Not used ? -
     <color name="note_color">#FEFEE2</color>

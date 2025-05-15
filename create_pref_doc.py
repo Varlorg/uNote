@@ -62,7 +62,7 @@ def generate_preference_documentation(xml_file_path, strings_file_path, output_f
 
         with open(output_file_path, 'w', encoding='utf-8') as f:
             f.write(f"# Preference Settings Documentation\n\n")
-            f.write(f"This document lists the settings defined in `{os.path.basename(xml_file_path)}`.\n\n")
+            f.write(f"This document lists the settings defined in `{os.path.basename(xml_file_path)}`.\n")
 
             # Iterate through all elements in the XML
             for element in root.iter():
@@ -89,9 +89,9 @@ def generate_preference_documentation(xml_file_path, strings_file_path, output_f
                     summary_value = get_string_resource_value(strings_file_path, summary_resource_name) if summary_resource_name else summary_ref
 
                     if preference_type == 'PreferenceCategory':
-                        f.write(f"## {title_value if title_value else 'Untitled Preference'}\n\n")
+                        f.write(f"\n## {title_value if title_value else 'Untitled Preference'}\n")
                     else:
-                        f.write(f"### {title_value if title_value else 'Untitled Preference'}\n\n")
+                        f.write(f"\n### {title_value if title_value else 'Untitled Preference'}\n\n")
                         f.write(f"- **Type:** `{preference_type}`\n")
                     if key:
                         f.write(f"- **Key:** `{key}`\n")

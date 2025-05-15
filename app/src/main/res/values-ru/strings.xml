@@ -28,6 +28,8 @@
 	<string name="pref_search">Поиск по содержимому</string>
 	<string name="pref_search_sum">Искать также в содержимом заметках, кроме заметок, защищённых паролем</string>
 	<string name="pref_sensitive_search">Исследование с учётом регистра</string>
+	<string name="pref_word_search">"Точное соответствие слову "</string>
+	<string name="cb_word_search">Подходящее слово</string>
 	<string name="cb_sensitive_search">Игнорировать регистр</string>
 	<string name="pref_display_search_option">Отображать параметры поиска</string>
 	<string name="pref_search_option_orientation">Отображать параметры поиска вертикально</string>
@@ -57,7 +59,9 @@
 	<string name="pref_export_note_title">Использовать заголовок заметки в качестве имени файла экспорта вместо идентификатора</string>
 	<string name="pref_db">База данных</string>
 	<string name="pref_export_db">Экспортировать базу данных</string>
+	<string name="pref_export_db_zip_summary">Zip-файл можно защитить паролем</string>
 	<string name="pref_import_db">Импортировать базу данных</string>
+	<string name="pref_import_db_zip">Импорт базы данных из zip-архива</string>
 	<string name="pref_import_csv">Импорт из CSV файла</string>
 	<string name="pref_import_csv_summary">Импортировать заметки из CSV файла (добавлять к существующим)</string>
 	<string name="pref_preview_limit">Ограничение предварительного просмотра</string>
@@ -66,8 +70,10 @@
 	<string name="pref_keep_position_scroll">Сохранять положение прокрутки</string>
 	<string name="pref_export_csv_db">Экспорт в CSV файл</string>
 	<string name="pref_export_csv_db_summary">Экспортировать все заметки, не защищённые паролем, в файл формата CSV</string>
+	<string name="pref_export_csv_db_summary_all">Экспортируйте все заметки в файл формата csv</string>
 	<string name="pref_export_all_notes_summary">Экспортировать все заметки, не защищённые паролем, в виде обычного текста в папку</string>
 	<string name="pref_export_all_notes">Экспортировать все заметки в виде обычного текста</string>
+	<string name="pref_export_note_folder_timestamped_summary">Экспортируйте все заметки в папку с временной меткой</string>
 	<string name="export_info_path">Путь для экспорта</string>
 	<string name="export_path_select">Изменить путь для экспорта</string>
 	<string name="export_path_select_summary">Текущий путь</string>
@@ -81,9 +87,16 @@
 	<string name="pref_edit_cursor_end">Установить курсор в конце заметки при открытии</string>
 	<string name="pref_edit_capitalize_title">Включить заглавные буквы в заголовке</string>
 	<string name="pref_edit_capitalize_note">Включить использование заглавных букв в содержимом заметки</string>
+	<string name="pref_edit_note_padding_left">Левая подложка для содержимого заметки</string>
+	<string name="pref_edit_note_padding_right">Правая подложка для содержимого заметки</string>
+	<string name="pref_edit_note_padding_top">Верхняя подкладка для содержания заметки</string>
+	<string name="pref_edit_note_padding_bottom">Нижняя подложка для содержимого заметки</string>
 	<string name="pref_note_padding_main">Отступ заметок слева на главном экране</string>
 	<string name="pref_cat_text_color">Цвет на главном экране</string>
 	<string name="pref_cat_text_color_edition">Цвет в издании</string>
+	<string name="pref_color_bg">Цвет фона</string>
+	<string name="pref_color_bar">Цветной экран панели действий</string>
+	<string name="pref_note_button_bottom">Цвет пуговиц</string>
 	<string name="pref_note_text_color_main">Глобальный цвет текста на главном экране</string>
 	<string name="pref_note_text_color_main_bool">Использовать определённые цвета на главном экране</string>
 	<string name="pref_note_text_color_title">Цвет заголовка</string>
@@ -158,6 +171,7 @@
 	<string name="dialog_add_pwd_cancel">Отменить</string>
 	<string name="toast_pwd_added">Пароль добавлен!</string>
 
+	<string name="dialog_zip_export_action">Экспорт</string>
 	<string name="restoreWarnTitle">Восстановить базу данных</string>
 	<string name="restoreWarnMessage">Это перезапишет все существующие заметки. Продолжить?</string>
 	<string name="restoreWarnPositive">Да</string>
@@ -180,6 +194,7 @@
 	<string name="toast_backup_rename_error">Не удалось переименовать резервную копию</string>
 	<string name="dialog_import_csv">Импортировать CSV файл</string>
 	<string name="dialog_import_csv_msg">Добавить заметки из CSV файла</string>
+	<string name="dialog_import_zip_msg">Восстановление резервной копии из zip-архива</string>
 	<string name="mode_normal">Обычный режим</string>
 	<string name="mode_selection">Режим выбора</string>
 	<string name="pref_button_color">Цвет кнопок</string>
@@ -191,6 +206,11 @@
     <string name="pref_cat_cipher">Шифрование</string>
 	<string name="pref_cipher_notes">Шифрованные заметки по умолчанию</string>
 	<string name="pref_cipher_notes_summary">при добавлении пароля</string>
+	<string name="pref_export_note_folder_timestamped">Папка с временной меткой</string>
+	<string name="pref_export_db_zip">Экспорт базы данных в zip-архив</string>
+	<string name="dialog_zip_title">Экспорт базы данных в Zip-архив</string>
+	<string name="dialog_zip_msg">Оставьте пустым, чтобы не шифровать zip-архив или ввести пароль для защиты.</string>
+	<string name="dialog_import_zip">Импорт Zip-архива</string>
 
 	<!-- Not used ? -
     <color name="note_color">#FEFEE2</color>

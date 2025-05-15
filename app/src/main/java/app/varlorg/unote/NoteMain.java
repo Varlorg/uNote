@@ -15,11 +15,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
@@ -273,12 +275,13 @@ public class NoteMain extends Activity
         super.onCreate(savedInstanceState);
         pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         setUi(this, pref, getApplicationContext(), getWindow());
-
+        
         TypedValue tv = new TypedValue();
         getApplicationContext().getTheme().resolveAttribute(android.R.attr.colorBackground, tv, true);
         colorBackground = tv.resourceId;
 
         setContentView(R.layout.activity_notemain);
+
 
         final NotesBDD noteBdd = new NotesBDD(this);
         noteBdd.open();
@@ -328,6 +331,24 @@ public class NoteMain extends Activity
         lv.setDividerHeight(heightInPx);
 
         lv.setAdapter(simpleAdpt);
+
+        int pref_color_main_bg = pref.getInt("pref_color_main_bg", 0xff000001);
+        // Change Background color if preference is different from 0xff000001
+        if(pref_color_main_bg != 0xff000001){
+            Log.d(BuildConfig.APPLICATION_ID, "changeing bg pref_color_main_bg " + pref_color_main_bg);
+            findViewById(R.id.notemain_layout).setBackgroundColor(pref_color_main_bg);
+            /*this.getWindow().setStatusBarColor(pref.getInt("pref_color_main_status", Color.WHITE));
+            //lv.setDivider(new ColorDrawable(Color.CYAN));
+            lv.setDividerHeight(10);*/
+        }
+
+        int pref_color_main_bar = pref.getInt("pref_color_main_bar", 0xff000001);
+        // Change Action bar color if preference is different from 0xff000001
+        if(pref_color_main_bar != 0xff000001){
+            ActionBar bar = getActionBar();
+            bar.setBackgroundDrawable(new ColorDrawable(pref_color_main_bar));
+        }
+
         // React to user clicks on item
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -446,6 +467,14 @@ public class NoteMain extends Activity
         buttonAddNote.setTextSize(textSizeButton);
         buttonSearch.setTextSize(textSizeButton);
         buttonReturn.setTextSize(textSizeButton);
+
+        int buttonColor = pref.getInt("pref_note_button_bottom_main", 0xff000001);
+        if ( buttonColor != 0xff000001) {
+            buttonAddNote.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+            buttonSearch.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+            buttonReturn.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        }
+
         ((TextView)findViewById(R.id.search_count)).setTextSize(textSizeButton);
 
         final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.buttons);

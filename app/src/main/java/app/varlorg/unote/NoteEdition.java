@@ -9,9 +9,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -218,13 +220,28 @@ public class NoteEdition extends Activity
             textSizeButton = Integer.parseInt(pref.getString("pref_sizeNote_button", "14" ));
         }
         titre.setTextSize(textSize);
-        titre.getBackground().clearColorFilter();
+
         //titreNoteTV.setTextSize(textSize * (float) 1.3);
         titreNoteTV.setTextSize(textSize);
         note.setTextSize(textSize);
         noteTV.setTextSize(textSize);
         titreT.setTextSize(textSize);
         noteT.setTextSize(textSize);
+
+        note.setPadding(
+                Integer.parseInt(pref.getString("pref_edit_note_padding_left", "10")),
+                Integer.parseInt(pref.getString("pref_edit_note_padding_top", "10")),
+                Integer.parseInt(pref.getString("pref_edit_note_padding_right", "10")),
+                Integer.parseInt(pref.getString("pref_edit_note_padding_bottom", "10"))
+        );
+        noteTV.setPadding(
+                Integer.parseInt(pref.getString("pref_edit_note_padding_left", "10")),
+                Integer.parseInt(pref.getString("pref_edit_note_padding_top", "10")),
+                Integer.parseInt(pref.getString("pref_edit_note_padding_right", "10")),
+                Integer.parseInt(pref.getString("pref_edit_note_padding_bottom", "10"))
+        );
+
+        Log.d(BuildConfig.APPLICATION_ID, "getPaddingLeft: " + noteTV.getPaddingLeft());
 
         int colorTitle = pref.getInt("pref_note_text_color_title_edit",COLOR_TEXT_DEFAULT );
         int colorNote = pref.getInt("pref_note_text_color_note_edit",COLOR_TEXT_DEFAULT );
@@ -258,10 +275,32 @@ public class NoteEdition extends Activity
             Log.d(BuildConfig.APPLICATION_ID, String.format("colorAll x %08x",  colorAll) );
         }
 
+        int pref_color_edit_bg = pref.getInt("pref_color_edit_bg", 0xff000001);
+        // Change Background color if preference is different from 0xff000001
+        if(pref_color_edit_bg != 0xff000001){
+            Log.d(BuildConfig.APPLICATION_ID, "changing bg pref_color_main_bg " + pref_color_edit_bg);
+            findViewById(R.id.activity_noteedition).setBackgroundColor(pref_color_edit_bg);
+            /*this.getWindow().setStatusBarColor(pref.getInt("pref_color_main_status", Color.WHITE));
+            //lv.setDivider(new ColorDrawable(Color.CYAN));
+            lv.setDividerHeight(10);*/
+        }
+
+        int pref_color_edit_bar = pref.getInt("pref_color_edit_bar", 0xff000001);
+        // Change Action bar color if preference is different from 0xff000001
+        if(pref_color_edit_bar != 0xff000001){
+            ActionBar bar = getActionBar();
+            bar.setBackgroundDrawable(new ColorDrawable(pref_color_edit_bar));
+        }
+
         final Button buttonSave = (Button)findViewById(R.id.ButtonSave);
         final Button buttonQuit = (Button)findViewById(R.id.ButtonQuit);
         buttonSave.setTextSize(textSizeButton);
         buttonQuit.setTextSize(textSizeButton);
+        int buttonColor = pref.getInt("pref_note_button_bottom_edit", 0xff000001);
+        if ( buttonColor != 0xff000001) {
+            buttonSave.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+            buttonQuit.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        }
 
         final LinearLayout buttonsBar = (LinearLayout)findViewById(R.id.editionButtons);
         buttonsBar.post(new Runnable()
@@ -350,6 +389,10 @@ public class NoteEdition extends Activity
                 titreL.setVisibility(View.GONE);
                 noteT.setVisibility(View.GONE);
                 titreNoteTV.setTextSize((float) (textSize * 1.2 ));
+                if(titre.getBackground() != null) {
+                    titre.getBackground().clearColorFilter();
+                    titre.getBackground().setColorFilter( new PorterDuffColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN));
+                }
             }
             else {
                 titreNoteTV.setTextSize(textSize);
@@ -371,6 +414,10 @@ public class NoteEdition extends Activity
                 titreL.setVisibility(View.GONE);
                 noteT.setVisibility(View.GONE);
                 titreNote.setTextSize((float) (textSize * 1.2 ));
+                if(titre.getBackground() != null) {
+                    titre.getBackground().clearColorFilter();
+                    titre.getBackground().setColorFilter( new PorterDuffColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN));
+                }
             }
             else {
                 titreNote.setTextSize(textSize);
@@ -424,11 +471,14 @@ public class NoteEdition extends Activity
         @Override
         public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3)
         {
+            if(titre.getBackground() == null)
+                return;
+
             if ( titre.getText().length() != 0) {
-                titre.getBackground().setColorFilter( new PorterDuffColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN));
+                    titre.getBackground().setColorFilter( new PorterDuffColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN));
             }
             else {
-                titre.getBackground().clearColorFilter();
+                    titre.getBackground().clearColorFilter();
             }
         }
     });

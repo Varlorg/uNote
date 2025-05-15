@@ -28,6 +28,7 @@
     <string name="pref_search">Suche im Inhalt</string>
     <string name="pref_search_sum">Suche auch in dem Notizen\' Inhalt aber nicht in passwortgeschützten Notizen</string>
     <string name="pref_sensitive_search">Fallsensitive Suche</string>
+    <string name="cb_word_search">Genaues Wort</string>
     <string name="cb_sensitive_search">Fallsensitive Suche</string>
     <string name="pref_display_search_option">Suchoptionen anzeigen</string>
     <string name="pref_search_option_orientation">Vertikale Suchoptionen</string>
@@ -56,7 +57,9 @@
     <string name="pref_export_note_title">Verwenden Sie den Titel der Notiz für den Export-Dateinamen anstelle der id</string>
     <string name="pref_db">Datenbank</string>
     <string name="pref_export_db">Datenbank exportieren</string>
+    <string name="pref_export_db_zip_summary">Das Zip-Archiv kann passwortgeschützt werden.</string>
     <string name="pref_import_db">Datenbank importieren</string>
+    <string name="pref_import_db_zip">Ein Zip-Backup importieren</string>
     <string name="pref_import_csv">Importieren aus csv</string>
     <string name="pref_import_csv_summary">Notizen aus einer csv-Datei importieren (zu bestehenden Notizen hinzufügen)</string>
     <string name="pref_preview_limit">Vorschau Limit</string>
@@ -65,10 +68,12 @@
     <string name="pref_keep_position_scroll">Halten Sie die Scrollposition</string>
     <string name="pref_export_csv_db">CSV exportieren</string>
     <string name="pref_export_csv_db_summary">Exportieren Sie alle nicht kennwortgeschützten Notizen in eine csv-Datei.</string>
+    <string name="pref_export_csv_db_summary_all">Alle Notizen in eine csv-Datei exportieren</string>
     <string name="pref_export_all_notes_summary">Exportieren Sie alle nicht passwortgeschützten Notizen im Klartext in einen Ordner</string>
     <string name="pref_export_all_notes">Alle Notizen im Klartext exportieren</string>
     <string name="note_copied">Notiz kopiert</string>
     <string name="pref_search_note_count">Anzeige der Anzahl der gefundenen Zettel innerhalb der Suche</string>
+    <string name="pref_export_note_folder_timestamped_summary">Exportieren aller Notizen in eine hotdatierte Datei</string>
     <string name="export_info_path">Pfad exportieren </string>
     <string name="pref_main_mode_menu_all">Alle Menüs im Hauptfenster anzeigen</string>
     <string name="pref_edit_mode_view">Vorschau als Standardanzeige der Notenbearbeitung einstellen</string>
@@ -79,8 +84,10 @@
     <string name="pref_edit_cursor_end">Cursor beim Öffnen der Notiz an das Ende setzen</string>
     <string name="pref_edit_capitalize_title">Großschreibung im Titel aktivieren</string>
     <string name="pref_edit_capitalize_note">Großschreibung für Noteninhalte aktivieren</string>
+    <string name="pref_edit_note_padding_bottom">Unterer Rand der Notiz</string>
     <string name="pref_note_padding_main">Rand für Notizen im Hauptbildschirm</string>
     <string name="pref_cat_text_color">Farbe im Hauptbildschirm</string>
+    <string name="pref_note_button_bottom">Farbe der Knöpfe</string>
     <string name="pref_note_text_color_main">Globale Farbe auf dem Hauptbildschirm</string>
     <string name="pref_note_text_color_main_bool">Bestimmte Farben auf dem Hauptbildschirm verwenden</string>
     <string name="pref_note_text_color_title">Farbe des Titels</string>
@@ -153,6 +160,7 @@
     <string name="dialog_add_pwd_cancel">Abbrechen</string>
     <string name="toast_pwd_added">Passwort hinzugefügt !</string>
 
+    <string name="dialog_zip_export_action">Exportieren</string>
     <string name="restoreWarnTitle">Datenbank wiederherstellen</string>
     <string name="restoreWarnMessage">Dadurch werden alle vorhandenen Notizen überschrieben. Fortsetzen ?</string>
     <string name="restoreWarnPositive">Ja</string>
@@ -178,6 +186,8 @@
     <string name="pref_edit_mode_edit_ui">Neue Schnittstelle für die Bearbeitung von Notizen</string>
     <string name="dialog_import_csv">Import csv</string>
     <string name="dialog_import_csv_msg">"Notizen aus csv-Datei hinzufügen "</string>
+    <string name="dialog_import_zip">Ein Zip-Archiv importieren</string>
+    <string name="dialog_import_zip_msg">Sicherung aus dem Zip-Archiv wiederherstellen</string>
     <string name="mode_normal">Normaler Modus</string>
     <string name="mode_selection">Auswahl-Modus</string>
     <string name="toast_import_csv_added">" hinzugefügte Notiz(en)"</string>
@@ -191,7 +201,16 @@
     <string name="pref_cat_cipher">Verschlüsselung</string>
     <string name="pref_cipher_notes">Chiffre-Notizen als Standard</string>
     <string name="pref_cipher_notes_summary">beim Hinzufügen eines Passworts</string>
-
+    <string name="pref_export_note_folder_timestamped">Ordner mit Zeitstempel</string>
+    <string name="pref_word_search">Suche nach dem genauen Wort</string>
+    <string name="pref_export_db_zip">In einem Archiv speichern</string>
+    <string name="dialog_zip_title">Datenbank als Zip exportieren</string>
+    <string name="dialog_zip_msg">Leer lassen für Exportieren ohne Passwort</string>
+    <string name="pref_edit_note_padding_left">Linker Rand der Notiz</string>
+    <string name="pref_edit_note_padding_right">Rechter Rand der Notiz</string>
+    <string name="pref_edit_note_padding_top">"Oberer Rand der Notiz "</string>
+    <string name="pref_color_bg">Hintergrundfarbe</string>
+    <string name="pref_color_bar">Farbe der Aktionsleiste</string>
     <!-- Not used ? -
     <color name="note_color">#FEFEE2</color>
     <string name="text_view"> </string>-->

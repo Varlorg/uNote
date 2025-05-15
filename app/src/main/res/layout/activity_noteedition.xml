@@ -27,11 +27,12 @@
         <TextView
             android:id="@+id/search_note_count"
             android:layout_width="wrap_content"
-            android:minWidth="20sp"
+            android:minWidth="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end|top"
             android:layout_marginEnd="50sp"
-            android:padding="10dp"
+            android:paddingTop="8dp"
+            android:paddingStart="5dp"
             android:text=""
             android:textStyle="italic" />
 
@@ -82,7 +83,7 @@
                 android:id="@+id/searchWordButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="string/cb_word_search" />
+                android:text="@string/cb_word_search" />
 
         </LinearLayout>
     </FrameLayout>
@@ -137,7 +138,8 @@
         android:id="@+id/NoteEdition"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:paddingLeft="10dp"
+        android:paddingTop="0dp"
+        android:paddingLeft="0dp"
         android:paddingRight="10dp"
         android:layout_weight="0.75"
         android:gravity="top|left"
@@ -153,6 +155,9 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="0.75"
+        android:paddingTop="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="10dp"
         android:gravity="top|left"
         android:imeOptions="actionSearch"
         android:inputType="textMultiLine"
