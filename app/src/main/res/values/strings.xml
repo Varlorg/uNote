@@ -206,7 +206,7 @@
 	<string name="dialog_import_zip_msg">Restore backup from the zip archive</string>
 	<string name="mode_normal">Normal mode</string>
 	<string name="mode_selection">Selection mode</string>
-	<string name="pref_button_color">Buttons color</string>
+	<string name="pref_button_color">Menus color</string>
 	<string name="pref_autosave_interval">Autosave interval in second</string>
 	<string name="pref_autosave_interval_summary">0 to disable</string>
 	<string name="pref_screen_global">Global</string>

@@ -86,10 +86,10 @@
 	<string name="pref_edit_cursor_end">Placer le curseur à la fin lors de l\'ouverture de la note</string>
 	<string name="pref_edit_capitalize_title">Activer les majuscules sur le titre</string>
 	<string name="pref_edit_capitalize_note">Activer les majuscules sur le contenu des notes</string>
-	<string name="pref_edit_note_padding_left">Marge gauche de la note dans l\'écran d\'édition</string>
-	<string name="pref_edit_note_padding_right">Marge droite de la note dans l\'écran d\'édition</string>
-	<string name="pref_edit_note_padding_top">Marge supérieur du contenu de la note dans l\'écran d\'édition</string>
-	<string name="pref_edit_note_padding_bottom">Marge inférieur du contenu de la note dans l\'écran d\'édition</string>
+	<string name="pref_edit_note_padding_left">Marge gauche de la note</string>
+	<string name="pref_edit_note_padding_right">Marge droite de la note</string>
+	<string name="pref_edit_note_padding_top">Marge supérieur de la note</string>
+	<string name="pref_edit_note_padding_bottom">Marge inférieur de la note</string>
 	<string name="pref_note_padding_main">Marge pour les notes dans l\'écran principal</string>
 	<string name="pref_cat_text_color">Couleur dans l\'écran principal</string>
 	<string name="pref_note_text_color_main">Couleur du texte sur l\'écran principal</string>
@@ -197,7 +197,7 @@
 	<string name="mode_normal">Mode normal</string>
 	<string name="mode_selection">Mode sélection</string>
 	<string name="pref_cat_text_color_edition">Couleur en edition</string>
-	<string name="pref_button_color">Couleur des boutons</string>
+	<string name="pref_button_color">Couleur des menus</string>
     <string name="pref_theme_system">Suivre le thème du système</string>
 	<string name="pref_autosave_interval">Intervalle de sauvegarde automatique en secondes</string>
 	<string name="pref_autosave_interval_summary">0 pour désactiver</string>

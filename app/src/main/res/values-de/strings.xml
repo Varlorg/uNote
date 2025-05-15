@@ -192,7 +192,7 @@
     <string name="mode_selection">Auswahl-Modus</string>
     <string name="toast_import_csv_added">" hinzugefügte Notiz(en)"</string>
     <string name="pref_cat_text_color_edition">Farbe in edition</string>
-    <string name="pref_button_color">Farbe der Schaltflächen</string>
+    <string name="pref_button_color">Farbe der Menüs</string>
     <string name="pref_theme_system">Dem Systemthema folgen</string>
     <string name="pref_autosave_interval">Intervall der automatischen Speicherung in Sekunden</string>
     <string name="pref_autosave_interval_summary">0 zum Deaktivieren</string>

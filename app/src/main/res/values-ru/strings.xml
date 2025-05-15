@@ -197,7 +197,7 @@
 	<string name="dialog_import_zip_msg">Восстановление резервной копии из zip-архива</string>
 	<string name="mode_normal">Обычный режим</string>
 	<string name="mode_selection">Режим выбора</string>
-	<string name="pref_button_color">Цвет кнопок</string>
+	<string name="pref_button_color">Цвет меню</string>
     <string name="pref_theme_system">Следуйте системной теме</string>
 	<string name="pref_autosave_interval">Интервал автосохранения в секундах</string>
 	<string name="pref_autosave_interval_summary">0 для отключения</string>
