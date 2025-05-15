@@ -107,19 +107,19 @@ This document lists the settings defined in `preference_main.xml`.
 
 ## Color in main screen
 
-### Buttons color
+### Menus color
 
 - **Type:** `app.varlorg.ambilwarna.widget.AmbilWarnaPreference`
 - **Key:** `pref_note_button_main`
 - **Default Value Resource:** `0xff999999`
 - **Reset Value Resource:** `0xff999999`
 
-### Color of bottom buttons in main screen
+### Color of bottom buttons
 
 - **Type:** `app.varlorg.ambilwarna.widget.AmbilWarnaPreference`
 - **Key:** `pref_note_button_bottom_main`
-- **Default Value Resource:** `0xff999999`
-- **Reset Value Resource:** `0xff999999`
+- **Default Value Resource:** `0xff000001`
+- **Reset Value Resource:** `0xff000001`
 
 ### Global text color on main screen
 
@@ -128,14 +128,14 @@ This document lists the settings defined in `preference_main.xml`.
 - **Default Value Resource:** `0xff999999`
 - **Reset Value Resource:** `0xff999999`
 
-### Background color screen
+### Background color
 
 - **Type:** `app.varlorg.ambilwarna.widget.AmbilWarnaPreference`
 - **Key:** `pref_color_main_bg`
 - **Default Value Resource:** `0xff000001`
 - **Reset Value Resource:** `0xff000001`
 
-### Action bar color screen
+### Action bar color
 
 - **Type:** `app.varlorg.ambilwarna.widget.AmbilWarnaPreference`
 - **Key:** `pref_color_main_bar`

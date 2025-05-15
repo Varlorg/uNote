@@ -50,7 +50,7 @@ This document lists the settings defined in `preference_export.xml`.
 
 - **Type:** `Preference`
 - **Key:** `buttonExportCSVAll`
-- **Summary:** string/pref_export_csv_db_summary_all
+- **Summary:** Export all notes into csv format file
 
 ### Import from csv
 

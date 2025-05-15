@@ -34,22 +34,22 @@ This document lists the settings defined in `preference_edition.xml`.
 - **Key:** `pref_forceEditionButtonsH`
 - **Default Value Resource:** `false`
 
-### Top padding for note\'s content in edition screen
+### Top padding for note\'s content
 
 - **Type:** `EditTextPreference`
 - **Key:** `pref_edit_note_padding_top`
 
-### Bottom padding for note\'s content in edition screen
+### Bottom padding for note\'s content
 
 - **Type:** `EditTextPreference`
 - **Key:** `pref_edit_note_padding_bottom`
 
-### Left padding for note\'s content in edition screen
+### Left padding for note\'s content
 
 - **Type:** `EditTextPreference`
 - **Key:** `pref_edit_note_padding_left`
 
-### Right padding for note\'s content in edition screen
+### Right padding for note\'s content
 
 - **Type:** `EditTextPreference`
 - **Key:** `pref_edit_note_padding_right`
@@ -102,19 +102,19 @@ This document lists the settings defined in `preference_edition.xml`.
 
 ## Color in edition
 
-### Buttons color
+### Menus color
 
 - **Type:** `app.varlorg.ambilwarna.widget.AmbilWarnaPreference`
 - **Key:** `pref_note_button_edit`
 - **Default Value Resource:** `0xff999999`
 - **Reset Value Resource:** `0xff999999`
 
-### Color of bottom buttons in edition screen
+### Color of bottom buttons
 
 - **Type:** `app.varlorg.ambilwarna.widget.AmbilWarnaPreference`
 - **Key:** `pref_note_button_bottom_edit`
-- **Default Value Resource:** `0xff999999`
-- **Reset Value Resource:** `0xff999999`
+- **Default Value Resource:** `0xff000001`
+- **Reset Value Resource:** `0xff000001`
 
 ### Text Color in edition screen
 
@@ -123,14 +123,14 @@ This document lists the settings defined in `preference_edition.xml`.
 - **Default Value Resource:** `0xff999999`
 - **Reset Value Resource:** `0xff999999`
 
-### Background color screen
+### Background color
 
 - **Type:** `app.varlorg.ambilwarna.widget.AmbilWarnaPreference`
 - **Key:** `pref_color_edit_bg`
 - **Default Value Resource:** `0xff000001`
 - **Reset Value Resource:** `0xff000001`
 
-### Action bar color screen
+### Action bar color
 
 - **Type:** `app.varlorg.ambilwarna.widget.AmbilWarnaPreference`
 - **Key:** `pref_color_edit_bar`
