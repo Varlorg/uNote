@@ -37,6 +37,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.util.Log;
 import android.text.method.ScrollingMovementMethod;
@@ -73,7 +74,9 @@ public class NoteEdition extends Activity
     private SharedPreferences pref;
     private EditText titre;
     private EditText note;
+    private ScrollView noteSC;
     private TextView noteTV;
+    private ScrollView noteTVSC;
     private TextWatcher noteTW;
     private int textSize;
     private EditText searchNote;
@@ -115,7 +118,9 @@ public class NoteEdition extends Activity
 
         titre = (EditText)findViewById(R.id.TitreNoteEdition);
         note  = (EditText)findViewById(R.id.NoteEdition);
+        noteSC  = (ScrollView)findViewById(R.id.NoteEditionSC);
         noteTV = (TextView)findViewById(R.id.NoteEditionTV);
+        noteTVSC = (ScrollView)findViewById(R.id.NoteEditionTVSC);
         noteT  = (TextView)findViewById(R.id.NoteEditionTitre);
         titreT = (TextView)findViewById(R.id.TitreNote);
         titreL = (TextView)findViewById(R.id.TitreNoteLine);
@@ -228,13 +233,13 @@ public class NoteEdition extends Activity
         titreT.setTextSize(textSize);
         noteT.setTextSize(textSize);
 
-        note.setPadding(
+        noteSC.setPadding(
                 Integer.parseInt(pref.getString("pref_edit_note_padding_left", "10")),
                 Integer.parseInt(pref.getString("pref_edit_note_padding_top", "10")),
                 Integer.parseInt(pref.getString("pref_edit_note_padding_right", "10")),
                 Integer.parseInt(pref.getString("pref_edit_note_padding_bottom", "10"))
         );
-        noteTV.setPadding(
+        noteTVSC.setPadding(
                 Integer.parseInt(pref.getString("pref_edit_note_padding_left", "10")),
                 Integer.parseInt(pref.getString("pref_edit_note_padding_top", "10")),
                 Integer.parseInt(pref.getString("pref_edit_note_padding_right", "10")),
@@ -369,8 +374,10 @@ public class NoteEdition extends Activity
             titreNoteTV.setText(titreNote.getText());
             noteTV.setText(note.getText());
             noteTV.setVisibility(View.VISIBLE);
+            noteTVSC.setVisibility(View.VISIBLE);
             titreNoteTV.setVisibility(View.VISIBLE);
             note.setVisibility(View.GONE);
+            noteSC.setVisibility(View.GONE);
             titreNote.setVisibility(View.GONE);
 
             note.setTextIsSelectable(false);
@@ -402,8 +409,10 @@ public class NoteEdition extends Activity
         else
         {
             noteTV.setVisibility(View.GONE);
+            noteTVSC.setVisibility(View.GONE);
             titreNoteTV.setVisibility(View.GONE);
             note.setVisibility(View.VISIBLE);
+            noteSC.setVisibility(View.VISIBLE);
             titreNote.setVisibility(View.VISIBLE);
             note.setTextIsSelectable(true);
             titreNote.setTextIsSelectable(true);
@@ -572,8 +581,10 @@ public class NoteEdition extends Activity
             //switch_mode(getWindow().getDecorView().getRootView());
             EditText titreNote  = (EditText)findViewById(R.id.TitreNoteEdition);
             TextView titreNoteTV = (TextView)findViewById(R.id.TitreNoteEditionTV);
+            ScrollView noteSC  = (ScrollView)findViewById(R.id.NoteEditionSC);
             EditText note  = (EditText)findViewById(R.id.NoteEdition);
             TextView noteTV = (TextView)findViewById(R.id.NoteEditionTV);
+            ScrollView noteTVSC = (ScrollView)findViewById(R.id.NoteEditionTVSC);
             TextView noteT  = (TextView)findViewById(R.id.NoteEditionTitre);
 
             if ( noteTV.getVisibility() == View.VISIBLE){
@@ -593,7 +604,9 @@ public class NoteEdition extends Activity
                 titreL.setVisibility(View.VISIBLE);
 
                 noteTV.setVisibility(View.GONE);
+                noteTVSC.setVisibility(View.GONE);
                 note.setVisibility(View.VISIBLE);
+                noteSC.setVisibility(View.VISIBLE);
                 note.setTextIsSelectable(true);
 
                 noteT.setVisibility(View.VISIBLE);
@@ -629,9 +642,11 @@ public class NoteEdition extends Activity
                 titreNoteTV.setTypeface(null, Typeface.BOLD);
 
                 noteTV.setVisibility(View.VISIBLE);
+                noteTVSC.setVisibility(View.VISIBLE);
                 noteTV.setMovementMethod(new ScrollingMovementMethod());
 
                 note.setVisibility(View.GONE);
+                noteSC.setVisibility(View.GONE);
 
                 titreNoteTV.setText(titreNote.getText());
                 noteTV.setText(note.getText());
