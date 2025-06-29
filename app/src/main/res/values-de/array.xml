@@ -7,20 +7,20 @@
         <item>Mittel</item>
         <item>Normal</item>
         <item>Groß</item>
-        <item>Riesig</item>
         <item>Sehr groß</item>
+        <item>Riesig</item>
         <item>Benutzerdefiniert</item>
     </string-array>
     <string-array name="tri">
         <item>Erstellungsdatum</item>
         <item>Änderungsdatum</item>
-        <item>Titel (case-sensitive)</item>
-        <item>Titel (case-insensitive)</item>
+        <item>Titel (Groß/Klein beachten)</item>
+        <item>Titel (Groß/Klein ignorieren)</item>
     </string-array>
     <string-array name="backButtonAction">
-        <item>Als Rücklauftaste</item>
-        <item>Rückmeldung immer abbrechen</item>
+        <item>Als Zurück-Schaltfläche</item>
+        <item>Bestätigung immer abbrechen</item>
         <item>Autosave</item>
-        <item>Rückmeldung nie abbrechen</item>
+        <item>Bestätigung nie abbrechen</item>
     </string-array>
 </resources>
