@@ -1,0 +1,3 @@
+Fix:
+    - Fix German translation
+    - Add fast scrolling for long notes
