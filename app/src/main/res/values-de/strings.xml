@@ -30,7 +30,7 @@
     <string name="pref_sensitive_search">Groß/Klein beachten</string>
     <string name="pref_word_search">Suche nach genauem Wort</string>
     <string name="cb_word_search">Genaues Wort</string>
-    <string name="cb_sensitive_search">Groß/Klein beachten</string>
+    <string name="cb_sensitive_search">Groß/Klein ignorieren</string>
     <string name="pref_display_search_option">Suchoptionen anzeigen</string>
     <string name="pref_search_option_orientation">Vertikale Suchoptionen</string>
     <string name="pref_search_note_count">Anzeige der Anzahl der gefundenen Notizen innerhalb der Suche</string>
@@ -43,7 +43,7 @@
     <string name="pref_theme_system">Dem Systemthema folgen</string>
     <string name="pref_delete_confirmation">Löschen bestätigen</string>
     <string name="pref_cancel_confirmation">Abbrechen bestätigen</string>
-	<string name="pref_backButton_action">Zurückschaltfäche Aktion</string>
+	<string name="pref_backButton_action">Zurück-Schaltfläche Aktion</string>
 	<string name="pref_backButton_action_summary">Verhalten der Zurück-Schaltfläche festlegen</string>
     <string name="pref_sort">Absteigende Sortierung</string>
     <string name="pref_sort_by">Sortieren nach</string>
@@ -160,7 +160,7 @@
     <string name="detail_number_notes">Anzahl der Notizen</string>
 
 
-    <string name="dialog_pwd_title">Passwort fordern</string>
+    <string name="dialog_pwd_title">Passwort-Abfrage</string>
     <string name="dialog_pwd_msg">Passwort eingeben</string>
     <string name="dialog_pwd_submit">Eingeben</string>
     <string name="dialog_pwd_cancel">Abbrechen</string>
